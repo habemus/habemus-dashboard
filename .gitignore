@@ -1,0 +1,9 @@
+node_modules
+bower_components
+
+# built files
+**/*.css
+**/*.bundle.js
+
+# OSX
+.DS_Store

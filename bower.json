@@ -1,0 +1,16 @@
+{
+  "name": "dashboard",
+  "version": "0.0.0",
+  "authors": [
+    "Luciana"
+    "Simon"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
