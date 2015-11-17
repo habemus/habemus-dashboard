@@ -21,10 +21,21 @@ module.exports = function (gulp, $) {
         // only one file
         entries: ['src/index.js'],
         // transforms
-        transform: [brfs]
+        transform: [brfs],
+
+        // standalone global object for main module
+        standalone: 'habemus'
       }).bundle()
-      // log errors if they happen
       .on('error', $.util.log.bind($.util, 'Browserify Error'))
+      .on('error', $.notify.onError({
+        title: 'Browserify compiling error',
+        message: '<%= error.message %>',
+        open: 'file:///<%= error.filename %>',
+        sound: 'Glass',
+        // Basso, Blow, Bottle, Frog, Funk, Glass, Hero,
+        // Morse, Ping, Pop, Purr, Sosumi, Submarine, Tink
+        icon: path.join(config.root, 'logo.png'),
+      }))
       // transform browserify file stream into a vinyl file object stream
       // and modify the file name
       .pipe(vinylSource('index.bundle.js'))

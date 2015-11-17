@@ -1,4 +1,4 @@
-<html ng-app="habemus-dashboard" ng-controller="DashboardCtrl">
+<html ng-app="habemus-dashboard" ng-controller="ApplicationCtrl">
 <head>
   <title>{{ hello }}</title>
 
@@ -6,6 +6,20 @@
 </head>
 <body>
 
+  <section ui-view="header">
+
+  </section>
+
+  <section ui-view="body">
+
+  </section>
+
+
+  <!-- bower_components for lib usage -->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+
+  <!-- node.js and browserify for our application code -->
   <script src="index.bundle.js"></script>
 </body>
 </html>

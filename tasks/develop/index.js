@@ -22,7 +22,12 @@ module.exports = function (gulp, $) {
 
     // Instantiate watchify
     var w = watchify(browserify({
-      entries: ['src/index.js']
+      entries: ['src/index.js'],
+      // transforms
+      transform: [brfs],
+
+      // standalone global object for main module
+      standalone: 'habemus'
     }));
 
     // set brfs transform
@@ -36,6 +41,16 @@ module.exports = function (gulp, $) {
      */
     function watchifyBundle() {
       return w.bundle()
+        .on('error', $.util.log.bind($.util, 'Browserify Error'))
+        .on('error', $.notify.onError({
+          title: 'Browserify compiling error',
+          message: '<%= error.message %>',
+          open: 'file:///<%= error.filename %>',
+          sound: 'Glass',
+          // Basso, Blow, Bottle, Frog, Funk, Glass, Hero,
+          // Morse, Ping, Pop, Purr, Sosumi, Submarine, Tink
+          icon: path.join(config.root, 'logo.png'),
+        }))
         .pipe(vinylSource('index.bundle.js'))
         .pipe(vinylBuffer())
         .on('end', browserSync.reload)
@@ -74,7 +89,7 @@ module.exports = function (gulp, $) {
   gulp.task('serve:develop', function () {
     var bs = browserSync({
       ghostMode: false,
-      port: 4000,
+      port: 4001,
       server: {
         baseDir: 'src',
       },

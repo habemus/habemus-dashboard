@@ -31,6 +31,6 @@
     "watchify": "^3.6.0"
   },
   "dependencies": {
-    "angular": "^1.4.7"
+    "parse": "^1.6.9"
   }
 }
