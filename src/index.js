@@ -2,10 +2,15 @@
 
 var Parse = require('parse');
 
+window.Parse = Parse;
+
 /**
  * Globals: angular
  */
-var DASHBOARD = angular.module('habemus-dashboard', ['ui.router']);
+var DASHBOARD = angular.module('habemus-dashboard', [
+  'ui.router',
+  'ngDialog',
+]);
 
 /**
  * Constants
@@ -54,19 +59,8 @@ DASHBOARD.run(function ($rootScope, $state, AUTH_EVENTS, UserService) {
 /**
  * Services
  */
-DASHBOARD.service('UserService', require('./services/user'));
-DASHBOARD.service('Session', function () {
-  this.create = function (sessionId, userId, userRole) {
-    this.id = sessionId;
-    this.userId = userId;
-    this.userRole = userRole;
-  };
-  this.destroy = function () {
-    this.id = null;
-    this.userId = null;
-    this.userRole = null;
-  };
-});
+DASHBOARD.factory('UserService', require('./services/user'));
+DASHBOARD.factory('projectService', require('./services/project'));
 
 /**
  * Controllers

@@ -3,6 +3,16 @@
   <title>{{ hello }}</title>
 
   <link rel="stylesheet" type="text/css" href="index.bundle.css">
+
+  <!-- bower_components for lib usage -->
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+  <script src="bower_components/ng-dialog/js/ngDialog.js"></script>
+  <link rel="stylesheet" type="text/css" href="bower_components/ng-dialog/css/ngDialog.css">
+  <link rel="stylesheet" type="text/css" href="bower_components/ng-dialog/css/ngDialog-theme-default.css">
+
+  <!-- node.js and browserify for our application code -->
+  <script src="index.bundle.js"></script>
 </head>
 <body>
 
@@ -13,13 +23,5 @@
   <section ui-view="body">
 
   </section>
-
-
-  <!-- bower_components for lib usage -->
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-
-  <!-- node.js and browserify for our application code -->
-  <script src="index.bundle.js"></script>
 </body>
 </html>

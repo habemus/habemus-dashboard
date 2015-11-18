@@ -65,4 +65,6 @@ UserServiceClient.prototype.isAuthenticated = function () {
 };
 
 
-module.exports = UserServiceClient;
+module.exports = function () {
+  return new UserServiceClient();
+};
