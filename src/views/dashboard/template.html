@@ -4,6 +4,8 @@
 
 <ul>
   <li ng-repeat="project in currentUserProjects">
-    <a href="#/projects/{{ project.objectId }}">{{ project.name }}</a>
+    <a href="#/projects/{{ project.objectId }}">
+      {{ project.name }} ({{ project.safeName }})
+    </a>
   </li>
 </ul>

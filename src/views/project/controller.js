@@ -12,6 +12,7 @@ module.exports = function ProjectCtrl($scope, $stateParams, projectService, user
     headers: function (flowFile) {
       return {
         'X-Project-Id': projectId,
+        'X-Project-Safe-Name': $scope.project.safeName,
         'X-Auth-Token': userService.current().getSessionToken(),
       };
     },
@@ -29,6 +30,7 @@ module.exports = function ProjectCtrl($scope, $stateParams, projectService, user
     .then(function (project) {
       $scope.project.id = project.objectId;
       $scope.project.name = project.name;
+      $scope.project.safeName = project.safeName;
 
       $scope.$apply();
     })

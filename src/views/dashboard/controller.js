@@ -3,6 +3,9 @@
 var fs = require('fs');
 var path = require('path');
 
+// external dependencies
+var generator = require('project-name-generator');
+
 module.exports = function DashboardCtrl($scope, ngDialog, projectService) {
 
   // initial find
@@ -25,6 +28,7 @@ module.exports = function DashboardCtrl($scope, ngDialog, projectService) {
 
         if (data && data.name) {
           projectService.create({
+            safeName: generator({ words: 2 }).dashed,
             name: data.name
           })
           .then(function (project) {
