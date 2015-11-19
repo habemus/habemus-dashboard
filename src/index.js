@@ -10,6 +10,7 @@ window.Parse = Parse;
 var DASHBOARD = angular.module('habemus-dashboard', [
   'ui.router',
   'ngDialog',
+  'flow',
 ]);
 
 /**
@@ -29,14 +30,16 @@ DASHBOARD.constant('AUTH_EVENTS', {
  */
 DASHBOARD.config(require('./config/sdks'));
 DASHBOARD.config(require('./config/states'));
-DASHBOARD.run(function ($rootScope, $state, AUTH_EVENTS, UserService) {
+
+// verify authentication on statechange
+DASHBOARD.run(function ($rootScope, $state, AUTH_EVENTS, userService) {
   $rootScope.$on('$stateChangeStart', function (event, next) {
 
     if (next.data && next.data.authorizedRoles) {
       var authorizedRoles = next.data.authorizedRoles;
-      if (!UserService.isAuthorized(authorizedRoles)) {
+      if (!userService.isAuthorized(authorizedRoles)) {
         event.preventDefault();
-        if (UserService.isAuthenticated()) {
+        if (userService.isAuthenticated()) {
           console.warn('not authorized');
 
           // user is not allowed
@@ -56,37 +59,57 @@ DASHBOARD.run(function ($rootScope, $state, AUTH_EVENTS, UserService) {
   
 });
 
+// ng-flow
+DASHBOARD.config(['flowFactoryProvider', function (flowFactoryProvider) {
+  flowFactoryProvider.defaults = {
+      target: 'http://localhost:5000/file',
+      permanentErrors:[404, 500, 501],
+
+      query: function (flowFile) {
+        return {
+          relativePath: flowFile.relativePath
+        }
+      },
+      fileParameterName: 'files',
+      testChunks: false
+  };
+  // You can also set default events:
+  flowFactoryProvider.on('catchAll', function (event) {
+    
+  });
+  // Can be used with different implementations of Flow.js
+  // flowFactoryProvider.factory = fustyFlowFactory;
+}]);
+
 /**
  * Services
  */
-DASHBOARD.factory('UserService', require('./services/user'));
+DASHBOARD.factory('userService', require('./services/user'));
 DASHBOARD.factory('projectService', require('./services/project'));
 
 /**
  * Controllers
  */
-DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, UserService) {
+DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, userService) {
 
-  var currentUserModel = UserService.current();
+  var currentUserModel = userService.current();
 
   if (currentUserModel) {
 
     currentUserModel.fetch()
       .then(function (user) {
-        console.log(user.toJSON());
         $scope.setCurrentUser(user.toJSON());
       });
 
 
-    // $scope.currentUser = UserService.current();
-    $scope.isAuthorized = UserService.isAuthorized;
+    // $scope.currentUser = userService.current();
+    $scope.isAuthorized = userService.isAuthorized;
   }
 
-  UserService.on('logIn', function () {
-    UserService.current()
+  userService.on('logIn', function () {
+    userService.current()
       .fetch()
       .then(function (user) {
-        console.log(user.toJSON());
         $scope.setCurrentUser(user.toJSON());
       });
   });

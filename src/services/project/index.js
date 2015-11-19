@@ -1,19 +1,18 @@
 // native
 var util = require('util');
 
+var EventEmitter = require('events').EventEmitter;
+
 var Parse = require('parse');
 var Project = Parse.Object.extend("Project");
 var Query   = Parse.Query;
-var Relat
 
 function ProjectServiceClient(services) {
-
-  window.projectService = this;
-
   this.userService = services.user;
-
-  this.currentUserProjects = [];
+  this.http        = services.http;
 }
+
+util.inherits(ProjectServiceClient, EventEmitter);
 
 ProjectServiceClient.prototype.create = function (projectData) {
   var project = new Project(projectData);
@@ -26,15 +25,18 @@ ProjectServiceClient.prototype.create = function (projectData) {
 
   var savePromise = project.save();
 
-  savePromise.then(function (saved) {
-    this.currentUserProjects.unshift(saved.toJSON());
+  return savePromise.then(function (saved) {
+    return saved.toJSON();
   }.bind(this));
-
-  return savePromise;
 };
 
 ProjectServiceClient.prototype.get = function (projectId) {
 
+  var query = new Query(Project);
+
+  return query.get(projectId).then(function (p) {
+    return p.toJSON();
+  });
 };
 
 ProjectServiceClient.prototype.find = function () {
@@ -43,6 +45,7 @@ ProjectServiceClient.prototype.find = function () {
 
   // only projects for the current user
   query.equalTo('owners', this.userService.current());
+  query.descending('createdAt');
 
   return query.find().then(function (projects) {
 
@@ -61,9 +64,10 @@ ProjectServiceClient.prototype.delete = function (projectId) {
 
 };
 
-module.exports = function (UserService) {
+module.exports = function (userService, $http) {
 
   return new ProjectServiceClient({
-    user: UserService,
+    user: userService,
+    http: $http,
   });
 };

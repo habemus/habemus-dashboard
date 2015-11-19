@@ -1,3 +1,9 @@
 <div>dashboard</div>
 
 <button ng-click="createProject()">new project</button>
+
+<ul>
+  <li ng-repeat="project in currentUserProjects">
+    <a href="#/projects/{{ project.objectId }}">{{ project.name }}</a>
+  </li>
+</ul>

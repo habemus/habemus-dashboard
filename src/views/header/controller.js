@@ -1,11 +1,9 @@
 'use strict';
 
-module.exports = function HeaderCtrl($scope, $stateParams, $state, UserService) {
-
-  console.log('HeaderCtrl alive');
+module.exports = function HeaderCtrl($scope, $stateParams, $state, userService) {
 
   $scope.logOut = function () {
-    UserService
+    userService
       .logOut()
       .then(function () {
         $state.go('login');

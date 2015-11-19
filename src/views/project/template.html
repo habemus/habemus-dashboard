@@ -1,1 +1,24 @@
 <div>project: {{ project.id }}</div>
+<h1>{{ project.name }}</h1>
+
+<div
+  flow-init="uploadConfigurations"
+  flow-files-submitted="$flow.upload()"
+  flow-file-success="$file.msg = $message">
+
+  <input type="file" flow-btn/>
+  Input OR Other element as upload button
+  <span class="btn" flow-btn>Upload File</span>
+
+  <div id="drop-area" flow-drop>
+      Drag And Drop your file here
+  </div>
+
+  <table>
+    <tr ng-repeat="file in $flow.files">
+        <td>{{$index+1}}</td>
+        <td>{{file.relativePath}}</td>
+        <td>{{file.msg}}</td>
+    </tr>
+  </table>
+</div>

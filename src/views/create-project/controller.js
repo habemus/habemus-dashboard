@@ -2,18 +2,11 @@
 
 var Parse = require('parse');
 
-module.exports = function CreateProjectCtrl($scope, projectService) {
+module.exports = function CreateProjectCtrl($scope) {
 
   $scope.createProject = function () {
-
-    projectService.create({
+    $scope.closeThisDialog({
       name: $scope.name
-    })
-    .then(function (project) {
-      console.log('project creation successful');
-    })
-    .fail(function () {
-      console.log('project creation failed');
     });
   }
 };
