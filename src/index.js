@@ -9,6 +9,7 @@ window.Parse = Parse;
  */
 var DASHBOARD = angular.module('habemus-dashboard', [
   'ui.router',
+  'ui.tree',
   'ngDialog',
   'flow',
 ]);
@@ -62,16 +63,7 @@ DASHBOARD.run(function ($rootScope, $state, AUTH_EVENTS, userService) {
 // ng-flow
 DASHBOARD.config(['flowFactoryProvider', function (flowFactoryProvider) {
   flowFactoryProvider.defaults = {
-      target: 'http://localhost:5000/file',
-      permanentErrors:[404, 500, 501],
 
-      query: function (flowFile) {
-        return {
-          relativePath: flowFile.relativePath
-        }
-      },
-      fileParameterName: 'files',
-      testChunks: false
   };
   // You can also set default events:
   flowFactoryProvider.on('catchAll', function (event) {
