@@ -1,14 +1,12 @@
 'use strict';
 
-module.exports = function LoginCtrl($scope, $stateParams, $state, userService) {
-  console.log('LoginCtrl alive');
-
+module.exports = function LoginCtrl($scope, $stateParams, $state, auth) {
   $scope.username = '';
   $scope.password = '';
 
   $scope.logIn = function (user) {
-    userService
-      .logIn(user.username, user.password)
+
+    auth.logIn(user.username, user.password)
       .then(function () {
         $state.go('dashboard');
       })

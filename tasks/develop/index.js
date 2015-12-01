@@ -51,6 +51,9 @@ module.exports = function (gulp, $) {
           // Morse, Ping, Pop, Purr, Sosumi, Submarine, Tink
           icon: path.join(config.root, 'logo.png'),
         }))
+        .on('error', function () {
+          this.emit('end');
+        })
         .pipe(vinylSource('index.bundle.js'))
         .pipe(vinylBuffer())
         .on('end', browserSync.reload)

@@ -1,0 +1,26 @@
+<div
+  class="fn-panel-container"
+  ng-repeat="panel in panels">
+
+  <h1>{{ panel.title }}</h1>
+
+  <ul>
+    <li ng-repeat="item in panel.items">
+      <!-- directory -->
+      <div
+        ng-if="item.type === 'directory'"
+        ng-click="openDirectory(item.path)">
+        directory
+        <div>{{ item.path }}</div>
+      </div>
+      <!-- file -->
+      <div
+        ng-if="item.type === 'file'"
+        ng-click="openFile(item.path)">
+        file
+        <div>{{ item.path }}</div>
+      </div>
+    </li>
+  </ul>
+
+</div>

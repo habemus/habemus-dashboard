@@ -1,8 +1,5 @@
 'use strict';
 
-var Parse = require('parse');
-
-window.Parse = Parse;
 
 /**
  * Globals: angular
@@ -11,7 +8,6 @@ var DASHBOARD = angular.module('habemus-dashboard', [
   'ui.router',
   'ui.tree',
   'ngDialog',
-  'flow',
 ]);
 
 /**
@@ -27,64 +23,21 @@ DASHBOARD.constant('AUTH_EVENTS', {
 });
 
 /**
- * Config
+ * Define routes
  */
-DASHBOARD.config(require('./config/sdks'));
-DASHBOARD.config(require('./config/states'));
-
-// verify authentication on statechange
-DASHBOARD.run(function ($rootScope, $state, AUTH_EVENTS, userService) {
-  $rootScope.$on('$stateChangeStart', function (event, next) {
-
-    if (next.data && next.data.authorizedRoles) {
-      var authorizedRoles = next.data.authorizedRoles;
-      if (!userService.isAuthorized(authorizedRoles)) {
-        event.preventDefault();
-        if (userService.isAuthenticated()) {
-          console.warn('not authorized');
-
-          // user is not allowed
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-        } else {
-          console.warn('not authenticated');
-
-          $state.go('login')
-          // user is not logged in
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-        }
-      }
-    }
-
-    // no authorization config set, thus simply continue
-  });
-  
-});
-
-// ng-flow
-DASHBOARD.config(['flowFactoryProvider', function (flowFactoryProvider) {
-  flowFactoryProvider.defaults = {
-
-  };
-  // You can also set default events:
-  flowFactoryProvider.on('catchAll', function (event) {
-    
-  });
-  // Can be used with different implementations of Flow.js
-  // flowFactoryProvider.factory = fustyFlowFactory;
-}]);
+require('./routes')(DASHBOARD);
 
 /**
  * Services
  */
-DASHBOARD.factory('userService', require('./services/user'));
-DASHBOARD.factory('projectService', require('./services/project'));
+require('./services')(DASHBOARD);
 
 /**
  * Controllers
  */
-DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, userService) {
+DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth) {
 
-  var currentUserModel = userService.current();
+  var currentUserModel = auth.getCurrentUser();
 
   if (currentUserModel) {
 
@@ -94,12 +47,12 @@ DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, userSer
       });
 
 
-    // $scope.currentUser = userService.current();
-    $scope.isAuthorized = userService.isAuthorized;
+    // $scope.currentUser = auth.current();
+    $scope.isAuthorized = auth.isAuthorized;
   }
 
-  userService.on('logIn', function () {
-    userService.current()
+  auth.on('logIn', function () {
+    auth.current()
       .fetch()
       .then(function (user) {
         $scope.setCurrentUser(user.toJSON());
@@ -117,3 +70,5 @@ DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, userSer
 /**
  * Directives
  */
+// require('./directives/file-navigator/file-navigator')(DASHBOARD);
+require('./directives/file-drop/file-drop')(DASHBOARD);

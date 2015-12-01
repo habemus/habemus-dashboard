@@ -1,10 +1,8 @@
 'use strict';
 
-module.exports = function HeaderCtrl($scope, $stateParams, $state, userService) {
-
+module.exports = function HeaderCtrl($scope, $stateParams, $state, auth) {
   $scope.logOut = function () {
-    userService
-      .logOut()
+    auth.logOut()
       .then(function () {
         $state.go('login');
       });

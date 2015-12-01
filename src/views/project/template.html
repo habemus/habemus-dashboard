@@ -1,41 +1,26 @@
-<div>project: {{ project.id }}</div>
-<h1>{{ project.name }}</h1>
+<div id="project">
 
-<div
-  flow-init="uploadConfigurations"
-  flow-files-submitted="$flow.upload()"
-  flow-file-success="$file.msg = $message">
+  <div>project: {{ project.id }}</div>
+  <h1>{{ project.name }}</h1>
 
-  <input type="file" flow-btn/>
-  Input OR Other element as upload button
-  <span class="btn" flow-btn>Upload File</span>
-
-  <div id="drop-area" flow-drop>
-      Drag And Drop your file here
+  <div 
+    class="file-tree"
+    ui-tree="uiTreeOptions"
+    ng-hide="project.filesystem.length === 0"
+    file-drop-container>
+    <ul
+      id="tree-root"
+      class="directory-contents"
+      ui-tree-nodes
+      ng-model="project.filesystem"
+      ng-class="{ empty: project.filesystem.isEmpty }"
+      file-drop-area="uploadFiles(project.filesystem, $files)">
+      <li
+        ng-repeat="item in project.filesystem.items"
+        ui-tree-node
+        collapsed="true"
+        ng-include="'views/project/partials/item-template.html'">
+      </li>
+    </ul>
   </div>
-
-  <table>
-    <tr ng-repeat="file in $flow.files">
-        <td>{{$index+1}}</td>
-        <td>{{file.relativePath}}</td>
-        <td>{{file.msg}}</td>
-    </tr>
-  </table>
-</div>
-  
-<div ui-tree>
-  <ol ui-tree-nodes="" ng-model="list">
-    <li ng-repeat="item in list" ui-tree-node>
-      <div ui-tree-handle>
-        {{item.title}}
-      </div>
-      <ol ui-tree-nodes="" ng-model="item.items">
-        <li ng-repeat="subItem in item.items" ui-tree-node>
-          <div ui-tree-handle>
-            {{subItem.title}}
-          </div>
-        </li>
-      </ol>
-    </li>
-  </ol>
 </div>

@@ -1,0 +1,44 @@
+<!-- directory -->
+<div 
+  ng-if="item.type === 'directory'">
+
+  <div class="item item-directory">
+    <span ui-tree-handle></span>
+    <span ng-click="toggleDirectory(this, item)">
+      directory: {{ item.path }}
+    </span>
+    <span ng-hide="!item.isLoading">loading</span>
+  </div>
+
+  <ul
+    class="directory-contents"
+    ng-class="{ hidden: collapsed, empty: item.isEmpty }"
+    ui-tree-nodes
+    ng-model="item.items"
+    file-drop-area="uploadFiles(item, $files)">
+    <li
+      ng-repeat="item in item.items"
+      ui-tree-node
+      collapsed="true"
+      ng-include="'views/project/partials/item-template.html'">
+    </li>
+  </ul>
+</div>
+
+<!-- file -->
+<div ng-if="item.type === 'file'">
+  <div
+    class="item item-file"
+    ng-click="openFile(item)">
+    <span ui-tree-handle></span>
+    <span>
+      file: {{ item.path }}
+    </span>
+    <span ng-hide="!item.uploadProgress || item.uploadProgress === 1">
+      {{ item.uploadProgress }}
+    </span>
+    <span ng-hide="!item.uploadMessage">
+      {{ item.uploadMessage }}
+    </span>
+  </div>
+</div>

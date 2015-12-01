@@ -6,10 +6,10 @@ var path = require('path');
 // external dependencies
 var generator = require('project-name-generator');
 
-module.exports = function DashboardCtrl($scope, ngDialog, projectService) {
+module.exports = function DashboardCtrl($scope, ngDialog, projectAPI) {
 
   // initial find
-  projectService.find()
+  projectAPI.find()
     .then(function (projects) {
 
       $scope.currentUserProjects = projects || [];
@@ -27,7 +27,7 @@ module.exports = function DashboardCtrl($scope, ngDialog, projectService) {
       preCloseCallback: function (data) {
 
         if (data && data.name) {
-          projectService.create({
+          projectAPI.create({
             safeName: generator({ words: 2 }).dashed,
             name: data.name
           })

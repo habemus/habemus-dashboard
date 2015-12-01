@@ -1,83 +1,166 @@
 'use strict';
 
-module.exports = function ProjectCtrl($scope, $stateParams, projectService, userService) {
+var path = require('path');
+var auxiliary = require('./auxiliary');
+
+module.exports = function ProjectCtrl($scope, $stateParams, projectAPI, auth, $timeout) {
 
   var projectId = $stateParams.projectId;
 
+  /**
+   * Data store related to the project
+   * @type {Object}
+   */
   $scope.project = {};
 
-  // ng-flow configurations
-  $scope.uploadConfigurations = {
-    target: 'http://localhost:5000/file',
-    permanentErrors:[404, 500, 501],
-
-    fileParameterName: 'files',
-    testChunks: false,
-
-    // request headers
-    headers: function (flowFile) {
-      return {
-        'X-Project-Id': projectId,
-        'X-Project-Safe-Name': $scope.project.safeName,
-        'X-Auth-Token': userService.current().getSessionToken(),
-      };
-    },
-
-    // to be added to request body
-    query: function (flowFile) {
-      return {
-        relativePath: flowFile.relativePath
-      }
+  /**
+   * Options to be passed to angular-ui-tree
+   * @type {Object}
+   */
+  $scope.uiTreeOptions = {
+    accept: function(sourceNodeScope, destNodesScope, destIndex) {
+      return true;
     },
   };
 
-  projectService
+  $scope.uploadFiles = function (dir, files) {
+    var dirpath = auxiliary.getFullPath(dir);
+    
+    files.forEach(function (file) {
+
+      // set is empty to false
+      dir.isEmpty = false;
+
+      console.log(file);
+
+      var fileData = {
+        path: file.name,
+        type: 'file',
+      };
+      dir.items.push(fileData);
+
+      $scope.$apply();
+
+      var filepath = dirpath + '/' + file.name;
+
+      console.log('upload file ', filepath);
+
+      projectAPI.writeFile(projectId, filepath, file)
+        .then(function () {
+
+          delete fileData.uploadProgress;
+
+          fileData.uploadMessage = 'upload done!';
+          $timeout(function () {
+            delete fileData.uploadMessage;
+          }, 2000);
+
+          $scope.$apply();
+        })
+        .progress(function (e) {
+
+          fileData.uploadProgress = e.completed;
+
+          if (e.completed === 1) {
+            fileData.uploadMessage = 'finishing upload';
+          }
+
+          $scope.$apply();
+        });
+    });
+  };
+
+  /**
+   * @param  {[type]} dir [description]
+   * @return {[type]}     [description]
+   */
+  $scope.toggleDirectory = function (scope, dir) {
+    // check if the data is already loaded
+    if (dir.items) {
+
+      scope.toggle();
+
+    } else {
+
+      dir.isLoading = true;
+
+      projectAPI.readdir(projectId, auxiliary.getFullPath(dir))
+        .then(function (items) {
+
+          dir.isLoading = false;
+
+          // set parent onto items
+          items.forEach(function (i) {
+            i.parent = dir;
+            i.collapsed = true;
+          });
+
+          // set items onto directory
+          dir.items = items;
+          dir.isEmpty = (items.length === 0);
+
+          $scope.$apply();
+
+          scope.expand();
+        }, function (err) {
+
+          dir.isLoading = false;
+          console.warn('failed to open directory', err);
+        });
+    }
+  };
+
+  /**
+   * [openFile description]
+   * @param  {[type]} file [description]
+   * @return {[type]}      [description]
+   */
+  $scope.openFile = function (file) {
+    console.log('openFile', file);
+  };
+
+  // retrieve the requested project
+  projectAPI
     .get(projectId)
     .then(function (project) {
-      $scope.project.id = project.objectId;
-      $scope.project.name = project.name;
+      $scope.project.id       = project.objectId;
+      $scope.project.name     = project.name;
       $scope.project.safeName = project.safeName;
-
       $scope.$apply();
     })
     .fail(function (err) {
-      alert('get project failed')
+      console.warn('get project failed')
     });
 
+  // retrieve project dir listing
+  projectAPI.readdir(projectId, '/')
+    .then(function (res) {
+      $scope.project.filesystem = {
+        path: '',
+        items: res,
+        isEmpty: (res.length === 0)
+      };
+      console.log(res);
+      $scope.$apply();
+    }, function (err) {
+      console.warn('readdir failed');
+    })
+    .done();
 
+  // projectAPI.readdirDeep(projectId, '/')
+  //   .then(function (res) {
 
-  // ui.tree study
-  $scope.list = [
-    {
-      "id": 30,
-      "title": "3. unicorn-zapper.1",
-      "items": [
-        {
-          "id": 300,
-          "title": "3. unicorn-zapper.1.1",
-          "items": []
-        },
-        {
-          "id": 301,
-          "title": "3. unicorn-zapper.1.2",
-          "items": []
-        },
-        {
-          "id": 302,
-          "title": "3. unicorn-zapper.1.3",
-          "items": []
-        },
-        {
-          "id": 303,
-          "title": "3. unicorn-zapper.1.4",
-          "items": []
-        }
-      ]
-    },
-    {
-      "id": 3,
-      "title": "3. unicorn-zapper",
-      "items": []
-    }
-  ];
+  //     console.log(auxiliary.parseFilesIntoUITree(res));
+
+  //     $scope.project.filesystem = auxiliary.parseFilesIntoUITree(res).items
+  //     // console.log(res);
+  //     $scope.$apply();
+
+  //     // console.log(res);
+
+  //   }, function (err) {
+  //     console.log(err);
+  //     console.log('readdirDeep failed');
+  //   })
+  //   .done();
 };
