@@ -9,8 +9,11 @@ function traverseFileTree(item, path, fileList) {
     // Get file
     item.file(function(file) {
 
-      fileList.push(file);
-      console.log("File:", path + file.name);
+      fileList.push({
+        path: path + file.name,
+        file: file
+      });
+
     });
   } else if (item.isDirectory) {
     // Get folder contents
@@ -76,11 +79,8 @@ module.exports = function (module) {
 
         element.bind('drop', function (e) {
 
-          console.log('drop');
-
           e.stopPropagation();
           e.preventDefault();
-          console.log(e);
 
           // TODO: obviously improve
           try {
@@ -109,7 +109,12 @@ module.exports = function (module) {
             // no directory upload
 
             var fileList = e.target.files || e.originalEvent.dataTransfer.files;
-            fileList = Array.prototype.slice.call(fileList, 0);
+            fileList = Array.prototype.map.call(fileList, function (f) {
+              return {
+                path: f.name,
+                file: f
+              };
+            });
 
             scope.$files = fileList;
             scope.$eval(attrs.fileDropArea);

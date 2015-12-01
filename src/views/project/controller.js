@@ -23,50 +23,53 @@ module.exports = function ProjectCtrl($scope, $stateParams, projectAPI, auth, $t
     },
   };
 
-  $scope.uploadFiles = function (dir, files) {
+  $scope.uploadFiles = function (dir, droppedFiles) {
     var dirpath = auxiliary.getFullPath(dir);
     
-    files.forEach(function (file) {
+    droppedFiles.forEach(function (droppedFileData, index) {
 
       // set is empty to false
       dir.isEmpty = false;
 
-      console.log(file);
-
-      var fileData = {
-        path: file.name,
+      var fData = {
+        path: droppedFileData.path,
         type: 'file',
       };
-      dir.items.push(fileData);
+      dir.items.push(fData);
 
       $scope.$apply();
 
-      var filepath = dirpath + '/' + file.name;
+      var filepath = dirpath + '/' + droppedFileData.path;
 
       console.log('upload file ', filepath);
 
-      projectAPI.writeFile(projectId, filepath, file)
-        .then(function () {
+      setTimeout(function () {
 
-          delete fileData.uploadProgress;
 
-          fileData.uploadMessage = 'upload done!';
-          $timeout(function () {
-            delete fileData.uploadMessage;
-          }, 2000);
+        projectAPI.writeFile(projectId, filepath, droppedFileData.file)
+          .then(function () {
 
-          $scope.$apply();
-        })
-        .progress(function (e) {
+            delete fData.uploadProgress;
 
-          fileData.uploadProgress = e.completed;
+            fData.uploadMessage = 'upload done!';
+            $timeout(function () {
+              delete fData.uploadMessage;
+            }, 2000);
 
-          if (e.completed === 1) {
-            fileData.uploadMessage = 'finishing upload';
-          }
+            $scope.$apply();
+          })
+          .progress(function (e) {
 
-          $scope.$apply();
-        });
+            fData.uploadProgress = e.completed;
+
+            if (e.completed === 1) {
+              fData.uploadMessage = 'finishing upload';
+            }
+
+            $scope.$apply();
+          });
+
+      }, 1000 * index)
     });
   };
 
@@ -93,6 +96,7 @@ module.exports = function ProjectCtrl($scope, $stateParams, projectAPI, auth, $t
           items.forEach(function (i) {
             i.parent = dir;
             i.collapsed = true;
+            i.url = 'http://localhost:5001/project/' + $scope.project.safeName + '/' + auxiliary.getFullPath(i);
           });
 
           // set items onto directory

@@ -32,7 +32,9 @@
     ng-click="openFile(item)">
     <span ui-tree-handle></span>
     <span>
-      file: {{ item.path }}
+      <a target="_blank" ng-href="{{ item.url }}">
+        file: {{ item.path }}
+      </a>
     </span>
     <span ng-hide="!item.uploadProgress || item.uploadProgress === 1">
       {{ item.uploadProgress }}
