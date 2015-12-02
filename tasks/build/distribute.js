@@ -28,7 +28,7 @@ module.exports = function (gulp, $) {
    * Clears the temporary dir
    */
   gulp.task('distribute:clear-tmp', function () {
-    // del.sync(path.join(config.root, tmpDir));
+    del.sync(path.join(config.root, tmpDir));
   });
 
   /**
