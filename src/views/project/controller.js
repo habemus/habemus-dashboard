@@ -3,6 +3,10 @@
 var path = require('path');
 var auxiliary = require('./auxiliary');
 
+// load models
+var DirectoryData = require('../../models/file-system/directory');
+
+
 module.exports = function ProjectCtrl($scope, $stateParams, projectAPI, auth, $timeout) {
 
   var projectId = $stateParams.projectId;
@@ -11,7 +15,13 @@ module.exports = function ProjectCtrl($scope, $stateParams, projectAPI, auth, $t
    * Data store related to the project
    * @type {Object}
    */
-  $scope.project = {};
+  var project = $scope.project = {
+    rootDirectory: new DirectoryData('/'),
+  };
+
+  function _genFileUrl(fileData) {
+    return 'http://localhost:5001/project/' + project.safeName + fileData.getAbsolutePath();
+  }
 
   /**
    * Options to be passed to angular-ui-tree
@@ -24,52 +34,48 @@ module.exports = function ProjectCtrl($scope, $stateParams, projectAPI, auth, $t
   };
 
   $scope.uploadFiles = function (dir, droppedFiles) {
-    var dirpath = auxiliary.getFullPath(dir);
-    
+    var dirpath = dir.getAbsolutePath();
+
     droppedFiles.forEach(function (droppedFileData, index) {
 
-      // set is empty to false
-      dir.isEmpty = false;
-
-      var fData = {
-        path: droppedFileData.path,
-        type: 'file',
-      };
-      dir.items.push(fData);
+      // add to the system
+      var fileData = dir.addFile(droppedFileData.path, droppedFileData);
 
       $scope.$apply();
 
-      var filepath = dirpath + '/' + droppedFileData.path;
-
-      console.log('upload file ', filepath);
+      var filepath = fileData.getAbsolutePath();
 
       setTimeout(function () {
 
-
         projectAPI.writeFile(projectId, filepath, droppedFileData.file)
           .then(function () {
+            
+            var fileUrl  = _genFileUrl(fileData);
 
-            delete fData.uploadProgress;
+            fileData.setData('url', fileUrl);
 
-            fData.uploadMessage = 'upload done!';
+            fileData.setData('uploadProgress', undefined);
+
+            fileData.setData('uploadMessage', 'upload done!');
             $timeout(function () {
-              delete fData.uploadMessage;
+              fileData.setData('uploadMessage', undefined);
             }, 2000);
 
             $scope.$apply();
           })
           .progress(function (e) {
 
-            fData.uploadProgress = e.completed;
+            fileData.setData('uploadProgress', e.completed);
 
             if (e.completed === 1) {
-              fData.uploadMessage = 'finishing upload';
+              fileData.setData('uploadMessage', 'finishing upload');
             }
 
             $scope.$apply();
-          });
+          })
+          .done();
 
-      }, 1000 * index)
+      }, 1000 * index);
     });
   };
 
@@ -77,40 +83,41 @@ module.exports = function ProjectCtrl($scope, $stateParams, projectAPI, auth, $t
    * @param  {[type]} dir [description]
    * @return {[type]}     [description]
    */
-  $scope.toggleDirectory = function (scope, dir) {
+  $scope.toggleDirectory = function (uiTreeScope, dir) {
     // check if the data is already loaded
-    if (dir.items) {
+    if (!dir.isEmpty) {
 
-      scope.toggle();
+      uiTreeScope.toggle();
 
     } else {
 
-      dir.isLoading = true;
+      dir.setData('isLoading', true);
 
-      projectAPI.readdir(projectId, auxiliary.getFullPath(dir))
-        .then(function (items) {
+      projectAPI.readdir(projectId, dir.getAbsolutePath())
+        .then(function (entries) {
 
-          dir.isLoading = false;
+          dir.setData('isLoading', false);
 
-          // set parent onto items
-          items.forEach(function (i) {
-            i.parent = dir;
-            i.collapsed = true;
-            i.url = 'http://localhost:5001/project/' + $scope.project.safeName + '/' + auxiliary.getFullPath(i);
+          entries.forEach(function (entry) {
+            if (entry.type === 'directory') {
+              dir.addDirectory(entry.path, entry);
+            } else if (entry.type === 'file') {
+              var fileData = dir.addFile(entry.path, entry);
+              var fileUrl  = _genFileUrl(fileData);
+
+              fileData.setData('url', fileUrl);
+            }
           });
 
-          // set items onto directory
-          dir.items = items;
-          dir.isEmpty = (items.length === 0);
+          uiTreeScope.$apply();
 
-          $scope.$apply();
-
-          scope.expand();
+          uiTreeScope.expand();
         }, function (err) {
 
-          dir.isLoading = false;
+          dir.setData('isLoading', false);
           console.warn('failed to open directory', err);
-        });
+        })
+        .done();
     }
   };
 
@@ -131,40 +138,52 @@ module.exports = function ProjectCtrl($scope, $stateParams, projectAPI, auth, $t
       $scope.project.name     = project.name;
       $scope.project.safeName = project.safeName;
       $scope.$apply();
-    })
-    .fail(function (err) {
-      console.warn('get project failed')
-    });
-
-  // retrieve project dir listing
-  projectAPI.readdir(projectId, '/')
-    .then(function (res) {
-      $scope.project.filesystem = {
-        path: '',
-        items: res,
-        isEmpty: (res.length === 0)
-      };
-      console.log(res);
-      $scope.$apply();
     }, function (err) {
-      console.warn('readdir failed');
+      console.warn('get project failed')
     })
     .done();
 
-  // projectAPI.readdirDeep(projectId, '/')
-  //   .then(function (res) {
+  // retrieve project dir listing
+  // projectAPI.readdir(projectId, '/')
+  //   .then(function (entries) {
 
-  //     console.log(auxiliary.parseFilesIntoUITree(res));
+  //     entries.forEach(function (entry) {
 
-  //     $scope.project.filesystem = auxiliary.parseFilesIntoUITree(res).items
-  //     // console.log(res);
+  //       if (entry.type === 'directory') {
+  //         $scope.project.rootDirectory.addDirectory(entry.path);
+  //       } else if (entry.type === 'file') {
+  //         var fileData = $scope.project.rootDirectory.addFile(entry.path, entry);
+  //         var fileUrl  = _genFileUrl(fileData);
+  //         fileData.setData('url', fileUrl);
+  //       }
+
+  //     });
+
   //     $scope.$apply();
-
-  //     // console.log(res);
-
   //   }, function (err) {
-  //     console.log(err);
-  //     console.log('readdirDeep failed');
+  //     console.warn('readdir failed');
   //   })
   //   .done();
+
+  // read everything upfront
+  projectAPI.readdirDeep(projectId, '/')
+    .then(function (entries) {
+
+      entries.forEach(function (entry) {
+
+        if (entry.type === 'directory') {
+          $scope.project.rootDirectory.addDirectory(entry.path);
+        } else if (entry.type === 'file') {
+          var fileData = $scope.project.rootDirectory.addFile(entry.path, entry);
+          var fileUrl  = _genFileUrl(fileData);
+          fileData.setData('url', fileUrl);
+        }
+
+      });
+
+      $scope.$apply();
+    }, function (err) {
+      console.warn('readdirDeep failed');
+    })
+    .done();
 };

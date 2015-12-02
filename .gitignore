@@ -5,5 +5,8 @@ bower_components
 **/*.bundle.css
 **/*.bundle.js
 
+# temporary files
+.tmp
+
 # OSX
 .DS_Store

@@ -1,0 +1,4 @@
+{
+  "PROJECT_API_LOCATION": "http://localhost:5000",
+  "ROUTER_LOCATION": "http://localhost:5001"
+}

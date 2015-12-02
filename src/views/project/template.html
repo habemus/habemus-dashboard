@@ -7,20 +7,19 @@
   <div 
     class="file-tree"
     ui-tree="uiTreeOptions"
-    ng-hide="project.filesystem.length === 0"
     file-drop-container>
     <ul
       id="tree-root"
       class="directory-contents"
       ui-tree-nodes
-      ng-model="project.filesystem"
-      ng-class="{ empty: project.filesystem.isEmpty }"
-      file-drop-area="uploadFiles(project.filesystem, $files)">
+      ng-model="project.rootDirectory"
+      ng-class="{ empty: project.rootDirectory.isEmpty }"
+      file-drop-area="uploadFiles(project.rootDirectory, $files)">
       <li
-        ng-repeat="item in project.filesystem.items"
+        ng-repeat="entry in project.rootDirectory.entries"
         ui-tree-node
         collapsed="true"
-        ng-include="'views/project/partials/item-template.html'">
+        ng-include="'views/project/partials/entry-template.html'">
       </li>
     </ul>
   </div>

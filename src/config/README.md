@@ -1,0 +1,1 @@
+# how the configuration system works

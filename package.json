@@ -25,6 +25,8 @@
     "gulp-rename": "^1.2.2",
     "gulp-size": "^2.0.0",
     "gulp-util": "^3.0.7",
+    "lazypipe": "^1.0.1",
+    "polybuild": "^1.0.5",
     "run-sequence": "^1.1.4",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0",
