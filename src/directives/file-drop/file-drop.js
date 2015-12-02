@@ -3,28 +3,7 @@ var Q = require('q');
 var FD_SELECTOR = '[file-drop-area]';
 var FD_TARGET_CLASS = 'file-drop-target';
 
-function traverseFileTree(item, path, fileList) {
-  path = path || "";
-  if (item.isFile) {
-    // Get file
-    item.file(function(file) {
-
-      fileList.push({
-        path: path + file.name,
-        file: file
-      });
-
-    });
-  } else if (item.isDirectory) {
-    // Get folder contents
-    var dirReader = item.createReader();
-    dirReader.readEntries(function(entries) {
-      for (var i=0; i<entries.length; i++) {
-        traverseFileTree(entries[i], path + item.name + "/", fileList);
-      }
-    });
-  }
-}
+var readFiles = require('./lib/read-files');
 
 module.exports = function (module) {
 
@@ -62,10 +41,7 @@ module.exports = function (module) {
         });
 
         element.bind('dragleave', function (e) {
-
-          // if (e.target === element[0]) {
           scope.clearDropTargets();
-          // }
         })
       },
     }
@@ -77,50 +53,23 @@ module.exports = function (module) {
       restrict: 'A',
       link: function (scope, element, attrs, ctrl) {
 
+        function filterDotFiles(fileData) {
+          return fileData.name !== '.DS_Store';
+        }
+
         element.bind('drop', function (e) {
 
           e.stopPropagation();
           e.preventDefault();
 
-          // TODO: obviously improve
-          try {
-            // webkit:
+            readFiles.fromDropEvent(e.originalEvent, filterDotFiles)
+              .then(function (files) {
+                // clear the target highlighting
+                scope.clearDropTargets();
 
-            var fileList = [];
-            var items = e.originalEvent.dataTransfer.items;
-            for (var i=0; i<items.length; i++) {
-              // webkitGetAsEntry is where the magic happens
-              var item = items[i].webkitGetAsEntry();
-              if (item) {
-                traverseFileTree(item, undefined, fileList);
-              }
-            }
-
-            setTimeout(function () {
-
-              scope.$files = fileList;
-              scope.$eval(attrs.fileDropArea);
-
-            }, 1000);
-
-            scope.clearDropTargets();
-
-          } catch (e) {
-            // no directory upload
-
-            var fileList = e.target.files || e.originalEvent.dataTransfer.files;
-            fileList = Array.prototype.map.call(fileList, function (f) {
-              return {
-                path: f.name,
-                file: f
-              };
-            });
-
-            scope.$files = fileList;
-            scope.$eval(attrs.fileDropArea);
-
-            scope.clearDropTargets();
-          }
+                scope.$files = files;
+                scope.$eval(attrs.fileDropArea);
+              });
         });
       },
     }
