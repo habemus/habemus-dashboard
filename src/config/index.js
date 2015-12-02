@@ -1,11 +1,16 @@
 // native
-var url    = require('url');
+var url = require('url');
 
 // internal
-var config = require('./config.json');
+var cfg = require('./config.json');
 
-exports.projectAPI = url.parse(config.PROJECT_API_LOCATION);
-exports.projectAPI.location = config.PROJECT_API_LOCATION;
+exports.parse = {
+  applicationId: cfg.PARSE_APPLICATION_ID,
+  javascriptKey: cfg.PARSE_JAVASCRIPT_KEY,
+};
 
-exports.router = url.parse(config.ROUTER_LOCATION);
-exports.router.location = config.ROUTER_LOCATION;
+exports.projectAPI = url.parse(cfg.PROJECT_API_LOCATION);
+exports.projectAPI.location = cfg.PROJECT_API_LOCATION;
+
+exports.router = url.parse(cfg.ROUTER_LOCATION);
+exports.router.location = cfg.ROUTER_LOCATION;

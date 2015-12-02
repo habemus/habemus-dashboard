@@ -1,4 +1,6 @@
 {
+  "PARSE_APPLICATION_ID": "cKsbdOed2RBYhQ4YAdq4gK5bq6Mqt0wYsB59OgpP",
+  "PARSE_JAVASCRIPT_KEY": "xLu44NceqcwtIlZaZPDZZDeKiHRR9MpYGuu5Jzk8",
   "PROJECT_API_LOCATION": "http://localhost:5000",
   "ROUTER_LOCATION": "http://localhost:5001"
 }

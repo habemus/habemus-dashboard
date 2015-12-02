@@ -3,32 +3,28 @@ var HabemusAuthClient       = require('habemus-auth/client');
 var HabemusProjectAPIClient = require('habemus-project-api/client');
 
 module.exports = function (DASHBOARD) {
-  DASHBOARD.factory('parse', function () {
+  DASHBOARD.factory('parse', function (CONFIG) {
     Parse.initialize(
-      "cKsbdOed2RBYhQ4YAdq4gK5bq6Mqt0wYsB59OgpP",
-      "xLu44NceqcwtIlZaZPDZZDeKiHRR9MpYGuu5Jzk8"
+      CONFIG.parse.applicationId,
+      CONFIG.parse.javascriptKey
     );
 
     return Parse;
   });
-  DASHBOARD.factory('auth', function (parse) {
+  DASHBOARD.factory('auth', function (parse, CONFIG) {
 
-    window.auth = new HabemusAuthClient({
+    return new HabemusAuthClient({
       parse: parse
     });
-
-    return auth;
   });
 
-  DASHBOARD.factory('projectAPI', function (parse, auth) {
+  DASHBOARD.factory('projectAPI', function (parse, auth, CONFIG) {
 
-    window.projectAPI = new HabemusProjectAPIClient({
-      location: 'http://localhost:5000',
+    return new HabemusProjectAPIClient({
+      location: CONFIG.projectAPI.location,
       parse: parse,
       auth: auth,
     });
-
-    return window.projectAPI;
   });
 
 };

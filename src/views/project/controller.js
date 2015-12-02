@@ -6,7 +6,7 @@ var path = require('path');
 var DirectoryData = require('../../models/file-system/directory');
 
 
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, projectAPI, auth, $timeout) {
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, projectAPI, auth, $timeout, CONFIG) {
 
   var projectId = $stateParams.projectId;
 
@@ -19,7 +19,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, projec
   };
 
   function _genFileUrl(fileData) {
-    return 'http://localhost:5001/project/' + project.safeName + fileData.getAbsolutePath();
+    return CONFIG.router.location + '/project/' + project.safeName + fileData.getAbsolutePath();
   }
 
   /**

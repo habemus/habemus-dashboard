@@ -10,8 +10,10 @@ var DASHBOARD = angular.module('habemus-dashboard', [
   'ngDialog',
 ]);
 
-var config = require('./config');
-console.log(config.projectAPI.location);
+/**
+ * Configurations
+ */
+DASHBOARD.constant('CONFIG', require('./config'));
 
 /**
  * Constants
@@ -38,7 +40,7 @@ require('./services')(DASHBOARD);
 /**
  * Controllers
  */
-require('./views/config')(DASHBOARD);
+require('./views/templates')(DASHBOARD);
 DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth) {
 
   var currentUserModel = auth.getCurrentUser();
