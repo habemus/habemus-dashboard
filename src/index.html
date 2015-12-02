@@ -1,41 +1,35 @@
-<html ng-app="habemus-dashboard" ng-controller="ApplicationCtrl">
-<head>
-  <title>{{ hello }}</title>
+<html
+  ng-app="habemus-dashboard"
+  ng-strict-di
+  ng-controller="ApplicationCtrl">
+  <head>
+    <title>{{ hello }}</title>
 
-  <link rel="stylesheet" type="text/css" href="index.bundle.css">
-
-  <!-- jquery -->
-  <script src="bower_components/jquery/dist/jquery.js"></script>
-
-  <!-- bower_components for lib usage -->
-  <script src="bower_components/angular/angular.js"></script>
-  <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-  <script src="bower_components/ng-flow/dist/ng-flow-standalone.js"></script>
-
-  <!-- ng-dialog -->
-  <script src="bower_components/ng-dialog/js/ngDialog.js"></script>
-  <link rel="stylesheet" type="text/css" href="bower_components/ng-dialog/css/ngDialog.css">
-  <link rel="stylesheet" type="text/css" href="bower_components/ng-dialog/css/ngDialog-theme-default.css">
-  <!-- ng-dialog -->
-
-  <!-- angular-ui-tree -->
-  <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
-  <link rel="stylesheet" type="text/css" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css">
-  <!-- angular-ui-tree -->
+    <!-- build:css habemus.css -->
+    <link rel="stylesheet" type="text/css" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/ng-dialog/css/ngDialog.css">
+    <link rel="stylesheet" type="text/css" href="bower_components/ng-dialog/css/ngDialog-theme-default.css">
+    <link rel="stylesheet" type="text/css" href="index.bundle.css">
+    <!-- endbuild -->
 
 
+    <!-- build:js habemus.js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/ng-dialog/js/ngDialog.js"></script>
+    <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
+    <script src="index.bundle.js"></script>
+    <!-- endbuild -->
+  </head>
+  <body>
 
-  <!-- node.js and browserify for our application code -->
-  <script src="index.bundle.js"></script>
-</head>
-<body>
+    <section ui-view="header">
 
-  <section ui-view="header">
+    </section>
 
-  </section>
+    <section ui-view="body">
 
-  <section ui-view="body">
-
-  </section>
-</body>
+    </section>
+  </body>
 </html>

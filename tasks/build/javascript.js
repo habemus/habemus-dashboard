@@ -16,6 +16,7 @@ module.exports = function (gulp, $) {
    * Runs the javascript task once
    */
   gulp.task('javascript', function () {
-    return browserifyPipe('src/index.js', config.srcDir);
+    return browserifyPipe('src/index.js')
+      .pipe(gulp.dest(config.srcDir));
   });
 };

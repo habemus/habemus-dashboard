@@ -6,7 +6,7 @@ var path = require('path');
 // external dependencies
 var generator = require('project-name-generator');
 
-module.exports = function DashboardCtrl($scope, ngDialog, projectAPI) {
+module.exports = /*@ngInject*/ function DashboardCtrl($scope, ngDialog, projectAPI) {
 
   // initial find
   projectAPI.find()

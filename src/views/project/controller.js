@@ -1,13 +1,12 @@
 'use strict';
 
 var path = require('path');
-var auxiliary = require('./auxiliary');
 
 // load models
 var DirectoryData = require('../../models/file-system/directory');
 
 
-module.exports = function ProjectCtrl($scope, $stateParams, projectAPI, auth, $timeout) {
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, projectAPI, auth, $timeout) {
 
   var projectId = $stateParams.projectId;
 

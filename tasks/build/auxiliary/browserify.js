@@ -8,17 +8,14 @@ var gulpNotify = require('gulp-notify');
 var gulpSize   = require('gulp-size');
 
 // browserify stuff
-var browserify  = require('browserify');
-var brfs        = require('brfs');
-var vinylSource = require('vinyl-source-stream');
-var vinylBuffer = require('vinyl-buffer');
+var browserify   = require('browserify');
+var brfs         = require('brfs');
+var vinylSource  = require('vinyl-source-stream');
+var vinylBuffer  = require('vinyl-buffer');
 
 var config = require('../../config');
 
-var lazypipe    = require('lazypipe');
-var browserifyPipe = lazypipe();
-
-module.exports = function returnBrowserifyPipe(entry, dest) {
+module.exports = function returnBrowserifyPipe(entry) {
   // Create a gulp stream for the single browserify task
   return browserify({
       // Set the entry option so that it browserifies
@@ -48,6 +45,5 @@ module.exports = function returnBrowserifyPipe(entry, dest) {
     .pipe(gulpSize({
       title: 'javascript',
       showFiles: true
-    }))
-    .pipe(gulp.dest(dest));
+    }));
 };

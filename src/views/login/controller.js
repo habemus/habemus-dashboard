@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function LoginCtrl($scope, $stateParams, $state, auth) {
+module.exports = /*@ngInject*/ function LoginCtrl($scope, $stateParams, $state, auth) {
   $scope.username = '';
   $scope.password = '';
 

@@ -2,7 +2,7 @@
 
 var Parse = require('parse');
 
-module.exports = function CreateProjectCtrl($scope) {
+module.exports = /*@ngInject*/ function CreateProjectCtrl($scope) {
 
   $scope.createProject = function () {
     $scope.closeThisDialog({
