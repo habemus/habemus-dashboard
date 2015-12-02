@@ -59,7 +59,7 @@ module.exports = function (gulp, $) {
   });
 
   /**
-   * Browserifies tmp
+   * Browserifies tmp and annotates
    */
   gulp.task('distribute:javascript', ['distribute:config'], function () {
     return browserifyPipe(tmpDir + '/index.js')
@@ -70,16 +70,16 @@ module.exports = function (gulp, $) {
   /**
    * Concatenates scripts and stylesheets.
    * Minifies scripts
+   * Minifies css
    */
-  gulp.task('distribute:heavy-lifting', ['distribute:javascript'], function () {
+  gulp.task('distribute:optimize', ['distribute:javascript'], function () {
     return gulp.src(tmpDir + '/index.html')
       // builds scripts and css into single files
       .pipe($.useref())
-      // annotate angular stuff
       .pipe($.if('*.js', $.uglify()))
       .pipe($.if('*.css', $.minifyCss()))
       .pipe($.size({
-        title: 'distribute:heavy-lifting',
+        title: 'distribute:optimize',
         showFiles: true,
         gzip: true
       }))
@@ -87,7 +87,7 @@ module.exports = function (gulp, $) {
   });
 
   gulp.task('distribute', function () {
-    return runSequence('distribute:heavy-lifting', 'distribute:clear-tmp');
+    return runSequence('distribute:optimize', 'distribute:clear-tmp');
   });
 
 };
