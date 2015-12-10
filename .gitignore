@@ -10,3 +10,6 @@ bower_components
 
 # OSX
 .DS_Store
+
+# configuration files
+src/config/config.json
