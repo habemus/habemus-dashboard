@@ -99,11 +99,4 @@ module.exports = function (gulp, $) {
       open: true,
     });
   });
-
-  /**
-   * Runs all tasks for development environment setup and go
-   */
-  gulp.task('develop', function (done) {
-    runSequence(['less', 'javascript'], 'serve:develop', 'watch', done);
-  });
 };

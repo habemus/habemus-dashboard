@@ -1,7 +1,8 @@
 var fs = require('fs');
 var path = require('path');
 
-var inquirer = require('inquirer');
+var inquirer    = require('inquirer');
+var runSequence = require('run-sequence');
 
 var config = require('../config');
 
@@ -30,6 +31,13 @@ module.exports = function (gulp, $) {
         name: configName,
         message: configName,
         default: appConfig[configName],
+        validate: function (value) {
+          if (!value) {
+            return configName + ' is required';
+          } else {
+            return true;
+          }
+        }
       };
     });
 
@@ -43,5 +51,29 @@ module.exports = function (gulp, $) {
 
       done();
     });
+  });
+
+  /**
+   * Runs all tasks for development environment setup and go
+   */
+  gulp.task('develop', function (done) {
+
+    // check if configuration file exists
+    var appConfigExists = false;
+
+    try {
+      fs.readFileSync(config.appConfigPath, 'utf8');
+      appConfigExists = true;
+    } catch (e) {
+      fs.writeFileSync(config.appConfigPath, '{}', 'utf8');
+    }
+
+    if (appConfigExists) {
+      runSequence(['less', 'javascript'], 'serve:develop', 'watch', done);
+    } else {
+      $.util.log('No configuration file found, we should set it up.');
+      runSequence('develop:configure', ['less', 'javascript'], 'serve:develop', 'watch', done);
+    }
+
   });
 }
