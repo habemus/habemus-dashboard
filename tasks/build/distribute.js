@@ -3,11 +3,15 @@ var path = require('path');
 
 var del         = require('del');
 var runSequence = require('run-sequence');
+var inquirer    = require('inquirer');
+var _           = require('lodash');
 
 var config = require('../config');
 var browserifyPipe = require('./auxiliary/browserify')
 
 var REQUIRED_CONFIGURATIONS = [
+  'PARSE_APPLICATION_ID',
+  'PARSE_JAVASCRIPT_KEY',
   'PROJECT_API_LOCATION',
   'ROUTER_LOCATION',
 ];
@@ -35,27 +39,49 @@ module.exports = function (gulp, $) {
    * Retrieves configuration from the building environment variables
    * and writes to the configuration file
    */
-  gulp.task('distribute:config', ['distribute:tmp'], function () {
+  gulp.task('distribute:config', ['distribute:tmp'], function (done) {
 
-    var baseConfig = require('../../src/config/config.json');
+    // function that writes the config and finishes the stream
+    function writeConfig(appConfig) {
+      fs.writeFileSync(
+        path.join(config.root, tmpDir, 'config/config.json'),
+        JSON.stringify(appConfig),
+        'utf8'
+      );
 
-    // set values onto config
-    REQUIRED_CONFIGURATIONS.forEach(function (prop) {
+      done();
+    }
 
-      var configValue = process.env[prop];
+    // check if required configurations are available in the environment
+    // if so, proceed to writing the file,
+    // otherwise, prompt questions at the user
+    var appConfig = {};
+    var questions = [];
 
-      if (typeof configValue === 'undefined') {
-        throw new Error(prop + ' is required for distribute:config');
+    REQUIRED_CONFIGURATIONS.forEach(function (cfg) {
+      var envValue = process.env[cfg];
+
+      if (envValue) {
+        appConfig[cfg] = envValue;
+      } else {
+        questions.push({
+          name: cfg,
+          message: cfg,
+          // make question required
+          validate: function (value) {
+            return (typeof value !== 'undefined');
+          },
+        });
       }
-
-      baseConfig[prop] = configValue;
     });
 
-    fs.writeFileSync(
-      path.join(config.root, tmpDir, 'config/config.json'),
-      JSON.stringify(baseConfig),
-      'utf8'
-    );
+    if (questions.length > 0) {
+      // ask
+      inquirer.prompt(questions, writeConfig);
+    } else {
+      // write
+      writeConfig(appConfig);
+    }
   });
 
   /**

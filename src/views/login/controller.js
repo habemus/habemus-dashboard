@@ -1,8 +1,6 @@
 'use strict';
 
 module.exports = /*@ngInject*/ function LoginCtrl($scope, $stateParams, $state, auth) {
-  $scope.username = '';
-  $scope.password = '';
 
   $scope.logIn = function (user) {
 
@@ -14,4 +12,16 @@ module.exports = /*@ngInject*/ function LoginCtrl($scope, $stateParams, $state, 
         alert('login failed, check your credentials');
       });
   };
+
+  $scope.signUp = function (user) {
+    auth.signUp(user.username, user.password, {
+        email: user.email
+      })
+      .then(function () {
+        $state.go('dashboard');
+      })
+      .fail(function () {
+        alert('signup failed');
+      });
+  }
 };
