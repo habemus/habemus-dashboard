@@ -4,6 +4,16 @@
   <h1>{{ project.name }}</h1>
   <h1>{{ project.safeName }}</h1>
 
+  <div>
+    <h2>project domains</h2>
+    <button ng-click="addDomainToProject()">add domain</button>
+    <ul>
+      <li ng-repeat="domain in project.domains">
+        <h3>{{ domain.name }}</h3>
+      </li>
+    </ul>
+  </div>
+
   <div 
     class="file-tree"
     ui-tree="uiTreeOptions"

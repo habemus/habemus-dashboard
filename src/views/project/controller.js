@@ -1,12 +1,14 @@
 'use strict';
 
+// native
 var path = require('path');
+var fs   = require('fs');
 
 // load models
 var DirectoryData = require('../../models/file-system/directory');
 
 
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, projectAPI, auth, $timeout, CONFIG) {
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, projectAPI, auth, $timeout, ngDialog, CONFIG) {
 
   var projectId = $stateParams.projectId;
 
@@ -63,6 +65,8 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, projec
             $scope.$apply();
           })
           .progress(function (e) {
+
+            fileData.setProgress(e.completed);
 
             fileData.setData('uploadProgress', e.completed);
 
@@ -136,6 +140,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, projec
       $scope.project.id       = project.objectId;
       $scope.project.name     = project.name;
       $scope.project.safeName = project.safeName;
+      $scope.project.domains  = project.domains || [];
       $scope.$apply();
     }, function (err) {
       console.warn('get project failed')
@@ -185,4 +190,38 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, projec
       console.warn('readdirDeep failed');
     })
     .done();
+
+
+  /**
+   * Domain adding
+   */
+  $scope.addDomainToProject = function () {
+    ngDialog.open({
+      template: fs.readFileSync(path.join(__dirname, '../add-domain/template.html'), 'utf-8'),
+      plain: true,
+      controller: require('../add-domain/controller'),
+
+      preCloseCallback: function (data) {
+
+        if (data && data.name) {
+          projectAPI.addDomainToProject($scope.project.id, {
+            name: data.name
+          })
+          .then(function (res) {
+
+            $scope.project.domains.unshift(data);
+
+            $scope.$apply();
+
+          }, function (err) {
+            console.log('failed to add domain');
+            console.error(err);
+
+            alert('failed to add domain');
+          })
+        }
+      }
+    });
+
+  }
 };

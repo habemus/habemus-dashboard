@@ -78,6 +78,11 @@ DirectoryData.prototype.addFile = function (filePath, data) {
     if (isLeaf) {
       // create a file object and add it
       var fileData = new FileData(currentPart, this, data);
+
+      fileData.on('progress', function (progress) {
+        console.log('aaa', progress)
+      });
+
       this._addEntry(fileData);
 
       return fileData;

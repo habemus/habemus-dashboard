@@ -41,6 +41,9 @@ module.exports = function (gulp, $) {
    */
   gulp.task('distribute:config', ['distribute:tmp'], function (done) {
 
+    // load development configurations
+    var devConfig = require('../../src/config/config.json');
+
     // function that writes the config and finishes the stream
     function writeConfig(appConfig) {
       fs.writeFileSync(
@@ -67,6 +70,7 @@ module.exports = function (gulp, $) {
         questions.push({
           name: cfg,
           message: cfg,
+          default: devConfig[cfg],
           // make question required
           validate: function (value) {
             return (typeof value !== 'undefined');

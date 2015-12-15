@@ -1,3 +1,8 @@
+// native
+var EventEmitter = require('events').EventEmitter;
+var util         = require('util');
+
+// external
 var _ = require('lodash');
 
 function EntryData(type, name, parent, data) {
@@ -16,6 +21,8 @@ function EntryData(type, name, parent, data) {
 
   this.data   = data || {};
 }
+
+util.inherits(EntryData, EventEmitter);
 
 EntryData.prototype.getAbsolutePath = function () {
 
