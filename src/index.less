@@ -1,13 +1,27 @@
+@import './less/reset.less';
+
 @import './less/variables.less';
+
+@import './views/header/styles.less';
+
+@import './views/dashboard/styles.less';
 
 @import './views/project/styles.less';
 
+
 body {
-  background-color: @test;
+  background-color: @habemus-green-light;
+  font-family: "Open Sans", sans-serif;
+  line-height: 1.5;
 }
+
+#body-section {
+    margin-top: 68px;    
+  }
 
 #drop-area {
   height: 40px;
 
   border: 2px darkred dashed;
 }
+

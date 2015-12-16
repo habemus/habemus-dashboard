@@ -3,6 +3,9 @@
   ng-controller="ApplicationCtrl">
   <head>
     <title>{{ hello }}</title>
+    
+    <!-- google fonts -->
+    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600italic,600|Montserrat:400,700' rel='stylesheet' type='text/css'>
 
     <!-- build:css habemus.css -->
     <link rel="stylesheet" type="text/css" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css">
@@ -20,14 +23,15 @@
     <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
     <script src="index.bundle.js"></script>
     <!-- endbuild -->
+    
   </head>
   <body>
 
-    <section ui-view="header">
+    <section ui-view="header" id="header-section">
 
     </section>
 
-    <section ui-view="body">
+    <section ui-view="body" id="body-section">
 
     </section>
   </body>

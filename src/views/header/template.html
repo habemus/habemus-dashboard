@@ -1,3 +1,4 @@
+<!--
 <div ng-if="currentUser">
   Welcome, {{ currentUser.email }}
 </div>
@@ -8,3 +9,28 @@
 
   <button ng-click="logOut()">logout</button>
 </nav>
+-->
+
+<div id="header">
+  <div id="header-content">
+    
+    <a href="index.html" id="logo">
+      <img id="logo-light" src="../../resources/img/logo-light.svg">
+    </a>
+        
+    <div ng-if="currentUser" ng-click="toggleMenu()" id="user-menu" ng-class="{ active: menuIsOpen }">
+      <div id="user">
+        {{ currentUser.name }}
+      </div>
+      <div id="arrow-menu">
+        <img id="logo-light" src="../../resources/img/arrow-down-2.svg">
+        <ul id="menu">
+          <li><a href="">ver projetos</a></li>
+          <li>configurações</li>
+          <li>sair</li>
+        </ul>
+      </div>
+    </div>
+    
+  </div>
+</div>
