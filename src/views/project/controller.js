@@ -18,6 +18,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, projec
    */
   var project = $scope.project = {
     rootDirectory: new DirectoryData('/'),
+    domains: [],
   };
 
   function _genFileUrl(fileData) {
