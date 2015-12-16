@@ -140,10 +140,21 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, projec
       $scope.project.id       = project.objectId;
       $scope.project.name     = project.name;
       $scope.project.safeName = project.safeName;
-      $scope.project.domains  = project.domains || [];
+
+
       $scope.$apply();
     }, function (err) {
       console.warn('get project failed')
+    })
+    .done();
+
+
+  // retrieve domains related to the project
+  projectAPI.getProjectDomains(projectId)
+    .then(function (domains) {
+      $scope.project.domains = domains || [];
+    }, function (err) {
+      console.warn('failed to retrieve domains from project');
     })
     .done();
 
