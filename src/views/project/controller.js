@@ -10,7 +10,7 @@ var DirectoryData = require('../../models/file-system/directory');
 
 module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, projectAPI, auth, $timeout, ngDialog, CONFIG) {
 
-  console.log($state);
+//  console.log($state);
   
   var projectId = $stateParams.projectId;
 
@@ -133,16 +133,17 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
    * @return {[type]}      [description]
    */
   $scope.openFile = function (file) {
-    console.log('openFile', file);
+//    console.log('openFile', file);
   };
 
   // retrieve the requested project
   projectAPI
     .get(projectId)
     .then(function (project) {
-      $scope.project.id       = project.objectId;
-      $scope.project.name     = project.name;
-      $scope.project.safeName = project.safeName;
+      $scope.project.id        = project.objectId;
+      $scope.project.name      = project.name;
+      $scope.project.safeName  = project.safeName;
+      $scope.project.createdDate = project.createdAt;
 
 
       $scope.$apply();

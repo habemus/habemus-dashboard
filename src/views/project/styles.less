@@ -1,53 +1,4 @@
 #project {
-
-  .file-tree {
-
-    // the root has no margins nor padding
-    #tree-root {
-      margin: 0 0 0 0;
-      padding: 0 0 0 0;
-    }
-
-    .file-drop-target {
-      opacity: 0.3;
-    }
-
-    // wrapper of contents of a directory
-    .directory-contents {
-      list-style: none;
-      margin: 0 0 0 20px;
-      padding: 0 0 0 0;
-
-      &.hidden {
-        min-height: 0px;
-        max-height: 0px;
-        overflow: hidden;
-      }
-
-      &.empty {
-        height: 100px;
-        background-color: red;
-      }
-    }
-
-    // a given listed entry
-    .entry {
-      transition: all 0.3s ease;
-
-      &:hover {
-        cursor: pointer;
-        background-color: #efefef;
-      }
-
-      &.entry-directory {
-        background-color: lightblue;
-      }
-
-      &.entry-file {
-        background-color: lightred;
-      }
-    }
-  }
   
   width: 100%;
   margin-top: 68px; // 68px from header-height
@@ -94,8 +45,17 @@
   #project-content {
     margin-left: 224px;
     margin-top: 24px;
+    width: 100%;
+    margin-right: 40px;
+
+    .main-content {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+
+      margin-bottom: 32px;
+    }
   }
-  
 }
 
 h1 {
@@ -113,5 +73,82 @@ h1 {
   img.arrow-right {
     padding: 0 8px;
   }
+  
+  span {
+//    color: @habemus-gray-medium;
+    font-size: 14px;
+  }
+}
+
+.drop-to-new-project-container {
+    
+//  background-color: #FFF;
+  margin-bottom: 32px;
+//  padding: 16px;
+  cursor: pointer;
+
+  .drop-to-new-project {
+//      height: 160px;
+//      margin: 16px;
+    border: 2px dashed @habemus-gray-light;
+//      box-sizing: border-box;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+
+    svg.cloud-img {
+      padding: 16px 8px 8px 8px;
+      stroke: @habemus-gray-medium;
+
+      &:hover {
+        stroke: @habemus-green-dark;
+      }
+    }
+
+    @-webkit-keyframes cloud-animate-drag-1 {
+      0% { transform: translate(0, 0px) }
+      15% { transform: translate(10px, -10px) }
+      35% { transform: translate(10px, 10px) }
+      65% { transform: translate(-10px,-10px) }
+      85% { transform: translate(-10px, 10px) }
+      100% { transform: translate(0px, 0px) }
+    }
+
+    @-webkit-keyframes cloud-animate-drag-2 {
+      0% { transform: translate(0, 0px) }
+      50% { transform: translate(0px, -20px) }
+      100% { transform: translate(0px, 0px) }
+    }
+
+    h3 {
+      padding: 8px 48px 16px 48px;
+      margin-bottom: 0;
+      text-align: center;
+    }
+
+    h3.while-dragging {
+      display: none;
+    }
+
+    &.file-drop-target {
+
+//        border: 2px dashed @habemus-green-dark;
+      border: 2px dashed @habemus-gray-medium;
+
+      svg.cloud-img {
+        stroke: @habemus-green-dark;
+        animation: cloud-animate-drag-2 0.8s infinite ease-in;
+        }
+      h3.while-dragging {
+        display: block;
+      }
+      h3.default {
+        display: none;
+      }
+    }
+  } 
 }
 

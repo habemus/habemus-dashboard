@@ -1,0 +1,40 @@
+#project-history-content {
+  
+  .main-content {
+    
+    #history-table {
+      width: 100%;
+      text-align: left;
+      font-family: "Open Sans", sans-serif;
+      color: @habemus-dark;
+      font-size: 12px;
+
+      tr {
+        border-bottom: 1px solid @habemus-gray-light;
+      }
+
+      tr.table-header {
+        border-bottom: 1px solid @habemus-gray-dark;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      tr.table-row-body:hover {
+        background-color: #FFF;
+      }
+
+      td, th {
+        padding: 10px 0;
+
+        a {
+          text-decoration: none;
+          color: @habemus-dark;
+
+          &:hover {
+            color: @habemus-green-dark;
+          }
+        }
+      }
+    }
+  }
+}
