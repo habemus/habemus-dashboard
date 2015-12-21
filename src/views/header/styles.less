@@ -3,13 +3,15 @@
   position: fixed;
   top: 0;
   z-index: 10;
-//  height: 72px;
+  height: 68px;
   background-color: @habemus-dark;
   font-family: "Montserrat", sans-serif;
 }
 
 #header-content {
-  width: 90%;
+  position: fixed;
+  left: 40px;
+  right: 40px;
   padding: 22px 0px;
   margin: 0 auto;
   
@@ -18,8 +20,15 @@
   justify-content: space-between;
   align-items: center;
   
-  #logo img {
+  a#logo {
     width: 116px;
+    height: 24px;
+    
+    img {
+      width: 116px;
+      height: 24px;
+    }
+    
   }
   
   #user-menu {
@@ -43,7 +52,7 @@
     #arrow-menu {
       
       > img {
-        transition: all 0.5s ease;
+        transition: all 0.3s ease;
       }
       
       ul#menu {
@@ -59,7 +68,6 @@
         letter-spacing: 0;
         width: 180px;
         background-color: #FFF;
-        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
         
         li {
           font-family: "Open Sans", sans-serif;

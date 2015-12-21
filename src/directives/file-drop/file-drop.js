@@ -18,6 +18,12 @@ module.exports = function (module) {
             .find(FD_SELECTOR)
             .removeClass(FD_TARGET_CLASS);
         }
+        
+        scope.setDropTargets = function () {
+          element
+            .find(FD_SELECTOR)
+            .addClass(FD_TARGET_CLASS);
+        }
 
         element.bind('dragend', function (e) {
           e.preventDefault();
@@ -30,14 +36,9 @@ module.exports = function (module) {
 
           e.preventDefault();
           e.stopPropagation();
-
-          scope.clearDropTargets();
-
-          var target = angular.element(e.target);
-
-          var closestDropArea = target.closest(FD_SELECTOR);
-
-          closestDropArea.addClass(FD_TARGET_CLASS);
+          
+          scope.setDropTargets()
+          
         });
 
         element.bind('dragleave', function (e) {

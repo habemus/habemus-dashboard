@@ -8,8 +8,10 @@ var fs   = require('fs');
 var DirectoryData = require('../../models/file-system/directory');
 
 
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, projectAPI, auth, $timeout, ngDialog, CONFIG) {
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, projectAPI, auth, $timeout, ngDialog, CONFIG) {
 
+  console.log($state);
+  
   var projectId = $stateParams.projectId;
 
   /**

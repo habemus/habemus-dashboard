@@ -6,6 +6,9 @@ var TEMPLATES = {
   dashboard: fs.readFileSync(path.join(__dirname, '../views/dashboard/template.html'), 'utf-8'),
   login:     fs.readFileSync(path.join(__dirname, '../views/login/template.html'), 'utf-8'),
   project:   fs.readFileSync(path.join(__dirname, '../views/project/template.html'), 'utf-8'),
+  projectGeneral:   fs.readFileSync(path.join(__dirname, '../views/project-general/template.html'), 'utf-8'),
+  projectFiles:   fs.readFileSync(path.join(__dirname, '../views/project-files/template.html'), 'utf-8'),
+  projectHistory:   fs.readFileSync(path.join(__dirname, '../views/project-history/template.html'), 'utf-8'),
 };
 
 // view objects
@@ -42,6 +45,7 @@ module.exports = function (DASHBOARD) {
     });
 
     $stateProvider.state('project', {
+      abstract: true,
       url: '/projects/:projectId',
       data: {
         authorizedRoles: ['developer']
@@ -54,10 +58,48 @@ module.exports = function (DASHBOARD) {
         }
       }
     });
+    
+    $stateProvider.state('project.general', {
+      url: '/',
+      data: {
+        authorizedRoles: ['developer']
+      },
+      views: {
+        tab: {
+          template: TEMPLATES.projectGeneral,
+          controller: require('../views/project-general/controller'),
+        } 
+      }
+    });
+    
+    $stateProvider.state('project.files', {
+      url: '/files',
+      data: {
+        authorizedRoles: ['developer']
+      },
+      views: {
+        tab: {
+          template: TEMPLATES.projectFiles,
+          controller: require('../views/project-files/controller'),
+        } 
+      }
+    });
+    
+    $stateProvider.state('project.history', {
+      url: '/history',
+      data: {
+        authorizedRoles: ['developer']
+      },
+      views: {
+        tab: {
+          template: TEMPLATES.projectHistory,
+          controller: require('../views/project-history/controller'),
+        } 
+      }
+    });
 
     $urlRouterProvider.otherwise('/');
   });
-
   
   // verify authentication on statechange
   DASHBOARD.run(function ($rootScope, $state, AUTH_EVENTS, auth) {

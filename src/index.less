@@ -8,20 +8,73 @@
 
 @import './views/project/styles.less';
 
+@import './views/project-general/styles.less';
+
+@import './views/project-files/styles.less';
+
+@import './views/project-history/styles.less';
+
 
 body {
-  background-color: @habemus-green-light;
   font-family: "Open Sans", sans-serif;
   line-height: 1.5;
+  background-color: @habemus-off-white;
 }
-
-#body-section {
-    margin-top: 68px;    
-  }
 
 #drop-area {
   height: 40px;
-
   border: 2px darkred dashed;
 }
 
+h1 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 24px;
+  color: @habemus-dark;
+  margin-bottom: 32px;
+}
+
+h2 {
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  color: @habemus-dark;
+  margin-bottom: 8px;
+}
+
+h3 {
+  font-size: 14px;
+  color: @habemus-gray-dark;
+  margin-bottom: 14px;
+}
+
+h4 {
+  font-size: 12px;
+  color: @habemus-gray-dark;
+  margin-bottom: 12px;
+}
+
+b {
+  font-weight: bold;
+}
+
+.shadow {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+
+.button {
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  padding: 0 24px;
+  line-height: 50px;
+  background-color: @habemus-green-light;
+  color: @habemus-dark;
+  border: 1px solid @habemus-green-light;
+  text-align: center;
+  margin: 0 auto;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: @habemus-green-dark;
+    border: 1px solid @habemus-green-dark;
+  }
+}
