@@ -63,18 +63,18 @@ module.exports = function (module) {
           e.stopPropagation();
           e.preventDefault();
 
-            readFiles.fromDropEvent(e.originalEvent, filterDotFiles)
-              .then(function (files) {
-                // clear the target highlighting
-                scope.clearDropTargets();
+          readFiles
+            .fromDropEvent(e.originalEvent, filterDotFiles)
+            .then(function (files) {
+              // clear the target highlighting
+              scope.clearDropTargets();
 
-                scope.$files = files;
-                scope.$eval(attrs.fileDropArea);
-              });
+              scope.$files = files;
+              scope.$eval(attrs.fileDropArea);
+            })
+            .done();
         });
       },
     }
-
   });
-
 };

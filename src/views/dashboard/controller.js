@@ -6,7 +6,7 @@ var path = require('path');
 // external dependencies
 var generator = require('project-name-generator');
 
-module.exports = /*@ngInject*/ function DashboardCtrl($scope, ngDialog, projectAPI, $state) {
+module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state, zipper) {
   
   // initial find
   projectAPI.find()
@@ -28,44 +28,45 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, ngDialog, projectA
   
 
   // method to create a new project
-  $scope.createProject = function () {
-//    ngDialog.open({
-//      template: fs.readFileSync(path.join(__dirname, '../create-project/template.html'), 'utf-8'),
-//      plain: true,
-//      controller: require('../create-project/controller'),
-//
-//      preCloseCallback: function (data) {
-//
-//        if (data && data.name) {
-//          projectAPI.create({
-//            safeName: generator({ words: 2 }).dashed,
-//            name: data.name
-//          })
-//          .then(function (project) {
-//
-//            $scope.currentUserProjects.unshift(project);
-//
-//            $scope.$apply();
-//          })
-//          .done();
-//        }
-//      }
-//    });
-    
+  $scope.createProject = function (files) {
+
+    var zip = zipper.create();
+
+    files.forEach(function (fData) {
+      zip.file(fData.path, fData.file);
+    });
+
+    // generate a name for the the project
     var nameForProject = generator({ words: 2 });
     
+    // create an entry for the project
     projectAPI.create({
       safeName: nameForProject.dashed,
       name: nameForProject.spaced,
     })
     .then(function (parseResponse) {
       
-      window.parseResponse = parseResponse;
-//      console.log(parseResponse);
-      
-      $scope.navigateToProject(parseResponse.objectId);
-      
+      console.log('project created at parse', parseResponse);
+
+      // generate the zip file
+      return zip.generate()
+        .then(function (zipFile) {
+
+          console.log('zip file generated', zipFile);
+          // upload
+          var uploadPromise = projectAPI.uploadProjectZip(parseResponse.objectId, zipFile);
+
+          uploadPromise.progress(function (progress) {
+            console.log('upload progress ', progress);
+          });
+
+          return uploadPromise;
+        })
+        .then(function () {
+          // navigate to the project view
+          $scope.navigateToProject(parseResponse.objectId);
+        });
     })
-    
+    .done();
   };
 };

@@ -27,4 +27,6 @@ module.exports = function (DASHBOARD) {
     });
   });
 
+  DASHBOARD.factory('zipper', require('./zipper'));
+
 };

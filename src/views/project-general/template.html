@@ -11,7 +11,7 @@
     
     <div class="info-container">
       <a href="http://{{ project.safeName }}.habemus.xyz" target="_blank" >http://{{ project.safeName }}.habemus.xyz</a>
-      <a href="http://{{ project.domains.domain }}" target="_blank" ng-repeat="domain in project.domains">http://{{ project.domains.domain }}</a>
+      <a ng-repeat="domain in project.domains" href="http://{{ domain.name }}" target="_blank">http://{{ domain.name }}</a>
       <div id="actions">
         
         <div id="edit-name" class="action">

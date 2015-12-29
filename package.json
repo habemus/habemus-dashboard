@@ -39,6 +39,7 @@
   "dependencies": {
     "habemus-auth": "git+ssh://git@bitbucket.org/habemus-tutti/habemus-auth.git",
     "habemus-project-api": "git+ssh://git@bitbucket.org/habemus-tutti/project-api.git",
+    "jszip": "^2.5.0",
     "lodash": "^3.10.1",
     "parse": "^1.6.9",
     "project-name-generator": "^2.1.1",
