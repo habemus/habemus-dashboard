@@ -21,7 +21,7 @@ module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state,
   $scope.logOut = function () {
     auth.logOut()
       .then(function () {
-        $state.go('login');
+        window.location.href = "http://habem.us";
       });
   };
   
