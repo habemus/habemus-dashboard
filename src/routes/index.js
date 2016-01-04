@@ -117,7 +117,9 @@ module.exports = function (DASHBOARD) {
           } else {
             console.warn('not authenticated');
 
-            $state.go('login')
+            window.location.href = 'http://habem.us';
+
+            // $state.go('login')
             // user is not logged in
             $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
           }
