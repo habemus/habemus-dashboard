@@ -1,6 +1,6 @@
 var Parse                   = require('parse');
-var HabemusAuthClient       = require('habemus-auth/client');
-var HabemusProjectAPIClient = require('habemus-project-api/client');
+var HabemusAuthClient       = require('h-auth/client');
+var HabemusProjectAPIClient = require('h-project-api/client');
 
 module.exports = function (DASHBOARD) {
   DASHBOARD.factory('parse', function (CONFIG) {

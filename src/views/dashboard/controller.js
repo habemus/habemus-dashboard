@@ -8,26 +8,29 @@ var generator = require('project-name-generator');
 
 module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state, zipper) {
   
-  // initial find
-  projectAPI.find()
+  // retrieve all projects owned by the current logged user
+  // and put them onto the scope as `currentUserProjects`
+  projectAPI.findProjects()
     .then(function (projects) {
-      
       $scope.currentUserProjects = projects || [];
-
       $scope.$apply();
     });
   
   
-  // navigate to project
+  /**
+   * Navigate to the visualization of a given project
+   * @param  {String} projectId
+   */
   $scope.navigateToProject = function(projectId) {
-  
     $state.go("project.general", {projectId:projectId});
-    
   }
-  
-  
 
-  // method to create a new project
+  /**
+   * Creates a project given a set of files
+   * @param  {Array -> FileDataObject} files 
+   *         Array of file data objects, 
+   *         as defined by models/file-system/file
+   */
   $scope.createProject = function (files) {
 
     var zip = zipper.create();
@@ -37,12 +40,12 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
     });
 
     // generate a name for the the project
-    var nameForProject = generator({ words: 2 });
+    var projectName = generator({ words: 2 });
     
     // create an entry for the project
-    projectAPI.create({
-      safeName: nameForProject.dashed,
-      name: nameForProject.spaced,
+    projectAPI.createProject({
+      safeName: projectName.dashed,
+      name: projectName.spaced,
     })
     .then(function (parseResponse) {
       
@@ -54,18 +57,19 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
 
           console.log('zip file generated', zipFile);
           // upload
-          var uploadPromise = projectAPI.uploadProjectZip(parseResponse.objectId, zipFile);
+          var upload = projectAPI.uploadProjectZip(parseResponse.objectId, zipFile);
 
-          uploadPromise.progress(function (progress) {
+          upload.progress(function (progress) {
             console.log('upload progress ', progress);
           });
 
-          return uploadPromise;
+          return upload;
         })
         .then(function () {
           // navigate to the project view
           $scope.navigateToProject(parseResponse.objectId);
-        });
+        })
+        .done();
     })
     .done();
   };

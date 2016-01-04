@@ -37,8 +37,8 @@
     "watchify": "^3.6.0"
   },
   "dependencies": {
-    "habemus-auth": "git+ssh://git@bitbucket.org/habemus-tutti/habemus-auth.git",
-    "habemus-project-api": "git+ssh://git@bitbucket.org/habemus-tutti/project-api.git",
+    "h-auth": "git+ssh://git@bitbucket.org:habemus-tutti/h-auth.git",
+    "h-project-api": "git+ssh://git@bitbucket.org:habemus-tutti/h-project-api.git",
     "jszip": "^2.5.0",
     "lodash": "^3.10.1",
     "parse": "^1.6.9",

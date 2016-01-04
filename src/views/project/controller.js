@@ -7,7 +7,6 @@ var fs   = require('fs');
 // load models
 var DirectoryData = require('../../models/file-system/directory');
 
-
 module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, projectAPI, auth, $timeout, ngDialog, CONFIG) {
 
   var projectId = $stateParams.projectId;
@@ -23,7 +22,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
 
   // retrieve the requested project
   projectAPI
-    .get(projectId)
+    .getProjectById(projectId)
     .then(function (project) {
       $scope.project.id        = project.objectId;
       $scope.project.name      = project.name;
