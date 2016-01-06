@@ -3,11 +3,9 @@
   
   <div class="main-content">
     
-<!--
     <div class="printscreen-container">
       <img src="../../resources/img/printscreen-3.png">
     </div>
--->
     
     <div class="info-container">
       <a href="http://{{ project.safeName }}.habemus.xyz" target="_blank" >http://{{ project.safeName }}.habemus.xyz</a>
@@ -43,8 +41,8 @@
         </div>
         
       </div>
-      <h3>criado em <b>{{project.createdDate | date : "dd MMM yyyy',' hh:mm"}}</b></h3>
-      <h3 class="no-margin">última atualização <b>{{project.createdDate | date : "dd MMM yyyy',' hh:mm"}}</b></h3>
+      <h4>criado em <b>{{project.createdDate | date : "dd MMM yyyy',' H:mm"}}</b></h4>
+      <h4 class="no-margin">última atualização <b>{{project.createdDate | date : "dd MMM yyyy',' H:mm"}}</b></h4>
     </div>
 
   </div>
