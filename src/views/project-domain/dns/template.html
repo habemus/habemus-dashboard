@@ -1,0 +1,67 @@
+<div class="nav-title" ng-click="goBack()">
+  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px"
+       height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+    <polyline fill="none" stroke="#6D6D6D" stroke-miterlimit="10" points="10.315,2.602 0.96,12.14 10.315,21.678 			"/>
+    <line fill="none" stroke="#6D6D6D" stroke-miterlimit="10" x1="0.96" y1="12.141" x2="23.478" y2="12.141"/>
+  </svg>
+  <p>http://{{ project.safeName }}.habemus.xyz</p>
+</div>
+
+<div class="progress-text margin-bottom" ng-show="inProgress">
+  <p style="color: #E29A27">Connection is in progress!</p>
+  <p style="color: #E29A27">To complete connection you need to setup your domain.</p>
+  <br>
+<p>This table shows you the DNS entries needed to connect your domain. Incorrect or missing entries are highlighted in red. Login to your domain provider to manage these settings. If you need help adding and removing DNS entries, follow our step-by-step guide.</p>
+</div>
+
+<div class="ready-text margin-bottom" ng-hide="inProgress">
+  <p>This table shows you the DNS entries needed to connect your domain. Incorrect or missing entries are highlighted in red. Login to your domain provider to manage these settings. If you need help adding and removing DNS entries, follow our step-by-step guide.</p>
+</div>
+
+<table id="dns-table">
+  <tr class="table-header">
+    <th>host</th>
+    <th>record</th> 
+    <th>required data</th>
+    <th>current data (status)</th>
+  </tr>
+  <tr class="table-row-body">
+    <td>qwertyuiouytrertyu</td>
+    <td>CNAME</td> 
+    <td>verify.habemus.xyz</td>
+    <td>record not found</td>
+  </tr>
+  <tr class="table-row-body">
+    <td>www</td>
+    <td>CNAME</td> 
+    <td>habemus.top</td>
+    <td>record not found</td>
+  </tr>
+  <tr class="table-row-body">
+    <td>@</td>
+    <td>A</td> 
+    <td>198.123.124.124</td>
+    <td>record not found</td>
+  </tr>
+  <tr class="table-row-body">
+    <td>@</td>
+    <td>A</td> 
+    <td>198.123.124.124</td>
+    <td>record not found</td>
+  </tr>
+  <tr class="table-row-body">
+    <td>@</td>
+    <td>A</td> 
+    <td>198.123.124.124</td>
+    <td>correct</td>
+  </tr>
+  <tr class="table-row-body">
+    <td>@</td>
+    <td>A</td> 
+    <td>198.123.124.124</td>
+    <td>record not found</td>
+  </tr>
+  
+</table>
+
+<div class="button secundary">testar conexão</div>

@@ -1,0 +1,32 @@
+<div class="nav-title" ng-click="goBack()">
+  <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="24px"
+       height="24px" viewBox="0 0 24 24" enable-background="new 0 0 24 24" xml:space="preserve">
+    <polyline fill="none" stroke="#6D6D6D" stroke-miterlimit="10" points="10.315,2.602 0.96,12.14 10.315,21.678 			"/>
+    <line fill="none" stroke="#6D6D6D" stroke-miterlimit="10" x1="0.96" y1="12.141" x2="23.478" y2="12.141"/>
+  </svg>
+  <p>conectar domínio personalizado</p>
+</div>
+
+<a href="http://{{ project.safeName }}.habemus.xyz" target="_blank" class="">http://{{ project.safeName }}.habemus.xyz</a>
+
+<div class="margin-bottom">
+  <p>Conecte um domínio que você possui ao seu projeto.</p>
+  <p>Se você ainda não possui um domínio, escolha um provedor
+de domínios para realizar a aquisição. Sugestão de provedores.</p>
+</div>
+
+<div
+  class="field-container"
+  validate-on="change"
+  ng-class="{'error': errorMessage}">
+  <label>nome do domínio</label><br>
+  <input
+    ng-model="domainName"
+    type="text"
+    name="domain-name"
+    placeholder="exemplo.com"
+  >
+  <div class="field-error-message">{{ errorMessage }}</div>
+</div>
+
+<div class="button" ng-click="saveConnection()">continuar</div>

@@ -1,0 +1,128 @@
+#project-domain-content {
+  
+  .main-content {
+    
+//    max-width: 500px;
+    
+    .nav-title {
+      display: inline-flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: flex-start;
+      align-content: flex-start;
+      
+      margin-bottom: 32px;
+      cursor: pointer;
+      
+      p {
+        display: block;
+      }
+
+      svg {
+        margin-right: 16px;
+      }
+      
+      &:hover {
+        svg {
+          polyline, line {
+           stroke: @habemus-green-dark; 
+          }
+        }
+      }
+    }
+        
+    .margin-bottom {
+      margin-bottom: 32px;
+    }
+    
+    a {
+      font-family: "Open Sans", sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      color: @habemus-dark;
+      transition: all 0.3s ease;
+      margin-bottom: 32px;
+      display: table; // link not fix all width
+      line-height: 1;
+
+      &:hover {
+        color: @habemus-green-dark;
+      }
+    }
+    
+    .button {
+//      text-align: left;
+//      max-width: 200px;
+//      margin-bottom: 32px;
+    }
+    
+    p {
+      font-size: 14px;
+    }
+    
+    .domain-item {
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      
+      cursor: pointer;
+      font-size: 14px;
+      margin: 32px 0;
+      font-family: "Open Sans", sans-serif;
+      color: @habemus-dark;
+      transition: all 0.3s ease;
+      line-height: 1;
+      background-color: white;
+      padding: 16px;
+      
+      span.domain-url {
+        display: block;
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 16px;
+      }
+
+      &:hover {
+        
+        box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 1px 4px rgba(0,0,0,0.23);
+        
+        span.domain-url {
+          color: @habemus-green-dark;        
+        }
+        
+        polyline {
+          stroke: @habemus-green-dark;
+        }
+      }
+    }
+    
+    #dns-table {
+      width: 100%;
+      text-align: left;
+      font-family: "Open Sans", sans-serif;
+      color: @habemus-dark;
+      font-size: 12px;
+      margin-bottom: 32px;
+
+      tr {
+        border-bottom: 1px solid @habemus-gray-light;
+      }
+
+      tr.table-header {
+        border-bottom: 1px solid @habemus-gray-dark;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      td {
+        padding: 10px 0;
+      }
+      
+      th {
+        padding: 0 0 10px 0;
+      }
+    }
+  }
+}
