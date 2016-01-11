@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="95px"
+	 height="60px" viewBox="0 0 95 60" enable-background="new 0 0 95 60" xml:space="preserve">
+<g id="LP">
+	<g>
+		<path fill="none" stroke="#A3A3A3" stroke-width="2" stroke-miterlimit="10" d="M21.617,58.734
+			C10.279,58.001,1.305,48.815,1.305,37.292c0-12,9.729-21.729,21.73-21.729c0.51,0,1.009,0.042,1.51,0.075
+			C29.158,6.919,38.316,0.976,48.867,0.976c12.621,0,23.249,8.504,26.486,20.091c10.186,0.346,18.342,8.692,18.342,18.961
+			c0,9.402-6.835,17.186-15.804,18.707H21.617z"/>
+		<g>
+			<g>
+				<polyline fill="none" stroke="#A3A3A3" stroke-width="2" stroke-miterlimit="10" points="57.039,37.097 47.501,27.742 
+					37.963,37.097 				"/>
+			</g>
+			<line fill="none" stroke="#A3A3A3" stroke-width="2" stroke-miterlimit="10" x1="47.5" y1="27.742" x2="47.5" y2="51.822"/>
+		</g>
+	</g>
+</g>
+<g id="HOVER">
+</g>
+<g id="MENU">
+</g>
+<g id="EDITAR_DOMINIO">
+</g>
+<g id="modal">
+</g>
+<g id="simular_click">
+</g>
+<g id="LOADING" display="none">
+</g>
+</svg>
