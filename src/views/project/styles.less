@@ -82,16 +82,13 @@ h1 {
 
 .drop-to-new-project-container {
     
-//  background-color: #FFF;
   margin-bottom: 32px;
-//  padding: 16px;
   cursor: pointer;
 
   .drop-to-new-project {
-//      height: 160px;
-//      margin: 16px;
+
+    padding: 4px 0;
     border: 2px dashed @habemus-gray-light;
-//      box-sizing: border-box;
 
     display: flex;
     flex-direction: column;
@@ -100,11 +97,22 @@ h1 {
     align-content: center;
 
     svg.cloud-img {
-      padding: 16px 8px 8px 8px;
+      padding: 20px 8px 4px 8px;
       stroke: @habemus-gray-medium;
 
       &:hover {
         stroke: @habemus-green-dark;
+      }
+    }
+    
+    .upload-img {
+      width: 95px;
+      height: 60px;
+      margin: 20px 8px 4px 8px;
+      background-image: url("../../resources/img/cloud-upload-normal.svg");
+
+      &:hover {
+        background-image: url("../../resources/img/cloud-upload-hover.svg");
       }
     }
 
@@ -124,7 +132,7 @@ h1 {
     }
 
     h3 {
-      padding: 8px 48px 16px 48px;
+      padding: 4px 48px 20px 48px;
       margin-bottom: 0;
       text-align: center;
     }
@@ -138,13 +146,15 @@ h1 {
 //        border: 2px dashed @habemus-green-dark;
       border: 2px dashed @habemus-gray-medium;
 
-      svg.cloud-img {
-        stroke: @habemus-green-dark;
+      .upload-img {
+        background-image: url('../../resources/img/cloud-upload-hover.svg');
         animation: cloud-animate-drag-2 0.8s infinite ease-in;
-        }
+      }
+      
       h3.while-dragging {
         display: block;
       }
+      
       h3.default {
         display: none;
       }

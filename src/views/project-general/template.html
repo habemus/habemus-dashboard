@@ -1,5 +1,17 @@
 <div id="project-general-content" file-drop-container>
-  <h1><a href="#/">meus projetos</a>  <img class="arrow-right" src="../../resources/img/arrow-right.svg">  {{ project.name }} <span>(geral)</span></h1>
+  <h1>
+    <a href="#/">meus projetos</a>  
+    <img class="arrow-right" src="../../resources/img/arrow-right.svg">  
+    {{ project.name }} 
+<!--    <input placeholder="{{ project.name }}">-->
+<!--
+    <span class="input-button">
+      <input placeholder="{{ project.name }}">
+      <div class="button secundary">salvar</div>
+    </span>
+-->
+    <span>(geral)</span>
+  </h1>
   
   <div class="main-content">
     
@@ -16,7 +28,7 @@
       </div>
       <div id="actions">
         
-        <a href="" id="edit-name" class="action">
+        <a href="" id="edit-name" class="action" ng-click="editNameOfProject()">
           <svg width="11.919px" height="11.918px" viewBox="0 0 11.919 11.918">
             <path d="M11.452,1.283l-0.856-0.856c-0.545-0.624-1.559-0.624-2.182,0L7.4,1.439L0.543,8.296
     c0,0.079-0.077,0.156-0.077,0.234l-0.468,2.961c0,0.156,0,0.234,0.078,0.391c0.078,0,0.234,0.077,0.312,0.077l2.961-0.468
@@ -55,20 +67,9 @@
   <!-- draggable area -->
   <div class="drop-to-new-project-container">
     <div class="drop-to-new-project" file-drop-area="uploadNewVersion($files)">
-  <!--        <img src="../../resources/img/cloud-upload.svg" class="cloud-img">-->
-
-      <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="95px"
-           class="cloud-img"
-           height="60px" viewBox="0 0 95 60" enable-background="new 0 0 95 60" xml:space="preserve">
-        <path fill="none" stroke-width="2" stroke-miterlimit="10" d="M21.617,58.736
-                  c-11.338-0.734-20.312-9.92-20.312-21.442c0-12.001,9.729-21.729,21.73-21.729c0.51,0,1.009,0.042,1.51,0.075
-                  C29.158,6.92,38.316,0.976,48.867,0.976c12.621,0,23.249,8.504,26.486,20.092c10.186,0.346,18.342,8.691,18.342,18.961
-                  c0,9.401-6.835,17.186-15.804,18.707H21.617z"/>
-        <polyline fill="none" stroke-width="2" stroke-miterlimit="10" points="57.039,37.098 47.501,27.743 
-                          37.963,37.098 				"/>
-        <line fill="none" stroke-width="2" stroke-miterlimit="10" x1="47.5" y1="27.743" x2="47.5" y2="51.823"/>
-      </svg>
-
+      
+      <div class="upload-img"></div>
+ 
       <h3 class="default">arraste o projeto para atualizar</h3>
       <h3 class="while-dragging">solte aqui</h3>
     </div>

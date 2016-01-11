@@ -2,6 +2,8 @@
 
 @import './less/variables.less';
 
+@import './less/ng-dialog-theme-habemus.less';
+
 @import './views/header/styles.less';
 
 @import './views/dashboard/styles.less';
@@ -52,6 +54,11 @@ h4 {
   font-size: 12px;
   color: @habemus-gray-dark;
   margin-bottom: 12px;
+}
+
+p {
+  font-size: 14px;
+  color: @habemus-gray-dark;
 }
 
 b {
@@ -159,6 +166,12 @@ b {
     width: 100%;
     box-sizing: border-box;
   }
+}
+
+.feedback-to-user {
+  position: absolute;
+  z-index: 20;
+  background-color: bisque;
 }
 
 .loading-state {
