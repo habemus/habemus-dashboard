@@ -30,7 +30,8 @@ DASHBOARD.constant('AUTH_EVENTS', {
 /**
  * Define routes
  */
-require('./routes')(DASHBOARD);
+require('./routes/index')(DASHBOARD);
+require('./routes/project-domain')(DASHBOARD);
 
 /**
  * Services
@@ -41,7 +42,7 @@ require('./services')(DASHBOARD);
  * Controllers
  */
 require('./views/templates')(DASHBOARD);
-DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth) {
+DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth, $rootScope, $state) {
 
   var currentUserModel = auth.getCurrentUser();
 
@@ -70,6 +71,31 @@ DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth) {
 
     $scope.$apply();
   };
+  
+  // history object to save the history
+  var history = [];
+  
+  $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
+    
+    var last = {
+      state: from,
+      params: fromParams
+    };
+
+    // add to the history
+    history.push(last);
+  });
+  
+  $scope.goBack = function () {
+    
+    var last = history.pop();
+    
+    $state.go(last.state.name, last.state.params)
+      .then(function () {
+        // pop the last again so that the current state does not get into the history stack
+        history.pop();
+      });
+  }
 });
 
 

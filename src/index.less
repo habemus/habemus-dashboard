@@ -14,6 +14,8 @@
 
 @import './views/project-history/styles.less';
 
+@import './views/project-domain/styles.less';
+
 
 body {
   font-family: "Open Sans", sans-serif;
@@ -76,6 +78,86 @@ b {
   &:hover {
     background-color: @habemus-green-dark;
     border: 1px solid @habemus-green-dark;
+  }
+}
+
+// button secondary (gray)
+.secundary {
+  background-color: @habemus-gray-light;
+  color: @habemus-off-white;
+  border: 1px solid @habemus-gray-light;
+  
+  &:hover {
+    background-color: @habemus-gray-medium;
+    border: 1px solid @habemus-gray-medium;
+  }
+}
+
+// form field container
+.field-container {
+  margin-bottom: 32px;
+
+  label {
+    font-size: 14px;
+  }
+
+  input {
+    height: 36px;
+    font-size: 14px;
+    padding: 0 8px;
+    margin: 4px 0;
+    border: 1px solid @habemus-gray-medium;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  textarea {
+    height: 72px;
+    font-size: 14px;
+    padding: 8px;
+    margin: 4px 0 -2px 0;
+    border: 1px solid @habemus-gray-medium;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  
+  .field-error-message {
+    display: none;
+  }
+
+  &.error {
+    input {
+      border: 1px solid @habemus-error;
+    }
+
+    textarea {
+      border: 1px solid @habemus-error;
+    }
+    
+    .field-error-message {
+      display: block;
+
+      color: @habemus-error;
+      font-size: 12px;
+    }
+  }
+}
+
+.input-button {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  align-content: flex-start;
+  
+  input {
+    height: 52px;
+    font-size: 14px;
+    padding: 0 8px;
+    margin: 4px 0;
+    border: 1px solid @habemus-gray-light;
+    width: 100%;
+    box-sizing: border-box;
   }
 }
 

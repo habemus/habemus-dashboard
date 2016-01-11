@@ -9,6 +9,7 @@ var TEMPLATES = {
   projectGeneral:   fs.readFileSync(path.join(__dirname, '../views/project-general/template.html'), 'utf-8'),
   projectFiles:   fs.readFileSync(path.join(__dirname, '../views/project-files/template.html'), 'utf-8'),
   projectHistory:   fs.readFileSync(path.join(__dirname, '../views/project-history/template.html'), 'utf-8'),
+  projectDomain:   fs.readFileSync(path.join(__dirname, '../views/project-domain/template.html'), 'utf-8'),
 };
 
 // view objects
@@ -97,7 +98,7 @@ module.exports = function (DASHBOARD) {
         } 
       }
     });
-
+    
     $urlRouterProvider.otherwise('/');
   });
   

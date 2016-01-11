@@ -1,4 +1,11 @@
 #project-general-content {
+  
+  .main-content {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+
+  }
 
   .printscreen-container {
     width: 260px;
@@ -14,18 +21,23 @@
   .info-container {
     a {
       font-family: "Open Sans", sans-serif;
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 600;
       text-decoration: none;
       color: @habemus-dark;
       transition: all 0.3s ease;
-      margin-bottom: 32px;
-      display: block;
+      margin-bottom: 12px;
+      display: table; // link not fix all width
       line-height: 1;
 
       &:hover {
         color: @habemus-green-dark;
       }
+    }
+    
+    // only last link has big margin-bottom
+    .domains-list a:last-child {
+      margin-bottom: 32px;
     }
 
     #actions {
@@ -35,14 +47,18 @@
 
       margin-bottom: 32px;
 
-      .action {
+      a.action {
         margin-right: 32px;
+        margin-bottom: 0;
         cursor: pointer;
 
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
+        
+        font-size: 14px;
+        font-weight: 400;
 
         svg {
           fill: @habemus-gray-dark;
@@ -52,6 +68,8 @@
         }
 
         &:hover {
+          color: @habemus-gray-dark;
+          
           svg {
             fill: @habemus-green-dark;
           }
