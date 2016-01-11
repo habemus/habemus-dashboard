@@ -9,13 +9,7 @@
         <th></th>
         <th></th>
       </tr>
-      <tr class="table-row-body">
-        <td>horario: {{project.createdAt | date : "dd MMM yyyy',' hh:mm"}}</td>
-        <td><a href="http://uol.com.br">http://uol.com.br</a></td> 
-        <td>current</td>
-        <td>download</td>
-      </tr>
-      <tr class="table-row-body">
+      <tr class="table-row-body" ng-repeat="version in project.versions">
         <td>horario: {{project.createdAt | date : "dd MMM yyyy',' hh:mm"}}</td>
         <td><a href="http://folha.com.br">http://folha.com.br</a></td> 
         <td>current</td>

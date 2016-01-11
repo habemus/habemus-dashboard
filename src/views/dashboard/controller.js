@@ -47,9 +47,9 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
       safeName: projectName.dashed,
       name: projectName.spaced,
     })
-    .then(function (parseResponse) {
+    .then(function (projectData) {
       
-      console.log('project created at parse', parseResponse);
+      console.log('project created at parse', projectData);
       
       // loading state starts
       $(".loading-state").addClass("active");
@@ -60,7 +60,7 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
 
           console.log('zip file generated', zipFile);
           // upload
-          var upload = projectAPI.uploadProjectZip(parseResponse.objectId, zipFile);
+          var upload = projectAPI.uploadProjectZip(projectData.objectId, zipFile);
 
           upload.progress(function (progress) {
             console.log('upload progress ', progress);
@@ -73,7 +73,7 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
         })
         .then(function () {
           // navigate to the project view
-          $scope.navigateToProject(parseResponse.objectId);
+          $scope.navigateToProject(projectData.objectId);
         
         // loading state ends
         $(".loading-state").removeClass("active");

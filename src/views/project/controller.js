@@ -4,10 +4,13 @@
 var path = require('path');
 var fs   = require('fs');
 
+// third-party
+var _    = require('lodash');
+
 // load models
 var DirectoryData = require('../../models/file-system/directory');
 
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, projectAPI, auth, $timeout, ngDialog, CONFIG) {
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, projectAPI, zipper, auth, $timeout, ngDialog, CONFIG) {
 
   var projectId = $stateParams.projectId;
 
@@ -16,7 +19,6 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
    * @type {Object}
    */
   var project = $scope.project = {
-    rootDirectory: new DirectoryData('/'),
     domains: [],
   };
 
@@ -24,6 +26,9 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
   projectAPI
     .getProjectById(projectId)
     .then(function (project) {
+
+      _.assign($scope.project, project);
+
       $scope.project.id        = project.objectId;
       $scope.project.name      = project.name;
       $scope.project.safeName  = project.safeName;
@@ -76,6 +81,45 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
         }
       }
     });
-
   }
+
+  /**
+   * File updating
+   */
+  $scope.uploadNewVersion = function (files) {
+    var zip = zipper.create();
+
+    files.forEach(function (fData) {
+      zip.file(fData.path, fData.file);
+    });
+
+    
+    // loading state starts
+    $(".loading-state").addClass("active");
+
+
+    zip.generate()
+      .then(function (zipFile) {
+
+        console.log('zip file generated', zipFile);
+        // upload
+        var upload = projectAPI.uploadProjectZip(projectId, zipFile);
+
+        upload.progress(function (progress) {
+          console.log('upload progress ', progress);
+          
+          // progress %
+          $(".progress").text(parseInt(progress.completed * 100) + "%");
+        });
+
+        return upload;
+
+      })
+      .then(function () {
+
+        // loading state ends
+        $(".loading-state").removeClass("active");
+      })
+      .done();
+  };
 };

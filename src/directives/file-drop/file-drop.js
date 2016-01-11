@@ -14,12 +14,14 @@ module.exports = function (module) {
       link: function (scope, element, attrs) {
 
         scope.clearDropTargets = function () {
+          console.log('clear')
           element
             .find(FD_SELECTOR)
             .removeClass(FD_TARGET_CLASS);
         }
         
         scope.setDropTargets = function () {
+          console.log('set');
           element
             .find(FD_SELECTOR)
             .addClass(FD_TARGET_CLASS);
@@ -30,7 +32,7 @@ module.exports = function (module) {
           e.stopPropagation();
 
           scope.clearDropTargets();
-        })
+        });
 
         element.bind('dragover', function (e) {
 
@@ -42,8 +44,14 @@ module.exports = function (module) {
         });
 
         element.bind('dragleave', function (e) {
+          // scope.clearDropTargets();
+        });
+
+        element.bind('drop', function (e) {
+          e.preventDefault();
+
           scope.clearDropTargets();
-        })
+        });
       },
     }
   });

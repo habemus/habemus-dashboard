@@ -1,4 +1,4 @@
-<div id="project-general-content">
+<div id="project-general-content" file-drop-container>
   <h1><a href="#/">meus projetos</a>  <img class="arrow-right" src="../../resources/img/arrow-right.svg">  {{ project.name }} <span>(geral)</span></h1>
   
   <div class="main-content">
@@ -49,7 +49,7 @@
   
   <!-- draggable area -->
   <div class="drop-to-new-project-container">
-    <div class="drop-to-new-project" file-drop-area="createProject()">
+    <div class="drop-to-new-project" file-drop-area="uploadNewVersion($files)">
   <!--        <img src="../../resources/img/cloud-upload.svg" class="cloud-img">-->
 
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="95px"
