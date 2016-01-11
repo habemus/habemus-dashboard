@@ -157,17 +157,22 @@
 }
 
 .ngdialog.ngdialog-theme-habemus .ngdialog-button {
-  border: 0;
-  border-radius: 3px;
+  font-family: "Open Sans", sans-serif;
+  font-size: 16px;
+  padding: 0 24px;
+  line-height: 50px;
+  background-color: @habemus-gray-light;
+  color: @habemus-dark;
+  border: 1px solid @habemus-gray-light;
+  text-align: center;
+  margin: 0 16px 0 0;
   cursor: pointer;
-  float: right;
-  font-family: inherit;
-  font-size: .8em;
-  letter-spacing: .1em;
-  line-height: 1em;
-  margin: 0 0 0 .5em;
-  padding: .75em 2em;
-  text-transform: uppercase;
+  transition: all 0.3s ease;
+  
+  &:hover {
+    background-color: @habemus-gray-medium;
+    border: 1px solid @habemus-gray-medium;
+  }
 }
 
 .ngdialog.ngdialog-theme-habemus .ngdialog-button:focus {
@@ -184,11 +189,24 @@
 }
 
 .ngdialog.ngdialog-theme-habemus .ngdialog-button.ngdialog-button-primary {
-  background: #3288e6;
-  color: #fff;
+  background-color: @habemus-green-light;  
+  border: 1px solid @habemus-green-light;
+  color: @habemus-dark;
+  
+  &:hover {
+    background-color: @habemus-green-dark;
+    border: 1px solid @habemus-green-dark;
+  }
 }
 
 .ngdialog.ngdialog-theme-habemus .ngdialog-button.ngdialog-button-secondary {
-  background: #e0e0e0;
-  color: #777;
+  background-color: 1px solid @habemus-gray-light;  
+  border: 1px solid @habemus-gray-light;
+  color: @habemus-dark;
+  
+  &:hover {
+    color: @habemus-off-white;
+    background-color: @habemus-gray-medium;
+    border: 1px solid @habemus-gray-medium;
+  }
 }

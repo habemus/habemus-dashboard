@@ -2,15 +2,8 @@
   <h1>
     <a href="#/">meus projetos</a>  
     <img class="arrow-right" src="../../resources/img/arrow-right.svg">  
-    {{ project.name }} 
-<!--    <input placeholder="{{ project.name }}">-->
-<!--
-    <span class="input-button">
-      <input placeholder="{{ project.name }}">
-      <div class="button secundary">salvar</div>
-    </span>
--->
-    <span>(geral)</span>
+    <span class="project-name" ng-click="editNameOfProject()">{{ project.name }} </span>
+    <span class="section-name">(geral)</span>
   </h1>
   
   <div class="main-content">
@@ -37,7 +30,7 @@
     L3.192,10.712z M10.984,2.92l-0.778,0.779L8.259,1.751l0.778-0.779c0.312-0.311,0.779-0.311,1.091,0l0.856,0.857
     C11.297,2.141,11.297,2.609,10.984,2.92z"/>
           </svg>
-          editar nome
+          editar nome do projeto
         </a>
         
         <a id="edit-domain" 
@@ -70,7 +63,7 @@
       
       <div class="upload-img"></div>
  
-      <h3 class="default">arraste o projeto para atualizar</h3>
+      <h3 class="default">arraste a pasta inteira do projeto para atualizar</h3>
       <h3 class="while-dragging">solte aqui</h3>
     </div>
   </div>
