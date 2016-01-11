@@ -19,7 +19,7 @@
           </a>
         </td> 
         <td>
-          <span ng-if="version.name !== project.activeVersion.name" ng-click="restoreProjectVersion(version.name)">restore</span>
+          <!-- <span ng-if="version.name !== project.activeVersion.name" ng-click="restoreProjectVersion(version.name)">restore</span> -->
           <span ng-if="version.name === project.activeVersion.name">current</span>
         </td>
         <td ng-click="downloadProjectVersion(version.name)">
