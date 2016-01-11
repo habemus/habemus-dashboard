@@ -1,16 +1,6 @@
 <div class="body-content">
   
-  <div class="loading-state">
-      <div class="spinner"></div>
-      <div class="message">
-        <div class="text">subindo arquivos...</div>
-        <div class="progress">0%</div>
-      </div>
-  </div>
-  
   <h1>Meus projetos</h1>
-
-  <!--<button ng-click="createProject()">new project</button>-->
 
   <ul id="projects">
     
@@ -38,14 +28,23 @@
       <div ng-click="navigateToProject(project.objectId)" class="each-project-content">
         <h2>{{ project.name }}</h2>
         <a href="http://{{ project.safeName }}.habemus.xyz/index.html" target="_blank">http://{{ project.safeName }}.habemus.xyz</a>
+        
+<!-- printscreen - let commented until its available -->
+<!--
         <div class="project-preview-img">
           <img src="../../resources/img/printscreen-3.png">
           <div class="on-hover">
             <div class="button">editar
             </div>
           </div>
+          
         </div>
+-->
         <h4>criado em <b>{{project.createdAt | date : "dd MMM yyyy',' H:mm"}}</b></h4>
+        
+          <!-- temporary button - delete once printscreen is available-->
+          <div class="button temporary">editar</div>
+
       </div>
     </li>
     

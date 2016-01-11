@@ -33,11 +33,18 @@
   <body>
 
     <section ui-view="header" id="header-section">
-
     </section>
 
     <section ui-view="body" id="body-section">
-
     </section>
+    
+    <div class="loading-state">
+      <div class="spinner"></div>
+      <div class="message">
+        <div class="text">subindo arquivos...</div>
+        <div class="progress">0%</div>
+      </div>
+    </div>
+    
   </body>
 </html>
