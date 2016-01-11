@@ -129,7 +129,30 @@ module.exports = function (DASHBOARD) {
 
       // no authorization config set, thus simply continue
     });
+
   });
+
+  // taken from:
+  // https://github.com/angular-ui/ui-router/issues/1431#issuecomment-121929944
+  DASHBOARD.directive('uiSrefActiveIf', function($state) {
+    return {
+      restrict: "A",
+      controller: function ($scope, $element, $attrs) {
+        var state = $attrs.uiSrefActiveIf;
+
+        function update() {
+          if ($state.includes(state) || $state.is(state)) {
+            $element.addClass("active");
+          } else {
+            $element.removeClass("active");
+          }
+        }
+
+        $scope.$on('$stateChangeSuccess', update);
+        update();
+      }
+    };
+  })
 
 
 };
