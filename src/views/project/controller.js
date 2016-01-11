@@ -122,4 +122,25 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
       })
       .done();
   };
+
+  /**
+   * Versioning
+   * @param  {[type]} versionName [description]
+   * @return {[type]}             [description]
+   */
+  $scope.downloadProjectVersion = function (versionName) {
+    projectAPI
+      .generateDownload($scope.project.id, versionName)
+      .then(function (url) {
+
+        window.location = url;
+
+      }, function (err) {
+        console.warn('failed to retrieve download url');
+      });
+  };
+
+  $scope.restoreProjectVersion = function (versionName) {
+    console.log('restore to %s', versionName);
+  }
 };

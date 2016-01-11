@@ -4,23 +4,34 @@
   <div class="main-content">
     <table id="history-table">
       <tr class="table-header">
+        <th>label</th>
         <th>deployed at</th>
         <th>url</th> 
         <th></th>
         <th></th>
       </tr>
-      <tr class="table-row-body" ng-repeat="version in project.versions">
-        <td>horario: {{project.createdAt | date : "dd MMM yyyy',' hh:mm"}}</td>
-        <td><a href="http://folha.com.br">http://folha.com.br</a></td> 
-        <td>current</td>
-        <td>download</td>
+      <tr class="table-row-body" ng-repeat="version in project.versions | orderBy:'createdAt':true">
+        <td>{{ version.name }}</td>
+        <td>{{ version.createdAt | date : "dd MMM yyyy',' hh:mm" }}</td>
+        <td>
+          <a target="_blank" href="http://{{ version.name }}.{{ project.safeName }}.habemus.website">
+            http://{{ version.name }}.{{ project.safeName }}.habemus.website
+          </a>
+        </td> 
+        <td>
+          <span ng-if="version.name !== project.activeVersion.name" ng-click="restoreProjectVersion(version.name)">restore</span>
+          <span ng-if="version.name === project.activeVersion.name">current</span>
+        </td>
+        <td ng-click="downloadProjectVersion(version.name)">
+          download
+        </td>
       </tr>
     </table>
   </div>
   
 <!-- draggable area -->
   <div class="drop-to-new-project-container">
-    <div class="drop-to-new-project" file-drop-area="createProject()">
+    <div class="drop-to-new-project" file-drop-area="uploadNewVersion($files)">
   <!--        <img src="../../resources/img/cloud-upload.svg" class="cloud-img">-->
 
       <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="95px"
