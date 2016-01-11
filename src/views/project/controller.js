@@ -50,6 +50,40 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
       console.warn('failed to retrieve domains from project');
     })
     .done();
+  
+  /**
+   * Name editing
+   */
+  $scope.editNameOfProject = function () {
+    ngDialog.open({
+      template: fs.readFileSync(path.join(__dirname, '../project-rename/template.html'), 'utf-8'),
+      plain: true,
+      className: 'ngdialog-theme-habemus',
+      controller: require('../project-rename/controller'),
+      scope: $scope,
+
+//      preCloseCallback: function (data) {
+//
+//        if (data && data.name) {
+//          projectAPI.addDomainToProject($scope.project.id, {
+//            name: data.name
+//          })
+//          .then(function (res) {
+//
+//            $scope.project.domains.unshift(data);
+//
+//            $scope.$apply();
+//
+//          }, function (err) {
+//            console.log('failed to add domain');
+//            console.error(err);
+//
+//            alert('failed to add domain');
+//          })
+//        }
+//      }
+    });
+  }
 
   /**
    * Domain adding

@@ -19,14 +19,18 @@ ul#projects {
   li {
     background-color: #FFF;
     margin-bottom: 32px;
-    height: 294px;
+//  comentented until printscreen is available
+//  height: 294px;
+    height: 204px; // delete once printscreen is available
     width: 29.3%;
     margin: 16px;
     min-width: 220px;
     max-width: 300px;
         
     .drop-to-new-project {
-      height: 264px;
+//    comentented until printscreen is available  
+//    height: 264px;
+      height: 172px; // delete once printscreen is available 
       margin: 16px;
       border: 2px dashed @habemus-gray-light;
       box-sizing: border-box;
@@ -38,14 +42,25 @@ ul#projects {
       align-items: center;
       align-content: center;
       
-      svg.cloud-img {
-        padding: 16px 8px 8px 8px;
-        stroke: @habemus-gray-medium;
+      .upload-img {
+        width: 95px;
+        height: 60px;
+        margin: 20px 8px 4px 8px;
+        background-image: url("../../resources/img/cloud-upload-normal.svg");
         
         &:hover {
-          stroke: @habemus-green-dark;
+          background-image: url("../../resources/img/cloud-upload-hover.svg");
         }
       }
+      
+//      svg.cloud-img {
+//        padding: 20px 8px 4px 8px;
+//        stroke: @habemus-gray-medium;
+//        
+//        &:hover {
+//          stroke: @habemus-green-dark;
+//        }
+//      }
 
       @-webkit-keyframes cloud-animate-drag-1 {
         0% { transform: translate(0, 0px) }
@@ -63,7 +78,7 @@ ul#projects {
       }
       
       h3 {
-        padding: 8px 48px 16px 48px;
+        padding: 4px 20px 20px 20px;
         margin-bottom: 0;
         text-align: center;
       }
@@ -74,16 +89,22 @@ ul#projects {
       
       &.file-drop-target {
         
-//        border: 2px dashed @habemus-green-dark;
         border: 2px dashed @habemus-gray-medium;
         
-        svg.cloud-img {
-          stroke: @habemus-green-dark;
+//        svg.cloud-img {
+//          stroke: @habemus-green-dark;
+//          animation: cloud-animate-drag-2 0.8s infinite ease-in;
+//        }
+        
+        .upload-img {
+          background-image: url('../../resources/img/cloud-upload-hover.svg');
           animation: cloud-animate-drag-2 0.8s infinite ease-in;
-          }
+        }
+        
         h3.while-dragging {
           display: block;
         }
+        
         h3.default {
           display: none;
         }
@@ -148,6 +169,11 @@ ul#projects {
         margin-top: 9px;
         margin-bottom: 0;
       }
+      
+      // delete once printscreen is available 
+      .temporary {
+          margin-top: 46px;
+        }
     }
   }
 }
