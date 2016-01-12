@@ -6,6 +6,7 @@ var fs   = require('fs');
 
 // third-party
 var _    = require('lodash');
+var Q    = require('q');
 
 // load models
 var DirectoryData = require('../../models/file-system/directory');
@@ -21,36 +22,41 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
   var project = $scope.project = {
     domains: [],
   };
-
-  // retrieve the requested project
-  projectAPI
-    .getProjectById(projectId)
-    .then(function (project) {
-
-      _.assign($scope.project, project);
-
-      $scope.project.id        = project.objectId;
-      $scope.project.name      = project.name;
-      $scope.project.safeName  = project.safeName;
-      $scope.project.createdDate = project.createdAt;
-
-      $scope.$apply();
-    }, function (err) {
-      console.warn('get project failed')
-    })
-    .done();
-
-
-  // retrieve domains related to the project
-  projectAPI.getProjectDomains(projectId)
-    .then(function (domains) {
-      $scope.project.domains = domains || [];
-      $scope.$apply();
-    }, function (err) {
-      console.warn('failed to retrieve domains from project');
-    })
-    .done();
   
+  /**
+   * Project data loading
+   */
+  $scope.loadProject = function (projectId) {
+    // retrieve the requested project
+    var projectDataPromise = projectAPI
+      .getProjectById(projectId)
+      .then(function (project) {
+
+        _.assign($scope.project, project);
+
+        $scope.project.id        = project.objectId;
+        $scope.project.name      = project.name;
+        $scope.project.safeName  = project.safeName;
+        $scope.project.createdDate = project.createdAt;
+
+        $scope.$apply();
+      }, function (err) {
+        console.warn('get project failed')
+      });
+
+
+    // retrieve domains related to the project
+    var domainDataPromise = projectAPI.getProjectDomains(projectId)
+      .then(function (domains) {
+        $scope.project.domains = domains || [];
+        $scope.$apply();
+      }, function (err) {
+        console.warn('failed to retrieve domains from project');
+      });
+
+    return Q.all([projectDataPromise, domainDataPromise]);
+  };
+
   /**
    * Name editing
    */
@@ -132,7 +138,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
     $(".loading-state").addClass("active");
 
 
-    zip.generate()
+    return zip.generate()
       .then(function (zipFile) {
 
         console.log('zip file generated', zipFile);
@@ -150,6 +156,9 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
 
       })
       .then(function () {
+        return $scope.loadProject(projectId);
+      })
+      .then(function () {
 
         // loading state ends
         $(".loading-state").removeClass("active");
@@ -163,11 +172,19 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
    * @return {[type]}             [description]
    */
   $scope.downloadProjectVersion = function (versionName) {
-    projectAPI
+
+    // loading state starts
+    $(".loading-state").addClass("active");
+
+    return projectAPI
       .generateDownload($scope.project.id, versionName)
       .then(function (url) {
 
-        window.location = url;
+        // loading state starts
+        $(".loading-state").removeClass("active");
+
+        // http://stackoverflow.com/questions/1066452/easiest-way-to-open-a-download-window-without-navigating-away-from-the-page
+        window.location.assign(url);
 
       }, function (err) {
         console.warn('failed to retrieve download url');
@@ -175,6 +192,28 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
   };
 
   $scope.restoreProjectVersion = function (versionName) {
-    console.log('restore to %s', versionName);
+
+    // loading state starts
+    $(".loading-state").addClass("active");
+
+    return projectAPI.restoreVersion($scope.project.id, versionName)
+      .then(function (res) {
+
+        $scope.loadProject(projectId);
+        console.log(res);
+      }, function (err) {
+        console.warn('failed to restore version');
+      })
+      .then(function () {
+        // loading state starts
+        $(".loading-state").removeClass("active");
+      })
+
+    // console.log('restore to %s', versionName);
   }
+
+
+
+
+  $scope.loadProject(projectId);
 };

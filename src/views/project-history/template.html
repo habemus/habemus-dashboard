@@ -15,7 +15,7 @@
         <th></th>
         <th></th>
       </tr>
-      <tr class="table-row-body" ng-repeat="version in project.versions | orderBy:'createdAt':true">
+      <tr class="table-row-body" ng-repeat="version in project.versions | orderBy:'+':true">
         <td>{{ version.name }}</td>
         <td>{{ version.createdAt | date : "dd MMM yyyy',' hh:mm" }}</td>
         <td>
@@ -24,7 +24,7 @@
           </a>
         </td> 
         <td>
-          <!-- <span ng-if="version.name !== project.activeVersion.name" ng-click="restoreProjectVersion(version.name)">restore</span> -->
+          <span ng-if="version.name !== project.activeVersion.name" ng-click="restoreProjectVersion(version.name)">restore</span>
           <span ng-if="version.name === project.activeVersion.name">current</span>
         </td>
         <td ng-click="downloadProjectVersion(version.name)">
