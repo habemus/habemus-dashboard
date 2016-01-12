@@ -6,7 +6,7 @@ var path = require('path');
 // external dependencies
 var generator = require('project-name-generator');
 
-module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state, zipper) {
+module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state, zipper, ngDialog) {
   
   // retrieve all projects owned by the current logged user
   // and put them onto the scope as `currentUserProjects`
@@ -83,4 +83,24 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
     })
     .done();
   };
+  
+  /**
+   * Beta Reset Password
+   */
+  $scope.betaResetPassword = function () {
+    ngDialog.openConfirm({
+      template: fs.readFileSync(path.join(__dirname, '../beta-password-reset/template.html'), 'utf-8'),
+      plain: true,
+      showClose: false,
+      className: 'ngdialog-theme-habemus',
+      controller: require('../beta-password-reset/controller'),
+      scope: $scope,
+    }).then(function(){
+      console.log("password-reset");
+    },function(){
+      console.log("cancel");
+    });
+  }  
+  
+  
 };

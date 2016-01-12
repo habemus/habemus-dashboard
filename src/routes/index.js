@@ -2,14 +2,18 @@ var fs   = require('fs');
 var path = require('path');
 
 var TEMPLATES = {
-  header:    fs.readFileSync(path.join(__dirname, '../views/header/template.html'), 'utf-8'),
-  dashboard: fs.readFileSync(path.join(__dirname, '../views/dashboard/template.html'), 'utf-8'),
-  login:     fs.readFileSync(path.join(__dirname, '../views/login/template.html'), 'utf-8'),
-  project:   fs.readFileSync(path.join(__dirname, '../views/project/template.html'), 'utf-8'),
-  projectGeneral:   fs.readFileSync(path.join(__dirname, '../views/project-general/template.html'), 'utf-8'),
+  header:         fs.readFileSync(path.join(__dirname, '../views/header/template.html'), 'utf-8'),
+  dashboard:      fs.readFileSync(path.join(__dirname, '../views/dashboard/template.html'), 'utf-8'),
+  account:        fs.readFileSync(path.join(__dirname, '../views/account/template.html'), 'utf-8'),
+  accountPasswordReset: fs.readFileSync(path.join(__dirname, '../views/account-password-reset/template.html'), 'utf-8'),
+  betaPasswordReset:    fs.readFileSync(path.join(__dirname, '../views/beta-password-reset/template.html'), 'utf-8'),  
+  accountDelete:  fs.readFileSync(path.join(__dirname, '../views/account-delete/template.html'), 'utf-8'),
+  login:          fs.readFileSync(path.join(__dirname, '../views/login/template.html'), 'utf-8'),
+  project:        fs.readFileSync(path.join(__dirname, '../views/project/template.html'), 'utf-8'),
+  projectGeneral: fs.readFileSync(path.join(__dirname, '../views/project-general/template.html'), 'utf-8'),
   projectFiles:   fs.readFileSync(path.join(__dirname, '../views/project-files/template.html'), 'utf-8'),
-  projectHistory:   fs.readFileSync(path.join(__dirname, '../views/project-history/template.html'), 'utf-8'),
-  projectDomain:   fs.readFileSync(path.join(__dirname, '../views/project-domain/template.html'), 'utf-8'),
+  projectHistory: fs.readFileSync(path.join(__dirname, '../views/project-history/template.html'), 'utf-8'),
+  projectDomain:  fs.readFileSync(path.join(__dirname, '../views/project-domain/template.html'), 'utf-8'),
 };
 
 // view objects
@@ -44,7 +48,64 @@ module.exports = function (DASHBOARD) {
         }
       }
     });
+    
+    $stateProvider.state('account', {
+      url: '/account',
+      data: {
+        authorizedRoles: ['developer']
+      },
+      views: {
+        header: header,
+        body: {
+          template: TEMPLATES.account,
+          controller: require('../views/account/controller'),
+        }
+      }
+    });
+    
+    $stateProvider.state('accountPasswordReset', {
+//      url: '/',
+      data: {
+        authorizedRoles: ['developer']
+      },
+      views: {
+        header: header,
+        body: {
+          template: TEMPLATES.accountPasswordReset,
+          controller: require('../views/account-password-reset/controller'),
+        }
+      }
+    });
 
+    
+    $stateProvider.state('betaPasswordReset', {
+//      url: '/',
+      data: {
+        authorizedRoles: ['developer']
+      },
+      views: {
+        header: header,
+        body: {
+          template: TEMPLATES.betaPasswordReset,
+          controller: require('../views/beta-password-reset/controller'),
+        }
+      }
+    });
+    
+    $stateProvider.state('accountDelete', {
+//      url: '/',
+      data: {
+        authorizedRoles: ['developer']
+      },
+      views: {
+        header: header,
+        body: {
+          template: TEMPLATES.accountDelete,
+          controller: require('../views/account-password-reset/controller'),
+        }
+      }
+    });
+    
     $stateProvider.state('project', {
       abstract: true,
       url: '/projects/:projectId',

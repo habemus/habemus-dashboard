@@ -3,11 +3,6 @@
 
 module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state, auth) {
   
-  setTimeout( function() {
-    console.log($scope.currentUser);  
-  }, 1000);
-  
-  
   $scope.menuIsOpen = false;
   
   $scope.toggleMenu = function () {
