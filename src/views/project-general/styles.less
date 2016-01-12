@@ -35,47 +35,37 @@
       }
     }
     
-    // only last link has big margin-bottom
-    .domains-list a:last-child {
-      margin-bottom: 32px;
-    }
-
-    #actions {
+    .actions {
       display: flex;
       flex-direction: row;
       align-items: flex-start;
-
-      margin-bottom: 32px;
-
+      
       a.action {
+        font-family: "Open Sans", sans-serif;
+        font-size: 14px;
+        font-weight: 400;
+        text-decoration: none;
+        color: @habemus-dark;
+        transition: all 0.3s ease;
+        display: table; // link not fix all width
+        line-height: 1;
+
         margin-right: 32px;
-        margin-bottom: 0;
+        margin-bottom: 32px;
         cursor: pointer;
 
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: flex-start;
-        
-        font-size: 14px;
-        font-weight: 400;
-
-        svg {
-          fill: @habemus-gray-dark;
-          width: 16px;
-          height: 16px;
-          padding-right: 4px; 
-        }
-
-        &:hover {
-          color: @habemus-gray-dark;
-          
-          svg {
-            fill: @habemus-green-dark;
-          }
-        }
       }
     }
+    
+    // only last link has big margin-bottom
+    .domains-list a:last-child {
+      margin-bottom: 32px;
+    }
+
     h4 {
       margin-bottom: 8px;
       

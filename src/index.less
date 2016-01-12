@@ -8,6 +8,8 @@
 
 @import './views/dashboard/styles.less';
 
+@import './views/account/styles.less';
+
 @import './views/project/styles.less';
 
 @import './views/project-general/styles.less';
@@ -70,6 +72,7 @@ b {
 }
 
 .button {
+  display: inline-block; // left-centered
   font-family: "Open Sans", sans-serif;
   font-size: 16px;
   padding: 0 24px;
@@ -78,7 +81,7 @@ b {
   color: @habemus-dark;
   border: 1px solid @habemus-green-light;
   text-align: center;
-  margin: 0 auto;
+  margin: 0 32px 0 0;
   cursor: pointer;
   transition: all 0.3s ease;
   
@@ -86,6 +89,11 @@ b {
     background-color: @habemus-green-dark;
     border: 1px solid @habemus-green-dark;
   }
+}
+
+.centered {
+  display: block;
+  margin: 0 auto;
 }
 
 // button secondary (gray)
@@ -165,6 +173,46 @@ b {
     border: 1px solid @habemus-gray-light;
     width: 100%;
     box-sizing: border-box;
+  }
+}
+
+.actions {
+
+  display: table;
+  
+
+  a.action {
+    font-family: "Open Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+    color: @habemus-dark;
+    transition: all 0.3s ease;
+    line-height: 1;
+
+    margin-right: 32px;
+    margin-bottom: 32px;
+    cursor: pointer;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: flex-start;
+
+    svg {
+      fill: @habemus-gray-dark;
+      width: 16px;
+      height: 16px;
+      padding-right: 4px; 
+    }
+
+    &:hover {
+      color: @habemus-gray-dark;
+
+      svg {
+        fill: @habemus-green-dark;
+      }
+    }
   }
 }
 

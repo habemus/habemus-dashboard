@@ -90,7 +90,7 @@ DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth, $
     
     var last = history.pop();
     
-    $state.go(last.state.name, last.state.params)
+    $state.go(last.state.name, last.params)
       .then(function () {
         // pop the last again so that the current state does not get into the history stack
         history.pop();

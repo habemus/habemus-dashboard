@@ -1,0 +1,38 @@
+<div class="content">
+  <h2>Para sua segurança, redefina sua senha</h2>
+  
+  <div
+  class="field-container"
+  validate-on="change"
+  ng-class="{'error': errorMessage}"
+  >
+    <label>new password</label><br>
+    <input
+      type="password"
+      name="password"
+      placeholder="password"
+    >
+    <div class="field-error-message"></div>
+  </div>
+
+  <div
+    class="field-container"
+    validate-on="change"
+    ng-class="{'error': errorMessage}"
+    >
+    <label>confirm new password</label><br>
+    <input
+      type="password"
+      name="password-confirmation"
+      placeholder="confirm password"
+      >
+    <div class="field-error-message"></div>
+  </div>
+  
+  <button class="ngdialog-button ngdialog-button-primary" ng-click="confirm()">confirmar nova senha</button>
+  <button class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">manter senha</button>
+  
+  <div class="loading-state" ng-class="{'active':loading}">
+      <div class="spinner"></div>
+  </div>
+</div>
