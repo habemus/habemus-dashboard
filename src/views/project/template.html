@@ -9,7 +9,7 @@
       <li><a ui-sref="project.history({projectId: project.id })" 
              ui-sref-active="active">histórico</a></li>
       <li><a ui-sref="project.domain.info({projectId: project.id })" 
-             ui-sref-active="active">domínio</a></li>
+             ui-sref-active-if="project.domain">domínio</a></li>
     </ul>
   </div>
   
