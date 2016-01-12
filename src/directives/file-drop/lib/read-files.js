@@ -50,13 +50,23 @@ function _parseFileEntry(fileEntry, basePath) {
  * @param  {String} basePath       [description]
  * @return {Promise -> Array of FileDataObjects}                [description]
  */
-function _parseDirectoryEntry(directoryEntry, basePath) {
+function _parseDirectoryEntry(directoryEntry, basePath, options) {
+
+  options = options || {};
 
   // add stuff to base path
-  if (basePath) {
-    basePath += '/' + directoryEntry.name;
+  if (options.isRoot) {
+    // consider the directory the root, so
+    // do not add its name to the basepath
+    basepath = '';
+
   } else {
-    basePath = directoryEntry.name;
+
+    if (basePath) {
+      basePath += '/' + directoryEntry.name;
+    } else {
+      basePath = directoryEntry.name;
+    }
   }
 
   var defer = Q.defer();
@@ -128,49 +138,36 @@ function fromDropEvent(e, filterFn) {
 
   var defer = Q.defer();
 
-  // try {
-    var items = e.dataTransfer.items;
+  var items = e.dataTransfer.items;
 
-    var parsePromises = _.map(items, function (item) {
+  var parsePromises = _.map(items, function (item) {
 
-      var entry = item.webkitGetAsEntry();
+    var entry = item.webkitGetAsEntry();
 
-      if (entry) {
-        var basePath = '';
-        return _parseWebkitEntry(entry, basePath);
+    if (entry.isDirectory) {
+      return _parseDirectoryEntry(entry, '', {
+        isRoot: true,
+      });
+    } else {
+      return _parseFileEntry(entry, '');
+    }
+  });
+
+  Q.all(parsePromises)
+    .then(function (files) {
+
+      // flatten deep array
+      files = _.flatten(files);
+
+      // check if there is a filter function
+      if (typeof filterFn === 'function') {
+        files = _.filter(files, filterFn);
       }
+      
+      defer.resolve(files);
+    }, function (err) {
+      console.warn(err);
     });
-
-    Q.all(parsePromises)
-      .then(function (files) {
-
-        // flatten deep array
-        files = _.flatten(files);
-
-        // check if there is a filter function
-        if (typeof filterFn === 'function') {
-          files = _.filter(files, filterFn);
-        }
-
-        console.log(files.map(function (f) {
-          return f.path;
-        }))
-
-        defer.resolve(files);
-      }, function (err) {
-        console.warn(err);
-      })
-      // .done();
-
-  // } catch (e) {
-  //   var files = e.dataTransfer.files;
-  //   var fileDataObjects = _.map(files, function (file) {
-  //     return _buildFileDataObject(file, '');
-  //   });
-
-  //   // resolve
-  //   defer.resolve(fileDataObjects);
-  // }
 
   return defer.promise;
 }
