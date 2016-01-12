@@ -14,6 +14,6 @@
   <p>Administrado por um provedor de domínios externo.</p>
 </div>
 
-<div class="button secundary centered margin-bottom" ui-sref="project.domain.dns">ver configurações DNS</div>
+<div class="button secundary centered margin-bottom" ui-sref="project.domain.dns({ domain: domain, inProgress: false })">ver configurações DNS</div>
 
 <div class="button secundary centered margin-bottom" ng-click="disconnectDomain()">desconectar domínio personalizado</div>

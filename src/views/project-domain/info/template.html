@@ -3,29 +3,37 @@
 <br>
 <p>Seu projeto possui os seguintes domínios:</p>
 
-<div class="domain-item" ui-sref="project.domain.rename" >
-  <div class="domain-content">
-    <span class="domain-url">http://{{ project.safeName }}.habemus.xyz</span>domínio criado pela habemus 
+
+
+<div ng-repeat="domain in project.domains" >
+
+  <!-- habemus-safe-name domain -->
+  <div class="domain-item" ng-if="domain.metadata.type === 'habemus-safe-name'" ui-sref="project.domain.rename" >
+    <div class="domain-content">
+      <span class="domain-url">http://{{ domain.name }}</span>domínio criado pela habemus 
+    </div>
+    <div>
+      <svg version="1.1" x="0px" y="0px"
+         width="10px" height="16px" viewBox="0 0 10 16" enable-background="new 0 0 10 16" xml:space="preserve">
+        <polyline fill="none" stroke="#A3A3A2" stroke-width="2" stroke-miterlimit="10" points="1.6,14.933 8.4,8.001 1.6,1.067   "/>
+      </svg>
+    </div>
   </div>
-  <div>
-    <svg version="1.1" x="0px" y="0px"
-       width="10px" height="16px" viewBox="0 0 10 16" enable-background="new 0 0 10 16" xml:space="preserve">
-      <polyline fill="none" stroke="#A3A3A2" stroke-width="2" stroke-miterlimit="10" points="1.6,14.933 8.4,8.001 1.6,1.067 	"/>
-    </svg>
+  <!-- habemus-safe-name domain -->
+
+  <!-- user-custom domain -->
+  <div class="domain-item" ng-if="domain.metadata.type === 'user-custom'" ui-sref="project.domain.detail({ domain: domain })" >
+    <div class="domain-content">
+      <span class="domain-url">http://{{ domain.name }}</span>domínio personalizado 
+    </div>
+    <div>
+      <svg version="1.1" x="0px" y="0px"
+         width="10px" height="16px" viewBox="0 0 10 16" enable-background="new 0 0 10 16" xml:space="preserve">
+        <polyline fill="none" stroke="#A3A3A2" stroke-width="2" stroke-miterlimit="10" points="1.6,14.933 8.4,8.001 1.6,1.067 	"/>
+      </svg>
+    </div>
   </div>
+  <!-- user-custom domain -->
+
 </div>
-
-
-<div class="domain-item" ng-repeat="domain in project.domains" ui-sref="project.domain.detail({ domain: domain })" >
-  <div class="domain-content">
-    <span class="domain-url">http://{{ domain.name }}</span>domínio personalizado 
-  </div>
-  <div>
-    <svg version="1.1" x="0px" y="0px"
-       width="10px" height="16px" viewBox="0 0 10 16" enable-background="new 0 0 10 16" xml:space="preserve">
-      <polyline fill="none" stroke="#A3A3A2" stroke-width="2" stroke-miterlimit="10" points="1.6,14.933 8.4,8.001 1.6,1.067 	"/>
-    </svg>
-  </div>
-</div>
-
 <div class="button centered" ui-sref="project.domain.connect">conectar domínio personalizado</div>

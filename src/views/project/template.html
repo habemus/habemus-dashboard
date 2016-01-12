@@ -13,46 +13,6 @@
     </ul>
   </div>
   
-  <div id="project-content" ui-view="tab">
-<!--
-    <div>project: {{ project.id }}</div>
-    <h1>{{ project.name }}</h1>
-    <h1>{{ project.safeName }}</h1>
-
-    <div>
-      <h2>project domains</h2>
-      <button ng-click="addDomainToProject()">add domain</button>
-      <ul>
-        <li ng-repeat="domain in project.domains">
-          <h3>{{ domain.name }}</h3>
-        </li>
-      </ul>
-    </div>
--->
-
-<!--
-    <div 
-      class="file-tree"
-      ui-tree="uiTreeOptions"
-      file-drop-container>
-      <ul
-        id="tree-root"
-        class="directory-contents"
-        ui-tree-nodes
-        ng-model="project.rootDirectory"
-        ng-class="{ empty: project.rootDirectory.isEmpty }"
-        file-drop-area="uploadFiles(project.rootDirectory, $files)">
-        <li
-          ng-repeat="entry in project.rootDirectory.entries"
-          ui-tree-node
-          collapsed="true"
-          ng-include="'views/project/partials/entry-template.html'">
-        </li>
-      </ul>
-    </div>
--->
-  
-  </div>
-
+  <div id="project-content" ui-view="tab"></div>
   
 </div>

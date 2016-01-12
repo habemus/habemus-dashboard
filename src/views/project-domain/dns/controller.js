@@ -1,8 +1,45 @@
 'use strict';
 
 
-module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams) {
+module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, projectAPI) {
+  
+  /**
+   * Whether the connection is still in progress
+   * @type {[type]}
+   */
   $scope.inProgress = $stateParams.inProgress;
-  
-  
+
+  /**
+   * List of DNSRecords and their respective data and statuses
+   * @type {Array}
+   */
+  $scope.DNSRecords = [];
+    
+  /**
+   * Method for loading data on the dns configuration statuses
+   * @return {[type]} [description]
+   */
+  $scope.loadDomainDnsConfigurations = function () {
+
+    $('.loading-state').addClass('active');
+
+    projectAPI
+      .getDomainDNSConfigurations($scope.project.id, $stateParams.domain.name)
+      .then(function (configs) {
+
+        $scope.inProgress = configs.status === 'connecting';
+
+        $scope.DNSRecords = configs.records;
+
+        $scope.$apply();
+
+        $('.loading-state').removeClass('active');
+
+      }, function (err) {
+
+      });
+  };
+
+  // start
+  $scope.loadDomainDnsConfigurations();
 };

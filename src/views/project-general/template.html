@@ -16,7 +16,6 @@
     
     <div class="info-container">
       <div class="domains-list">
-        <a href="http://{{ project.safeName }}.habemus.xyz" target="_blank" >http://{{ project.safeName }}.habemus.xyz</a>
         <a ng-repeat="domain in project.domains" href="http://{{ domain.name }}" target="_blank">http://{{ domain.name }}</a>
       </div>
       <div class="actions">
@@ -69,26 +68,3 @@
   </div>
   
 </div>
-
-
-
-
-
-
-
-
-
-<!--
-<div>project: {{ project.id }}</div>
-    <h1>{{ project.safeName }}</h1>
-
-    <div>
-      <h2>project domains</h2>
-      <button ng-click="addDomainToProject()">add domain</button>
-      <ul>
-        <li ng-repeat="domain in project.domains">
-          <h3>{{ domain.name }}</h3>
-        </li>
-      </ul>
-    </div>
--->
