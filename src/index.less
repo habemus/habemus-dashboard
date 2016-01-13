@@ -1,3 +1,9 @@
+@import './bower_components/bootstrap/less/variables.less';
+
+@import './bower_components/bootstrap/less/mixins.less';
+
+@import './bower_components/bootstrap/less/tooltip.less';
+
 @import './less/reset.less';
 
 @import './less/variables.less';
@@ -20,6 +26,11 @@
 
 @import './views/project-domain/styles.less';
 
+
+html {
+  min-width: 800px;
+  max-width: 1366px;
+}
 
 body {
   font-family: "Open Sans", sans-serif;
@@ -81,7 +92,7 @@ b {
   color: @habemus-dark;
   border: 1px solid @habemus-green-light;
   text-align: center;
-  margin: 0 32px 0 0;
+  margin: 0 16px 0 0;
   cursor: pointer;
   transition: all 0.3s ease;
   
@@ -98,13 +109,13 @@ b {
 
 // button secondary (gray)
 .secundary {
-  background-color: @habemus-gray-light;
+  background-color: @habemus-gray-medium;
   color: @habemus-off-white;
-  border: 1px solid @habemus-gray-light;
+  border: 1px solid @habemus-gray-medium;
   
   &:hover {
-    background-color: @habemus-gray-medium;
-    border: 1px solid @habemus-gray-medium;
+    background-color: @habemus-gray-dark;
+    border: 1px solid @habemus-gray-dark;
   }
 }
 
@@ -158,6 +169,10 @@ b {
   }
 }
 
+.max-width {
+  max-width: 500px;
+}
+
 .input-button {
   display: flex;
   flex-direction: row;
@@ -171,15 +186,18 @@ b {
     padding: 0 8px;
     margin: 4px 0;
     border: 1px solid @habemus-gray-light;
-    width: 100%;
+    max-width: 100%;
     box-sizing: border-box;
+  }
+  
+  .button {
+    margin: 0;
   }
 }
 
 .actions {
 
   display: table;
-  
 
   a.action {
     font-family: "Open Sans", sans-serif;
@@ -215,6 +233,26 @@ b {
     }
   }
 }
+
+/* Specify styling for bootstrap tooltip contents */
+.tooltip-inner {
+  font-family: "Open Sans", sans-serif;
+  max-width: 200px;
+  padding: 4px 8px;
+  color: @habemus-off-white;
+  background-color: @habemus-dark;
+  border-radius: 0px;
+}
+
+.tooltip.top .tooltip-arrow {
+  border-top-color: @habemus-dark;
+}
+
+.tooltip.in {
+  filter: alpha(opacity=100);
+  opacity: 1;
+}
+
 
 .loading-state {
 

@@ -9,11 +9,13 @@
 
 <a href="http://{{ domain.name }}" target="_blank" class="">http://{{ domain.name }}</a>
 
-<div class="margin-bottom">
-  <p>Este domínio é personalizado.</p>
-  <p>Administrado por um provedor de domínios externo.</p>
+<div class="max-width">
+  <div class="margin-bottom">
+    <p>Este domínio é personalizado.</p>
+    <p>Administrado por um provedor de domínios externo.</p>
+  </div>
+
+  <div class="button secundary centered margin-bottom" ui-sref="project.domain.dns">ver configurações DNS</div>
+
+  <div class="button secundary centered margin-bottom" ng-click="disconnectDomain()">desconectar domínio personalizado</div>
 </div>
-
-<div class="button secundary centered margin-bottom" ui-sref="project.domain.dns">ver configurações DNS</div>
-
-<div class="button secundary centered margin-bottom" ng-click="disconnectDomain()">desconectar domínio personalizado</div>

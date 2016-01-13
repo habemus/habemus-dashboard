@@ -37,6 +37,7 @@
     "watchify": "^3.6.0"
   },
   "dependencies": {
+    "angular-ui-bootstrap": "^1.0.3",
     "h-auth": "git+ssh://git@bitbucket.org:habemus-tutti/h-auth.git",
     "h-project-api": "git+ssh://git@bitbucket.org:habemus-tutti/h-project-api.git",
     "jszip": "^2.5.0",

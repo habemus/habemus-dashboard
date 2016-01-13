@@ -8,6 +8,7 @@ var DASHBOARD = angular.module('habemus-dashboard', [
   'ui.router',
   'ui.tree',
   'ngDialog',
+  'ui.bootstrap',
 ]);
 
 /**

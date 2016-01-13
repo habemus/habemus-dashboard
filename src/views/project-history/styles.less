@@ -8,6 +8,7 @@
       font-family: "Open Sans", sans-serif;
       color: @habemus-dark;
       font-size: 12px;
+//      vertical-align: middle;
 
       tr {
         border-bottom: 1px solid @habemus-gray-light;
@@ -33,6 +34,34 @@
           &:hover {
             color: @habemus-green-dark;
           }
+        }
+      }
+      
+      .padding-right {
+        padding-right: 16px;
+      }
+      
+      td .restore {
+        cursor: pointer;
+        
+        &:hover {
+          color: @habemus-green-dark;
+        }
+      }
+      
+      td.download {
+        cursor: pointer;
+//        display: inline-flex;
+        
+        img {
+          width: 16px;
+          height: 16px;
+          vertical-align:middle;
+          padding-right: 2px;
+        }
+        
+        &:hover {
+          color: @habemus-green-dark;
         }
       }
     }
