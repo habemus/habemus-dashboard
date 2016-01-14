@@ -19,7 +19,10 @@ module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $s
         // add to domains owned by the project
         $scope.project.domains.push(domain);
 
-        $state.go("project.domain.dns", {inProgress: true});
+        $state.go("project.domain.dns", {
+          inProgress: true,
+          domain: domain
+        });
 
       }, function (err) {
 

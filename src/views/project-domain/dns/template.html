@@ -25,13 +25,13 @@
     <th>required data</th>
     <th>current data (status)</th>
   </tr>
-  <tr class="table-row-body">
-    <td>qwertyuiouytrertyu</td>
-    <td>CNAME</td> 
-    <td>verify.habemus.xyz</td>
-    <td>record not found</td>
+  <tr class="table-row-body" ng-repeat="record in DNSRecords">
+    <td>{{ record.target.host }}</td>
+    <td>{{ record.target.type }}</td> 
+    <td>{{ record.target.value }}</td>
+    <td>{{ record.status }}</td>
   </tr>
-  <tr class="table-row-body">
+<!--   <tr class="table-row-body">
     <td>www</td>
     <td>CNAME</td> 
     <td>habemus.top</td>
@@ -60,8 +60,8 @@
     <td>A</td> 
     <td>198.123.124.124</td>
     <td>record not found</td>
-  </tr>
+  </tr> -->
   
 </table>
 
-<div class="button secundary">testar conexão</div>
+<div class="button secundary" ng-click="loadDomainDnsConfigurations()">testar conexão</div>

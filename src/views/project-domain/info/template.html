@@ -5,10 +5,10 @@
 
 
 
-<div ng-repeat="domain in project.domains" >
+<div ng-repeat="domain in project.domains | orderBy:'createdAt'" >
 
   <!-- habemus-safe-name domain -->
-  <div class="domain-item" ng-if="domain.metadata.type === 'habemus-safe-name'" ui-sref="project.domain.rename" >
+  <div class="domain-item" ng-if="domain.metadata.type === 'habemus-safe-name'" ui-sref="project.domain.rename({ domain: domain })" >
     <div class="domain-content">
       <span class="domain-url">http://{{ domain.name }}</span>domínio criado pela habemus 
     </div>

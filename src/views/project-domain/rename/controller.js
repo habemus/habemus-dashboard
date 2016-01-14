@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, projectAPI) {
+module.exports = /*@ngInject*/ function ($scope, $stateParams, projectAPI) {
   
   /**
    * Whether the connection is still in progress
@@ -26,6 +26,8 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
     projectAPI
       .getDomainDNSConfigurations($scope.project.id, $stateParams.domain.name)
       .then(function (configs) {
+
+        console.log(configs);
 
         // $scope.inProgress = configs.status === 'connecting';
         

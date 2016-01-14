@@ -61,9 +61,13 @@ module.exports = function (DASHBOARD) {
       views: {
         tabContent: {
           template: fs.readFileSync(path.join(__dirname, '../views/project-domain/rename/template.html'), 'utf-8'),
-          controller: require('../views/project-domain/controller'),
+          controller: require('../views/project-domain/rename/controller'),
         }
-      }
+      },
+      params: {
+        inProgress: null,
+        domain: null,
+      },
     });
     
     $stateProvider.state('project.domain.connect', {
