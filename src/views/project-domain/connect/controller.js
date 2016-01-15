@@ -11,13 +11,13 @@ module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $s
     // validate input
     if(name != undefined || name != null) {
       
-      projectAPI.addDomainToProject($scope.project.id, {
-        name: name
+      projectAPI.createDomainRecord($scope.project.id, {
+        hostname: name
       })
       .then(function (domain) {
 
-        // add to domains owned by the project
-        $scope.project.domains.push(domain);
+        // add to domainRecords owned by the project
+        $scope.project.domainRecords.push(domain);
 
         $state.go("project.domain.dns", {
           inProgress: true,

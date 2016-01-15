@@ -3,53 +3,25 @@
 
 module.exports = /*@ngInject*/ function ($scope, $stateParams, projectAPI) {
   
-  /**
-   * Whether the connection is still in progress
-   * @type {[type]}
-   */
-  $scope.inProgress = $stateParams.inProgress;
-
-  /**
-   * List of DNSRecords and their respective data and statuses
-   * @type {Array}
-   */
-  $scope.DNSRecords = [];
-    
-  /**
-   * Method for loading data on the dns configuration statuses
-   * @return {[type]} [description]
-   */
-  $scope.loadDomainDnsConfigurations = function () {
+  $scope.setProjectSafeName = function (newSafeName) {
 
     $('.loading-state').addClass('active');
 
-    projectAPI
-      .getDomainDNSConfigurations($scope.project.id, $stateParams.domain.name)
-      .then(function (configs) {
+    projectAPI.setProjectSafeName($scope.project.id, newSafeName)
+      .then(function (res) {
 
-        console.log(configs);
+        return $scope.loadProject($scope.project.id);
 
-        // $scope.inProgress = configs.status === 'connecting';
+        console.log('success', res);
+      }, function (err) {
         
-        $scope.inProgress = false;
-
-        configs.records.forEach(function (record) {
-          if (record.status === 'pending') {
-            $scope.inProgress = true;
-          }
-        });
-
-        $scope.DNSRecords = configs.records;
-
-        $scope.$apply();
+        $('.loading-state').removeClass('active');
+        console.warn('failed', err);
+      })
+      .then(function () {
 
         $('.loading-state').removeClass('active');
-
-      }, function (err) {
-
+        console.log('update finished');
       });
   };
-
-  // start
-  $scope.loadDomainDnsConfigurations();
 };

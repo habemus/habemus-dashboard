@@ -24,12 +24,14 @@
     <th>record</th> 
     <th>required data</th>
     <th>current data (status)</th>
+    <th>stability</th>
   </tr>
-  <tr class="table-row-body" ng-repeat="record in DNSRecords">
-    <td>{{ record.target.host }}</td>
-    <td>{{ record.target.type }}</td> 
-    <td>{{ record.target.value }}</td>
-    <td>{{ record.status }}</td>
+  <tr class="table-row-body" ng-repeat="dnsRecord in dnsRecords">
+    <td>{{ dnsRecord.host || '@' }}</td>
+    <td>{{ dnsRecord.type }}</td> 
+    <td>{{ dnsRecord.value }}</td>
+    <td>{{ dnsRecord.status }}</td>
+    <td>{{ dnsRecord.stability || 0 }}</td>
   </tr>
 <!--   <tr class="table-row-body">
     <td>www</td>

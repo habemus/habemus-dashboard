@@ -16,7 +16,8 @@
     
     <div class="info-container">
       <div class="domains-list">
-        <a ng-repeat="domain in project.domains | orderBy:'createdAt'" href="http://{{ domain.name }}" target="_blank">http://{{ domain.name }}</a>
+        <a href="http://{{ project.safeName }}.habemus.website" target="_blank">http://{{ project.safeName }}.habemus.website</a>
+        <a ng-repeat="record in project.domainRecords | orderBy:'createdAt'" href="http://{{ record.hostname }}" target="_blank">http://{{ record.hostname }}</a>
       </div>
       <div class="actions">
         

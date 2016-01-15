@@ -18,6 +18,6 @@
 </div>
 
 <div class="input-button">
-  <input placeholder="{{ project.safeName }}">
-  <div class="button secundary">renomear</div>
+  <input placeholder="{{ project.safeName }}" ng-model="newSafeName">
+  <div class="button secundary" ng-click="setProjectSafeName(newSafeName)">renomear</div>
 </div>
