@@ -26,7 +26,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
   /**
    * Project data loading
    */
-  $scope.loadProject = function (projectId) {
+  $scope.loadProject = function () {
     // retrieve the requested project
     var projectDataPromise = projectAPI
       .getProjectById(projectId)
@@ -68,26 +68,9 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
       controller: require('../project-rename/controller'),
       scope: $scope,
 
-//      preCloseCallback: function (data) {
-//
-//        if (data && data.name) {
-//          projectAPI.addDomainToProject($scope.project.id, {
-//            name: data.name
-//          })
-//          .then(function (res) {
-//
-//            $scope.project.domainRecords.unshift(data);
-//
-//            $scope.$apply();
-//
-//          }, function (err) {
-//            console.log('failed to add domain');
-//            console.error(err);
-//
-//            alert('failed to add domain');
-//          })
-//        }
-//      }
+      preCloseCallback: function () {
+        $scope.loadProject();
+      }
     });
   }
 
@@ -156,7 +139,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
 
       })
       .then(function () {
-        return $scope.loadProject(projectId);
+        return $scope.loadProject();
       })
       .finally(function () {
 
@@ -199,7 +182,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
     return projectAPI.restoreVersion($scope.project.id, versionName)
       .then(function (res) {
 
-        $scope.loadProject(projectId);
+        $scope.loadProject();
         console.log(res);
       }, function (err) {
         console.warn('failed to restore version');
@@ -215,5 +198,5 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
 
 
 
-  $scope.loadProject(projectId);
+  $scope.loadProject();
 };

@@ -18,7 +18,11 @@
     <p style="color: #E29A27"><span >Atenção:</span> Ao renomear o domínio habemus, o link será alterado e o link antigo não funcionará mais.</p>
   </div>
 
-<div class="input-button">
-  <input placeholder="{{ project.safeName }}" ng-model="newSafeName">
-  <div class="button secundary" ng-click="setProjectSafeName(newSafeName)">renomear domínio</div>
+  <form ng-submit="setProjectSafeName()">
+    <div class="input-button">
+      <input placeholder="{{ project.safeName }}" ng-model="newSafeName">
+      <button class="button secundary">renomear domínio</button>
+    </div>
+    <div>{{ error }}</div>
+  </form>
 </div>

@@ -31,7 +31,10 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
    *         Array of file data objects, 
    *         as defined by models/file-system/file
    */
-  $scope.createProject = function (files) {
+  $scope.createProject = function (files, projectName) {
+
+    // loading state starts
+    $(".loading-state").addClass("active");
 
     var zip = zipper.create();
 
@@ -39,20 +42,17 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
       zip.file(fData.path, fData.file);
     });
 
-    // generate a name for the the project
-    var projectName = generator({ words: 2 });
+    // generate a name for the the project if it is not passed
+    // as argument
+    projectName = projectName || generator({ words: 2 }).spaced;
     
     // create an entry for the project
     projectAPI.createProject({
-      safeName: projectName.dashed,
-      name: projectName.spaced,
+      name: projectName,
     })
     .then(function (projectData) {
       
       console.log('project created at parse', projectData);
-      
-      // loading state starts
-      $(".loading-state").addClass("active");
 
       // generate the zip file
       return zip.generate()
