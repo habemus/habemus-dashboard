@@ -138,16 +138,23 @@ function fromDropEvent(e, filterFn) {
 
   var defer = Q.defer();
 
-  var items = e.dataTransfer.items;
+  var items = Array.prototype.slice.call(e.dataTransfer.items, 0);
 
   var parsePromises = _.map(items, function (item) {
 
     var entry = item.webkitGetAsEntry();
 
+    console.log(items);
+
     if (entry.isDirectory) {
-      return _parseDirectoryEntry(entry, '', {
-        isRoot: true,
-      });
+
+      if (items.length === 1) {
+        // dropping single directory
+        return _parseDirectoryEntry(entry, '', { isRoot: true });
+      } else {
+        // dropping multiple items
+        return _parseDirectoryEntry(entry, '', { isRoot: false });
+      }
     } else {
       return _parseFileEntry(entry, '');
     }

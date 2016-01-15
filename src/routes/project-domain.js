@@ -55,20 +55,22 @@ module.exports = function (DASHBOARD) {
     });
     
     $stateProvider.state('project.domain.rename', {
-//      url: '/rename',
       data: {
         authorizedRoles: ['developer']
       },
       views: {
         tabContent: {
           template: fs.readFileSync(path.join(__dirname, '../views/project-domain/rename/template.html'), 'utf-8'),
-          controller: require('../views/project-domain/controller'),
+          controller: require('../views/project-domain/rename/controller'),
         }
-      }
+      },
+      params: {
+        inProgress: null,
+        domain: null,
+      },
     });
     
     $stateProvider.state('project.domain.connect', {
-//      url: '/connect',
       data: {
         authorizedRoles: ['developer']
       },
@@ -91,7 +93,8 @@ module.exports = function (DASHBOARD) {
         }
       },
       params: {
-        inProgress: null
+        inProgress: null,
+        domain: null,
       },
     });
 

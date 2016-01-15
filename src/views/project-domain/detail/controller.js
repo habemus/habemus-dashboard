@@ -8,7 +8,7 @@ var fs   = require('fs');
 var _    = require('lodash');
 
 
-module.exports = /*@ngInject*/ function tabCtrlDomainDetail($scope, $stateParams, ngDialog) {
+module.exports = /*@ngInject*/ function tabCtrlDomainDetail($scope, $stateParams, $state, ngDialog, projectAPI) {
   $scope.domain = $stateParams.domain;
   
 //  console.log("tudo certo!");
@@ -23,15 +23,25 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDetail($scope, $stateParams
       className: 'ngdialog-theme-habemus',
       controller: require('../disconnect/controller'),
       scope: $scope,
-//      confirm: function () {
-//        console.log("confirmou!!");
-//      }
-      
     })
     .then(function () {
-      console.log("desconectar domínio");
+
+      $(".loading-state").addClass("active");
+
+      return projectAPI.removeDomainFromProject($scope.project.id, $scope.domain.name);
       
     }, function () {
+
+      // disconnect cancelled
+
+    })
+    .then(function (parseResponse) {
+
+      return $scope.loadProject($scope.project.id);
+    })
+    .then(function () {
+      $state.go('project.domain.info');
+      $('.loading-state').removeClass('active');
     });
   }
 };

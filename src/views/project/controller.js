@@ -20,7 +20,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
    * @type {Object}
    */
   var project = $scope.project = {
-    domains: [],
+    domainRecords: [],
   };
   
   /**
@@ -45,13 +45,13 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
       });
 
 
-    // retrieve domains related to the project
-    var domainDataPromise = projectAPI.getProjectDomains(projectId)
-      .then(function (domains) {
-        $scope.project.domains = domains || [];
+    // retrieve domainRecords related to the project
+    var domainDataPromise = projectAPI.listProjectDomainRecords(projectId)
+      .then(function (domainRecords) {
+        $scope.project.domainRecords = domainRecords || [];
         $scope.$apply();
       }, function (err) {
-        console.warn('failed to retrieve domains from project');
+        console.warn('failed to retrieve domainRecords from project');
       });
 
     return Q.all([projectDataPromise, domainDataPromise]);
@@ -76,7 +76,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
 //          })
 //          .then(function (res) {
 //
-//            $scope.project.domains.unshift(data);
+//            $scope.project.domainRecords.unshift(data);
 //
 //            $scope.$apply();
 //
@@ -108,7 +108,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
           })
           .then(function (res) {
 
-            $scope.project.domains.unshift(data);
+            $scope.project.domainRecords.unshift(data);
 
             $scope.$apply();
 
@@ -158,7 +158,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
       .then(function () {
         return $scope.loadProject(projectId);
       })
-      .then(function () {
+      .finally(function () {
 
         // loading state ends
         $(".loading-state").removeClass("active");
