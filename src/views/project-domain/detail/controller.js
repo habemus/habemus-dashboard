@@ -28,7 +28,7 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDetail($scope, $stateParams
 
       $(".loading-state").addClass("active");
 
-      return projectAPI.removeDomainFromProject($scope.project.id, $scope.domain.name);
+      return projectAPI.deleteDomainRecord($scope.project.id, $scope.domain.objectId);
       
     }, function () {
 
