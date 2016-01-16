@@ -1,5 +1,6 @@
 'use strict';
 
+var INTERVAL_TIME = 10000;
 
 module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, $interval, projectAPI) {
   
@@ -19,7 +20,9 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
    * @type {Array}
    */
   $scope.dnsRecords = [];
-    
+
+  $scope.domainRecord = $stateParams.domain;
+
   /**
    * Method for loading data on the dns configuration statuses
    * @return {[type]} [description]
@@ -32,18 +35,16 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
       .verifyDomainRecord($scope.project.id, $stateParams.domain.objectId)
       .then(function (domainRecord) {
 
-        // $scope.inProgress = configs.status === 'connecting';
-        
-
-        $scope.inProgress = false;
-
-
         $scope.dnsRecords = [];
 
         var aggregateCheckStatus = domainRecord.verificationStatus_;
 
         if (aggregateCheckStatus.verification === 1) {
+
+          $scope.inProgress = false;
           $interval.cancel(CHECK_INTERVAL);
+        } else {
+          $scope.inProgress = true;
         }
 
         domainRecord.targetConfigurations_.dnsRecords.forEach(function (recordGroup) {
@@ -93,7 +94,7 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
   CHECK_INTERVAL = $interval(function () {
 
     $scope.loadDomainDnsConfigurations();
-  }, 5000);
+  }, INTERVAL_TIME);
 
   $scope.$on('$destroy', function () {
     $interval.cancel(CHECK_INTERVAL);
