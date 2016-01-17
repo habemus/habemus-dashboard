@@ -11,7 +11,7 @@ var Q    = require('q');
 // load models
 var DirectoryData = require('../../models/file-system/directory');
 
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, projectAPI, zipper, auth, $timeout, ngDialog, CONFIG) {
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, projectAPI, zipper, auth, $timeout, ngDialog, CONFIG) {
 
   var projectId = $stateParams.projectId;
 
@@ -31,6 +31,9 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
     var projectDataPromise = projectAPI
       .getProjectById(projectId)
       .then(function (project) {
+
+        // set pageTitle
+        $rootScope.pageTitle = project.name;
 
         _.assign($scope.project, project);
 

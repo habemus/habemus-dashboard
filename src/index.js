@@ -1,5 +1,7 @@
 'use strict';
 
+var path = require('path');
+var fs   = require('fs');
 
 /**
  * Globals: angular
@@ -43,7 +45,71 @@ require('./services')(DASHBOARD);
  * Controllers
  */
 require('./views/templates')(DASHBOARD);
-DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth, $rootScope, $state) {
+
+// verify authentication on statechange
+DASHBOARD.run(function ($rootScope, $state, $location, AUTH_EVENTS, auth, authModal, ngDialog) {
+
+  window.auth = auth;
+
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+
+    if (toState.data && toState.data.authorizedRoles) {
+      var authorizedRoles = toState.data.authorizedRoles;
+
+      if (!auth.isAuthorized(authorizedRoles)) {
+        event.preventDefault();
+        if (auth.isAuthenticated()) {
+          console.warn('not authorized');
+
+          // user is not allowed
+          $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+        } else {
+
+
+          var betaData = $location.search().betaData;
+
+          if (betaData) {
+            // beta login (token based)
+            ngDialog.open({
+              template: fs.readFileSync(path.join(__dirname, 'views/beta-auth/template.html'), 'utf-8'),
+              plain: true,
+              className: 'ngdialog-theme-habemus',
+              controller: require('./views/beta-auth/controller'),
+
+              // prevent it from being closed by the user
+              showClose: false,
+              closeByEscape: false,
+              closeByDocument: false,
+            });
+          } else {
+            // normal login
+
+            // open login modal and navigate to the desired state
+            var dialog = authModal.open();
+
+            dialog.closePromise.then(function () {
+              $state.go(toState, toParams);
+            });
+            
+
+          }
+          // user is not logged in
+          $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+        }
+      }
+    }
+
+    // no authorization config set, thus simply continue
+  });
+
+  // set page title
+  $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
+    $rootScope.pageTitle = toState.data.pageTitle || 'habemus';
+  });
+
+});
+
+DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth, $rootScope, $state, $timeout, authModal, betaPasswordResetModal) {
 
   var currentUserModel = auth.getCurrentUser();
 
@@ -52,19 +118,51 @@ DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth, $
     currentUserModel.fetch()
       .then(function (user) {
         $scope.setCurrentUser(user.toJSON());
-      });
 
+
+        // check for beta users that need to change password
+        if (user.toJSON().requirePasswordReset_) {
+          console.log('reset')
+
+          betaPasswordResetModal.open();
+        }
+      }, function (err) {
+
+        if (err.code === auth._parse.Error.INVALID_SESSION_TOKEN) {
+          auth._parse.User.logOut();
+        }
+
+        // couldn't fetch user,
+        // probably logged out
+        console.log('logged out');
+
+        // open login modal and navigate to the desired state
+        var dialog = authModal.open();
+      });
 
     // $scope.currentUser = auth.current();
     $scope.isAuthorized = auth.isAuthorized;
   }
 
-  auth.on('logIn', function () {
-    auth.current()
-      .fetch()
-      .then(function (user) {
-        $scope.setCurrentUser(user.toJSON());
-      });
+  auth.on('auth-status-change', function () {
+    if (auth.getCurrentUser()) {
+      // logged in
+      auth.getCurrentUser()
+        .fetch()
+        .then(function (user) {
+          $scope.setCurrentUser(user.toJSON());
+
+          // check for beta users that need to change password
+          if (user.toJSON().requirePasswordReset_) {
+            console.log('reset')
+
+            betaPasswordResetModal.open();
+          }
+        });
+    } else {
+      // logged out
+      console.log('logged out')
+    }
   });
   
   $scope.setCurrentUser = function (user) {
@@ -107,7 +205,7 @@ DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth, $
   /////////////////
   /// AUTOFOCUS ///
   // tell Angular to call this function when a route change completes  
-  $rootScope.$on('$routeChangeSuccess', function() {  
+  $rootScope.$on('$stateChangeSuccess', function() {  
     // we can't set focus at this point; the DOM isn't ready for us  
   
     // instead, we define a callback to be called after the $digest loop  
@@ -116,7 +214,8 @@ DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth, $
       // whatever is on the page with the autofocus attribute and focus it; fin.  
       $('[autofocus]').focus();  
     });  
-  }); 
+  });
+
 });
 
 

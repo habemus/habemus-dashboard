@@ -20,7 +20,7 @@
 
   <form ng-submit="setProjectSafeName()">
     <div class="input-button">
-      <input placeholder="{{ project.safeName }}" ng-model="newSafeName">
+      <input autofocus placeholder="{{ project.safeName }}" ng-model="newSafeName">
       <button class="button secundary">renomear domínio</button>
     </div>
     <div>{{ error }}</div>

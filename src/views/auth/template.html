@@ -1,0 +1,45 @@
+<div class="content">
+  <h2>{{ ngDialogData.message }}</h2>
+  
+  <form ng-submit="logIn()">
+
+    <div
+      class="field-container">
+      <label>email</label><br>
+      <input
+        type="text"
+        name="email"
+        placeholder="example@example.com"
+        ng-model="credentials.username">
+    </div>
+
+    <div
+      class="field-container"
+      ng-class="{'error': errorMessage}">
+      <label>password</label><br>
+      <input
+        type="password"
+        name="password"
+        placeholder="password"
+        ng-model="credentials.password">
+      <div ng-if="errorMessage" class="field-error-message">
+        {{ errorMessage }}
+      </div>
+    </div>
+    
+    <button class="ngdialog-button ngdialog-button-primary">
+      login
+    </button>
+  <!--   <button
+      class="ngdialog-button ngdialog-button-secondary"
+      ng-click="closeThisDialog()">
+      sign-up
+    </button>
+ -->
+  </form>
+
+  
+  <div class="loading-state" ng-class="{'active':loading}">
+    <div class="spinner"></div>
+  </div>
+</div>
