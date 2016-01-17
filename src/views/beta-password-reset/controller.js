@@ -2,7 +2,7 @@
 
 var Q = require('q');
 
-module.exports = /*@ngInject*/ function BetaPasswordReset($scope, auth) {
+module.exports = /*@ngInject*/ function BetaPasswordReset($scope, $state, auth) {
 
   var hasAttemptedSubmit = false;
 
@@ -54,6 +54,19 @@ module.exports = /*@ngInject*/ function BetaPasswordReset($scope, auth) {
           return auth.logIn(user.get('username'), $scope.newPassword);
         })
         .then(function () {
+
+          // reload page as we do not want the betaData
+          // to stay on the url
+          var targetUrl = [
+            window.location.protocol + '//',
+            window.location.host,
+            window.location.pathname,
+          ].join('');
+
+          window.location.replace(targetUrl);
+
+          // $state.reload();
+
           this.closeThisDialog();
         }.bind(this), function (err) {
           $scope.newPasswordConfirmErrorMessage = 'password reset error please retry';

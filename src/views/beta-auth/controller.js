@@ -4,12 +4,13 @@ module.exports = /*@ngInject*/ function LoginCtrl($scope, $state, auth, $locatio
 
   $scope.betaToken = '';
 
-  var authData = $location.search().betaData;
+  var betaData = $scope.ngDialogData.betaData;
 
   try {
-    authData = JSON.parse(atob(authData));
+    betaData = JSON.parse(atob(betaData));
   } catch (e) {
     // discard
+    alert('invalid url');
   }
 
   $scope.submitToken = function () {
@@ -18,14 +19,15 @@ module.exports = /*@ngInject*/ function LoginCtrl($scope, $state, auth, $locatio
       $scope.errorMessage = 'please insert your beta token';
 
     } else {
-      auth.logIn(authData.email, $scope.betaToken)
+      auth.logIn(betaData.email, $scope.betaToken)
         .then(function () {
           $state.go('dashboard');
           $scope.closeThisDialog();
         }, function (err) {
           $scope.errorMessage = 'sorry, invalid token';
           $scope.$apply();
-        });
+        })
+        .done();
     }
   };
 };

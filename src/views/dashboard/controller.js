@@ -81,26 +81,15 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
         })
         .done();
     })
+    .then(function () {
+
+    }, function (err) {
+
+      window.err = err;
+
+      $('.loading-state').removeClass('active');
+    })
     .done();
   };
-  
-  /**
-   * Beta Reset Password
-   */
-  $scope.betaResetPassword = function () {
-    ngDialog.openConfirm({
-      template: fs.readFileSync(path.join(__dirname, '../beta-password-reset/template.html'), 'utf-8'),
-      plain: true,
-      showClose: false,
-      className: 'ngdialog-theme-habemus',
-      controller: require('../beta-password-reset/controller'),
-      scope: $scope,
-    }).then(function(){
-      console.log("password-reset");
-    },function(){
-      console.log("cancel");
-    });
-  }  
-  
   
 };
