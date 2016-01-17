@@ -11,8 +11,11 @@
       <li><a ui-sref="project.domain.info({ projectId: project.id })" 
              ui-sref-active-if="project.domain">domínio</a></li>
     </ul>
+    <button ng-click="deleteProject()">deletar</button>
+
   </div>
-  
+
+
   <div id="project-content" ui-view="tab"></div>
   
 </div>

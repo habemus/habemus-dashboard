@@ -41,7 +41,10 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
 
         $scope.$apply();
       }, function (err) {
-        console.warn('get project failed')
+
+        // project loading failed due to some reason.
+        // treat this better, for now just go to dashboard
+        $state.go('dashboard');
       });
 
 
@@ -196,6 +199,27 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
   }
 
 
+  // delete project
+  $scope.deleteProject = function () {
+    $('.loading-state').addClass('active');
+
+    projectAPI.deleteProject(projectId)
+      .then(function () {
+
+        // go back to dashboard, the project won't exist anymore
+        $state.go('dashboard');
+
+        $('.loading-state').removeClass('active');
+
+      }, function (err) {
+
+        console.warn('failed to delete project', err);
+
+        $('.loading-state').removeClass('active');
+
+      })
+      .done();
+  }
 
 
   $scope.loadProject();
