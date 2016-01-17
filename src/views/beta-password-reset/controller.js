@@ -39,6 +39,8 @@ module.exports = /*@ngInject*/ function BetaPasswordReset($scope, $state, auth) 
 
     if ($scope.validatePassword() && $scope.validatePasswordConfirm()) {
 
+      $scope.loading = true;
+
       var user = auth.getCurrentUser();
 
       user.setPassword($scope.newPassword);
@@ -65,10 +67,14 @@ module.exports = /*@ngInject*/ function BetaPasswordReset($scope, $state, auth) 
 
           window.location.replace(targetUrl);
 
-          // $state.reload();
+          $scope.loading = false;
+          $scope.$apply();
 
           this.closeThisDialog();
         }.bind(this), function (err) {
+
+          $scope.loading = false;
+
           $scope.newPasswordConfirmErrorMessage = 'password reset error please retry';
           $scope.$apply();
         })
