@@ -75,15 +75,13 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
           // navigate to the project view
           $scope.navigateToProject(projectData.objectId);
         
-        // loading state ends
-        $(".loading-state").removeClass("active");
-  
+          // loading state ends
+          $(".loading-state").removeClass("active");
+    
         })
         .done();
     })
-    .then(function () {
-
-    }, function (err) {
+    .fail(function (err) {
 
       window.err = err;
 
