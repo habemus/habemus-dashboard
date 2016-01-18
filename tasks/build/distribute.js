@@ -116,8 +116,21 @@ module.exports = function (gulp, $) {
       .pipe(gulp.dest('dist'));
   });
 
+  /**
+   * Copies resources
+   */
+  gulp.task('distribute:resources', function () {
+    return gulp.src(config.srcDir + '/resources/**/*')
+      .pipe($.size({
+        title: 'distribute:resources',
+        showFiles: true,
+        gzip: true
+      }))
+      .pipe(gulp.dest('dist/resources'));
+  });
+
   gulp.task('distribute', function () {
-    return runSequence('distribute:optimize', 'distribute:clear-tmp');
+    return runSequence(['distribute:optimize', 'distribute:resources'], 'distribute:clear-tmp');
   });
 
 };

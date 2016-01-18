@@ -10,7 +10,6 @@ var DASHBOARD = angular.module('habemus-dashboard', [
   'ngCookies',
   'pascalprecht.translate',
   'ui.router',
-  'ui.tree',
   'ngDialog',
   'ui.bootstrap',
 ]);
@@ -50,7 +49,7 @@ require('./views/templates')(DASHBOARD);
 
 DASHBOARD.config(function ($translateProvider) {
   $translateProvider.useStaticFilesLoader({
-    prefix: '/languages/',
+    prefix: '/resources/languages/',
     suffix: '.json'
   });
 
@@ -60,7 +59,7 @@ DASHBOARD.config(function ($translateProvider) {
   $translateProvider.useSanitizeValueStrategy('escape');
   $translateProvider.useLocalStorage();
 
-  $translateProvider.translations('en', require('./languages/en.json'));
+  $translateProvider.translations('en', require('./resources/languages/en.json'));
 
   $translateProvider.preferredLanguage('en');
   $translateProvider.fallbackLanguage('en');
