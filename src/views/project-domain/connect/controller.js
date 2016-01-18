@@ -1,28 +1,33 @@
 'use strict';
 
-
-function validateDomainName(name) {
-
-  if (!name) {
-    return 'insira o nome do domínio que você possui';
-  }
-
-  if (name.split('.').length < 2) {
-    return 'domínio inválido';
-  }
-}
-
-module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $stateParams, projectAPI) {
+module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $stateParams, $translate, projectAPI) {
   // reset error message
   $scope.errorMessage = '';
   
+
+  /**
+   * Auxiliary function that validates the domain name on the client side
+   * @param  {String} name
+   * @return {Promise->String|Null}      Error message
+   */
+  function _validateDomainName(name) {
+
+    if (!name) {
+      return $translate('domainInvalid.empty');
+    }
+
+    if (name.split('.').length < 2) {
+      return $translate('domainInvalid.invalid');
+    }
+  }
+
   $scope.saveConnection = function () {
-    var name = $scope.domainName;
+    var name = $scope.domainName || '';
 
     // make sure the registered domain does not start with www
     name = name.replace(/^www\./, '');
     
-    var error = validateDomainName(name);
+    var error = _validateDomainName(name);
     
     // validate input
     if (!error) {
@@ -58,7 +63,9 @@ module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $s
       
     } else {
 
-      $scope.errorMessage = error;
+      error.then(function (errorMessage) {
+        $scope.errorMessage = errorMessage
+      });
     };
   };
   

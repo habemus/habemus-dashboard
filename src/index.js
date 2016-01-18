@@ -2,11 +2,13 @@
 
 var path = require('path');
 var fs   = require('fs');
-
 /**
  * Globals: angular
  */
 var DASHBOARD = angular.module('habemus-dashboard', [
+  'ngSanitize',
+  'ngCookies',
+  'pascalprecht.translate',
   'ui.router',
   'ui.tree',
   'ngDialog',
@@ -46,6 +48,29 @@ require('./services')(DASHBOARD);
  */
 require('./views/templates')(DASHBOARD);
 
+DASHBOARD.config(function ($translateProvider) {
+  $translateProvider.useStaticFilesLoader({
+    prefix: '/languages/',
+    suffix: '.json'
+  });
+
+  // enable it so that missing translations are logged
+  $translateProvider.useMissingTranslationHandlerLog();
+
+  $translateProvider.useSanitizeValueStrategy('escape');
+  $translateProvider.useLocalStorage();
+
+  $translateProvider.translations('en', require('./languages/en.json'));
+
+  $translateProvider.preferredLanguage('en');
+  $translateProvider.fallbackLanguage('en');
+  
+  $translateProvider.registerAvailableLanguageKeys(['en', 'pt'], {
+    'en_US': 'en',
+    'pt_BR': 'pt'
+  });
+});
+
 // verify authentication on statechange
 DASHBOARD.run(function ($rootScope, $state, $location, AUTH_EVENTS, auth, authModal, ngDialog) {
 
@@ -59,17 +84,9 @@ DASHBOARD.run(function ($rootScope, $state, $location, AUTH_EVENTS, auth, authMo
       if (!auth.isAuthorized(authorizedRoles)) {
         event.preventDefault();
         if (auth.isAuthenticated()) {
-          console.warn('not authorized');
-
           // user is not allowed
           $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
         } else {
-          // open login modal and navigate to the desired state
-          // var dialog = authModal.open();
-
-          // dialog.closePromise.then(function () {
-          //   $state.go(toState, toParams);
-          // });
 
           auth.handleSessionReset();
 

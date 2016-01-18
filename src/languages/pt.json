@@ -1,0 +1,7 @@
+{
+  "MY_PROJECTS": "Meus projetos",
+  "domainInvalid": {
+    "empty": "insira o nome do domínio que você possui",
+    "invalid": "domínio inválido"
+  }
+}

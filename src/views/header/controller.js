@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state, auth) {
+module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state, $translate, auth) {
   
   $scope.menuIsOpen = false;
   
@@ -18,6 +18,10 @@ module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state,
       .then(function () {
         window.location.href = "http://habem.us";
       });
+  };
+
+  $scope.setLanguage = function (lng) {
+    $translate.use(lng);
   };
   
 };

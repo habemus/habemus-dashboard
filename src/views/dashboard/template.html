@@ -1,6 +1,6 @@
 <div class="body-content-dashboard">
   
-  <h1>Meus projetos</h1>
+  <h1 translate="MY_PROJECTS"></h1>
 
   <ul id="projects">
     
@@ -31,10 +31,10 @@
           
         </div>
 -->
-        <h4>criado em <b>{{project.createdAt | date : "dd MMM yyyy',' H:mm"}}</b></h4>
+        <h4><span translate="CREATED_AT"></span> <b>{{project.createdAt | date : "dd MMM yyyy',' H:mm"}}</b></h4>
         
         <!-- temporary button - delete once printscreen is available-->
-        <div class="button centered temporary">editar</div>
+        <div class="button centered temporary" translate="EDIT">editar</div>
 
       </div>
     </li>

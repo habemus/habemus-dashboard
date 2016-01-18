@@ -18,7 +18,7 @@ function _getBetaData() {
   return parsedQs[BETA_DATA_QUERY_PARAM];
 }
 
-module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootScope, $state, $timeout, authModal, betaPasswordResetModal, betaLoginModal) {
+module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootScope, $state, $timeout, $translate, authModal, betaPasswordResetModal, betaLoginModal) {
 
   function _openLogin() {
     // check if it is a beta login
@@ -26,26 +26,27 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
 
     var betaData = _getBetaData();
 
-    console.log(betaData)
-
     if (betaData) { 
       // beta login (token based)
       betaLoginModal.open({ betaData: betaData });
 
     } else {
-      // normal login
-      // open login modal and navigate to the desired state
-      var dialog = authModal.open({
-        message: 'Sorry, it looks like your session has expired. Please login:'
-      });
 
-      dialog.closePromise.then(function () {
-        $state.reload();
+      $translate('SESSION_EXPIRED_LOGIN').then(function (message) {
+        // normal login
+        // open login modal and navigate to the desired state
+        var dialog = authModal.open({
+          message: message
+        });
+
+        dialog.closePromise.then(function () {
+          $state.reload();
+        });
       });
     }
   }
 
-  function handleAuthStatusChange() {
+  function _handleAuthStatusChange() {
 
     if (auth.isAuthenticated()) {
       // logged in
@@ -74,8 +75,8 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
   }
 
   // authentication
-  auth.on('auth-status-change', handleAuthStatusChange);
-  handleAuthStatusChange();
+  auth.on('auth-status-change', _handleAuthStatusChange);
+  _handleAuthStatusChange();
   
   $scope.setCurrentUser = function (user) {
     $scope.currentUser = user;
@@ -127,5 +128,8 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
       $('[autofocus]').focus();  
     });  
   });
+
+  /// AUTOFOCUS ///
+  /////////////////
 
 };
