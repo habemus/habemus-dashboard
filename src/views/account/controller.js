@@ -12,8 +12,6 @@ var DirectoryData = require('../../models/file-system/directory');
 
 module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $stateParams, $state, auth, ngDialog) {
   
-//  console.log("user: " + $scope.currentUser.username);
-  
   /**
    * Object onto which the account data input fields
    * should set their values
@@ -61,16 +59,11 @@ module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $statePa
    * Reset Password
    */
   $scope.resetPassword = function () {
-    ngDialog.openConfirm({
+    ngDialog.open({
       template: fs.readFileSync(path.join(__dirname, '../account-password-reset/template.html'), 'utf-8'),
       plain: true,
       className: 'ngdialog-theme-habemus',
       controller: require('../account-password-reset/controller'),
-      scope: $scope,
-    }).then(function(){
-      console.log("password-reset");
-    },function(){
-      console.log("cancel");
     });
   }
   
@@ -83,7 +76,6 @@ module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $statePa
       plain: true,
       className: 'ngdialog-theme-habemus',
       controller: require('../account-delete/controller'),
-      scope: $scope,
     })
     .then(function() {
       console.log("delete account");

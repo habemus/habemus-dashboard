@@ -47,14 +47,16 @@ module.exports = /*@ngInject*/ function BetaPasswordReset($scope, $state, auth) 
       user.set('requirePasswordReset_', false);
 
       Q(user.save())
-        .then(function () {
+        /// no longer needed, as long as sessions are not revoked on
+        /// password change (parse.com setting)
+        // .then(function () {
 
-          // destroy current localstorage session
-          auth.logOut();
+        //   // destroy current localstorage session
+        //   auth.logOut();
 
-          // login
-          return auth.logIn(user.get('username'), $scope.newPassword);
-        })
+        //   // login
+        //   return auth.logIn(user.get('username'), $scope.newPassword);
+        // })
         .then(function () {
 
           // reload page as we do not want the betaData

@@ -81,38 +81,6 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
   }
 
   /**
-   * Domain adding
-   */
-  $scope.addDomainToProject = function () {
-    ngDialog.open({
-      template: fs.readFileSync(path.join(__dirname, '../add-domain/template.html'), 'utf-8'),
-      plain: true,
-      controller: require('../add-domain/controller'),
-
-      preCloseCallback: function (data) {
-
-        if (data && data.name) {
-          projectAPI.addDomainToProject($scope.project.id, {
-            name: data.name
-          })
-          .then(function (res) {
-
-            $scope.project.domainRecords.unshift(data);
-
-            $scope.$apply();
-
-          }, function (err) {
-            console.log('failed to add domain');
-            console.error(err);
-
-            alert('failed to add domain');
-          })
-        }
-      }
-    });
-  }
-
-  /**
    * File updating
    */
   $scope.uploadNewVersion = function (files) {
