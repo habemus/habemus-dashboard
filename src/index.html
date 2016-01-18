@@ -26,6 +26,7 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-file-model/angular-file-model.js"></script>
     <script src="bower_components/ng-dialog/js/ngDialog.js"></script>
     <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
     <script src="index.bundle.js"></script>
@@ -47,6 +48,16 @@
         <div class="progress">0%</div>
       </div>
     </div>
+    
+    <form id="feedback-form" ng-submit="submitFeedback()"  method="post">
+      <!-- the redirect_to is optional, the form will redirect to the referrer on submission -->
+      <input type='hidden' name='redirect_to' value='<the complete return url e.g. http://fooey.com/thank-you.html>' />
+      <!-- all your input fields here.... -->
+      <input type='text' name='message' ng-model="message" />
+      <input type='file' name='file' file-model='file' id="test-file"/>  
+      <input type='submit' value='Test form' />
+    </form>
+
     
   </body>
 </html>

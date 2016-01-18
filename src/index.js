@@ -9,6 +9,7 @@ var DASHBOARD = angular.module('habemus-dashboard', [
   'ui.tree',
   'ngDialog',
   'ui.bootstrap',
+  'file-model',
 ]);
 
 /**
@@ -43,7 +44,7 @@ require('./services')(DASHBOARD);
  * Controllers
  */
 require('./views/templates')(DASHBOARD);
-DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth, $rootScope, $state) {
+DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth, $rootScope, $state, Parse) {
 
   var currentUserModel = auth.getCurrentUser();
 
@@ -96,6 +97,59 @@ DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth, $
         // pop the last again so that the current state does not get into the history stack
         history.pop();
       });
+  }
+  
+  $scope.handleFileChange = function () {
+    console.log(arguments);
+  }
+  
+  $scope.submitFeedback = function () {
+    
+    var message = $scope.message;
+//    var file = $scope.file;
+    console.log($('#test-file'))
+    
+    var file = $('#test-file')[0].files[0];
+    
+    var parseFile = new Parse.File(file.name, file);
+    
+    parseFile.save().then(function() {
+      var feedback = new Parse.Object("Feedback");
+      feedback.set("image", parseFile);
+      feedback.set("user", Parse.User.current());
+      feedback.set("message", message);
+      
+      feedback.save().then(function(){
+        console.log("salvou");
+      }, function(error){
+        console.log(error);
+      })
+      
+    }, function(error){
+      console.log(error);
+    })
+
+
+//        fileToParse.save().then(function() {
+//          // The file has been saved to Parse.
+//
+//
+//          var feedback = new Parse.Object("Feedback");
+//          feedback.set("image", fileToParse);
+//          feedback.set("user", Parse.User.current());
+//          feedback.set("message", msgInput);
+//
+//          feedback.save().then(function() {
+//            console.log("salvou", fileToParse);
+//          }, function(error){
+//            console.log("erro", error);
+//          });
+//
+//        }, function(error) {
+//          // The file either could not be read, or could not be saved to Parse.
+//          console.log("erro", fileToParse);
+//        });
+    
   }
 });
 
