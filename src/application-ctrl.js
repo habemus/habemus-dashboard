@@ -40,7 +40,7 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
         });
 
         dialog.closePromise.then(function () {
-          $state.reload();
+          $state.go('dashboard');
         });
       });
     }
