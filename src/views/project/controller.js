@@ -173,37 +173,83 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
   /**
    * Delete Project
    */
-  $scope.deleteProject = function () {
+  $scope.fakeDeleteProject = function () {
+    
     ngDialog.openConfirm({
+      template: '<input ng-model="test"><button ng-click="verifyAndConfirm()"> confirmar</button><button ng-click="closeThisDialog()">cancel</button>',
+      plain: true,
+      
+      controller: function ($scope) {
+        
+        $scope.verifyAndConfirm = function () {
+          
+          if ($scope.test === 'oi') {
+            $scope.confirm();
+          } else {
+            console.log('voce errou');
+          }
+          
+        }
+        
+      }
+    })
+    .then(function handleSuccess() {
+      
+      $('.loading-state').addClass('active');
+      
+      
+      console.log('confirm start deletion');
+      setTimeout(function () {
+        console.log('confirm finished deletion');
+        $('.loading-state').removeClass('active');
+      }, 3000);
+    }, function handleCancel() {
+      console.log('cancel')
+    });
+    
+  };
+//  $scope.deleteProject = function () {
+//    ngDialog.openConfirm({
+//      template: fs.readFileSync(path.join(__dirname, '../project-delete/template.html'), 'utf-8'),
+//      plain: true,
+//      className: 'ngdialog-theme-habemus',
+//      controller: require('../project-delete/controller'),
+//    })
+//    .then(function() {
+//      $('.loading-state').addClass('active');
+//
+//      projectAPI.deleteProject(projectId)
+//      .then(function () {
+//
+//        // go back to dashboard, the project won't exist anymore
+//        $state.go('dashboard');
+//
+//        $('.loading-state').removeClass('active');
+//
+//      }, function (err) {
+//
+//        console.warn('failed to delete project', err);
+//
+//        $('.loading-state').removeClass('active');
+//
+//      })
+//      .done();
+//    }, function() {
+//      console.log("don't delete");
+//    });
+//  }
+  
+  
+  $scope.deleteProject = function () {
+    ngDialog.open({ 
       template: fs.readFileSync(path.join(__dirname, '../project-delete/template.html'), 'utf-8'),
       plain: true,
       className: 'ngdialog-theme-habemus',
       controller: require('../project-delete/controller'),
-    })
-    .then(function() {
-      $('.loading-state').addClass('active');
-
-      projectAPI.deleteProject(projectId)
-      .then(function () {
-
-        // go back to dashboard, the project won't exist anymore
-        $state.go('dashboard');
-
-        $('.loading-state').removeClass('active');
-
-      }, function (err) {
-
-        console.warn('failed to delete project', err);
-
-        $('.loading-state').removeClass('active');
-
-      })
-      .done();
-    }, function() {
-      console.log("don't delete");
+      scope: $scope,
     });
   }
-  
+    
   
 //  // delete project
 //  $scope.deleteProject = function () {
