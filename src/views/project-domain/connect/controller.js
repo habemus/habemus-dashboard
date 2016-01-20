@@ -1,52 +1,72 @@
 'use strict';
 
-
-module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $stateParams, projectAPI) {
-//  $scope.domain = $stateParams.domain;
-//  console.log($stateParams.domain);
-  
+module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $stateParams, $translate, projectAPI) {
+  // reset error message
   $scope.errorMessage = '';
   
-  $scope.saveConnection = function() {
-    var name = $scope.domainName
-//    console.log(name);
+
+  /**
+   * Auxiliary function that validates the domain name on the client side
+   * @param  {String} name
+   * @return {Promise->String|Null}      Error message
+   */
+  function _validateDomainName(name) {
+
+    if (!name) {
+      return $translate('domainInvalid.empty');
+    }
+
+    if (name.split('.').length < 2) {
+      return $translate('domainInvalid.invalid');
+    }
+  }
+
+  $scope.saveConnection = function () {
+    var name = $scope.domainName || '';
+
+    // make sure the registered domain does not start with www
+    name = name.replace(/^www\./, '');
+    
+    var error = _validateDomainName(name);
     
     // validate input
-    if(name != undefined || name != null){
-      $scope.errorMessage = '';
-      console.log(name);
+    if (!error) {
+
+      $('.loading-state').addClass('active');
       
-      projectAPI.addDomainToProject($scope.project.id, {
-        name: name
+      projectAPI.createDomainRecord($scope.project.id, {
+        hostname: name
       })
-      .then(function (res) {
-        $state.go("project.domain.dns", {inProgress: true});
+      .then(function (domain) {
+
+        // add to domainRecords owned by the project
+        $scope.project.domainRecords.push(domain);
+
+        $state.go('project.domain.dns', {
+          inProgress: true,
+          domain: domain
+        });
 
       }, function (err) {
-        console.log('failed to add domain');
-        console.error(err);
 
-        alert('failed to add domain');
+        if (err.code == 142) {
+          $scope.errorMessage = 'este domínio já está cadastrado em nosso sistema. caso você seja o proprietário, por favor entre em contato conosco: suporte@habem.us';
+        } else {
+          $scope.errorMessage = 'ocorrreu um erro :/ por favor tente novamente mais tarde';
+        }
+
+        $scope.$apply();
       })
+      .finally(function () {
+        $('.loading-state').removeClass('active');
+      });
       
     } else {
-      console.log("failed to add domain");    
-      $scope.errorMessage = "insira o nome do domínio que você possui";
+
+      error.then(function (errorMessage) {
+        $scope.errorMessage = errorMessage
+      });
     };
-    
-    // save
-    
-//    projectAPI.addDomainToProject($scope.project.id, {
-//      name: name
-//    })
-//    .then(function (res) {
-//
-//    }, function (err) {
-//      console.log('failed to add domain');
-//      console.error(err);
-//
-//      alert('failed to add domain');
-//    })
   };
   
 };

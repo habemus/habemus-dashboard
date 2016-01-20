@@ -24,44 +24,22 @@
     <th>record</th> 
     <th>required data</th>
     <th>current data (status)</th>
+    <th>stability</th>
   </tr>
-  <tr class="table-row-body">
-    <td>qwertyuiouytrertyu</td>
-    <td>CNAME</td> 
-    <td>verify.habemus.xyz</td>
-    <td>record not found</td>
+  <tr class="table-row-body" ng-repeat="dnsRecord in dnsRecords">
+    <td>{{ dnsRecord.host || '@' }}</td>
+    <td>{{ dnsRecord.type }}</td> 
+    <td>{{ dnsRecord.value }}</td>
+    <td>{{ dnsRecord.status }}</td>
+    <td>{{ dnsRecord.stability || 0 }}</td>
   </tr>
-  <tr class="table-row-body">
-    <td>www</td>
-    <td>CNAME</td> 
-    <td>habemus.top</td>
-    <td>record not found</td>
-  </tr>
-  <tr class="table-row-body">
-    <td>@</td>
-    <td>A</td> 
-    <td>198.123.124.124</td>
-    <td>record not found</td>
-  </tr>
-  <tr class="table-row-body">
-    <td>@</td>
-    <td>A</td> 
-    <td>198.123.124.124</td>
-    <td>record not found</td>
-  </tr>
-  <tr class="table-row-body">
-    <td>@</td>
-    <td>A</td> 
-    <td>198.123.124.124</td>
-    <td>correct</td>
-  </tr>
-  <tr class="table-row-body">
-    <td>@</td>
-    <td>A</td> 
-    <td>198.123.124.124</td>
-    <td>record not found</td>
-  </tr>
-  
 </table>
 
-<div class="button secundary">testar conexão</div>
+<div ng-if="inProgress" class="button secundary" ng-click="loadDomainDnsConfigurations()">
+  testar conexão
+</div>
+<a ng-if="!inProgress" target="_blank" href="http://{{ domainRecord.hostname }}">
+  <div class="button secundary">
+    testar conexão
+  </div>
+</a>

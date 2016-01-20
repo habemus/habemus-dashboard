@@ -11,7 +11,7 @@ var Q    = require('q');
 // load models
 var DirectoryData = require('../../models/file-system/directory');
 
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, projectAPI, zipper, auth, $timeout, ngDialog, CONFIG) {
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, projectAPI, zipper, auth, $timeout, ngDialog, CONFIG) {
 
   var projectId = $stateParams.projectId;
 
@@ -20,17 +20,20 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
    * @type {Object}
    */
   var project = $scope.project = {
-    domains: [],
+    domainRecords: [],
   };
   
   /**
    * Project data loading
    */
-  $scope.loadProject = function (projectId) {
+  $scope.loadProject = function () {
     // retrieve the requested project
     var projectDataPromise = projectAPI
       .getProjectById(projectId)
       .then(function (project) {
+
+        // set pageTitle
+        $rootScope.pageTitle = project.name;
 
         _.assign($scope.project, project);
 
@@ -41,17 +44,20 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
 
         $scope.$apply();
       }, function (err) {
-        console.warn('get project failed')
+
+        // project loading failed due to some reason.
+        // treat this better, for now just go to dashboard
+        $state.go('dashboard');
       });
 
 
-    // retrieve domains related to the project
-    var domainDataPromise = projectAPI.getProjectDomains(projectId)
-      .then(function (domains) {
-        $scope.project.domains = domains || [];
+    // retrieve domainRecords related to the project
+    var domainDataPromise = projectAPI.listProjectDomainRecords(projectId)
+      .then(function (domainRecords) {
+        $scope.project.domainRecords = domainRecords || [];
         $scope.$apply();
       }, function (err) {
-        console.warn('failed to retrieve domains from project');
+        console.warn('failed to retrieve domainRecords from project');
       });
 
     return Q.all([projectDataPromise, domainDataPromise]);
@@ -68,57 +74,8 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
       controller: require('../project-rename/controller'),
       scope: $scope,
 
-//      preCloseCallback: function (data) {
-//
-//        if (data && data.name) {
-//          projectAPI.addDomainToProject($scope.project.id, {
-//            name: data.name
-//          })
-//          .then(function (res) {
-//
-//            $scope.project.domains.unshift(data);
-//
-//            $scope.$apply();
-//
-//          }, function (err) {
-//            console.log('failed to add domain');
-//            console.error(err);
-//
-//            alert('failed to add domain');
-//          })
-//        }
-//      }
-    });
-  }
-
-  /**
-   * Domain adding
-   */
-  $scope.addDomainToProject = function () {
-    ngDialog.open({
-      template: fs.readFileSync(path.join(__dirname, '../add-domain/template.html'), 'utf-8'),
-      plain: true,
-      controller: require('../add-domain/controller'),
-
-      preCloseCallback: function (data) {
-
-        if (data && data.name) {
-          projectAPI.addDomainToProject($scope.project.id, {
-            name: data.name
-          })
-          .then(function (res) {
-
-            $scope.project.domains.unshift(data);
-
-            $scope.$apply();
-
-          }, function (err) {
-            console.log('failed to add domain');
-            console.error(err);
-
-            alert('failed to add domain');
-          })
-        }
+      preCloseCallback: function () {
+        $scope.loadProject();
       }
     });
   }
@@ -156,9 +113,9 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
 
       })
       .then(function () {
-        return $scope.loadProject(projectId);
+        return $scope.loadProject();
       })
-      .then(function () {
+      .finally(function () {
 
         // loading state ends
         $(".loading-state").removeClass("active");
@@ -199,7 +156,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
     return projectAPI.restoreVersion($scope.project.id, versionName)
       .then(function (res) {
 
-        $scope.loadProject(projectId);
+        $scope.loadProject();
         console.log(res);
       }, function (err) {
         console.warn('failed to restore version');
@@ -213,7 +170,63 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
   }
 
 
+  /**
+   * Delete Project
+   */
+  $scope.deleteProject = function () {
+    ngDialog.openConfirm({
+      template: fs.readFileSync(path.join(__dirname, '../project-delete/template.html'), 'utf-8'),
+      plain: true,
+      className: 'ngdialog-theme-habemus',
+      controller: require('../project-delete/controller'),
+    })
+    .then(function() {
+      $('.loading-state').addClass('active');
+
+      projectAPI.deleteProject(projectId)
+      .then(function () {
+
+        // go back to dashboard, the project won't exist anymore
+        $state.go('dashboard');
+
+        $('.loading-state').removeClass('active');
+
+      }, function (err) {
+
+        console.warn('failed to delete project', err);
+
+        $('.loading-state').removeClass('active');
+
+      })
+      .done();
+    }, function() {
+      console.log("don't delete");
+    });
+  }
+  
+  
+//  // delete project
+//  $scope.deleteProject = function () {
+//    $('.loading-state').addClass('active');
+//
+//    projectAPI.deleteProject(projectId)
+//      .then(function () {
+//
+//        // go back to dashboard, the project won't exist anymore
+//        $state.go('dashboard');
+//
+//        $('.loading-state').removeClass('active');
+//
+//      }, function (err) {
+//
+//        console.warn('failed to delete project', err);
+//
+//        $('.loading-state').removeClass('active');
+//
+//      })
+//      .done();
+//  }
 
 
-  $scope.loadProject(projectId);
+  $scope.loadProject();
 };

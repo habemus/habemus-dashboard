@@ -73,11 +73,12 @@ module.exports = function (module) {
 
           readFiles
             .fromDropEvent(e.originalEvent, filterDotFiles)
-            .then(function (files) {
+            .then(function (readData) {
               // clear the target highlighting
               scope.clearDropTargets();
-
-              scope.$files = files;
+              
+              scope.$rootDir = readData.rootDir;
+              scope.$files   = readData.files;
               scope.$eval(attrs.fileDropArea);
             })
             .done();

@@ -7,25 +7,29 @@
   <p>conectar domínio personalizado</p>
 </div>
 
-<a href="http://{{ project.safeName }}.habemus.xyz" target="_blank" class="">http://{{ project.safeName }}.habemus.xyz</a>
+<a href="http://{{ project.safeName }}.habemus.website" target="_blank" class="">http://{{ project.safeName }}.habemus.website</a>
 
 <div class="margin-bottom max-width">
   <p>Conecte um domínio que você possui ao seu projeto.</p>
   <p>Se você ainda não possui um domínio, escolha um provedor de domínios para realizar a aquisição.</p>
 </div>
 
-<div
-  class="field-container max-width"
-  validate-on="change"
-  ng-class="{'error': errorMessage}">
-  <label>nome do domínio</label><br>
-  <input
-    ng-model="domainName"
-    type="text"
-    name="domain-name"
-    placeholder="exemplo.com"
-  >
-  <div class="field-error-message">{{ errorMessage }}</div>
-</div>
+<form ng-submit="saveConnection()">
+  <div
+    class="field-container max-width"
+    validate-on="change"
+    ng-class="{'error': errorMessage}">
+    <label>nome do domínio</label><br>
+    <input
+      autofocus
+      ng-model="domainName"
+      type="text"
+      name="domain-name"
+      placeholder="exemplo.com"
+    >
+    <div class="field-error-message">{{ errorMessage }}</div>
+  </div>
 
-<div class="button" ng-click="saveConnection()">continuar</div>
+  <button class="button" type="submit">continuar</button>
+
+</form>

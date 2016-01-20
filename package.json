@@ -44,6 +44,7 @@
     "lodash": "^3.10.1",
     "parse": "^1.6.9",
     "project-name-generator": "^2.1.1",
+    "slug": "^0.9.1",
     "superagent": "^1.4.0"
   }
 }

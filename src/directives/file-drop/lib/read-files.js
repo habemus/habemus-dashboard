@@ -135,25 +135,31 @@ function _parseWebkitEntry(entry, basePath) {
  * @return {Promise -> Array[FileDataObject]}   [description]
  */
 function fromDropEvent(e, filterFn) {
+  var items = Array.prototype.slice.call(e.dataTransfer.items, 0);
 
-  var defer = Q.defer();
-
-  var items = e.dataTransfer.items;
+  // variable that holds the root directory of the drop event
+  var rootDir = '';
 
   var parsePromises = _.map(items, function (item) {
 
     var entry = item.webkitGetAsEntry();
 
-    if (entry.isDirectory) {
-      return _parseDirectoryEntry(entry, '', {
-        isRoot: true,
-      });
+    if (entry.isDirectory && items.length === 1) {
+      // dropping single directory
+      rootDir = entry.name;
+
+      return _parseDirectoryEntry(entry, '', { isRoot: true });
     } else {
-      return _parseFileEntry(entry, '');
+
+      if (entry.isDirectory) {
+        return _parseDirectoryEntry(entry, '', { isRoot: false });
+      } else {
+        return _parseFileEntry(entry, '');
+      }
     }
   });
 
-  Q.all(parsePromises)
+  return Q.all(parsePromises)
     .then(function (files) {
 
       // flatten deep array
@@ -163,13 +169,13 @@ function fromDropEvent(e, filterFn) {
       if (typeof filterFn === 'function') {
         files = _.filter(files, filterFn);
       }
-      
-      defer.resolve(files);
-    }, function (err) {
-      console.warn(err);
-    });
 
-  return defer.promise;
+      return {
+        rootDir: rootDir,
+        files: files
+      };
+
+    });
 }
 
 function fromFileInput(input) {

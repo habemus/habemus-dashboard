@@ -1,0 +1,14 @@
+<div class="content">
+  <h2>Excluir projeto</h2>
+  
+  <p>Tem certeza de que deseja excluir sua conta?</p>
+  <p>Você perderá todos os projetos.</p>
+  <p>Essa ação não poderá ser desfeita.</p>
+  
+  <button class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">não excluir</button>
+  <button class="ngdialog-button ngdialog-button-secondary" ng-click="confirm()">excluir definitivamente</button>
+  
+  <div class="loading-state" ng-class="{'active':loading}">
+      <div class="spinner"></div>
+  </div>
+</div>

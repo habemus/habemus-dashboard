@@ -17,7 +17,7 @@
     <a href="index.html" id="logo">
       <img id="logo-light" src="../../resources/img/logo-light.svg">
     </a>
-        
+
     <div ng-if="currentUser" ng-click="toggleMenu()" id="user-menu" ng-class="{ active: menuIsOpen }">
       <div id="user">
         {{ currentUser.name }}
@@ -27,10 +27,15 @@
         <ul id="menu" class="shadow">
           <li><a href="#/">meus projetos</a></li>
           <li><a href="#/account">minha conta</a></li>
-          <li><a href="" ng-click="logOut()">sair</a></li>
+          <li><a ng-click="logOut()">sair</a></li>
+
+          <li><a ng-click="setLanguage('en_US')">en</a></li>
+          <li><a ng-click="setLanguage('pt_BR')">pt</a></li>
+    
         </ul>
       </div>
+
+      <div id="menu-overlay" ng-click="toggleMenu(); $event.stopPropagation();"></div>
     </div>
-    
   </div>
 </div>

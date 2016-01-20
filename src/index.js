@@ -1,12 +1,15 @@
 'use strict';
 
-
+var path = require('path');
+var fs   = require('fs');
 /**
  * Globals: angular
  */
 var DASHBOARD = angular.module('habemus-dashboard', [
+  'ngSanitize',
+  'ngCookies',
+  'pascalprecht.translate',
   'ui.router',
-  'ui.tree',
   'ngDialog',
   'ui.bootstrap',
   'file-model',
@@ -44,114 +47,60 @@ require('./services')(DASHBOARD);
  * Controllers
  */
 require('./views/templates')(DASHBOARD);
-DASHBOARD.controller('ApplicationCtrl', function ApplicationCtrl($scope, auth, $rootScope, $state, Parse) {
 
-  var currentUserModel = auth.getCurrentUser();
-
-  if (currentUserModel) {
-
-    currentUserModel.fetch()
-      .then(function (user) {
-        $scope.setCurrentUser(user.toJSON());
-      });
-
-
-    // $scope.currentUser = auth.current();
-    $scope.isAuthorized = auth.isAuthorized;
-  }
-
-  auth.on('logIn', function () {
-    auth.current()
-      .fetch()
-      .then(function (user) {
-        $scope.setCurrentUser(user.toJSON());
-      });
+DASHBOARD.config(function ($translateProvider) {
+  $translateProvider.useStaticFilesLoader({
+    prefix: '/resources/languages/',
+    suffix: '.json'
   });
-  
-  $scope.setCurrentUser = function (user) {
-    $scope.currentUser = user;
 
-    $scope.$apply();
-  };
-  
-  // history object to save the history
-  var history = [];
-  
-  $rootScope.$on('$stateChangeSuccess', function (ev, to, toParams, from, fromParams) {
-    
-    var last = {
-      state: from,
-      params: fromParams
-    };
+  // enable it so that missing translations are logged
+  $translateProvider.useMissingTranslationHandlerLog();
 
-    // add to the history
-    history.push(last);
+  $translateProvider.useSanitizeValueStrategy('escape');
+  $translateProvider.useLocalStorage();
+
+  $translateProvider.translations('en', require('./resources/languages/en.json'));
+
+  $translateProvider.preferredLanguage('en');
+  $translateProvider.fallbackLanguage('en');
+  
+  $translateProvider.registerAvailableLanguageKeys(['en', 'pt'], {
+    'en_US': 'en',
+    'pt_BR': 'pt'
   });
-  
-  $scope.goBack = function () {
-    
-    var last = history.pop();
-    
-    $state.go(last.state.name, last.params)
-      .then(function () {
-        // pop the last again so that the current state does not get into the history stack
-        history.pop();
-      });
-  }
-  
-  $scope.handleFileChange = function () {
-    console.log(arguments);
-  }
-  
-  $scope.submitFeedback = function () {
-    
-    var message = $scope.message;
-//    var file = $scope.file;
-    console.log($('#test-file'))
-    
-    var file = $('#test-file')[0].files[0];
-    
-    var parseFile = new Parse.File(file.name, file);
-    
-    parseFile.save().then(function() {
-      var feedback = new Parse.Object("Feedback");
-      feedback.set("image", parseFile);
-      feedback.set("user", Parse.User.current());
-      feedback.set("message", message);
-      
-      feedback.save().then(function(){
-        console.log("salvou");
-      }, function(error){
-        console.log(error);
-      })
-      
-    }, function(error){
-      console.log(error);
-    })
-
-
-//        fileToParse.save().then(function() {
-//          // The file has been saved to Parse.
-//
-//
-//          var feedback = new Parse.Object("Feedback");
-//          feedback.set("image", fileToParse);
-//          feedback.set("user", Parse.User.current());
-//          feedback.set("message", msgInput);
-//
-//          feedback.save().then(function() {
-//            console.log("salvou", fileToParse);
-//          }, function(error){
-//            console.log("erro", error);
-//          });
-//
-//        }, function(error) {
-//          // The file either could not be read, or could not be saved to Parse.
-//          console.log("erro", fileToParse);
-//        });
-    
-  }
 });
+
+// verify authentication on statechange
+DASHBOARD.run(function ($rootScope, $state, $location, AUTH_EVENTS, auth, authModal, ngDialog) {
+
+  window.auth = auth;
+
+  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
+
+    if (toState.data && toState.data.authorizedRoles) {
+      var authorizedRoles = toState.data.authorizedRoles;
+
+      if (!auth.isAuthorized(authorizedRoles)) {
+        event.preventDefault();
+        if (auth.isAuthenticated()) {
+          // user is not allowed
+          $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+        } else {
+
+          auth.handleSessionReset();
+
+          // user is not logged in
+          $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+        }
+      }
+    }
+
+    // no authorization config set, thus simply continue
+  });
+});
+
+DASHBOARD.controller('ApplicationCtrl', require('./application-ctrl'));
 
 
 /**

@@ -7,7 +7,7 @@
   <p>renomear domínio</p>
 </div>
 
-<a href="http://{{ project.safeName }}.habemus.xyz" target="_blank" class="">http://{{ project.safeName }}.habemus.xyz</a>
+<a href="http://{{ project.safeName }}.habemus.website" target="_blank" class="">http://{{ project.safeName }}.habemus.website</a>
 
 <div class="max-width">
   <div class="margin-bottom">
@@ -18,8 +18,11 @@
     <p style="color: #E29A27"><span >Atenção:</span> Ao renomear o domínio habemus, o link será alterado e o link antigo não funcionará mais.</p>
   </div>
 
-  <div class="input-button">
-    <input placeholder="{{ project.safeName }}">
-    <div class="button secundary">renomear domínio</div>
-  </div>
+  <form ng-submit="setProjectSafeName()">
+    <div class="input-button">
+      <input autofocus placeholder="{{ project.safeName }}" ng-model="newSafeName">
+      <button class="button secundary">renomear domínio</button>
+    </div>
+    <div>{{ error }}</div>
+  </form>
 </div>

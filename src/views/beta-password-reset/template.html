@@ -1,38 +1,41 @@
 <div class="content">
   <h2>Para sua segurança, redefina sua senha</h2>
-  
-  <div
-  class="field-container"
-  validate-on="change"
-  ng-class="{'error': errorMessage}"
-  >
-    <label>new password</label><br>
-    <input
-      type="password"
-      name="password"
-      placeholder="password"
-    >
-    <div class="field-error-message"></div>
-  </div>
 
-  <div
-    class="field-container"
-    validate-on="change"
-    ng-class="{'error': errorMessage}"
-    >
-    <label>confirm new password</label><br>
-    <input
-      type="password"
-      name="password-confirmation"
-      placeholder="confirm password"
-      >
-    <div class="field-error-message"></div>
-  </div>
-  
-  <button class="ngdialog-button ngdialog-button-primary" ng-click="confirm()">confirmar nova senha</button>
-  <button class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">manter senha</button>
+  <form ng-submit="changeBetaPassword()">
+
+    <div
+      class="field-container"
+      ng-class="{'error': newPasswordErrorMessage }">
+      <label>new password</label><br>
+      <input
+        type="password"
+        name="password"
+        ng-model="newPassword"
+        ng-blur="validatePassword()"
+        placeholder="password">
+      <div class="field-error-message">{{ newPasswordErrorMessage }}</div>
+    </div>
+
+    <div
+      class="field-container"
+      ng-class="{'error': newPasswordConfirmErrorMessage }">
+      <label>confirm new password</label><br>
+      <input
+        type="password"
+        name="password-confirmation"
+        ng-model="newPasswordConfirm"
+        placeholder="confirm password">
+      <div class="field-error-message">{{ newPasswordConfirmErrorMessage }}</div>
+    </div>
+    
+    <button
+      type="submit"
+      class="ngdialog-button ngdialog-button-primary">
+      confirmar nova senha
+    </button>
+  </form>
   
   <div class="loading-state" ng-class="{'active':loading}">
-      <div class="spinner"></div>
+    <div class="spinner"></div>
   </div>
 </div>

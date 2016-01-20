@@ -4,7 +4,7 @@
   ng-controller="ApplicationCtrl"
   file-drop-container>
   <head>
-    <title>{{ hello }}</title>
+    <title ng-bind="pageTitle"></title>
     
     <meta charset="UTF-8">
     <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1">
@@ -13,8 +13,6 @@
     <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,300italic,400italic,600italic,600|Montserrat:400,700' rel='stylesheet' type='text/css'>
 
     <!-- build:css habemus.css -->
-    <link rel="stylesheet" type="text/css" href="bower_components/angular-ui-tree/dist/angular-ui-tree.min.css">
-<!--    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.css">-->
     <link rel="stylesheet" type="text/css" href="bower_components/ng-dialog/css/ngDialog.css">
     <link rel="stylesheet" type="text/css" href="bower_components/ng-dialog/css/ngDialog-theme-default.css">
     <link rel="stylesheet" type="text/css" href="index.bundle.css">
@@ -28,12 +26,18 @@
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
     <script src="bower_components/angular-file-model/angular-file-model.js"></script>
     <script src="bower_components/ng-dialog/js/ngDialog.js"></script>
-    <script src="bower_components/angular-ui-tree/dist/angular-ui-tree.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+    <script src="bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
+    <script src="bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
     <script src="index.bundle.js"></script>
     <!-- endbuild -->
     
   </head>
-  <body>
+  <body ng-cloak>
 
     <section ui-view="header" id="header-section">
     </section>
@@ -49,15 +53,52 @@
       </div>
     </div>
     
-    <form id="feedback-form" ng-submit="submitFeedback()"  method="post">
-      <!-- the redirect_to is optional, the form will redirect to the referrer on submission -->
-      <input type='hidden' name='redirect_to' value='<the complete return url e.g. http://fooey.com/thank-you.html>' />
-      <!-- all your input fields here.... -->
-      <input type='text' name='message' ng-model="message" />
-      <input type='file' name='file' file-model='file' id="test-file"/>  
-      <input type='submit' value='Test form' />
-    </form>
-
+    <div id="feedback-section" class="shadow" ng-class="{ active: boxIsOpen }">
+      <div class="box-title" ng-click="openBoxFeedback()">
+        <div ng-show="boxIsOpen">queremos te ouvir :)</div>
+        <div ng-hide="boxIsOpen">mande um feedback pra gente!</div>
+        <div class="box-icon-open" ng-hide="boxIsOpen" ></div>
+        <div class="box-icon-close" ng-show="boxIsOpen" ng-click="closeBoxFeedback(); $event.stopPropagation()"></div>
+      </div>
+      <div class="box-content">
+        <form id="feedback-form" ng-submit="submitFeedback()"  method="post">
+<!--
+          <input type='text' name='message' ng-model="message" />
+          <input type='file' name='file' file-model='file' id="file-upload"/>  
+          <input type='submit' value='Test form' />
+-->
+          
+          
+          <div
+            class="field-container">
+            <label>o que você está achando da habemus?</label><br>
+            <textarea
+              type="text"
+              name="message"
+              placeholder="dúvida, bug, sugestão, comentário, melhoria..."
+              ng-model="message">
+            </textarea>
+          </div>
+            
+          <div class="field-container">
+            <label>quer anexar uma imagem para facilitar a comunicação?</label><br>
+            <input
+              type="file"
+              name="file"
+              file-model="file"
+              id="file-upload"
+            >
+          </div>
+          
+          <button class="button">
+            enviar
+          </button>
+          
+          <span class="feedback-message" >{{ resultMessage }}</span>
+        </form>
+      </div>
+    </div>
+    
     
   </body>
 </html>
