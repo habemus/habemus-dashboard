@@ -53,11 +53,25 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
       auth.getCurrentUser()
         .fetch()
         .then(function (user) {
-          $scope.setCurrentUser(user.toJSON());
+
+          var userData = user.toJSON();
+
+          $scope.setCurrentUser(userData);
+
+          // remove this for final publish
+          // requirePasswordReset_ is required if not defined otherwise
+          var requirePasswordReset_ = userData.requirePasswordReset_;
+
+          if (typeof requirePasswordReset_ === 'undefined') {
+            requirePasswordReset_ = true;
+          }
 
           // check for beta users that need to change password
-          if (user.toJSON().requirePasswordReset_) {
-            betaPasswordResetModal.open();
+          if (requirePasswordReset_) {
+            
+            betaPasswordResetModal.open({
+              welcomeMessage: userData.welcomeMessage
+            });
           }
         }, function (err) {
 

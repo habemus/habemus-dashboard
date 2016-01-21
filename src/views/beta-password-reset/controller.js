@@ -2,12 +2,14 @@
 
 var Q = require('q');
 
-module.exports = /*@ngInject*/ function BetaPasswordReset($scope, $state, auth) {
+module.exports = /*@ngInject*/ function BetaPasswordReset($scope, $state, auth, ngDialog) {
 
   var hasAttemptedSubmit = false;
 
   $scope.newPassword        = '';
   $scope.newPasswordConfirm = '';
+
+  $scope.step = 'reset';
 
   $scope.validatePassword = function () {
 
@@ -61,18 +63,20 @@ module.exports = /*@ngInject*/ function BetaPasswordReset($scope, $state, auth) 
 
           // reload page as we do not want the betaData
           // to stay on the url
-          var targetUrl = [
-            window.location.protocol + '//',
-            window.location.host,
-            window.location.pathname,
-          ].join('');
+          // var targetUrl = [
+          //   window.location.protocol + '//',
+          //   window.location.host,
+          //   window.location.pathname,
+          // ].join('');
 
-          window.location.replace(targetUrl);
+          // window.location.replace(targetUrl);
+
+          $scope.step = 'welcome';
 
           $scope.loading = false;
           $scope.$apply();
 
-          this.closeThisDialog();
+          // this.closeThisDialog();
         }.bind(this), function (err) {
 
           $scope.loading = false;

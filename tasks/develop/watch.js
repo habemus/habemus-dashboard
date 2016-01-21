@@ -94,7 +94,7 @@ module.exports = function (gulp, $) {
       ghostMode: false,
       port: 4000,
       server: {
-        baseDir: 'src',
+        baseDir: '',
       },
       open: true,
     });

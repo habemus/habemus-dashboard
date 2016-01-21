@@ -1,41 +1,57 @@
 <div class="content">
-  <h2>Para sua segurança, redefina sua senha</h2>
 
-  <form ng-submit="changeBetaPassword()">
+  <div ng-show="step === 'reset'">
 
-    <div
-      class="field-container"
-      ng-class="{'error': newPasswordErrorMessage }">
-      <label>new password</label><br>
-      <input
-        type="password"
-        name="password"
-        ng-model="newPassword"
-        ng-blur="validatePassword()"
-        placeholder="password">
-      <div class="field-error-message">{{ newPasswordErrorMessage }}</div>
-    </div>
+    <h2>Para sua segurança, redefina sua senha</h2>
 
-    <div
-      class="field-container"
-      ng-class="{'error': newPasswordConfirmErrorMessage }">
-      <label>confirm new password</label><br>
-      <input
-        type="password"
-        name="password-confirmation"
-        ng-model="newPasswordConfirm"
-        placeholder="confirm password">
-      <div class="field-error-message">{{ newPasswordConfirmErrorMessage }}</div>
-    </div>
+    <form ng-submit="changeBetaPassword()">
+
+      <div
+        class="field-container"
+        ng-class="{'error': newPasswordErrorMessage }">
+        <label>new password</label><br>
+        <input
+          type="password"
+          name="password"
+          ng-model="newPassword"
+          ng-blur="validatePassword()"
+          placeholder="password">
+        <div class="field-error-message">{{ newPasswordErrorMessage }}</div>
+      </div>
+
+      <div
+        class="field-container"
+        ng-class="{'error': newPasswordConfirmErrorMessage }">
+        <label>confirm new password</label><br>
+        <input
+          type="password"
+          name="password-confirmation"
+          ng-model="newPasswordConfirm"
+          placeholder="confirm password">
+        <div class="field-error-message">{{ newPasswordConfirmErrorMessage }}</div>
+      </div>
+      
+      <button
+        type="submit"
+        class="ngdialog-button ngdialog-button-primary">
+        confirmar nova senha
+      </button>
+    </form>
     
-    <button
-      type="submit"
-      class="ngdialog-button ngdialog-button-primary">
-      confirmar nova senha
-    </button>
-  </form>
-  
-  <div class="loading-state" ng-class="{'active':loading}">
-    <div class="spinner"></div>
+    <div class="loading-state" ng-class="{'active':loading}">
+      <div class="spinner"></div>
+    </div>
+
+  </div>
+
+  <div ng-show="step === 'welcome'">
+    <p>{{ ngDialogData.welcomeMessage }}</p>
+
+    <a
+      href="."
+      class="button ngdialog-button ngdialog-button-primary">
+      começar!
+    </a>
+
   </div>
 </div>

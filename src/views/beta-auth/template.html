@@ -6,11 +6,10 @@
     <div
       class="field-container"
       ng-class="{'error': errorMessage}">
-      <label>token</label><br>
+      <label>insira seu código de acesso</label><br>
       <input
-        type="text"
-        name="token"
-        placeholder="token"
+        type="password"
+        placeholder="código de acesso"
         ng-model="betaToken">
       <div ng-if="errorMessage" class="field-error-message">
         {{ errorMessage }}
@@ -18,16 +17,10 @@
     </div>
     
     <button class="ngdialog-button ngdialog-button-primary">
-      send
+      enviar
     </button>
-  <!--   <button
-      class="ngdialog-button ngdialog-button-secondary"
-      ng-click="closeThisDialog()">
-      sign-up
-    </button>
- -->
-  </form>
 
+  </form>
   
   <div class="loading-state" ng-class="{'active':loading}">
     <div class="spinner"></div>
