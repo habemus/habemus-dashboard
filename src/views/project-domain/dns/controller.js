@@ -2,7 +2,7 @@
 
 var INTERVAL_TIME = 10000;
 
-module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, $interval, projectAPI) {
+module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, $interval, projectAPI, loadingDialog) {
   
   /**
    * Var to hold reference to the interval that checks for domain status
@@ -29,7 +29,9 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
    */
   $scope.loadDomainDnsConfigurations = function () {
 
-    $('.loading-state').addClass('active');
+    loadingDialog.open({
+      message: 'loading domain configurations'
+    });
 
     projectAPI
       .verifyDomainRecord($scope.project.id, $stateParams.domain.objectId)
@@ -80,10 +82,12 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
 
         $scope.$apply();
 
-        $('.loading-state').removeClass('active');
+        loadingDialog.close();
 
       }, function (err) {
+        console.warn(err);
 
+        loadingDialog.close();
       })
       .done();
   };
