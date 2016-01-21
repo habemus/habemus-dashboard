@@ -50,7 +50,7 @@ require('./views/templates')(DASHBOARD);
 
 DASHBOARD.config(function ($translateProvider) {
   $translateProvider.useStaticFilesLoader({
-    prefix: '/resources/languages/',
+    prefix: 'resources/languages/',
     suffix: '.json'
   });
 
