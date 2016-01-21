@@ -1,5 +1,5 @@
 <div class="content">
-  <div ng-hide="showMessage">
+  <div ng-hide="hideContent">
     <h2>Excluir projeto</h2>
 
     <p>Essa ação não poderá ser desfeita.</p>
@@ -16,6 +16,14 @@
         <div class="spinner"></div>
     </div>
   </div>
+
+  <div id="delete-project-feedback-message" ng-show="showSuccessMessage">
+    <img src="../../resources/img/icon-check-green.svg">
+    <h2>{{message}}</h2>
+  </div>
   
-  <div>{{message}}</div>
+  <div ng-show="showErrorMessage">
+    <h2>{{message}}</h2>
+  </div>
+  
 </div>

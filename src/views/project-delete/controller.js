@@ -22,20 +22,20 @@ module.exports = /*@ngInject*/ function projectDeleteCtrl($scope, $stateParams, 
       projectAPI.deleteProject($scope.project.id)
       .then(function () {
 
-        // go back to dashboard, the project won't exist anymore
-
         $scope.loading = false;
         
-        $scope.showMessage = true;
-        $scope.message = "projeto deletado com sucesso";
+        $scope.hideContent = true;
+        $scope.showSuccessMessage = true;
+        $scope.message = "projeto excluído com sucesso";
         
         $scope.$apply();
-        
+ 
+        // go back to dashboard, the project won't exist anymore
         $state.go('dashboard');
         
         setTimeout(function () {
           $scope.closeThisDialog();
-        }, 2000);
+        }, 2500);
 
       }, function (err) {
 
@@ -43,7 +43,8 @@ module.exports = /*@ngInject*/ function projectDeleteCtrl($scope, $stateParams, 
 
         $scope.loading = false;
         
-        $scope.showMessage = true;
+        $scope.hideContent = true;
+        $scope.showErrorMessage = true;
         $scope.message = "falha ao deletar o projeto. Tente novamente.";
         
       })
