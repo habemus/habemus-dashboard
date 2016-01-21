@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = /*@ngInject*/ function ($scope, $stateParams, projectAPI) {
+module.exports = /*@ngInject*/ function ($scope, $stateParams, loadingDialog, projectAPI) {
   
   $scope.setProjectSafeName = function () {
 
@@ -11,7 +11,9 @@ module.exports = /*@ngInject*/ function ($scope, $stateParams, projectAPI) {
       return;
     }
 
-    $('.loading-state').addClass('active');
+    loadingDialog.open({
+      message: 'renaming project domain'
+    });
 
     projectAPI.setProjectSafeName($scope.project.id, newSafeName)
       .then(function (res) {
@@ -23,16 +25,15 @@ module.exports = /*@ngInject*/ function ($scope, $stateParams, projectAPI) {
 
         console.log('success', res);
       }, function (err) {
-        
-        $('.loading-state').removeClass('active');
+
+        loadingDialog.close();
 
         $scope.error = err.response.body.error.message;
 
         $scope.$apply();
       })
       .then(function () {
-
-        $('.loading-state').removeClass('active');
+        loadingDialog.close();
       });
   };
 };

@@ -2,7 +2,7 @@
 
 var INTERVAL_TIME = 10000;
 
-module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, $interval, projectAPI) {
+module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, $interval, projectAPI, loadingDialog) {
   
   /**
    * Var to hold reference to the interval that checks for domain status
@@ -30,7 +30,7 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
   $scope.loadDomainDnsConfigurations = function () {
     
     $scope.verifying = true;
-
+    
     projectAPI
       .verifyDomainRecord($scope.project.id, $stateParams.domain.objectId)
       .then(function (domainRecord) {
@@ -75,7 +75,6 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
         //     $scope.inProgress = true;
         //   }
         // });
-
         setTimeout(function() {
           $scope.verifying = false;
           
@@ -84,7 +83,9 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
         }, 1000);
 
       }, function (err) {
+        console.warn(err);
 
+        loadingDialog.close();
       })
       .done();
   };
