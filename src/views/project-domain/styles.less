@@ -134,5 +134,39 @@
         padding: 0 0 10px 0;
       }
     }
+    
+    .dns-buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 12px;
+      
+      .progress {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        
+        .pading-right {
+          padding-right: 8px;
+        }
+        
+        img {
+          @keyframes rotating {
+            from {
+              transform: rotate(0deg);
+            }
+            to {
+              transform: rotate(360deg);
+            }
+          }
+
+          animation: rotating 1s linear infinite;
+          &.active {
+            
+          }
+        }
+      }
+    }
   }
 }

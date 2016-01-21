@@ -8,10 +8,8 @@ var fs   = require('fs');
 var _    = require('lodash');
 
 
-module.exports = /*@ngInject*/ function tabCtrlDomainDetail($scope, $stateParams, $state, ngDialog, projectAPI) {
+module.exports = /*@ngInject*/ function tabCtrlDomainDetail($scope, $stateParams, $state, ngDialog, projectAPI, loadingDialog) {
   $scope.domain = $stateParams.domain;
-  
-//  console.log("tudo certo!");
   
   /**
    * Disconnect domain
@@ -25,7 +23,9 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDetail($scope, $stateParams
     })
     .then(function () {
 
-      $(".loading-state").addClass("active");
+      loadingDialog.open({
+        message: 'disconnecting domain'
+      });
 
       return projectAPI.deleteDomainRecord(
         $scope.project.id,
@@ -37,7 +37,8 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDetail($scope, $stateParams
       })
       .then(function () {
         $state.go('project.domain.info');
-        $('.loading-state').removeClass('active');
+
+        loadingDialog.close();
       });
       
     }, function () {

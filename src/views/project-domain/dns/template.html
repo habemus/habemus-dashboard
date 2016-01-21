@@ -23,7 +23,7 @@
     <th>host</th>
     <th>record</th> 
     <th>required data</th>
-    <th>current data (status)</th>
+    <th>current data</th>
     <th>stability</th>
   </tr>
   <tr class="table-row-body" ng-repeat="dnsRecord in dnsRecords">
@@ -35,11 +35,20 @@
   </tr>
 </table>
 
-<div ng-if="inProgress" class="button secundary" ng-click="loadDomainDnsConfigurations()">
-  testar conexão
-</div>
-<a ng-if="!inProgress" target="_blank" href="http://{{ domainRecord.hostname }}">
-  <div class="button secundary">
-    testar conexão
+<div class="dns-buttons">
+  <div>
+    <div ng-if="inProgress" class="button secundary" ng-click="loadDomainDnsConfigurations()">
+      testar conexão
+    </div>
+    <a ng-if="!inProgress" target="_blank" href="http://{{ domainRecord.hostname }}">
+      <div class="button secundary">
+        testar conexão
+      </div>
+    </a>
   </div>
-</a>
+  <div class="progress" ng-show="verifying">
+    <div class="pading-right">verificando a conexão</div>
+    <img src="resources/img/icon-progress.svg">
+    
+  </div>
+</div>  
