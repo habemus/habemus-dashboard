@@ -359,6 +359,7 @@ b {
       height: 26px;
       margin-left: 16px;
       background: url("resources/img/icon-feedback-gray.svg") no-repeat center;
+      cursor: pointer;
       
       transition: background 0.3s ease;
     }
@@ -399,9 +400,11 @@ b {
         height: 26px;
         margin-left: 16px;
         background: url("resources/img/close-normal.svg") no-repeat center;
+        cursor: pointer;
         
         &:hover {
           background: url("resources/img/close-hover.svg") no-repeat center;
+          cursor: pointer;
         }
       }
     }
@@ -410,5 +413,19 @@ b {
       max-height: 300px;
       padding: 12px 24px 24px 24px; 
     }
+  }
+}
+
+#delete-project-feedback-message {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  
+  h2 {
+    margin-bottom: 0;
+  }
+  
+  img {
+    margin-right: 8px;
   }
 }

@@ -179,7 +179,7 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
         feedback.save().then(function(){
           $scope.message = "";
           $('#file-upload').val("");
-          $scope.resultMessage = "Sucesso!"
+          $scope.resultMessage = "Thanks for the feedback!"
           
           $scope.$apply();
           

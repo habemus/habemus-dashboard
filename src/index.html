@@ -62,16 +62,10 @@
       </div>
       <div class="box-content">
         <form id="feedback-form" ng-submit="submitFeedback()"  method="post">
-<!--
-          <input type='text' name='message' ng-model="message" />
-          <input type='file' name='file' file-model='file' id="file-upload"/>  
-          <input type='submit' value='Test form' />
--->
-          
           
           <div
             class="field-container">
-            <label>o que você está achando da habemus?</label><br>
+            <label>o que você está achando da habemus? como podemos melhorar?</label><br>
             <textarea
               type="text"
               name="message"
@@ -94,11 +88,10 @@
             enviar
           </button>
           
-          <span class="feedback-message" >{{ resultMessage }}</span>
+          <span class="feedback-message">{{ resultMessage }}</span>
         </form>
       </div>
     </div>
-    
     
   </body>
 </html>
