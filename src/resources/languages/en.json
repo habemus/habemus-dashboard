@@ -1,12 +1,73 @@
 {
-  "MY_PROJECTS": "My projects",
   "SESSION_EXPIRED_LOGIN": "Sorry, it looks like your session has expired. Please login:",
   "CREATED_AT": "created at",
+  "dashboard": {
+    "myProjects": "My projects",
+    "dragProjectDirectory1": "drag the folder",
+    "dragProjectDirectory2": "of a new project",
+    "dropHere": "drop here",
+    "editProject": "edit"
+  },
   "betaAuth": {
     "accessBetaVersion": "Access the beta version of habemus!",
     "insertAccessCode": "insert your access code",
+    "accessCode": "access code",
     "submit": "send",
     "noBetaCodeError": "please insert your access code",
     "invalidCodeError": "invalid access code"
+  },
+  "betaPasswordReset": {
+    "resetPassword": "For your security, define a password",
+    "newPassword": "password",
+    "confirmNewPassword": "confirm your password",
+    "submit": "submit",
+    "resetError": "there was a problem setting your password, please try again",
+    "start": "start!"
+  },
+  "auth": {
+    "usernameAndPasswordMismatch": "email and password do not match",
+    "email": "e-mail",
+    "usernamePlaceholder": "example@example.com",
+    "password": "password",
+    "login": "login"
+  },
+  "accountPasswordReset": {
+    "resetPassword": "Reset your password",
+    "newPassword": "new password",
+    "newPasswordConfirm": "confirm your new password",
+    "confirm": "confirm new password",
+    "cancel": "cancel",
+    "atLeast6Chars": "your password must have at least 6 characters",
+    "passwordsDoNotMatch": "passwords do not match",
+    "couldNotUpdatePassword": "there was an error resetting your password, please retry"
+  },
+  "accountDelete": {
+    "deleteAccount": "Delete account",
+    "areYouSure": "Are you sure you want to delete your account?",
+    "youllLoseAllProjects": "All your projects will be lost.",
+    "thisActionCannotBeUndone": "This action cannot be undone",
+    "cancel": "don't delete",
+    "confirm": "delete my account"
+  },
+  "account": {
+    "myAccount": "My account",
+    "fullName": "full name",
+    "email": "e-mail",
+    "resetPassword": "reset account password",
+    "deleteAccount": "delete account",
+    "save": "save modifications",
+    "discard": "discard modifications",
+    "updateDataError": "there was an error updating your account's data, please retry"
+  },
+  "feedback": {
+    "hearYou": "we want to hear you :)",
+    "sendUsYourFeedback": "send us a feedback!",
+    "whatDoYouThink": "what do you think of habemus? what can we improve?",
+    "ideaPlaceholder": "questions, bugs, suggestions, comments, improvements...",
+    "attachImage": "would you like to attach an image?",
+    "submit": "send",
+    "sending": "sending...",
+    "thanks": "Than you!!!",
+    "somethingWentWrong": "oops something went wrong, please retry"
   }
 }

@@ -1,6 +1,6 @@
 <div class="body-content-dashboard">
   
-  <h1 translate="MY_PROJECTS"></h1>
+  <h1 translate="dashboard.myProjects"></h1>
 
   <ul id="projects">
     
@@ -10,15 +10,19 @@
         <div class="upload-img">
         </div>
         
-        <h3 class="default">arraste a pasta <br>de um novo projeto</h3>
-        <h3 class="while-dragging">solte aqui</h3>
+        <h3 class="default">
+          <span translate="dashboard.dragProjectDirectory1"></span>
+          <br>
+          <span translate="dashboard.dragProjectDirectory2"></span>
+        </h3>
+        <h3 class="while-dragging" translate="dashboard.dropHere"></h3>
       </div>
     </li>
     
     <li ng-repeat="project in currentUserProjects" class="shadow">
       <div ng-click="navigateToProject(project.objectId)" class="each-project-content">
         <h2>{{ project.name }}</h2>
-        <a ng-click="$event.stopPropagation();" ng-href="http://{{ project.safeName }}.habemus.website/index.html" target="_blank">http://{{ project.safeName }}.habemus.website</a>
+        <a ng-click="$event.stopPropagation();" ng-href="http://{{ project.safeName }}.habemus.website" target="_blank">http://{{ project.safeName }}.habemus.website</a>
         
 <!-- printscreen - let commented until its available -->
 <!--
@@ -31,10 +35,13 @@
           
         </div>
 -->
-        <h4><span translate="CREATED_AT"></span> <b>{{project.createdAt | date : "dd MMM yyyy',' H:mm"}}</b></h4>
+        <h4>
+          <span translate="CREATED_AT"></span>
+          <b>{{project.createdAt | date : "dd MMM yyyy',' H:mm"}}</b>
+        </h4>
         
         <!-- temporary button - delete once printscreen is available-->
-        <div class="button centered temporary" translate="EDIT">editar</div>
+        <div class="button centered temporary" translate="dashboard.editProject"></div>
 
       </div>
     </li>

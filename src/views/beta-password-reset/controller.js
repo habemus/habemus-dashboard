@@ -2,7 +2,7 @@
 
 var Q = require('q');
 
-module.exports = /*@ngInject*/ function BetaPasswordReset($scope, $state, auth, ngDialog) {
+module.exports = /*@ngInject*/ function BetaPasswordReset($scope, $state, $translate, auth, ngDialog) {
 
   var hasAttemptedSubmit = false;
 
@@ -79,10 +79,11 @@ module.exports = /*@ngInject*/ function BetaPasswordReset($scope, $state, auth, 
           // this.closeThisDialog();
         }.bind(this), function (err) {
 
-          $scope.loading = false;
-
-          $scope.newPasswordConfirmErrorMessage = 'password reset error please retry';
-          $scope.$apply();
+          $translate('betaPasswordReset.resetError')
+            .then(function (errorMessage) {
+              $scope.loading = false;
+              $scope.newPasswordConfirmErrorMessage = errorMessage;
+            });
         })
         .done();
     }

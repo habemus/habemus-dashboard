@@ -1,5 +1,11 @@
 {
-  "MY_PROJECTS": "Meus projetos",
+  "dashboard": {
+    "myProjects": "Meus projetos",
+    "dragProjectDirectory1": "arraste a pasta",
+    "dragProjectDirectory2": "de um novo projeto",
+    "dropHere": "solte aqui",
+    "editProject": "editar"
+  },
   "domainInvalid": {
     "empty": "insira o nome do domínio que você possui",
     "invalid": "domínio inválido"
@@ -7,8 +13,63 @@
   "betaAuth": {
     "accessBetaVersion": "Acesse a versão beta da habemus!",
     "insertAccessCode": "insira seu código de acesso",
+    "accessCode": "código de acesso",
     "submit": "enviar",
     "noBetaCodeError": "por favor insira seu código de acesso",
     "invalidCodeError": "código de acesso inválido"
+  },
+  "betaPasswordReset": {
+    "resetPassword": "Para sua segurança, defina uma senha",
+    "newPassword": "senha",
+    "confirmNewPassword": "confirme sua senha",
+    "submit": "enviar",
+    "resetError": "ocorreu um erro ao criar sua senha, por favor tente novamente",
+    "start": "começar!"
+  },
+  "auth": {
+    "usernameAndPasswordMismatch": "usuário ou senha incorretos",
+    "email": "e-mail",
+    "usernamePlaceholder": "exemplo@exemplo.com",
+    "password": "senha",
+    "login": "login"
+  },
+  "accountPasswordReset": {
+    "resetPassword": "Redefinir senha da sua conta",
+    "newPassword": "nova senha",
+    "newPasswordConfirm": "confirme sua nova senha",
+    "confirm": "confirmar nova senha",
+    "cancel": "cancelar",
+    "atLeast6Chars": "sua senha deve ter no mínimo 6 caracteres",
+    "passwordsDoNotMatch": "as senhas estão diferentes",
+    "couldNotUpdatePassword": "ocorreu um erro ao redefinir sua senha, por favor tente novamente"
+  },
+  "accountDelete": {
+    "deleteAccount": "Excluir conta",
+    "areYouSure": "Tem certeza de que deseja excluir sua conta?",
+    "youllLoseAllProjects": "Você perderá todos os projetos.",
+    "thisActionCannotBeUndone": "Essa ação não poderá ser desfeita.",
+    "cancel": "não excluir",
+    "confirm": "excluir definitivamente"
+  },
+  "account": {
+    "myAccount": "Minha conta",
+    "fullName": "nome completo",
+    "email": "e-mail",
+    "resetPassword": "redefinir senha da conta",
+    "deleteAccount": "excluir conta",
+    "save": "salvar alterações",
+    "discard": "não salvar alterações",
+    "updateDataError": "ocorreu um erro ao atualizar os dados da sua conta, por favor tente novamente"
+  },
+  "feedback": {
+    "hearYou": "queremos te ouvir :)",
+    "sendUsYourFeedback": "mande um feedback pra gente!",
+    "whatDoYouThink": "o que você está achando da habemus? como podemos melhorar?",
+    "ideaPlaceholder": "dúvida, bug, sugestão, comentário, melhoria...",
+    "attachImage": "quer anexar uma imagem para facilitar a comunicação?",
+    "submit": "enviar",
+    "sending": "enviando...",
+    "thanks": "Obrigado!!!",
+    "somethingWentWrong": "algo deu errado, por favor tente novamente"
   }
 }

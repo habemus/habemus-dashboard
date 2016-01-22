@@ -9,7 +9,7 @@
       <label translate="betaAuth.insertAccessCode"></label><br>
       <input
         type="password"
-        placeholder="código de acesso"
+        placeholder="{{ 'betaAuth.accessCode' | translate }}"
         ng-model="betaToken">
       <div ng-if="errorMessage" class="field-error-message">
         {{ errorMessage }}

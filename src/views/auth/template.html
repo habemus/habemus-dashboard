@@ -5,40 +5,34 @@
 
     <div
       class="field-container">
-      <label>email</label><br>
+      <label translate="email"></label><br>
       <input
         type="text"
         name="email"
-        placeholder="example@example.com"
+        placeholder="{{ 'auth.usernamePlaceholder' | translate }}"
         ng-model="credentials.username">
     </div>
 
     <div
       class="field-container"
       ng-class="{'error': errorMessage}">
-      <label>password</label><br>
+      <label translate="password"></label><br>
       <input
         type="password"
         name="password"
-        placeholder="password"
+        placeholder="{{ 'auth.password' | translate }}"
         ng-model="credentials.password">
       <div ng-if="errorMessage" class="field-error-message">
         {{ errorMessage }}
       </div>
     </div>
     
-    <button class="ngdialog-button ngdialog-button-primary">
-      login
+    <button
+      class="ngdialog-button ngdialog-button-primary"
+      translate="auth.login">
     </button>
-  <!--   <button
-      class="ngdialog-button ngdialog-button-secondary"
-      ng-click="closeThisDialog()">
-      sign-up
-    </button>
- -->
   </form>
 
-  
   <div class="loading-state" ng-class="{'active':loading}">
     <div class="spinner"></div>
   </div>

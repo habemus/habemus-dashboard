@@ -1,9 +1,14 @@
-module.exports = /* @ngInject */ function PasswordResetCtrl($scope, auth) {
+module.exports = /* @ngInject */ function PasswordResetCtrl($scope, $translate, auth) {
 
   $scope.validatePassword = function () {
 
     if ($scope.newPassword.length < 6) {
-      $scope.newPasswordErrorMessage = 'password must have at least 6 characters';
+
+      $translate('accountPasswordReset.atLeast6Chars')
+        .then(function (errorMessage) {
+          $scope.newPasswordErrorMessage = errorMessage;
+        });
+
       return false;
     } else {
       $scope.newPasswordErrorMessage = '';
@@ -16,7 +21,12 @@ module.exports = /* @ngInject */ function PasswordResetCtrl($scope, auth) {
   $scope.validatePasswordConfirm = function () {
     
     if ($scope.newPassword !== $scope.newPasswordConfirm) {
-      $scope.newPasswordConfirmErrorMessage = 'passwords do not match';
+
+      $translate('accountPasswordReset.passwordsDoNotMatch')
+        .then(function (errorMessage) {
+          $scope.newPasswordConfirmErrorMessage = errorMessage;
+        });
+
       return false;
     } else {
       $scope.newPasswordConfirmErrorMessage = '';
@@ -40,11 +50,12 @@ module.exports = /* @ngInject */ function PasswordResetCtrl($scope, auth) {
 
         }, function (err) {
 
-          $scope.loading = false;
-
-          $scope.newPasswordConfirmErrorMessage = 'could not update password, please try again later';
-          $scope.$apply();
-        })
+          $translate('accountPasswordReset.couldNotUpdatePassword')
+            .then(function (errorMessage) {
+              $scope.loading = false;
+              $scope.newPasswordConfirmErrorMessage = errorMessage;
+            });
+        });
     }
 
   };

@@ -193,26 +193,37 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
         feedback.save().then(function(){
           $scope.message = "";
           $('#file-upload').val("");
-          $scope.resultMessage = "Thanks for the feedback!"
+
+          $translate('feedback.thanks')
+            .then(function (message) {
+              $scope.resultMessage = message;
+            });
           
           $scope.$apply();
           
         }, function(error){
           console.log(error);
-          $scope.resultMessage = "Something went wrong, please try again";
-          
-          $scope.$apply();
+
+          $translate('feedback.somethingWentWrong')
+            .then(function (message) {
+              $scope.resultMessage = message;
+            });
         })
 
       }, function(error){
         console.log(error);
-        $scope.resultMessage = "Something went wrong, please try again";
-        
-        $scope.$apply();
+
+        $translate('feedback.somethingWentWrong')
+          .then(function (message) {
+            $scope.resultMessage = message;
+          });
       })
     } else if (message) {
-      
-      $scope.resultMessage = "Enviando...";
+
+      $translate('feedback.sending')
+        .then(function (message) {
+          $scope.resultMessage = message;
+        });
             
       var feedback = new Parse.Object("Feedback");
       feedback.set("user", Parse.User.current());
@@ -221,13 +232,20 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
 
       feedback.save().then(function(){
         $scope.message = "";
-        $scope.resultMessage = "Thanks for the feedback!"
+
+        $translate('feedback.thanks')
+          .then(function (message) {
+            $scope.resultMessage = message;
+          });
         
         $scope.$apply();
         
       }, function(error){
-        console.log(error);
-        $scope.resultMessage = "Something went wrong, please try again";
+
+        $translate('feedback.somethingWentWrong')
+          .then(function (message) {
+            $scope.resultMessage = message;
+          });
         
         $scope.$apply();
       })

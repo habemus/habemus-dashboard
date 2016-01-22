@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = /*@ngInject*/ function LoginCtrl($scope, auth) {
+module.exports = /*@ngInject*/ function LoginCtrl($scope, $translate, auth) {
 
   $scope.credentials = {};
 
@@ -13,9 +13,12 @@ module.exports = /*@ngInject*/ function LoginCtrl($scope, auth) {
         $scope.loading = false;
         $scope.closeThisDialog();
       }, function (err) {
-        $scope.errorMessage = 'username and password do not match';
-        $scope.loading = false;
-        $scope.$apply();
+
+        $translate('auth.usernameAndPasswordMismatch')
+          .then(function (errorMessage) {
+            $scope.errorMessage = errorMessage;
+            $scope.loading = false;
+          });
       });
   };
 };

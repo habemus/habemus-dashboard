@@ -2,39 +2,39 @@
 
   <div ng-show="step === 'reset'">
 
-    <h2>Para sua segurança, redefina sua senha</h2>
+    <h2 translate="betaPasswordReset.resetPassword"></h2>
 
     <form ng-submit="changeBetaPassword()">
 
       <div
         class="field-container"
         ng-class="{'error': newPasswordErrorMessage }">
-        <label>new password</label><br>
+        <label translate="betaPasswordReset.newPassword"></label><br>
         <input
           type="password"
           name="password"
           ng-model="newPassword"
           ng-blur="validatePassword()"
-          placeholder="password">
+          placeholder="{{ 'betaPasswordReset.newPassword' | translate }}">
         <div class="field-error-message">{{ newPasswordErrorMessage }}</div>
       </div>
 
       <div
         class="field-container"
         ng-class="{'error': newPasswordConfirmErrorMessage }">
-        <label>confirm new password</label><br>
+        <label translate="betaPasswordReset.confirmNewPassword"></label><br>
         <input
           type="password"
           name="password-confirmation"
           ng-model="newPasswordConfirm"
-          placeholder="confirm password">
+          placeholder="{{ 'betaPasswordReset.confirmNewPassword' | translate }}">
         <div class="field-error-message">{{ newPasswordConfirmErrorMessage }}</div>
       </div>
       
       <button
         type="submit"
-        class="ngdialog-button ngdialog-button-primary">
-        confirmar nova senha
+        class="ngdialog-button ngdialog-button-primary"
+        translate="betaPasswordReset.submit">
       </button>
     </form>
     
@@ -49,8 +49,8 @@
 
     <a
       href="."
-      class="button ngdialog-button ngdialog-button-primary">
-      começar!
+      class="button ngdialog-button ngdialog-button-primary"
+      translate="betaPasswordReset.start">
     </a>
 
   </div>

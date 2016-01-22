@@ -10,7 +10,7 @@ var _    = require('lodash');
 // load models
 var DirectoryData = require('../../models/file-system/directory');
 
-module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $stateParams, $state, auth, ngDialog, loadingDialog) {
+module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $stateParams, $state, $translate, auth, ngDialog, loadingDialog) {
   
   /**
    * Object onto which the account data input fields
@@ -44,8 +44,10 @@ module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $statePa
 
       loadingDialog.close();
 
-      $scope.errorMessage = 'failed to update account data, please try again later';
-      $scope.$apply();
+      $translate('account.updateDataError')
+        .then(function (errorMessage) {
+          $scope.errorMessage = 'failed to update account data, please try again later';
+        });
     })
     .done();
   };

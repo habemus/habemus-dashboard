@@ -44,19 +44,11 @@
 
     <section ui-view="body" id="body-section">
     </section>
-
-    <div class="loading-state">
-      <div class="spinner"></div>
-      <div class="message">
-        <div class="text">subindo arquivos...</div>
-        <div class="progress">0%</div>
-      </div>
-    </div>
     
     <div id="feedback-section" class="shadow" ng-class="{ active: boxIsOpen }">
       <div class="box-title" ng-click="openBoxFeedback()">
-        <div ng-show="boxIsOpen">queremos te ouvir :)</div>
-        <div ng-hide="boxIsOpen">mande um feedback pra gente!</div>
+        <div ng-show="boxIsOpen" translate="feedback.hearYou"></div>
+        <div ng-hide="boxIsOpen" translate="feedback.sendUsYourFeedback"></div>
         <div class="box-icon-open" ng-hide="boxIsOpen" ></div>
         <div class="box-icon-close" ng-show="boxIsOpen" ng-click="closeBoxFeedback(); $event.stopPropagation()"></div>
       </div>
@@ -65,17 +57,17 @@
           
           <div
             class="field-container">
-            <label>o que você está achando da habemus? como podemos melhorar?</label><br>
+            <label translate="feedback.whatDoYouThink"></label><br>
             <textarea
               type="text"
               name="message"
-              placeholder="dúvida, bug, sugestão, comentário, melhoria..."
+              placeholder="{{ 'feedback.ideaPlaceholder' | translate }}"
               ng-model="message">
             </textarea>
           </div>
             
           <div class="field-container">
-            <label>quer anexar uma imagem para facilitar a comunicação?</label><br>
+            <label translate="feedback.attachImage"></label><br>
             <input
               type="file"
               name="file"
@@ -84,9 +76,7 @@
             >
           </div>
           
-          <button class="button">
-            enviar
-          </button>
+          <button class="button" translate="feedback.submit"></button>
           
           <span class="feedback-message">{{ resultMessage }}</span>
         </form>

@@ -1,30 +1,16 @@
 <div class="content">
-  <h2>Redefinir senha da sua conta</h2>
+  <h2 translate="accountPasswordReset.resetPassword"></h2>
 
   <form ng-submit="changePassword()">
-  
-<!--     <div
-      class="field-container"
-      ng-class="{'error': newPasswordErrorMessage }">
-      <label>old password</label><br>
-      <input
-        type="password"
-        name="password"
-        placeholder="password"
-        ng-model="oldPassword">
-      <div class="field-error-message">
-        {{ newPasswordErrorMessage }}
-      </div>
-    </div> -->
-    
+
     <div
       class="field-container"
       ng-class="{'error': newPasswordErrorMessage }">
-      <label>new password</label><br>
+      <label translate="accountPasswordReset.newPassword"></label><br>
       <input
         type="password"
         name="password"
-        placeholder="password"
+        placeholder="{{ 'accountPasswordReset.newPassword' | translate }}"
         ng-model="newPassword"
         ng-blur="validatePassword()">
       <div class="field-error-message">
@@ -35,11 +21,11 @@
     <div
       class="field-container"
       ng-class="{'error': newPasswordConfirmErrorMessage }">
-      <label>confirm new password</label><br>
+      <label translate="accountPasswordReset.newPasswordConfirm"></label><br>
       <input
         type="password"
         name="password-confirmation"
-        placeholder="confirm password"
+        placeholder="{{ 'accountPasswordReset.newPasswordConfirm' | translate }}"
         ng-model="newPasswordConfirm"
         ng-blur="validatePasswordConfirm()">
       <div class="field-error-message">
@@ -47,11 +33,16 @@
       </div>
     </div>
     
-    <button type="submit" class="ngdialog-button ngdialog-button-primary">
-      confirmar nova senha
+    <button
+      type="submit"
+      class="ngdialog-button ngdialog-button-primary"
+      translate="accountPasswordReset.confirm">
     </button>
-    <button type="button" class="ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog()">
-      cancelar
+    <button
+      type="button"
+      class="ngdialog-button ngdialog-button-secondary"
+      ng-click="closeThisDialog()"
+      translate="accountPasswordReset.cancel">
     </button>
   </form>
   

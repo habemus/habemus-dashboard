@@ -1,13 +1,12 @@
 <div class="body-content-account">
-  <h1>Minha conta</h1>
+  <h1 translate="account.myAccount"></h1>
 
   <form ng-submit="updateAccountData()">
 
     <div
       class="field-container"
-      validate-on="change"
       ng-class="{'error': errorMessage}">
-      <label>nome completo</label><br>
+      <label translate="account.fullName"></label><br>
       <input
         type="text"
         name="name"
@@ -17,18 +16,14 @@
       <div class="field-error-message">{{ errorMessage }}</div>
     </div>
     
-    <div
-      class="field-container"
-      validate-on="change"
-      ng-class="{'error': errorMessage}">
-      <label>e-mail</label><br>
+    <div class="field-container">
+      <label translate="account.email"></label><br>
       <input
         disabled
         type="text"
         name="username"
         value="{{ currentUser.username }}"
       >
-      <div class="field-error-message">{{ errorMessage }}</div>
     </div>
     
     <div class="actions">
@@ -42,7 +37,7 @@
   L3.192,10.712z M10.984,2.92l-0.778,0.779L8.259,1.751l0.778-0.779c0.312-0.311,0.779-0.311,1.091,0l0.856,0.857
   C11.297,2.141,11.297,2.609,10.984,2.92z"/>
         </svg>
-        redefinir senha da conta
+        <span translate="account.resetPassword"></span>
       </a>
 
       <a id="edit-domain" 
@@ -66,17 +61,15 @@
           <path d="M8.077,9.842c-0.212,0-0.354-0.142-0.354-0.354V6.665c0-0.212,0.142-0.352,0.354-0.352
               s0.354,0.14,0.354,0.352v2.824C8.431,9.7,8.289,9.842,8.077,9.842z"/>
         </svg>
-        excluir conta
+        <span translate="account.deleteAccount"></span>
       </a>
 
     </div>
     
     
     <div>
-      <button type="submit" class="button">salvar alterações</button>
-      <button type="button" class="button secundary" ng-click="resetAccountFormData()">
-        não salvar alterações
-      </button>
+      <button type="submit" class="button" translate="account.save"></button>
+      <button type="button" class="button secundary" ng-click="resetAccountFormData()" translate="account.discard"></button>
     </div>
 
   </form>
