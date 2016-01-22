@@ -10,6 +10,47 @@
     "domain": "domain",
     "delete": "delete",
   },
+  
+  "projectDelete": {
+    "title": "Delete project",
+    "p1": "This action can not be undone.",
+    "p2": "Write down the name of project you want to delete:",
+    "doNotDelete": "do not delete",
+    "deletePermanently": "delete permanentely",
+  },
+  
+  "projectDomain": {
+    "connect": {
+      "title": "connect a custom domain",
+      "p1": "Connect a domain you own to your project.",
+      "p2": "If you still don't own a domain, choose a name provider to have one.",
+      "nameOfDomain": "name of domain",
+      "continue": "continue",
+    },
+    
+    "detail": {
+      "title": "edit domain",
+      "p1": "This is a custom domain.",
+      "p2": "Managed by a third-party domain.",
+      "viewSettings": "view DNS settings",
+      "disconnectDomain": "disconnect custom domain",
+      
+    },
+    "disconnect": {
+      "title": "Desconnect",
+      "p11": "Are you sure you want to disconnect domain ",
+      "p12": "from your project?",
+      "p2": "This action can not be undone",
+      "p3": "You'll be able to connect it again in the future.",
+      "doNotDisconnect": "keep connected",
+      "disconnect": "disconnect domain"
+    },
+    
+    "dns": {},
+    "info": {},
+    "rename": {},
+    
+  },  
 
   "betaAuth": {
     "accessBetaVersion": "Access the beta version of habemus!",

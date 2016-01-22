@@ -1,16 +1,16 @@
 <div class="content">
   <div ng-hide="hideContent">
-    <h2>Excluir projeto</h2>
+    <h2 translate="projectDelete.title">Excluir projeto</h2>
 
-    <p>Essa ação não poderá ser desfeita.</p>
-    <p>Escreva o nome do projeto que deseja deletar:</p>
+    <p translate="projectDelete.p1">Essa ação não poderá ser desfeita.</p>
+    <p translate="projectDelete.p2">Escreva o nome do projeto que deseja deletar:</p>
 
     <div class="input">
       <input autofocus placeholder="{{ project.name }}" ng-model="projectName">
     </div>
 
-    <button class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">não excluir</button>
-    <button class="ngdialog-button ngdialog-button-secondary" ng-click="verifyAndConfirm()">excluir definitivamente</button>
+    <button class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()" translate="projectDelete.doNotDelete">não excluir</button>
+    <button class="ngdialog-button ngdialog-button-secondary" ng-click="verifyAndConfirm()" translate="projectDelete.deletePermanently">excluir definitivamente</button>
 
     <div class="loading-state" ng-class="{'active':loading}">
         <div class="spinner"></div>

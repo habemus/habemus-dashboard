@@ -1,12 +1,12 @@
 <div class="content">
-  <h2>Desconectar "{{domain.hostname}}"</h2>
+  <h2><span translate="projectDomain.disconnect.title">Desconectar</span> "{{domain.hostname}}"</h2>
   
-  <p>Tem certeza que deseja desconectar o domínio <b>{{domain.hostname}}</b> do seu projeto?</p>
-  <p>Essa ação não pode ser desfeita.</p>
-  <p>Você poderá conectá-lo novamente no futuramente.</p>
+  <p> <span translate="projectDomain.disconnect.p11">Tem certeza que deseja desconectar o domínio </span><b>{{domain.hostname}}</b> <span translate="projectDomain.disconnect.p12">do seu projeto?</span></p>
+  <p translate="projectDomain.disconnect.p2">Essa ação não pode ser desfeita.</p>
+  <p translate="projectDomain.disconnect.p3">Você poderá conectá-lo novamente no futuramente.</p>
   
-  <button class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()">cancelar</button>
-  <button class="ngdialog-button ngdialog-button-secondary" ng-click="confirm()">desconectar domínio</button>
+  <button class="ngdialog-button ngdialog-button-primary" ng-click="closeThisDialog()" translate="projectDomain.disconnect.doNotDisconnect">continuar conectado</button>
+  <button class="ngdialog-button ngdialog-button-secondary" ng-click="confirm()" translate="projectDomain.disconnect.disconnect">desconectar domínio</button>
   
   <div class="loading-state" ng-class="{'active':loading}">
       <div class="spinner"></div>
