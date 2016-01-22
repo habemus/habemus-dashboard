@@ -1,12 +1,12 @@
 <div class="content">
-  <h2>Acesse a versão beta da habemus!</h2>
+  <h2 translate="betaAuth.accessBetaVersion"></h2>
   
   <form ng-submit="submitToken()">
 
     <div
       class="field-container"
       ng-class="{'error': errorMessage}">
-      <label>insira seu código de acesso</label><br>
+      <label translate="betaAuth.insertAccessCode"></label><br>
       <input
         type="password"
         placeholder="código de acesso"
@@ -16,8 +16,9 @@
       </div>
     </div>
     
-    <button class="ngdialog-button ngdialog-button-primary">
-      enviar
+    <button
+      class="ngdialog-button ngdialog-button-primary"
+      translate="betaAuth.submit">
     </button>
 
   </form>

@@ -1,5 +1,12 @@
 {
   "MY_PROJECTS": "My projects",
   "SESSION_EXPIRED_LOGIN": "Sorry, it looks like your session has expired. Please login:",
-  "CREATED_AT": "created at"
+  "CREATED_AT": "created at",
+  "betaAuth": {
+    "accessBetaVersion": "Access the beta version of habemus!",
+    "insertAccessCode": "insert your access code",
+    "submit": "send",
+    "noBetaCodeError": "please insert your access code",
+    "invalidCodeError": "invalid access code"
+  }
 }

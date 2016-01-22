@@ -3,5 +3,12 @@
   "domainInvalid": {
     "empty": "insira o nome do domínio que você possui",
     "invalid": "domínio inválido"
+  },
+  "betaAuth": {
+    "accessBetaVersion": "Acesse a versão beta da habemus!",
+    "insertAccessCode": "insira seu código de acesso",
+    "submit": "enviar",
+    "noBetaCodeError": "por favor insira seu código de acesso",
+    "invalidCodeError": "código de acesso inválido"
   }
 }

@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = /*@ngInject*/ function LoginCtrl($scope, $state, auth, $location) {
+module.exports = /*@ngInject*/ function LoginCtrl($scope, $state, auth, $translate) {
 
   $scope.betaToken = '';
 
@@ -20,7 +20,11 @@ module.exports = /*@ngInject*/ function LoginCtrl($scope, $state, auth, $locatio
     if (!$scope.betaToken) {
 
       $scope.loading = false;
-      $scope.errorMessage = 'please insert your beta token';
+
+      $translate('betaAuth.noBetaCodeError')
+        .then(function (errorMessage) {
+          $scope.errorMessage = errorMessage;
+        });
 
     } else {
       auth.logIn(betaData.email, $scope.betaToken)
@@ -32,9 +36,12 @@ module.exports = /*@ngInject*/ function LoginCtrl($scope, $state, auth, $locatio
           $state.go('dashboard');
           $scope.closeThisDialog();
         }, function (err) {
-          $scope.loading = false;
-          $scope.errorMessage = 'sorry, invalid token';
-          $scope.$apply();
+
+          $translate('betaAuth.invalidCodeError')
+            .then(function (errorMessage) {
+              $scope.loading = false;
+              $scope.errorMessage = errorMessage;
+            });
         })
         .done();
     }
