@@ -6,8 +6,8 @@ var path = require('path');
 // external dependencies
 var generator = require('project-name-generator');
 
-module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state, zipper, ngDialog) {
-  
+module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state, zipper, ngDialog, loadingDialog) {
+
   // retrieve all projects owned by the current logged user
   // and put them onto the scope as `currentUserProjects`
   projectAPI.findProjects()
@@ -15,7 +15,6 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
       $scope.currentUserProjects = projects || [];
       $scope.$apply();
     });
-  
   
   /**
    * Navigate to the visualization of a given project
@@ -34,7 +33,9 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
   $scope.createProject = function (files, projectName) {
 
     // loading state starts
-    $(".loading-state").addClass("active");
+    loadingDialog.open({
+      message: 'preparing upload'
+    });
 
     var zip = zipper.create();
 
@@ -58,6 +59,8 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
       return zip.generate()
         .then(function (zipFile) {
 
+          loadingDialog.setMessage('uploading');
+
           console.log('zip file generated', zipFile);
           // upload
           var upload = projectAPI.uploadProjectZip(projectData.objectId, zipFile);
@@ -66,7 +69,7 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
             console.log('upload progress ', progress);
             
             // progress %
-            $(".progress").text(parseInt(progress.completed * 100) + "%");
+            loadingDialog.setProgress(parseInt(progress.completed * 100));
           });
 
           return upload;
@@ -76,8 +79,7 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
           $scope.navigateToProject(projectData.objectId);
         
           // loading state ends
-          $(".loading-state").removeClass("active");
-    
+          loadingDialog.close();    
         })
         .done();
     })
@@ -85,7 +87,7 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
 
       window.err = err;
 
-      $('.loading-state').removeClass('active');
+      loadingDialog.close();
     })
     .done();
   };

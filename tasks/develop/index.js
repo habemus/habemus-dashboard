@@ -10,7 +10,6 @@ var REQUIRED_CONFIGURATIONS = [
   'PARSE_APPLICATION_ID',
   'PARSE_JAVASCRIPT_KEY',
   'PROJECT_API_LOCATION',
-  'ROUTER_LOCATION',
 ];
 
 module.exports = function (gulp, $) {

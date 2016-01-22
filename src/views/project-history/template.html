@@ -1,7 +1,7 @@
 <div id="project-history-content">
   <h1>
     <a href="#/">meus projetos</a>  
-    <img class="arrow-right" src="../../resources/img/arrow-right.svg">  
+    <img class="arrow-right" src="resources/img/arrow-right.svg">  
     <span class="project-name" ng-click="editNameOfProject()">{{ project.name }} </span> 
     <span class="section-name">(histórico)</span>
   </h1>
@@ -28,7 +28,7 @@
           <span class="current" ng-if="version.name === project.activeVersion.name" uib-tooltip="this is current online version">current</span>
         </td>
         <td class="download" ng-click="downloadProjectVersion(version.name)">
-          <img src="../../resources/img/icon-download.svg">
+          <img src="resources/img/icon-download.svg">
           <span uib-tooltip="download this version">download</span>
         </td>
       </tr>

@@ -13,9 +13,8 @@ module.exports = /* @ngInject */ function (ngDialog) {
 
       options = options || {};
 
-      var message   = options.message || 'Login';
-      var closeable = options.closeable || false;
-
+      var welcomeMessage = options.welcomeMessage || 'Welcome!';
+      var closeable      = options.closeable || false;
 
       if (openDialog) {
         return openDialog;
@@ -27,7 +26,7 @@ module.exports = /* @ngInject */ function (ngDialog) {
           controller: require('../views/beta-password-reset/controller'),
 
           data: {
-            message: message,
+            welcomeMessage: welcomeMessage,
           },
 
           // prevent it from being closed by the user

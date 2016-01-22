@@ -11,7 +11,9 @@ var Q    = require('q');
 // load models
 var DirectoryData = require('../../models/file-system/directory');
 
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, projectAPI, zipper, auth, $timeout, ngDialog, CONFIG) {
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, projectAPI, zipper, auth, $timeout, ngDialog, CONFIG, loadingDialog) {
+
+  console.log('loadingDialog on ProjectCtrl', loadingDialog);
 
   var projectId = $stateParams.projectId;
 
@@ -90,35 +92,40 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
       zip.file(fData.path, fData.file);
     });
 
-    
-    // loading state starts
-    $(".loading-state").addClass("active");
-
+    loadingDialog.open({
+      message: 'preparing upload'
+    });
 
     return zip.generate()
       .then(function (zipFile) {
 
         console.log('zip file generated', zipFile);
+
+        loadingDialog.setMessage('uploading');
+
         // upload
         var upload = projectAPI.uploadProjectZip(projectId, zipFile);
 
         upload.progress(function (progress) {
           console.log('upload progress ', progress);
-          
+
           // progress %
-          $(".progress").text(parseInt(progress.completed * 100) + "%");
+          loadingDialog.setProgress(parseInt(progress.completed * 100));
         });
 
         return upload;
 
       })
       .then(function () {
+
+        loadingDialog.setMessage('reloading project data');
+
         return $scope.loadProject();
       })
       .finally(function () {
 
         // loading state ends
-        $(".loading-state").removeClass("active");
+        loadingDialog.close();
       })
       .done();
   };
@@ -131,14 +138,15 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
   $scope.downloadProjectVersion = function (versionName) {
 
     // loading state starts
-    $(".loading-state").addClass("active");
+    loadingDialog.open({
+      message: 'preparing download'
+    });
 
     return projectAPI
       .generateDownload($scope.project.id, versionName)
       .then(function (url) {
 
-        // loading state starts
-        $(".loading-state").removeClass("active");
+        loadingDialog.close();
 
         // http://stackoverflow.com/questions/1066452/easiest-way-to-open-a-download-window-without-navigating-away-from-the-page
         window.location.assign(url);
@@ -151,47 +159,35 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
   $scope.restoreProjectVersion = function (versionName) {
 
     // loading state starts
-    $(".loading-state").addClass("active");
+    loadingDialog.open({
+      message: 'restoring version ' + versionName
+    });
 
     return projectAPI.restoreVersion($scope.project.id, versionName)
       .then(function (res) {
 
-        $scope.loadProject();
+        loadingDialog.setMessage('reloading project data');
+
+        return $scope.loadProject();
         console.log(res);
       }, function (err) {
         console.warn('failed to restore version');
       })
       .then(function () {
         // loading state starts
-        $(".loading-state").removeClass("active");
-      })
-
-    // console.log('restore to %s', versionName);
+        loadingDialog.close();
+      });
   }
-
-
-  // delete project
+  
   $scope.deleteProject = function () {
-    $('.loading-state').addClass('active');
-
-    projectAPI.deleteProject(projectId)
-      .then(function () {
-
-        // go back to dashboard, the project won't exist anymore
-        $state.go('dashboard');
-
-        $('.loading-state').removeClass('active');
-
-      }, function (err) {
-
-        console.warn('failed to delete project', err);
-
-        $('.loading-state').removeClass('active');
-
-      })
-      .done();
+    ngDialog.open({ 
+      template: fs.readFileSync(path.join(__dirname, '../project-delete/template.html'), 'utf-8'),
+      plain: true,
+      className: 'ngdialog-theme-habemus',
+      controller: require('../project-delete/controller'),
+      scope: $scope,
+    });
   }
-
 
   $scope.loadProject();
 };

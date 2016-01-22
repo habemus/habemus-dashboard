@@ -12,6 +12,7 @@ var DASHBOARD = angular.module('habemus-dashboard', [
   'ui.router',
   'ngDialog',
   'ui.bootstrap',
+  'file-model',
 ]);
 
 /**
@@ -49,7 +50,7 @@ require('./views/templates')(DASHBOARD);
 
 DASHBOARD.config(function ($translateProvider) {
   $translateProvider.useStaticFilesLoader({
-    prefix: '/resources/languages/',
+    prefix: 'resources/languages/',
     suffix: '.json'
   });
 
@@ -97,12 +98,6 @@ DASHBOARD.run(function ($rootScope, $state, $location, AUTH_EVENTS, auth, authMo
 
     // no authorization config set, thus simply continue
   });
-
-  // set page title
-  $rootScope.$on('$stateChangeSuccess', function (event, toState, toParams, fromState, fromParams) {
-    $rootScope.pageTitle = toState.data.pageTitle || 'habemus';
-  });
-
 });
 
 DASHBOARD.controller('ApplicationCtrl', require('./application-ctrl'));

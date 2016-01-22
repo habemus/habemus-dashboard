@@ -24,6 +24,7 @@
     <script src="bower_components/angular/angular.js"></script>
     <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
     <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-file-model/angular-file-model.js"></script>
     <script src="bower_components/ng-dialog/js/ngDialog.js"></script>
     <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
     <script src="bower_components/angular-translate/angular-translate.js"></script>
@@ -49,6 +50,46 @@
       <div class="message">
         <div class="text">subindo arquivos...</div>
         <div class="progress">0%</div>
+      </div>
+    </div>
+    
+    <div id="feedback-section" class="shadow" ng-class="{ active: boxIsOpen }">
+      <div class="box-title" ng-click="openBoxFeedback()">
+        <div ng-show="boxIsOpen">queremos te ouvir :)</div>
+        <div ng-hide="boxIsOpen">mande um feedback pra gente!</div>
+        <div class="box-icon-open" ng-hide="boxIsOpen" ></div>
+        <div class="box-icon-close" ng-show="boxIsOpen" ng-click="closeBoxFeedback(); $event.stopPropagation()"></div>
+      </div>
+      <div class="box-content">
+        <form id="feedback-form" ng-submit="submitFeedback()"  method="post">
+          
+          <div
+            class="field-container">
+            <label>o que você está achando da habemus? como podemos melhorar?</label><br>
+            <textarea
+              type="text"
+              name="message"
+              placeholder="dúvida, bug, sugestão, comentário, melhoria..."
+              ng-model="message">
+            </textarea>
+          </div>
+            
+          <div class="field-container">
+            <label>quer anexar uma imagem para facilitar a comunicação?</label><br>
+            <input
+              type="file"
+              name="file"
+              file-model="file"
+              id="file-upload"
+            >
+          </div>
+          
+          <button class="button">
+            enviar
+          </button>
+          
+          <span class="feedback-message">{{ resultMessage }}</span>
+        </form>
       </div>
     </div>
     

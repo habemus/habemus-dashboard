@@ -3,7 +3,7 @@ var HabemusAuthClient       = require('h-auth/client');
 var HabemusProjectAPIClient = require('h-project-api/client');
 
 module.exports = function (DASHBOARD) {
-  DASHBOARD.factory('parse', function (CONFIG) {
+  DASHBOARD.factory('Parse', function (CONFIG) {
     Parse.initialize(
       CONFIG.parse.applicationId,
       CONFIG.parse.javascriptKey
@@ -11,18 +11,18 @@ module.exports = function (DASHBOARD) {
 
     return Parse;
   });
-  DASHBOARD.factory('auth', function (parse, CONFIG) {
+  DASHBOARD.factory('auth', function (Parse, CONFIG) {
 
     return new HabemusAuthClient({
-      parse: parse
+      parse: Parse
     });
   });
 
-  DASHBOARD.factory('projectAPI', function (parse, auth, CONFIG) {
+  DASHBOARD.factory('projectAPI', function (Parse, auth, CONFIG) {
 
     return new HabemusProjectAPIClient({
       location: CONFIG.projectAPI.location,
-      parse: parse,
+      parse: Parse,
       auth: auth,
     });
   });
@@ -32,4 +32,5 @@ module.exports = function (DASHBOARD) {
   DASHBOARD.factory('authModal', require('./auth-modal'));
   DASHBOARD.factory('betaPasswordResetModal', require('./beta-password-reset-modal'));
   DASHBOARD.factory('betaLoginModal', require('./beta-login-modal'));
+  DASHBOARD.factory('loadingDialog', require('./loading-dialog'));
 };

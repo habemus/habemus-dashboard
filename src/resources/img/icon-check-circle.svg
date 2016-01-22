@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px"
+	 height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
+<g id="PRINCIPAL">
+</g>
+<g id="CLIQUE">
+</g>
+<g id="MATERIAL">
+	<g>
+		<g>
+			<path fill="#6D6D6D" d="M8,15.218c-3.981,0-7.219-3.239-7.219-7.218c0-3.981,3.238-7.219,7.219-7.219
+				c3.98,0,7.219,3.237,7.219,7.219C15.219,11.979,11.98,15.218,8,15.218z M8,1.681C4.516,1.681,1.682,4.516,1.682,8
+				S4.516,14.318,8,14.318S14.318,11.484,14.318,8S11.484,1.681,8,1.681z"/>
+		</g>
+		<polyline fill="none" stroke="#6D6D6D" stroke-width="0.9" stroke-miterlimit="10" points="11.777,5.476 6.729,10.524 
+			4.223,8.017 		"/>
+	</g>
+</g>
+<g id="REFERENCIAS">
+</g>
+<g id="MENU">
+</g>
+<g id="HOVER">
+</g>
+<g id="MODAL" display="none">
+</g>
+<g id="LOADING">
+</g>
+</svg>

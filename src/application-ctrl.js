@@ -18,7 +18,7 @@ function _getBetaData() {
   return parsedQs[BETA_DATA_QUERY_PARAM];
 }
 
-module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootScope, $state, $timeout, $translate, authModal, betaPasswordResetModal, betaLoginModal) {
+module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootScope, $state, $timeout, $translate, Parse, authModal, betaPasswordResetModal, betaLoginModal) {
 
   function _openLogin() {
     // check if it is a beta login
@@ -40,7 +40,7 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
         });
 
         dialog.closePromise.then(function () {
-          $state.reload();
+          $state.go('dashboard');
         });
       });
     }
@@ -53,11 +53,25 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
       auth.getCurrentUser()
         .fetch()
         .then(function (user) {
-          $scope.setCurrentUser(user.toJSON());
+
+          var userData = user.toJSON();
+
+          $scope.setCurrentUser(userData);
+
+          // remove this for final publish
+          // requirePasswordReset_ is required if not defined otherwise
+          var requirePasswordReset_ = userData.requirePasswordReset_;
+
+          if (typeof requirePasswordReset_ === 'undefined') {
+            requirePasswordReset_ = true;
+          }
 
           // check for beta users that need to change password
-          if (user.toJSON().requirePasswordReset_) {
-            betaPasswordResetModal.open();
+          if (requirePasswordReset_) {
+            
+            betaPasswordResetModal.open({
+              welcomeMessage: userData.welcomeMessage
+            });
           }
         }, function (err) {
 
@@ -132,4 +146,102 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
   /// AUTOFOCUS ///
   /////////////////
 
+  
+  ////////////////
+  /// FEEDBACK ///
+  
+  $scope.boxIsOpen = false;
+  
+  $scope.openBoxFeedback = function () {
+    $scope.boxIsOpen = true;
+  }
+  
+  $scope.closeBoxFeedback = function () {
+    $scope.boxIsOpen = false;
+    $scope.message = "";
+    $('#file-upload').val("");
+    $scope.resultMessage = ""
+  }
+  
+  
+  
+  
+  
+  $scope.handleFileChange = function () {
+    console.log(arguments);
+  }
+  
+  $scope.submitFeedback = function () {
+    
+    var message = $scope.message;
+    
+    var file = $('#file-upload')[0].files[0];
+    
+    if (file && message) {
+      
+      $scope.resultMessage = "Enviando...";
+      
+      var parseFile = new Parse.File(file.name, file);
+      
+      parseFile.save().then(function() {
+        var feedback = new Parse.Object("Feedback");
+        feedback.set("image", parseFile);
+        feedback.set("user", Parse.User.current());
+        feedback.set("message", message);
+        feedback.set("state", $state.$current.name);
+
+        feedback.save().then(function(){
+          $scope.message = "";
+          $('#file-upload').val("");
+          $scope.resultMessage = "Thanks for the feedback!"
+          
+          $scope.$apply();
+          
+        }, function(error){
+          console.log(error);
+          $scope.resultMessage = "Something went wrong, please try again";
+          
+          $scope.$apply();
+        })
+
+      }, function(error){
+        console.log(error);
+        $scope.resultMessage = "Something went wrong, please try again";
+        
+        $scope.$apply();
+      })
+    } else if (message) {
+      
+      $scope.resultMessage = "Enviando...";
+            
+      var feedback = new Parse.Object("Feedback");
+      feedback.set("user", Parse.User.current());
+      feedback.set("message", message);
+      feedback.set("state", $state.$current.name);
+
+      feedback.save().then(function(){
+        $scope.message = "";
+        $scope.resultMessage = "Thanks for the feedback!"
+        
+        $scope.$apply();
+        
+      }, function(error){
+        console.log(error);
+        $scope.resultMessage = "Something went wrong, please try again";
+        
+        $scope.$apply();
+      })
+      
+    } else if (file) {
+      
+      $scope.resultMessage = "Please write a message";
+    } else {
+      
+    }
+    
+  };
+  
+  /// FEEDBACK ///
+  ////////////////
+  
 };

@@ -11,6 +11,3 @@ exports.parse = {
 
 exports.projectAPI = url.parse(cfg.PROJECT_API_LOCATION);
 exports.projectAPI.location = cfg.PROJECT_API_LOCATION;
-
-exports.router = url.parse(cfg.ROUTER_LOCATION);
-exports.router.location = cfg.ROUTER_LOCATION;

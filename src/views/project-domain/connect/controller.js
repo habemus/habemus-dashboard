@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $stateParams, $translate, projectAPI) {
+module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $stateParams, $translate, projectAPI, loadingDialog) {
   // reset error message
   $scope.errorMessage = '';
   
@@ -32,7 +32,9 @@ module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $s
     // validate input
     if (!error) {
 
-      $('.loading-state').addClass('active');
+      loadingDialog.open({
+        message: 'connecting'
+      });
       
       projectAPI.createDomainRecord($scope.project.id, {
         hostname: name
@@ -58,7 +60,7 @@ module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $s
         $scope.$apply();
       })
       .finally(function () {
-        $('.loading-state').removeClass('active');
+        loadingDialog.close();
       });
       
     } else {

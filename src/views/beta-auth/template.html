@@ -1,33 +1,27 @@
 <div class="content">
-  <h2>{{ ngDialogData.message }}</h2>
+  <h2 translate="betaAuth.accessBetaVersion"></h2>
   
   <form ng-submit="submitToken()">
 
     <div
       class="field-container"
       ng-class="{'error': errorMessage}">
-      <label>token</label><br>
+      <label translate="betaAuth.insertAccessCode"></label><br>
       <input
-        type="text"
-        name="token"
-        placeholder="token"
+        type="password"
+        placeholder="código de acesso"
         ng-model="betaToken">
       <div ng-if="errorMessage" class="field-error-message">
         {{ errorMessage }}
       </div>
     </div>
     
-    <button class="ngdialog-button ngdialog-button-primary">
-      send
+    <button
+      class="ngdialog-button ngdialog-button-primary"
+      translate="betaAuth.submit">
     </button>
-  <!--   <button
-      class="ngdialog-button ngdialog-button-secondary"
-      ng-click="closeThisDialog()">
-      sign-up
-    </button>
- -->
-  </form>
 
+  </form>
   
   <div class="loading-state" ng-class="{'active':loading}">
     <div class="spinner"></div>

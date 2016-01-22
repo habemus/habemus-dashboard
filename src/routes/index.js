@@ -9,6 +9,7 @@ var TEMPLATES = {
   betaPasswordReset:    fs.readFileSync(path.join(__dirname, '../views/beta-password-reset/template.html'), 'utf-8'),  
   accountDelete:  fs.readFileSync(path.join(__dirname, '../views/account-delete/template.html'), 'utf-8'),
   project:        fs.readFileSync(path.join(__dirname, '../views/project/template.html'), 'utf-8'),
+  projectDelete:  fs.readFileSync(path.join(__dirname, '../views/project-delete/template.html'), 'utf-8'),
   projectGeneral: fs.readFileSync(path.join(__dirname, '../views/project-general/template.html'), 'utf-8'),
   projectFiles:   fs.readFileSync(path.join(__dirname, '../views/project-files/template.html'), 'utf-8'),
   projectHistory: fs.readFileSync(path.join(__dirname, '../views/project-history/template.html'), 'utf-8'),
@@ -110,6 +111,19 @@ module.exports = function (DASHBOARD) {
           template: TEMPLATES.project,
           controller: require('../views/project/controller'),
         }
+      }
+    });
+    
+    $stateProvider.state('projectDelete', {
+      url: '/',
+      data: {
+        authorizedRoles: ['developer']
+      },
+      views: {
+        tab: {
+          template: TEMPLATES.projectDelete,
+          controller: require('../views/project-delete/controller'),
+        } 
       }
     });
     

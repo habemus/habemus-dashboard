@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="26px"
+	 height="26px" viewBox="0 0 26 26" enable-background="new 0 0 26 26" xml:space="preserve">
+<g id="PRINCIPAL">
+</g>
+<g id="CLIQUE">
+</g>
+<g id="MATERIAL">
+</g>
+<g id="REFERENCIAS">
+</g>
+<g id="MENU">
+</g>
+<g id="HOVER">
+</g>
+<g id="MODAL" display="none">
+</g>
+<g id="LOADING">
+	<g>
+		<g>
+			<path fill="#3EEEB7" stroke="#3C3C3C" stroke-miterlimit="10" d="M10.935,18.162h10.324c2.063,0,4.128-2.065,4.128-4.128V5.775
+				c0-2.064-2.064-4.129-4.128-4.129H4.741c-2.063,0-4.128,2.065-4.128,4.129v8.258c0,2.063,2.064,4.128,4.128,4.128v6.193
+				L10.935,18.162z"/>
+		</g>
+		<g>
+			<line fill="none" stroke="#3C3C3C" stroke-miterlimit="10" x1="5.689" y1="7.493" x2="20.312" y2="7.493"/>
+			<line fill="none" stroke="#3C3C3C" stroke-miterlimit="10" x1="5.689" y1="12.312" x2="20.312" y2="12.312"/>
+		</g>
+	</g>
+</g>
+</svg>

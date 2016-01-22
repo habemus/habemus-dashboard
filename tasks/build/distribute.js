@@ -13,7 +13,6 @@ var REQUIRED_CONFIGURATIONS = [
   'PARSE_APPLICATION_ID',
   'PARSE_JAVASCRIPT_KEY',
   'PROJECT_API_LOCATION',
-  'ROUTER_LOCATION',
 ];
 
 module.exports = function (gulp, $) {
@@ -70,7 +69,7 @@ module.exports = function (gulp, $) {
         questions.push({
           name: cfg,
           message: cfg,
-          default: devConfig[cfg],
+          // default: devConfig[cfg],
           // make question required
           validate: function (value) {
             return (typeof value !== 'undefined');
@@ -94,6 +93,7 @@ module.exports = function (gulp, $) {
   gulp.task('distribute:javascript', ['distribute:config'], function () {
     return browserifyPipe(tmpDir + '/index.js')
       .pipe($.ngAnnotate())
+      .pipe($.stripDebug())
       .pipe(gulp.dest(tmpDir));
   });
 
@@ -106,6 +106,7 @@ module.exports = function (gulp, $) {
     return gulp.src(tmpDir + '/index.html')
       // builds scripts and css into single files
       .pipe($.useref())
+      .pipe($.if('*.js', $.stripDebug()))
       .pipe($.if('*.js', $.uglify()))
       .pipe($.if('*.css', $.minifyCss()))
       .pipe($.size({
@@ -117,10 +118,12 @@ module.exports = function (gulp, $) {
   });
 
   /**
-   * Copies resources
+   * Copies resources and attempts to optimize them
    */
   gulp.task('distribute:resources', function () {
     return gulp.src(config.srcDir + '/resources/**/*')
+      // images
+      .pipe($.if('*.png', $.imagemin()))
       .pipe($.size({
         title: 'distribute:resources',
         showFiles: true,
