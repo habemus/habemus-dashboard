@@ -19,6 +19,18 @@
     "domain": "domínio",
     "delete": "deletar"
   },
+
+  "projectGeneral": {
+    "myProjects": "Meus projetos",
+    "general": "(geral)",
+    "editProjectName": "editar nome do projeto",
+    "editProjectDomain": "editar domínios",
+    "deleteProject": "deletar projeto",
+    "createdAt": "criado em",
+    "lastUpdatedAt": "última atualização",
+    "dragDirectoryToUpdate": "arraste a pasta inteira do projeto para atualizar",
+    "dropHere": "solte aqui"
+  },
   
   "projectDelete": {
     "title": "Excluir projeto",
@@ -122,6 +134,7 @@
     "submit": "enviar",
     "sending": "enviando...",
     "thanks": "Obrigado!!!",
-    "somethingWentWrong": "algo deu errado, por favor tente novamente"
+    "somethingWentWrong": "algo deu errado, por favor tente novamente",
+    "messageRequired": "por favor escreva uma mensagem"
   }
 }

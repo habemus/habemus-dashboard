@@ -246,13 +246,17 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
           .then(function (message) {
             $scope.resultMessage = message;
           });
-        
+
         $scope.$apply();
       })
       
     } else if (file) {
-      
-      $scope.resultMessage = "Please write a message";
+
+      $translate('feedback.messageRequired')
+        .then(function (message) {
+          $scope.resultMessage = message;
+        });
+        
     } else {
       
     }

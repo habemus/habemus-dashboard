@@ -15,7 +15,19 @@
     "domain": "domain",
     "delete": "delete",
   },
-  
+
+  "projectGeneral": {
+    "myProjects": "My projects",
+    "general": "(general)",
+    "editProjectName": "edit project name",
+    "editProjectDomain": "edit domains",
+    "deleteProject": "delete project",
+    "createdAt": "created at",
+    "lastUpdatedAt": "last updated at",
+    "dragDirectoryToUpdate": "drag folder to update",
+    "dropHere": "drop here"
+  },
+
   "projectDelete": {
     "title": "Delete project",
     "p1": "This action can not be undone.",
@@ -116,6 +128,7 @@
     "submit": "send",
     "sending": "sending...",
     "thanks": "Than you!!!",
-    "somethingWentWrong": "oops something went wrong, please retry"
+    "somethingWentWrong": "oops something went wrong, please retry",
+    "messageRequired": "please write a message"
   }
 }
