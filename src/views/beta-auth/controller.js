@@ -18,6 +18,8 @@ module.exports = /*@ngInject*/ function LoginCtrl($scope, $state, auth, $locatio
     $scope.loading = true;
 
     if (!$scope.betaToken) {
+
+      $scope.loading = false;
       $scope.errorMessage = 'please insert your beta token';
 
     } else {
