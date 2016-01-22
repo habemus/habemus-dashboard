@@ -20,7 +20,7 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
    * @type {Array}
    */
   $scope.dnsRecords = [];
-
+  
   $scope.domainRecord = $stateParams.domain;
 
   /**

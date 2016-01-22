@@ -1,6 +1,7 @@
 {
   "dashboard": {
     "myProjects": "Meus projetos",
+    "createdAt": "criado em",
     "dragProjectDirectory1": "arraste a pasta",
     "dragProjectDirectory2": "de um novo projeto",
     "dropHere": "solte aqui",
@@ -10,6 +11,57 @@
     "empty": "insira o nome do domínio que você possui",
     "invalid": "domínio inválido"
   },
+  
+  "project": {
+    "general": "geral",
+    "files": "arquivos",
+    "history": "histórico",
+    "domain": "domínio",
+    "delete": "deletar"
+  },
+  
+  "projectDelete": {
+    "title": "Excluir projeto",
+    "p1": "Essa ação não poderá ser desfeita.",
+    "p2": "Escreva o nome do projeto que deseja deletar:",
+    "doNotDelete": "não excluir",
+    "deletePermanently": "excluir definitivamente"
+  },
+  
+  "projectDomain": {
+    "connect": {
+      "title": "conectar domínio personalizado",
+      "p1": "Conecte um domínio que você possui ao seu projeto.",
+      "p2": "Se você ainda não possui um domínio, escolha um provedor de domínios para realizar a aquisição.",
+      "nameOfDomain": "nome do domínio",
+      "continue": "continuar"
+    },
+    
+    "detail": {
+      "title": "editar domínio",
+      "p1": "Este domínio é personalizado.",
+      "p2": "Administrado por um provedor de domínios externo.",
+      "viewSettings": "ver configurações DNS",
+      "disconnectDomain": "desconectar domínio personalizado"
+      
+    },
+    "disconnect": {
+      "title": "Desconectar",
+      "p11": "Tem certeza que deseja desconectar o domínio",
+      "p12": "do seu projeto?",
+      "p2": "Essa ação não pode ser desfeita.",
+      "p3": "Você poderá conectá-lo novamente no futuramente.",
+      "doNotDisconnect": "continuar conectado",
+      "disconnect": "desconectar domínio"
+    },
+    
+    "dns": {
+    },
+    "info": {},
+    "rename": {}
+    
+  },
+  
   "betaAuth": {
     "accessBetaVersion": "Acesse a versão beta da habemus!",
     "insertAccessCode": "insira seu código de acesso",

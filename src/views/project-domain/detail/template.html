@@ -4,18 +4,18 @@
     <polyline fill="none" stroke="#6D6D6D" stroke-miterlimit="10" points="10.315,2.602 0.96,12.14 10.315,21.678 			"/>
     <line fill="none" stroke="#6D6D6D" stroke-miterlimit="10" x1="0.96" y1="12.141" x2="23.478" y2="12.141"/>
   </svg>
-  <p>editar domínio</p>
+  <p translate="projectDomain.detail.title">editar domínio</p>
 </div>
 
 <a href="http://{{ domain.hostname }}" target="_blank" class="">http://{{ domain.hostname }}</a>
 
 <div class="max-width">
   <div class="margin-bottom">
-    <p>Este domínio é personalizado.</p>
-    <p>Administrado por um provedor de domínios externo.</p>
+    <p translate="projectDomain.detail.p1">Este domínio é personalizado.</p>
+    <p translate="projectDomain.detail.p2">Administrado por um provedor de domínios externo.</p>
   </div>
 
-  <div class="button secundary centered margin-bottom" ui-sref="project.domain.dns({ domain: domain, inProgress: false })">ver configurações DNS</div>
+  <div class="button secundary centered margin-bottom" ui-sref="project.domain.dns({ domain: domain, inProgress: false })" translate="projectDomain.detail.viewSettings">ver configurações DNS</div>
 
-  <div class="button secundary centered margin-bottom" ng-click="disconnectDomain()">desconectar domínio personalizado</div>
+  <div class="button secundary centered margin-bottom" ng-click="disconnectDomain()" translate="projectDomain.detail.disconnetDomain">desconectar domínio personalizado</div>
 </div>
