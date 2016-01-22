@@ -3,5 +3,13 @@
   "domainInvalid": {
     "empty": "insira o nome do domínio que você possui",
     "invalid": "domínio inválido"
+  },
+  
+  "project":{
+    "general": "geral",
+    "files": "arquivos",
+    "history": "histórico",
+    "domain": "domínio",
+    "delete": "deletar",
   }
 }

@@ -1,5 +1,16 @@
 {
   "MY_PROJECTS": "My projects",
   "SESSION_EXPIRED_LOGIN": "Sorry, it looks like your session has expired. Please login:",
-  "CREATED_AT": "created at"
+  "CREATED_AT": "created at",
+  
+  
+  "project":{
+    "general": "general",
+    "files": "files",
+    "history": "history",
+    "domain": "domain",
+    "delete": "delete",
+  }
+  
+  
 }
