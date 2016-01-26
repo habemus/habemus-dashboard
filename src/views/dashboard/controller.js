@@ -4,7 +4,6 @@ var fs = require('fs');
 var path = require('path');
 
 // external dependencies
-var generator = require('project-name-generator');
 
 module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projectAPI, $state, zipper, ngDialog, loadingDialog) {
 
@@ -44,10 +43,6 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
     files.forEach(function (fData) {
       zip.file(fData.path, fData.file);
     });
-
-    // generate a name for the the project if it is not passed
-    // as argument
-    projectName = projectName || generator({ words: 2 }).spaced;
     
     // create an entry for the project
     projectAPI.createProject({

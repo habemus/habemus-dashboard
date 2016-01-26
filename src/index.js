@@ -61,6 +61,7 @@ DASHBOARD.config(function ($translateProvider) {
   $translateProvider.useLocalStorage();
 
   $translateProvider.translations('en', require('./resources/languages/en.json'));
+  $translateProvider.translations('pt', require('./resources/languages/pt.json'));
   
   $translateProvider.registerAvailableLanguageKeys(['en', 'pt'], {
     'en_US': 'en',

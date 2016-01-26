@@ -172,7 +172,7 @@
     "resetPassword": "redefinir senha da conta",
     "deleteAccount": "excluir conta",
     "save": "salvar alterações",
-    "discard": "não salvar alterações",
+    "discard": "descartar alterações",
     "updateDataError": "ocorreu um erro ao atualizar os dados da sua conta, por favor tente novamente"
   },
   "feedback": {
