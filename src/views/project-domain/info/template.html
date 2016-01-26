@@ -12,8 +12,8 @@
   <div class="domain-content">
     <span class="domain-url">http://{{ domainRecord.hostname }}</span>
     <span translate="projectDomain.info.customDomain"></span>
-    <span class="domain-url-pending">
-      (<span ng-show="domainRecord.status_ !== 'active'" translate="projectDomain.info.pending"></span>)
+    <span class="domain-url-pending" ng-show="domainRecord.status_ !== 'active'">
+      ({{ ('projectDomain.info.' + (domainRecord.status_ || 'pending')) | translate }})
     </span>
   </div>
   <div>

@@ -1,5 +1,5 @@
 {
-  "SESSION_EXPIRED_LOGIN": "Sorry, it looks like your session has expired. Please login:",
+  "sessionExpiredLogin": "Sorry, it looks like your session has expired. Please login:",
   "dashboard": {
     "myProjects": "My projects",
     "createdAt": "created at",
@@ -42,9 +42,13 @@
     "versionLabel": "version",
     "versionDeployedAt": "deployed at",
     "versionUrl": "url",
+    "visitVersion": "visit version",
     "restoreVersion": "restore",
+    "restoreTooltip": "restoring will generate a new version based on this one",
     "currentVersion": "current",
+    "currentTooltip": "this is current online version",
     "downloadVersion": "download",
+    "downloadTooltip": "download this version",
     "dragFolderToUpdate": "drag the project's folder to update",
     "dropHere": "drop here"
   },
@@ -81,7 +85,19 @@
     
     "dns": {
       "connectionInProgress": "Connection is in progress!",
-      "setupYourDomain": "To complete connection you need to setup your domain."
+      "setupYourDomain": "To complete connection you need to setup your domain.",
+      "providerSettingsInstructions": "This table shows you the DNS entries needed to connect your domain. Incorrect or missing entries are highlighted in red. Login to your domain provider to manage these settings.",
+      "host": "host",
+      "recordType": "record type",
+      "requiredRecordData": "required data",
+      "requiredRecordDataTooltip": "copy data and paste on your domain provider",
+      "recordStatus": "status",
+      "recordStatusTooltip": "status of conection",
+      "recordDataStability": "stability",
+      "recordDataStabilityTooltip": "stability of servers will be good once it reaches 1",
+      "testConnection": "test connection",
+      "verifyingConnection": "verifying connection",
+      "pending": "pending"
     },
 
     "info": {
@@ -164,6 +180,7 @@
   "header": {
     "myProjects": "my projects",
     "myAccount": "my account",
-    "logOut": "logout"
+    "logOut": "logout",
+    "languages": "languages"
   }
 }

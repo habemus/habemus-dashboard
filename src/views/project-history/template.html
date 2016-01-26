@@ -19,17 +19,34 @@
         <td>{{ version.name }}</td>
         <td>{{ version.createdAt | date : "dd MMM yyyy',' HH:mm" }}</td>
         <td>
-          <a target="_blank" href="http://{{ version.name }}.{{ project.safeName }}.habemus.website" uib-tooltip="visit version">
+          <a
+            target="_blank"
+            href="http://{{ version.name }}.{{ project.safeName }}.habemus.website"
+            uib-tooltip="{{ 'projectHistory.visitVersion' | translate }}">
             http://{{ version.name }}.{{ project.safeName }}.habemus.website
           </a>
         </td> 
         <td class="padding-right">
-          <span class="restore" ng-if="version.name !== project.activeVersion.name" ng-click="restoreProjectVersion(version.name)" uib-tooltip="restoring will generate a new version based on this one" translate="projectHistory.restoreVersion"></span>
-          <span class="current" ng-if="version.name === project.activeVersion.name" uib-tooltip="this is current online version" translate="projectHistory.currentVersion"></span>
+          <span
+            class="restore"
+            ng-if="version.name !== project.activeVersion.name"
+            ng-click="restoreProjectVersion(version.name)"
+            uib-tooltip="{{ 'projectHistory.restoreTooltip' | translate }}"
+            translate="projectHistory.restoreVersion">
+          </span>
+          <span
+            class="current"
+            ng-if="version.name === project.activeVersion.name"
+            uib-tooltip="{{ 'projectHistory.currentTooltip' | translate }}"
+            translate="projectHistory.currentVersion">
+          </span>
         </td>
         <td class="download" ng-click="downloadProjectVersion(version.name)">
           <img src="resources/img/icon-download.svg">
-          <span uib-tooltip="download this version" translate="projectHistory.downloadVersion"></span>
+          <span
+            uib-tooltip="{{ 'projectHistory.downloadTooltip' | translate }}"
+            translate="projectHistory.downloadVersion">
+          </span>
         </td>
       </tr>
     </table>

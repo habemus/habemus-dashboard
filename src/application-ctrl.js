@@ -32,7 +32,7 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
 
     } else {
 
-      $translate('SESSION_EXPIRED_LOGIN').then(function (message) {
+      $translate('sessionExpiredLogin').then(function (message) {
         // normal login
         // open login modal and navigate to the desired state
         var dialog = authModal.open({

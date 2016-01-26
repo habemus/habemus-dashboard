@@ -1,4 +1,5 @@
 {
+  "sessionExpiredLogin": "Sua sessão expirou. Por favor faça o log-in:",
   "dashboard": {
     "myProjects": "Meus projetos",
     "createdAt": "criado em",
@@ -16,7 +17,7 @@
     "general": "geral",
     "files": "arquivos",
     "history": "histórico",
-    "domain": "domínio",
+    "domain": "domínios",
     "delete": "deletar"
   },
 
@@ -46,9 +47,13 @@
     "versionLabel": "versão",
     "versionDeployedAt": "criada em",
     "versionUrl": "url",
+    "visitVersion": "visualizar versão",
     "restoreVersion": "restaurar",
+    "restoreTooltip": "restaurar a versão gerará uma nova versão baseada nesta",
     "currentVersion": "versão ativa",
+    "currentTooltip": "esta é a versão que está online",
     "downloadVersion": "baixar",
+    "downloadTooltip": "baixe esta versão",
     "dragFolderToUpdate": "arraste a pasta inteira do projeto para atualizar",
     "dropHere": "solte aqui"
   },
@@ -70,8 +75,7 @@
       "p1": "Este domínio é personalizado.",
       "p2": "Administrado por um provedor de domínios externo.",
       "viewSettings": "ver configurações DNS",
-      "disconnectDomain": "desconectar domínio personalizado",
-      
+      "disconnectDomain": "desconectar domínio personalizado"
     },
     "disconnect": {
       "title": "Desconectar",
@@ -82,9 +86,23 @@
       "doNotDisconnect": "continuar conectado",
       "disconnect": "desconectar domínio"
     },
-    
     "dns": {
+      "connectionInProgress": "Conexão em progresso!",
+      "setupYourDomain": "Para completar a conexão, você precisa configurar seu domínio.",
+      "providerSettingsInstructions": "Essa tabela apresenta os registros DNS necessários para a conexão do seu domínio. Registros incorretos ou pendentes estão destacados em vermelho. Faça o login no seu provedor de domínios para administrar estas configurações",
+      "host": "host",
+      "recordType": "tipo de registro",
+      "requiredRecordData": "dados",
+      "requiredRecordDataTooltip": "copie e cole estes dados nas configurações de DNS do seu provedor de domínios",
+      "recordStatus": "status",
+      "recordStatusTooltip": "status da conexão",
+      "recordDataStability": "estabilidade",
+      "recordDataStabilityTooltip": "a estabilidade das configurações estarão boas quando seu valor chegar a 1",
+      "testConnection": "testar conexão",
+      "verifyingConnection": "verificando conexão",
+      "pending": "pendente"
     },
+
     "info": {
       "youCanUseHabemusDomain": "Você pode utilizar o domínio criado automaticamente pela habemus.",
       "youCanUseCustomDomain": "Caso queira utilizar um domínio personalizado seu, conecte com o seu projeto!",
@@ -165,6 +183,7 @@
   "header": {
     "myProjects": "meus projetos",
     "myAccount": "minha conta",
-    "logOut": "sair"
+    "logOut": "sair",
+    "languages": "languages"
   }
 }

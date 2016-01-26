@@ -11,51 +11,59 @@
   <p style="color: #E29A27" translate="projectDomain.dns.connectionInProgress"></p>
   <p style="color: #E29A27" translate="projectDomain.dns.setupYourDomain"></p>
   <br>
-<p>This table shows you the DNS entries needed to connect your domain. Incorrect or missing entries are highlighted in red. Login to your domain provider to manage these settings. </p>
+  <p translate="projectDomain.dns.providerSettingsInstructions"></p>
 </div>
 
 <div class="ready-text margin-bottom" ng-hide="inProgress">
-  <p>This table shows you the DNS entries needed to connect your domain. Incorrect or missing entries are highlighted in red. Login to your domain provider to manage these settings. </p>
+  <p translate="projectDomain.dns.providerSettingsInstructions"></p>
 </div>
 
 <table id="dns-table">
   <tr class="table-header">
-    <th>host</th>
-    <th>record type</th> 
+    <th translate="projectDomain.dns.host"></th>
+    <th translate="projectDomain.dns.recordType"></th> 
     <th>
-      <span uib-tooltip="copy data and paste on your domain provider">required data</span>
+      <span
+        uib-tooltip="{{ 'projectDomain.dns.requiredRecordDataTooltip' | translate }}"
+        translate="projectDomain.dns.requiredRecordData">
+      </span>
     </th>
     <th>
-      <span uib-tooltip="status of conection">current data</span>
+      <span
+        uib-tooltip="{{ 'projectDomain.dns.recordStatusTooltip' | translate }}"
+        translate="projectDomain.dns.recordStatus">
+      </span>
     </th>
     <th>
-      <span uib-tooltip="stability of servers will be good once it reaches 1">stability</span>
+      <span
+        uib-tooltip="{{ 'projectDomain.dns.recordDataStabilityTooltip' | translate }}"
+        translate="projectDomain.dns.recordDataStability">
+      </span>
     </th>
   </tr>
   <tr class="table-row-body" ng-repeat="dnsRecord in dnsRecords">
     <td>{{ dnsRecord.host || '@' }}</td>
     <td>{{ dnsRecord.type }}</td> 
     <td>
-      <span uib-tooltip="copy value and paste on your domain provider">{{ dnsRecord.value }}</span>
+      <span
+        uib-tooltip="{{ 'projectDomain.dns.requiredRecordDataTooltip' | translate }}">
+        {{ dnsRecord.value }}
+      </span>
     </td>
-    <td ng-class="{ pending: dnsRecord.status == 'pending'  }">{{ dnsRecord.status }}</td>
+    <td ng-class="{ pending: dnsRecord.status == 'pending'  }">{{ ('projectDomain.dns.' + (dnsRecord.status || 'pending')) | translate }}</td>
     <td>{{ dnsRecord.stability || 0 }}</td>
   </tr>
 </table>
 
 <div class="dns-buttons">
   <div>
-    <div ng-if="inProgress" class="button secundary" ng-click="loadDomainDnsConfigurations()">
-      testar conexão
-    </div>
+    <div ng-if="inProgress" class="button secundary" ng-click="loadDomainDnsConfigurations()" translate="projectDomain.dns.testConnection"></div>
     <a ng-if="!inProgress" target="_blank" href="http://{{ domainRecord.hostname }}">
-      <div class="button secundary">
-        testar conexão
-      </div>
+      <div class="button secundary" translate="projectDomain.dns.testConnection"></div>
     </a>
   </div>
   <div class="progress" ng-show="verifying">
-    <div class="pading-right">verificando a conexão</div>
+    <div class="pading-right" translate="projectDomain.dns.verifyingConnection"></div>
     <img src="resources/img/icon-progress.svg">
     
   </div>

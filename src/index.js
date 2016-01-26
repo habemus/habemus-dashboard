@@ -61,14 +61,15 @@ DASHBOARD.config(function ($translateProvider) {
   $translateProvider.useLocalStorage();
 
   $translateProvider.translations('en', require('./resources/languages/en.json'));
-
-  $translateProvider.preferredLanguage('en');
-  $translateProvider.fallbackLanguage('en');
   
   $translateProvider.registerAvailableLanguageKeys(['en', 'pt'], {
     'en_US': 'en',
     'pt_BR': 'pt'
   });
+  
+  $translateProvider.determinePreferredLanguage('en');
+  $translateProvider.fallbackLanguage('en');
+  
 });
 
 // verify authentication on statechange
