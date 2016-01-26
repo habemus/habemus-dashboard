@@ -94,8 +94,12 @@ module.exports = function (gulp, $) {
       ghostMode: false,
       port: 4000,
       server: {
-        baseDir: '',
+        baseDir: './',
+        routes: {
+          "/dashboard": "src"
+        },
       },
+      startPath: '/dashboard',
       open: true,
     });
   });
