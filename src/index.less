@@ -27,6 +27,25 @@
 @import './views/project-domain/styles.less';
 
 
+#browser-not-supported-notice {
+  display: none;
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  width: 50%;
+
+  background-color: @habemus-green-light;
+
+  padding: 30px 30px;
+
+  &.active {
+    display: block;
+  }
+}
+
 html {
   min-width: 800px;
   max-width: 1366px;

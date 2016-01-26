@@ -16,36 +16,17 @@
     <link rel="stylesheet" type="text/css" href="bower_components/ng-dialog/css/ngDialog.css">
     <link rel="stylesheet" type="text/css" href="bower_components/ng-dialog/css/ngDialog-theme-default.css">
     <link rel="stylesheet" type="text/css" href="index.bundle.css">
-    <!-- endbuild -->
-
-
-    <!-- build:js habemus.js -->
-    <script src="bower_components/jquery/dist/jquery.js"></script>
-    <script src="bower_components/angular/angular.js"></script>
-    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
-    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
-    <script src="bower_components/angular-file-model/angular-file-model.js"></script>
-    <script src="bower_components/ng-dialog/js/ngDialog.js"></script>
-    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
-    <script src="bower_components/angular-translate/angular-translate.js"></script>
-    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
-    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
-    <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
-    <script src="bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
-    <script src="bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
-    <script src="index.bundle.js"></script>
-    <!-- endbuild -->
-    
+    <!-- endbuild -->    
   </head>
-  <body ng-cloak>
+  <body>
 
-    <section ui-view="header" id="header-section">
+    <section ui-view="header" id="header-section" ng-cloak>
     </section>
 
-    <section ui-view="body" id="body-section">
+    <section ui-view="body" id="body-section" ng-cloak>
     </section>
     
-    <div id="feedback-section" class="shadow" ng-class="{ active: boxIsOpen }">
+    <div id="feedback-section" class="shadow" ng-class="{ active: boxIsOpen }" ng-cloak>
       <div class="box-title" ng-click="openBoxFeedback()">
         <div ng-show="boxIsOpen" translate="feedback.hearYou"></div>
         <div ng-hide="boxIsOpen" translate="feedback.sendUsYourFeedback"></div>
@@ -82,6 +63,29 @@
         </form>
       </div>
     </div>
-    
+
+    <div id="browser-not-supported-notice">
+      We are sorry, but our <b>beta version</b> currently only supports <a href="https://www.google.com/chrome/browser/desktop/">Google Chrome</a> browser.
+      <br>
+      Rest assured, all major browsers will be supported in the near future ;).
+    </div>
+
+    <!-- build:js habemus.js -->
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
+    <script src="bower_components/angular-bootstrap/ui-bootstrap-tpls.js"></script>
+    <script src="bower_components/angular-file-model/angular-file-model.js"></script>
+    <script src="bower_components/ng-dialog/js/ngDialog.js"></script>
+    <script src="bower_components/angular-sanitize/angular-sanitize.js"></script>
+    <script src="bower_components/angular-translate/angular-translate.js"></script>
+    <script src="bower_components/angular-translate-loader-static-files/angular-translate-loader-static-files.js"></script>
+    <script src="bower_components/angular-cookies/angular-cookies.js"></script>
+    <script src="bower_components/angular-translate-storage-cookie/angular-translate-storage-cookie.js"></script>
+    <script src="bower_components/angular-translate-storage-local/angular-translate-storage-local.js"></script>
+    <script src="bower_components/angular-translate-handler-log/angular-translate-handler-log.js"></script>
+    <script src="index.bundle.js"></script>
+    <!-- endbuild -->
+
   </body>
 </html>

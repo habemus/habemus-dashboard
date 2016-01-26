@@ -1,5 +1,16 @@
 'use strict';
 
+var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
+
+if (!is_chrome) {
+
+
+  console.log($('#browser-not-supported-notice').addClass('active')[0]);
+
+  throw new Error('browser not supported');
+}
+
+
 var path = require('path');
 var fs   = require('fs');
 /**
