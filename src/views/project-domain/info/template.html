@@ -12,7 +12,9 @@
   <div class="domain-content">
     <span class="domain-url">http://{{ domainRecord.hostname }}</span>
     <span translate="projectDomain.info.customDomain"></span>
-    (<span ng-show="domainRecord.status_ !== 'active'" translate="projectDomain.info.pending"></span><span ng-show="domainRecord.status_ === 'active'" translate="projectDomain.info.active"></span>)
+    <span class="domain-url-pending">
+      (<span ng-show="domainRecord.status_ !== 'active'" translate="projectDomain.info.pending"></span>)
+    </span>
   </div>
   <div>
     <svg version="1.1" x="0px" y="0px"
