@@ -7,6 +7,15 @@ module.exports = /*@ngInject*/ function ($scope, $translate, $stateParams, loadi
 
     var newSafeName = $scope.newSafeName;
 
+    if (!newSafeName) {
+      $translate('projectDomain.rename.safeNameRequired')
+        .then(function (message) {
+          $scope.error = message;
+        });
+        
+      return;
+    }
+
     if (newSafeName === $scope.project.safeName) {
       return;
     }

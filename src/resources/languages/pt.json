@@ -127,7 +127,8 @@
       "explanation2": "Através dele, seu site pode ser acessado.",
       "explanation3": "Você pode renomeá-lo se desejar.",
       "warning": "Atenção: Ao renomear o domínio habemus, o link será alterado e o link antigo não funcionará mais.",
-      "serverError": "ocorreu um erro ao renomear seu projeto, por favor tente novamente"
+      "serverError": "ocorreu um erro ao renomear seu projeto, por favor tente novamente",
+      "safeNameRequired": "o nome do seu domínio não pode ser vazio"
     }
   },
 

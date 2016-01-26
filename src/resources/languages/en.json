@@ -124,7 +124,8 @@
       "explanation2": "It can be used to access your website.",
       "explanation3": "You can rename it if you wish.",
       "warning": "Attention: Whenever you rename your habemus domain, the url of your project will be modified and the previous url will not work anymore.",
-      "serverError": "there was an error renaming your project, please try again"
+      "serverError": "there was an error renaming your project, please try again",
+      "safeNameRequired": "your domain name must not be empty"
     }
     
   },
