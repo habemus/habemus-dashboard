@@ -6,7 +6,7 @@ var path = require('path');
 // external dependencies
 var generator = require('project-name-generator');
 
-module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state, zipper, ngDialog, loadingDialog) {
+module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projectAPI, $state, zipper, ngDialog, loadingDialog) {
 
   // retrieve all projects owned by the current logged user
   // and put them onto the scope as `currentUserProjects`
@@ -32,10 +32,12 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
    */
   $scope.createProject = function (files, projectName) {
 
-    // loading state starts
-    loadingDialog.open({
-      message: 'preparing upload'
-    });
+    $translate('dashboard.preparingUpload')
+      .then(function (message) {
+        // loading state starts
+        loadingDialog.open({ message: message });
+      });
+
 
     var zip = zipper.create();
 
@@ -59,7 +61,10 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
       return zip.generate()
         .then(function (zipFile) {
 
-          loadingDialog.setMessage('uploading');
+          $translate('dashboard.uploading')
+            .then(function (message) {
+              loadingDialog.setMessage(message);
+            });
 
           console.log('zip file generated', zipFile);
           // upload
@@ -67,9 +72,17 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, projectAPI, $state
 
           upload.progress(function (progress) {
             console.log('upload progress ', progress);
-            
+
+            progress = parseInt(progress.completed * 100);
+
             // progress %
-            loadingDialog.setProgress(parseInt(progress.completed * 100));
+            loadingDialog.setProgress(progress);
+            if (progress === 100) {
+              $translate('dashboard.finishingUpload')
+                .then(function (message) {
+                  loadingDialog.setMessage(message);
+                });
+            }
           });
 
           return upload;

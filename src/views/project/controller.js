@@ -11,7 +11,7 @@ var Q    = require('q');
 // load models
 var DirectoryData = require('../../models/file-system/directory');
 
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, projectAPI, zipper, auth, $timeout, ngDialog, CONFIG, loadingDialog) {
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, $translate, projectAPI, zipper, auth, $timeout, ngDialog, CONFIG, loadingDialog) {
 
   console.log('loadingDialog on ProjectCtrl', loadingDialog);
 
@@ -92,16 +92,21 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
       zip.file(fData.path, fData.file);
     });
 
-    loadingDialog.open({
-      message: 'preparing upload'
-    });
+    $translate('project.preparingUpload')
+      .then(function (message) {
+        // loading state starts
+        loadingDialog.open({ message: message });
+      });
 
     return zip.generate()
       .then(function (zipFile) {
 
         console.log('zip file generated', zipFile);
 
-        loadingDialog.setMessage('uploading');
+        $translate('project.uploading')
+          .then(function (message) {
+            loadingDialog.setMessage(message);
+          });
 
         // upload
         var upload = projectAPI.uploadProjectZip(projectId, zipFile);
@@ -109,8 +114,16 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
         upload.progress(function (progress) {
           console.log('upload progress ', progress);
 
+          progress = parseInt(progress.completed * 100);
+
           // progress %
-          loadingDialog.setProgress(parseInt(progress.completed * 100));
+          loadingDialog.setProgress(progress);
+          if (progress === 100) {
+            $translate('project.finishingUpload')
+              .then(function (message) {
+                loadingDialog.setMessage(message);
+              });
+          }
         });
 
         return upload;
@@ -118,7 +131,10 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
       })
       .then(function () {
 
-        loadingDialog.setMessage('reloading project data');
+        $translate('project.reloadingProjectData')
+          .then(function (message) {
+            loadingDialog.setMessage(message);
+          });
 
         return $scope.loadProject();
       })

@@ -2,6 +2,9 @@
   "sessionExpiredLogin": "Sorry, it looks like your session has expired. Please login:",
   "dashboard": {
     "myProjects": "My projects",
+    "preparingUpload": "preparing upload",
+    "uploading": "uploading",
+    "finishingUpload": "setting up last details",
     "createdAt": "created at",
     "dragProjectDirectory1": "drag the folder",
     "dragProjectDirectory2": "of a new project",
@@ -10,6 +13,10 @@
   },
   "project":{
     "general": "general",
+    "preparingUpload": "preparing upload",
+    "uploading": "uploading",
+    "finishingUpload": "setting up last details",
+    "reloadingProjectData": "reloading project data",
     "files": "files",
     "history": "history",
     "domain": "domain",

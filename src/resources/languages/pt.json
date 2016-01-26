@@ -2,6 +2,9 @@
   "sessionExpiredLogin": "Sua sessão expirou. Por favor faça o log-in:",
   "dashboard": {
     "myProjects": "Meus projetos",
+    "preparingUpload": "preparando upload",
+    "uploading": "enviando arquivos para a nuvem",
+    "finishingUpload": "finalizando últimos detalhes",
     "createdAt": "criado em",
     "dragProjectDirectory1": "arraste a pasta",
     "dragProjectDirectory2": "de um novo projeto",
@@ -15,6 +18,10 @@
   
   "project": {
     "general": "geral",
+    "preparingUpload": "preparando upload",
+    "uploading": "enviando arquivos para a nuvem",
+    "finishingUpload": "finalizando últimos detalhes",
+    "reloadingProjectData": "atualizando dados do projeto",
     "files": "arquivos",
     "history": "histórico",
     "domain": "domínios",
