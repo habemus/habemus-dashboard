@@ -36,19 +36,35 @@
     "deletePermanently": "delete permanentely",
   },
   
+  "projectHistory": {
+    "myProjects": "My projects",
+    "history": "history",
+    "versionLabel": "version",
+    "versionDeployedAt": "deployed at",
+    "versionUrl": "url",
+    "restoreVersion": "restore",
+    "currentVersion": "current",
+    "downloadVersion": "download",
+    "dragFolderToUpdate": "drag the project's folder to update",
+    "dropHere": "drop here"
+  },
+
   "projectDomain": {
+    "myProjects": "My projects",
+    "domain": "domain",
+
     "connect": {
       "title": "connect a custom domain",
       "p1": "Connect a domain you own to your project.",
       "p2": "If you still don't own a domain, choose a name provider to have one.",
-      "nameOfDomain": "name of domain",
+      "nameOfDomain": "domain name",
       "continue": "continue",
     },
     
     "detail": {
       "title": "edit domain",
       "p1": "This is a custom domain.",
-      "p2": "Managed by a third-party domain.",
+      "p2": "Managed by a third-party domain provider.",
       "viewSettings": "view DNS settings",
       "disconnectDomain": "disconnect custom domain",
       
@@ -63,8 +79,21 @@
       "disconnect": "disconnect domain"
     },
     
-    "dns": {},
-    "info": {},
+    "dns": {
+      "connectionInProgress": "Connection is in progress!",
+      "setupYourDomain": "To complete connection you need to setup your domain."
+    },
+
+    "info": {
+      "youCanUseHabemusDomain": "You can use the domain created by habemus.",
+      "youCanUseCustomDomain": "If you wish to use a custom domain you own, just connect it to your project!",
+      "projectDomains": "Your project has the following domains:",
+      "customDomain": "custom domain",
+      "habemusDomain": "domain created by habemus",
+      "pending": "pending",
+      "active": "active",
+      "connectCustomDomain": "connect custom domain"
+    },
     "rename": {},
     
   },  
@@ -130,5 +159,11 @@
     "thanks": "Than you!!!",
     "somethingWentWrong": "oops something went wrong, please retry",
     "messageRequired": "please write a message"
+  },
+
+  "header": {
+    "myProjects": "my projects",
+    "myAccount": "my account",
+    "logOut": "logout"
   }
 }

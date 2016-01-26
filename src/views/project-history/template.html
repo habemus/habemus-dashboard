@@ -1,17 +1,17 @@
 <div id="project-history-content">
   <h1>
-    <a href="#/">meus projetos</a>  
+    <a href="#/" translate="projectHistory.myProjects"></a>  
     <img class="arrow-right" src="resources/img/arrow-right.svg">  
     <span class="project-name" ng-click="editNameOfProject()">{{ project.name }} </span> 
-    <span class="section-name">(histórico)</span>
+    <span class="section-name">(<span translate="projectHistory.history"></span>)</span>
   </h1>
   
   <div class="main-content">
     <table id="history-table">
       <tr class="table-header">
-        <th>label</th>
-        <th>deployed at</th>
-        <th>url</th> 
+        <th translate="projectHistory.versionLabel"></th>
+        <th translate="projectHistory.versionDeployedAt"></th>
+        <th translate="projectHistory.versionUrl"></th> 
         <th></th>
         <th></th>
       </tr>
@@ -24,12 +24,12 @@
           </a>
         </td> 
         <td class="padding-right">
-          <span class="restore" ng-if="version.name !== project.activeVersion.name" ng-click="restoreProjectVersion(version.name)" uib-tooltip="restoring will generate a new version based on this one">restore</span>
-          <span class="current" ng-if="version.name === project.activeVersion.name" uib-tooltip="this is current online version">current</span>
+          <span class="restore" ng-if="version.name !== project.activeVersion.name" ng-click="restoreProjectVersion(version.name)" uib-tooltip="restoring will generate a new version based on this one" translate="projectHistory.restoreVersion"></span>
+          <span class="current" ng-if="version.name === project.activeVersion.name" uib-tooltip="this is current online version" translate="projectHistory.currentVersion"></span>
         </td>
         <td class="download" ng-click="downloadProjectVersion(version.name)">
           <img src="resources/img/icon-download.svg">
-          <span uib-tooltip="download this version">download</span>
+          <span uib-tooltip="download this version" translate="projectHistory.downloadVersion"></span>
         </td>
       </tr>
     </table>
@@ -39,8 +39,8 @@
   <div class="drop-to-new-project-container">
     <div class="drop-to-new-project" file-drop-area="uploadNewVersion($files)">
       <div class="upload-img"></div>
-      <h3 class="default">arraste a pasta inteira do projeto para atualizar</h3>
-      <h3 class="while-dragging">solte aqui</h3>
+      <h3 class="default" translate="projectHistory.dragFolderToUpdate"></h3>
+      <h3 class="while-dragging" translate="projectHistory.dropHere"></h3>
     </div>
   </div>  
   

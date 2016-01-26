@@ -39,8 +39,24 @@
     "doNotDelete": "não excluir",
     "deletePermanently": "excluir definitivamente"
   },
+
+  "projectHistory": {
+    "myProjects": "Meus projetos",
+    "history": "histórico",
+    "versionLabel": "versão",
+    "versionDeployedAt": "criada em",
+    "versionUrl": "url",
+    "restoreVersion": "restaurar",
+    "currentVersion": "versão ativa",
+    "downloadVersion": "baixar",
+    "dragFolderToUpdate": "arraste a pasta inteira do projeto para atualizar",
+    "dropHere": "solte aqui"
+  },
   
   "projectDomain": {
+    "myProjects": "Meus projetos",
+    "domain": "domínios",
+
     "connect": {
       "title": "conectar domínio personalizado",
       "p1": "Conecte um domínio que você possui ao seu projeto.",
@@ -69,7 +85,16 @@
     
     "dns": {
     },
-    "info": {},
+    "info": {
+      "youCanUseHabemusDomain": "Você pode utilizar o domínio criado automaticamente pela habemus.",
+      "youCanUseCustomDomain": "Caso queira utilizar um domínio personalizado seu, conecte com o seu projeto!",
+      "projectDomains": "Seu projeto possui os seguintes domínios:",
+      "customDomain": "domínio personalizado",
+      "habemusDomain": "domínio criado pela habemus",
+      "pending": "pendente",
+      "active": "ativo",
+      "connectCustomDomain": "conectar domínio personalizado"
+    },
     "rename": {}
     
   },
@@ -136,5 +161,10 @@
     "thanks": "Obrigado!!!",
     "somethingWentWrong": "algo deu errado, por favor tente novamente",
     "messageRequired": "por favor escreva uma mensagem"
+  },
+  "header": {
+    "myProjects": "meus projetos",
+    "myAccount": "minha conta",
+    "logOut": "sair"
   }
 }

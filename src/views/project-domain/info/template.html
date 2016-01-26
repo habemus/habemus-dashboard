@@ -1,7 +1,7 @@
-<p>Você pode utilizar o domínio criado automaticamente pela habemus.</p>
-<p>Caso queira utilizar um domínio personalizado seu, conecte com o seu projeto!</p>
+<p translate="projectDomain.info.youCanUseHabemusDomain"></p>
+<p translate="projectDomain.info.youCanUseCustomDomain"></p>
 <br>
-<p>Seu projeto possui os seguintes domínios:</p>
+<p translate="projectDomain.info.projectDomains"></p>
 
 <!-- user-custom domain -->
 <div
@@ -10,7 +10,9 @@
   ng-class="{ pending: (domainRecord.status_ !== 'active') }"
   ui-sref="project.domain.detail({ domain: domainRecord })">
   <div class="domain-content">
-    <span class="domain-url">http://{{ domainRecord.hostname }}</span>domínio personalizado ({{ domainRecord.status_ || 'pending' }})
+    <span class="domain-url">http://{{ domainRecord.hostname }}</span>
+    <span translate="projectDomain.info.customDomain"></span>
+    (<span ng-show="domainRecord.status_ !== 'active'" translate="projectDomain.info.pending"></span><span ng-show="domainRecord.status_ === 'active'" translate="projectDomain.info.active"></span>)
   </div>
   <div>
     <svg version="1.1" x="0px" y="0px"
@@ -24,7 +26,8 @@
 <!-- habemus-safe-name domain -->
 <div class="domain-item" ui-sref="project.domain.rename" >
   <div class="domain-content">
-    <span class="domain-url">http://{{ project.safeName }}.habemus.website</span>domínio criado pela habemus 
+    <span class="domain-url">http://{{ project.safeName }}.habemus.website</span>
+    <span translate="projectDomain.info.habemusDomain"></span>
   </div>
   <div>
     <svg version="1.1" x="0px" y="0px"
@@ -36,4 +39,4 @@
 <!-- habemus-safe-name domain -->
 
 
-<div class="button centered" ui-sref="project.domain.connect">conectar domínio personalizado</div>
+<div class="button centered" ui-sref="project.domain.connect" translate="projectDomain.info.connectCustomDomain"></div>
