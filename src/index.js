@@ -3,9 +3,7 @@
 var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 
 if (!is_chrome) {
-
-
-  console.log($('#browser-not-supported-notice').addClass('active')[0]);
+  $('#browser-not-supported-notice').addClass('active');
 
   throw new Error('browser not supported');
 }
