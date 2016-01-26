@@ -11,26 +11,34 @@
   <p style="color: #E29A27">Connection is in progress!</p>
   <p style="color: #E29A27">To complete connection you need to setup your domain.</p>
   <br>
-<p>This table shows you the DNS entries needed to connect your domain. Incorrect or missing entries are highlighted in red. Login to your domain provider to manage these settings. If you need help adding and removing DNS entries, follow our step-by-step guide.</p>
+<p>This table shows you the DNS entries needed to connect your domain. Incorrect or missing entries are highlighted in red. Login to your domain provider to manage these settings. </p>
 </div>
 
 <div class="ready-text margin-bottom" ng-hide="inProgress">
-  <p>This table shows you the DNS entries needed to connect your domain. Incorrect or missing entries are highlighted in red. Login to your domain provider to manage these settings. If you need help adding and removing DNS entries, follow our step-by-step guide.</p>
+  <p>This table shows you the DNS entries needed to connect your domain. Incorrect or missing entries are highlighted in red. Login to your domain provider to manage these settings. </p>
 </div>
 
 <table id="dns-table">
   <tr class="table-header">
     <th>host</th>
-    <th>record</th> 
-    <th>required data</th>
-    <th>current data</th>
-    <th>stability</th>
+    <th>record type</th> 
+    <th>
+      <span uib-tooltip="copy data and paste on your domain provider">required data</span>
+    </th>
+    <th>
+      <span uib-tooltip="status of conection">current data</span>
+    </th>
+    <th>
+      <span uib-tooltip="stability of servers will be good once it reaches 1">stability</span>
+    </th>
   </tr>
   <tr class="table-row-body" ng-repeat="dnsRecord in dnsRecords">
     <td>{{ dnsRecord.host || '@' }}</td>
     <td>{{ dnsRecord.type }}</td> 
-    <td>{{ dnsRecord.value }}</td>
-    <td>{{ dnsRecord.status }}</td>
+    <td>
+      <span uib-tooltip="copy value and paste on your domain provider">{{ dnsRecord.value }}</span>
+    </td>
+    <td ng-class="{ pending: dnsRecord.status == 'pending'  }">{{ dnsRecord.status }}</td>
     <td>{{ dnsRecord.stability || 0 }}</td>
   </tr>
 </table>

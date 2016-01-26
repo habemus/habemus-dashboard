@@ -84,13 +84,10 @@
         margin-bottom: 16px;
       }
 
-      // TODO:::::
       &.pending {
-
-        &:hover {
-          span.domain-url {
-            color: darkred;        
-          }
+        
+        span.domain-url-pending {
+          color: @habemus-error;
         }
       }
 
@@ -129,6 +126,10 @@
       td {
         padding: 10px 0;
       }
+      
+      td.pending {
+        color: @habemus-error;
+      }      
       
       th {
         padding: 0 0 10px 0;

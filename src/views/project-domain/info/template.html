@@ -10,7 +10,8 @@
   ng-class="{ pending: (domainRecord.status_ !== 'active') }"
   ui-sref="project.domain.detail({ domain: domainRecord })">
   <div class="domain-content">
-    <span class="domain-url">http://{{ domainRecord.hostname }}</span>domínio personalizado ({{ domainRecord.status_ || 'pending' }})
+    <span class="domain-url">http://{{ domainRecord.hostname }}</span>domínio personalizado  
+    <span class="domain-url-pending">({{ domainRecord.status_ || 'pending' }})</span>
   </div>
   <div>
     <svg version="1.1" x="0px" y="0px"

@@ -54,7 +54,7 @@
       "p1": "Este domínio é personalizado.",
       "p2": "Administrado por um provedor de domínios externo.",
       "viewSettings": "ver configurações DNS",
-      "disconnectDomain": "desconectar domínio personalizado"
+      "disconnectDomain": "desconectar domínio personalizado",
       
     },
     "disconnect": {
