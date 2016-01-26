@@ -117,9 +117,29 @@
       "active": "active",
       "connectCustomDomain": "connect custom domain"
     },
-    "rename": {},
+    "rename": {
+      "rename": "rename domain",
+      "renaming": "renaming your habemus domain",
+      "explanation1": "This is your habemus domain.",
+      "explanation2": "It can be used to access your website.",
+      "explanation3": "You can rename it if you wish.",
+      "warning": "Attention: Whenever you rename your habemus domain, the url of your project will be modified and the previous url will not work anymore.",
+      "serverError": "there was an error renaming your project, please try again"
+    }
     
-  },  
+  },
+
+  "projectRename": {
+    "renameYourProject": "Rename your project",
+    "renameExplain1": "You can always rename your project.",
+    "renameExplain2": "If you wish to rename your habemus domain as well, please check the following option.",
+    "alsoRenameDomain": "also rename habemus domain",
+    "warning": "Attention: Whenever you rename your habemus domain, the url of your project will be modified and the previous url will not work anymore.",
+    "rename": "rename",
+    "projectNameRequired": "project name is required",
+    "serverSideError": "there was an error renaming your project, please try again"
+  },
+
   "betaAuth": {
     "accessBetaVersion": "Access the beta version of habemus!",
     "insertAccessCode": "insert your access code",

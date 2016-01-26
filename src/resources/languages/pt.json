@@ -120,8 +120,26 @@
       "active": "ativo",
       "connectCustomDomain": "conectar domínio personalizado"
     },
-    "rename": {}
-    
+    "rename": {
+      "rename": "renomear domínio",
+      "renaming": "renomeando o seu domínio habemus",
+      "explanation1": "Esse é o seu domínio habemus.",
+      "explanation2": "Através dele, seu site pode ser acessado.",
+      "explanation3": "Você pode renomeá-lo se desejar.",
+      "warning": "Atenção: Ao renomear o domínio habemus, o link será alterado e o link antigo não funcionará mais.",
+      "serverError": "ocorreu um erro ao renomear seu projeto, por favor tente novamente"
+    }
+  },
+
+  "projectRename": {
+    "renameYourProject": "Renomeie o seu projeto",
+    "renameExplain1": "Você pode alterar o nome do projeto a qualquer momento.",
+    "renameExplain2": "Para que o domínio habemus também seja alterado, selecione a opção abaixo.",
+    "alsoRenameDomain": "renomear também o domínio",
+    "warning": "Atenção: Ao renomear o domínio, o link para o seu projeto será alterado e o link antigo não funcionará mais.",
+    "rename": "renomear",
+    "projectNameRequired": "o nome do projeto é obrigatório",
+    "serverSideError": "ocorreu um erro ao renomear seu projeto, por favor tente novamente"
   },
   
   "betaAuth": {

@@ -1,24 +1,24 @@
 <div class="content">
-  <h2>Renomeie o seu projeto</h2>
+  <h2 translate="projectRename.renameYourProject"></h2>
   
-  <p>Você pode alterar o nome do projeto a qualquer momento.</p>
-  <p>Para que o domínio habemus também seja alterado, selecione a opção abaixo.</p>
+  <p translate="projectRename.renameExplain1"></p>
+  <p translate="projectRename.renameExplain2"></p>
   
   <form ng-submit="editName()">
     <p>
       <label>
         <input type="checkbox" name="renameDomain" value="true" ng-model="renameDomain">
-        renomear também o domínio <br><b>{{ project.safeName }}.habemus.website</b>
+        <span translate="projectRename.alsoRenameDomain"></span>
+        <br><b>{{ project.safeName }}.habemus.website</b>
       </label>
     </p>
     <p style="color: #E29A27">
-      <span>Atenção:</span>
-      Ao renomear o domínio, o link para o seu projeto será alterado e o link antigo não funcionará mais.
+      <span translate="projectRename.warning"></span>
     </p>
     
     <div class="input-button">
       <input autofocus placeholder="{{ project.name }}" ng-model="projectName">
-      <div class="button secundary" ng-click="editName()">renomear</div>
+      <div class="button secundary" ng-click="editName()" translate="projectRename.rename"></div>
     </div>
 
     <div>{{ error }}</div>

@@ -4,24 +4,24 @@
     <polyline fill="none" stroke="#6D6D6D" stroke-miterlimit="10" points="10.315,2.602 0.96,12.14 10.315,21.678 			"/>
     <line fill="none" stroke="#6D6D6D" stroke-miterlimit="10" x1="0.96" y1="12.141" x2="23.478" y2="12.141"/>
   </svg>
-  <p>renomear domínio</p>
+  <p translate="projectDomain.rename.rename"></p>
 </div>
 
 <a href="http://{{ project.safeName }}.habemus.website" target="_blank" class="">http://{{ project.safeName }}.habemus.website</a>
 
 <div class="max-width">
   <div class="margin-bottom">
-    <p>Esse é o seu domínio habemus.</p>
-    <p>Através dele, seu site pode ser acessado.</p>
-    <p>Você pode renomeá-lo se desejar.</p>
+    <p translate="projectDomain.rename.explanation1"></p>
+    <p translate="projectDomain.rename.explanation2"></p>
+    <p translate="projectDomain.rename.explanation3"></p>
     <br>
-    <p style="color: #E29A27"><span >Atenção:</span> Ao renomear o domínio habemus, o link será alterado e o link antigo não funcionará mais.</p>
+    <p style="color: #E29A27" translate="projectDomain.rename.warning"></p>
   </div>
 
   <form ng-submit="setProjectSafeName()">
     <div class="input-button">
       <input autofocus placeholder="{{ project.safeName }}" ng-model="newSafeName">
-      <button class="button secundary">renomear domínio</button>
+      <button class="button secundary" translate="projectDomain.rename.rename"></button>
     </div>
     <div>{{ error }}</div>
   </form>

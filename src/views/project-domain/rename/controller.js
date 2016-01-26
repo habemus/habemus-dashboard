@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = /*@ngInject*/ function ($scope, $stateParams, loadingDialog, projectAPI) {
+module.exports = /*@ngInject*/ function ($scope, $translate, $stateParams, loadingDialog, projectAPI) {
   
   $scope.setProjectSafeName = function () {
 
@@ -11,9 +11,12 @@ module.exports = /*@ngInject*/ function ($scope, $stateParams, loadingDialog, pr
       return;
     }
 
-    loadingDialog.open({
-      message: 'renaming project domain'
-    });
+    $translate('projectDomain.rename.renaming')
+      .then(function (message) {
+        loadingDialog.open({
+          message: message,
+        });
+      })
 
     projectAPI.setProjectSafeName($scope.project.id, newSafeName)
       .then(function (res) {
@@ -28,9 +31,10 @@ module.exports = /*@ngInject*/ function ($scope, $stateParams, loadingDialog, pr
 
         loadingDialog.close();
 
-        $scope.error = err.response.body.error.message;
-
-        $scope.$apply();
+        $translate('projectDomain.rename.serverError')
+          .then(function (message) {
+            $scope.error = message;
+          })
       })
       .then(function () {
         loadingDialog.close();

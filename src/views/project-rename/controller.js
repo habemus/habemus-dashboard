@@ -2,12 +2,16 @@
 
 var Q    = require('q');
 
-module.exports = /*@ngInject*/ function RenameProject($scope, projectAPI) {
+module.exports = /*@ngInject*/ function RenameProject($scope, $translate, projectAPI) {
 
   $scope.editName = function () {
 
     if (!$scope.projectName) {
-      $scope.error = 'project name is required';
+
+      $translate('projectRename.projectNameRequired')
+        .then(function (message) {
+          $scope.error = message;
+        });
       return;
     }
 
@@ -41,13 +45,16 @@ module.exports = /*@ngInject*/ function RenameProject($scope, projectAPI) {
         $scope.loading = false;
 
         $scope.$apply();
-      }, function (err) {
-
-
-        $scope.error = err.response.body.error.message;
-
-        $scope.loading = false;
-        $scope.$apply();
       })
+      .fail(function (err) {
+
+        // TODO: improve server-side error handling
+        $translate('projectRename.serverSideError')
+          .then(function (message) {
+            $scope.error = message;
+
+            $scope.loading = false;
+          });
+      });
   };
 };
