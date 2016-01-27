@@ -106,6 +106,7 @@
       "testConnection": "test connection",
       "verifyingConnection": "verifying connection",
       "pending": "pending",
+      "completed": "done",
       "copy": "copy"
     },
 

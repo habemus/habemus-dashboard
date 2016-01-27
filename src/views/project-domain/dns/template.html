@@ -66,7 +66,10 @@
         {{ 'projectDomain.dns.copy' | translate }}
       </button>
     </td>
-    <td ng-class="{ pending: dnsRecord.status == 'pending'  }">{{ ('projectDomain.dns.' + (dnsRecord.status || 'pending')) | translate }}</td>
+    <td ng-class="{ pending: dnsRecord.status == 'pending'  }">
+      {{ dnsRecord.actualValue }}
+      {{ ('projectDomain.dns.' + (dnsRecord.status || 'pending')) | translate }}
+    </td>
     <td>{{ dnsRecord.stability || 0 }}</td>
   </tr>
 </table>
