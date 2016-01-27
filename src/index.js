@@ -22,6 +22,7 @@ var DASHBOARD = angular.module('habemus-dashboard', [
   'ngDialog',
   'ui.bootstrap',
   'file-model',
+  'angular-clipboard',
 ]);
 
 /**

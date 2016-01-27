@@ -21,6 +21,15 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
    */
   $scope.dnsRecords = [];
   
+  $scope.copySuccess = function () {
+    console.log('copied');
+  };
+
+  $scope.copyError = function (err) {
+    console.log(err);
+    console.log('copy error');
+  };
+
   $scope.domainRecord = $stateParams.domain;
 
   /**
