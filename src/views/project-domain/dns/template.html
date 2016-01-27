@@ -25,15 +25,12 @@
 <table id="dns-table">
   <tr class="table-header">
     <th translate="projectDomain.dns.host"></th>
-    <th translate="projectDomain.dns.recordType"></th> 
-    <th>
+    <th translate="projectDomain.dns.recordType"></th>
+    <th colspan="2">
       <span
         uib-tooltip="{{ 'projectDomain.dns.requiredRecordDataTooltip' | translate }}"
         translate="projectDomain.dns.requiredRecordData">
       </span>
-    </th>
-    <th>
-      <!-- copy button -->
     </th>
     <th>
       <span
@@ -52,12 +49,6 @@
     <td>{{ dnsRecord.host || '@' }}</td>
     <td>{{ dnsRecord.type }}</td> 
     <td>
-      <span
-        uib-tooltip="{{ 'projectDomain.dns.requiredRecordDataTooltip' | translate }}">
-        {{ dnsRecord.value }}
-      </span>
-    </td>
-    <td>
       <button
         clipboard
         text="dnsRecord.value"
@@ -65,6 +56,12 @@
         on-error="copyFail(err)">
         {{ 'projectDomain.dns.copy' | translate }}
       </button>
+    </td>
+    <td>
+      <span
+        uib-tooltip="{{ 'projectDomain.dns.requiredRecordDataTooltip' | translate }}">
+        {{ dnsRecord.value }}
+      </span>
     </td>
     <td ng-class="{ pending: dnsRecord.status == 'pending'  }">
       {{ dnsRecord.actualValue }}
