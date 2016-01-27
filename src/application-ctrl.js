@@ -18,7 +18,14 @@ function _getBetaData() {
   return parsedQs[BETA_DATA_QUERY_PARAM];
 }
 
-module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootScope, $state, $timeout, $translate, Parse, authModal, betaPasswordResetModal, betaLoginModal) {
+module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootScope, $state, $timeout, $translate, Parse, authModal, betaPasswordResetModal, betaLoginModal, introWelcome) {
+
+  // intro tests
+  setTimeout(function () {
+    introWelcome();
+
+  }, 1000)
+
 
   function _openLogin() {
     // check if it is a beta login
