@@ -91,6 +91,10 @@ h1 {
 
   .drop-to-new-project {
 
+    // position relative for the file input inside
+    // to occupy the full area of the drop container
+    position: relative;
+
     padding: 4px 0;
     border: 2px dashed @habemus-gray-light;
 
@@ -99,6 +103,17 @@ h1 {
     justify-content: center;
     align-items: center;
     align-content: center;
+
+    input[type="file"] {
+      position: absolute;
+      top: 0;
+      left: 0;
+
+      opacity: 0;
+
+      height: 100%;
+      width: 100%;
+    }
 
     svg.cloud-img {
       padding: 20px 8px 4px 8px;

@@ -16,7 +16,7 @@
         ui-tree-nodes
         ng-model="project.rootDirectory"
         ng-class="{ empty: project.rootDirectory.isEmpty }"
-        file-drop-area="uploadFiles(project.rootDirectory, $files)">
+        file-drop="uploadFiles(project.rootDirectory, $files)">
         <li
           ng-repeat="entry in project.rootDirectory.entries"
           ui-tree-node
@@ -38,8 +38,14 @@
   
   <!-- draggable area -->
   <div class="drop-to-new-project-container">
-    <div class="drop-to-new-project" file-drop-area="uploadNewVersion($files)">
-      
+    <div class="drop-to-new-project" file-drop="uploadNewVersion($files)">
+      <input
+        type="file"
+        file-change="uploadNewVersion($files)"
+        webkitdirectory
+        directory
+        multiple>
+
       <div class="upload-img"></div>
  
       <h3 class="default">arraste a pasta inteira do projeto para atualizar</h3>

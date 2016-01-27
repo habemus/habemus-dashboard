@@ -3,7 +3,8 @@
 var fs = require('fs');
 var path = require('path');
 
-// external dependencies
+// own
+var fileReader = require('../../lib/file-reader');
 
 module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projectAPI, $state, zipper, ngDialog, loadingDialog) {
 

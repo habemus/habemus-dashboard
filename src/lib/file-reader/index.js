@@ -131,8 +131,6 @@ function _parseWebkitEntry(entry, basePath) {
 
 /**
  * Reads files from a drop event
- * @param  {event} e [description]
- * @return {Promise -> Array[FileDataObject]}   [description]
  */
 function fromDropEvent(e, filterFn) {
   var items = Array.prototype.slice.call(e.dataTransfer.items, 0);
@@ -178,9 +176,29 @@ function fromDropEvent(e, filterFn) {
     });
 }
 
-function fromFileInput(input) {
-  throw new Error('not implemented yet');
+function fromDirectoryInput(input) {
+
+  var sourceFiles = input.files;
+  sourceFiles = Array.prototype.slice.call(sourceFiles, 0);
+
+  // parse out the root directory
+  var rootDir = sourceFiles[0].webkitRelativePath.split('/')[0];
+
+  var files = sourceFiles.map(function (sourceFile) {
+    return {
+      lastModified: sourceFile.lastModified,
+      name: sourceFile.name,
+      size: sourceFile.size,
+      path: sourceFile.webkitRelativePath.replace(rootDir + '/', ''),
+      file: sourceFile,
+    };
+  });
+
+  return Q({
+    rootDir: rootDir,
+    files: files
+  });
 }
 
 exports.fromDropEvent = fromDropEvent;
-exports.fromFileInput = fromFileInput;
+exports.fromDirectoryInput = fromDirectoryInput;

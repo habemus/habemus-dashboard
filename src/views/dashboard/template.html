@@ -5,7 +5,14 @@
   <ul id="projects">
     
     <li class="shadow">
-      <div class="drop-to-new-project" file-drop-area="createProject($files, $rootDir)">
+      <div class="drop-to-new-project" file-drop="createProject($files, $rootDir)">
+
+        <input
+          type="file"
+          file-change="createProject($files, $rootDir)"
+          webkitdirectory
+          directory
+          multiple>
 
         <div class="upload-img">
         </div>
