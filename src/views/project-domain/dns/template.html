@@ -63,7 +63,7 @@
         text="dnsRecord.value"
         on-copied="copySuccess()"
         on-error="copyFail(err)">
-        copy
+        {{ 'projectDomain.dns.copy' | translate }}
       </button>
     </td>
     <td ng-class="{ pending: dnsRecord.status == 'pending'  }">{{ ('projectDomain.dns.' + (dnsRecord.status || 'pending')) | translate }}</td>

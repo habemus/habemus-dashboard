@@ -105,7 +105,8 @@
       "recordDataStabilityTooltip": "stability of servers will be good once it reaches 1",
       "testConnection": "test connection",
       "verifyingConnection": "verifying connection",
-      "pending": "pending"
+      "pending": "pending",
+      "copy": "copy"
     },
 
     "info": {
