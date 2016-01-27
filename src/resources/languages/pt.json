@@ -6,8 +6,9 @@
     "uploading": "enviando arquivos para a nuvem",
     "finishingUpload": "finalizando últimos detalhes",
     "createdAt": "criado em",
-    "dragProjectDirectory1": "arraste a pasta",
+    "dragProjectDirectory1": "arraste para cá a pasta",
     "dragProjectDirectory2": "de um novo projeto",
+    "dragProjectTooltip": "o projeto deve ser estático (utilizar linguagens: html, css, js). Seu projeto deve ter um arquivo index.html",
     "dropHere": "solte aqui",
     "editProject": "editar"
   },
@@ -108,7 +109,9 @@
       "recordDataStabilityTooltip": "a estabilidade das configurações estarão boas quando seu valor chegar a 1",
       "testConnection": "testar conexão",
       "verifyingConnection": "verificando conexão",
-      "pending": "pendente"
+      "pending": "pendente",
+      "copleted": "pronto",
+      "copy": "copiar"
     },
 
     "info": {

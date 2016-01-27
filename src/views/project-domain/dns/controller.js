@@ -21,6 +21,15 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
    */
   $scope.dnsRecords = [];
   
+  $scope.copySuccess = function () {
+    console.log('copied');
+  };
+
+  $scope.copyError = function (err) {
+    console.log(err);
+    console.log('copy error');
+  };
+
   $scope.domainRecord = $stateParams.domain;
 
   /**
@@ -56,10 +65,15 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
             CNAME: 'CNAME'
           };
 
+          console.log(recordGroup);
+
           recordGroup.targetValues.forEach(function (v) {
             $scope.dnsRecords.push({
               type: recordGroup.type,
               value: v.value,
+
+              // this is not perfect: TODO adapt for better compatibility
+              actualValue: recordGroup.actualValues ? recordGroup.actualValues[0] : undefined,
               required: v.required,
               status: recordGroup.status,
               host: recordGroup.host,

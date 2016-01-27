@@ -33,6 +33,9 @@
       </span>
     </th>
     <th>
+      <!-- copy button -->
+    </th>
+    <th>
       <span
         uib-tooltip="{{ 'projectDomain.dns.recordStatusTooltip' | translate }}"
         translate="projectDomain.dns.recordStatus">
@@ -54,7 +57,19 @@
         {{ dnsRecord.value }}
       </span>
     </td>
-    <td ng-class="{ pending: dnsRecord.status == 'pending'  }">{{ ('projectDomain.dns.' + (dnsRecord.status || 'pending')) | translate }}</td>
+    <td>
+      <button
+        clipboard
+        text="dnsRecord.value"
+        on-copied="copySuccess()"
+        on-error="copyFail(err)">
+        {{ 'projectDomain.dns.copy' | translate }}
+      </button>
+    </td>
+    <td ng-class="{ pending: dnsRecord.status == 'pending'  }">
+      {{ dnsRecord.actualValue }}
+      {{ ('projectDomain.dns.' + (dnsRecord.status || 'pending')) | translate }}
+    </td>
     <td>{{ dnsRecord.stability || 0 }}</td>
   </tr>
 </table>
