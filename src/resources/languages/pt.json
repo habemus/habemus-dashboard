@@ -97,6 +97,7 @@
       "connectionInProgress": "Conexão em progresso!",
       "setupYourDomain": "Para completar a conexão, você precisa configurar seu domínio.",
       "providerSettingsInstructions": "Essa tabela apresenta os registros DNS necessários para a conexão do seu domínio. Registros incorretos ou pendentes estão destacados em vermelho. Faça o login no seu provedor de domínios para administrar estas configurações",
+      "dnsConfigDelayExplanation": "As configurações de DNS podem demorar até 48 horas para serem propagadas pela internet. Este tempo depende de cada provedor e também das suas últimas configurações de DNS.",
       "host": "host",
       "recordType": "tipo de registro",
       "requiredRecordData": "dados",

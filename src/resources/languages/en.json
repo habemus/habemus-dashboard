@@ -94,6 +94,7 @@
       "connectionInProgress": "Connection is in progress!",
       "setupYourDomain": "To complete connection you need to setup your domain.",
       "providerSettingsInstructions": "This table shows you the DNS entries needed to connect your domain. Incorrect or missing entries are highlighted in red. Login to your domain provider to manage these settings.",
+      "dnsConfigDelayExplanation": "The DNS configurations may take up to 48 hours to propagate throughout the internet. The length of this delay depends on the domain provider where your domain was acquired and your previous DNS configurations.",
       "host": "host",
       "recordType": "record type",
       "requiredRecordData": "required data",
