@@ -9,10 +9,11 @@
 
         <input
           type="file"
-          file-change="createProject($files, $rootDir)"
           webkitdirectory
           directory
-          multiple>
+          multiple
+          file-change="createProject($files, $rootDir)"
+          uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}">
 
         <div class="upload-img">
         </div>
@@ -20,7 +21,7 @@
         <h3 class="default">
           <span translate="dashboard.dragProjectDirectory1"></span>
           <br>
-          <span translate="dashboard.dragProjectDirectory2" uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}"></span>
+          <span translate="dashboard.dragProjectDirectory2"></span>
         </h3>
         <h3 class="while-dragging" translate="dashboard.dropHere"></h3>
       </div>
