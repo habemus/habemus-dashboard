@@ -33,16 +33,16 @@
         <a ng-click="$event.stopPropagation();" ng-href="http://{{ project.safeName }}.habemus.website" target="_blank">http://{{ project.safeName }}.habemus.website</a>
         
 <!-- printscreen - let commented until its available -->
-<!--
-        <div class="project-preview-img">
-          <img src="../../resources/img/printscreen-3.png">
+
+        <div ng-if="project.activeVersion.screenshotURL" class="project-preview-img">
+          <img ng-src="{{ project.activeVersion.screenshotURL }}">
           <div class="on-hover">
             <div class="button">editar
             </div>
           </div>
           
         </div>
--->
+
         <h4>
           <span translate="dashboard.createdAt"></span>
           <b>{{project.createdAt | date : "dd MMM yyyy',' H:mm"}}</b>
