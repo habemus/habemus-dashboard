@@ -30,12 +30,14 @@
     <li ng-repeat="project in currentUserProjects" class="shadow">
       <div ng-click="navigateToProject(project.objectId)" class="each-project-content">
         <h2>{{ project.name }}</h2>
-        <a ng-click="$event.stopPropagation();" ng-href="http://{{ project.safeName }}.habemus.website" target="_blank">http://{{ project.safeName }}.habemus.website</a>
-        
-<!-- printscreen - let commented until its available -->
-
-        <div ng-if="project.activeVersion.screenshotURL" class="project-preview-img">
-          <img ng-src="{{ project.activeVersion.screenshotURL }}">
+        <a
+          ng-click="$event.stopPropagation();"
+          ng-href="http://{{ project.safeName }}.habemus.website"
+          target="_blank">http://{{ project.safeName }}.habemus.website</a>
+        <div class="project-preview-img">
+          <img
+            ng-src="{{ project.activeVersion.screenshotURL }}"
+            err-src="resources/img/screenshot-placeholder.png">
           <div class="on-hover">
             <div class="button">editar
             </div>
@@ -47,10 +49,6 @@
           <span translate="dashboard.createdAt"></span>
           <b>{{project.createdAt | date : "dd MMM yyyy',' H:mm"}}</b>
         </h4>
-        
-        <!-- temporary button - delete once printscreen is available-->
-        <div class="button centered temporary" translate="dashboard.editProject"></div>
-
       </div>
     </li>
     
