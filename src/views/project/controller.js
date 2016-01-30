@@ -11,9 +11,25 @@ var Q    = require('q');
 // load models
 var DirectoryData = require('../../models/file-system/directory');
 
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, $translate, projectAPI, zipper, auth, $timeout, ngDialog, CONFIG, loadingDialog) {
-
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, $translate, projectAPI, zipper, auth, $timeout, ngDialog, CONFIG, loadingDialog, intro) {
   console.log('loadingDialog on ProjectCtrl', loadingDialog);
+  /**
+   * Setup intro
+   */
+  $scope.$watch('currentUser', function () {
+
+    var currentUser = $scope.currentUser;
+
+    if (!currentUser) { return; }
+
+    // design this so that the intro is only shown when explicitly set
+    var guideState = currentUser.guideState || {};
+
+    if (guideState.showProjectIntro) {
+      intro.project.start();
+    }
+  });
+
 
   var projectId = $stateParams.projectId;
 
@@ -42,7 +58,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
         $scope.project.id        = project.objectId;
         $scope.project.name      = project.name;
         $scope.project.safeName  = project.safeName;
-        $scope.project.createdDate = project.createdAt;
+        $scope.project.createdAt = project.createdAt;
 
         $scope.$apply();
       }, function (err) {

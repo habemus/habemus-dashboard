@@ -6,7 +6,25 @@ var path = require('path');
 // own
 var fileReader = require('../../lib/file-reader');
 
-module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projectAPI, $state, zipper, ngDialog, loadingDialog) {
+module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projectAPI, $state, zipper, ngDialog, loadingDialog, intro) {
+
+  /**
+   * Setup intro
+   */
+  $scope.$watch('currentUser', function () {
+
+    var currentUser = $scope.currentUser;
+
+    if (!currentUser) { return; }
+
+    // design this so that the intro is only shown when explicitly set
+    var guideState = currentUser.guideState || {};
+
+    if (guideState.showDashboardIntro) {
+      intro.dashboard.start();
+    }
+  });
+
 
   // retrieve all projects owned by the current logged user
   // and put them onto the scope as `currentUserProjects`
@@ -31,6 +49,11 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
    *         as defined by models/file-system/file
    */
   $scope.createProject = function (files, projectName) {
+
+    // close the dashboard intro
+    intro.dashboard.exit();
+    // call setAsShown manually as the 'exit()' method does not fire the event
+    intro.dashboard.setAsShown();
 
     $translate('dashboard.preparingUpload')
       .then(function (message) {

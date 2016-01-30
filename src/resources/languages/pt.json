@@ -5,7 +5,7 @@
     "preparingUpload": "preparando upload",
     "uploading": "enviando arquivos para a nuvem",
     "finishingUpload": "finalizando últimos detalhes",
-    "createdAt": "criado em",
+    "updatedAt": "atualizado em",
     "dragProjectDirectory1": "arraste para cá a pasta",
     "dragProjectDirectory2": "de um novo projeto",
     "dragProjectTooltip": "o projeto deve ser estático (utilizar linguagens: html, css, js). Seu projeto deve ter um arquivo index.html",

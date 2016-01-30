@@ -1,4 +1,4 @@
-<div class="body-content-dashboard">
+<div class="body-content-dashboard" data-intro-name="view-projects">
   
   <h1 translate="dashboard.myProjects"></h1>
 
@@ -39,15 +39,14 @@
             ng-src="{{ project.activeVersion.screenshotURL }}"
             err-src="resources/img/screenshot-placeholder.png">
           <div class="on-hover">
-            <div class="button">editar
-            </div>
+            <div class="button" translate="dashboard.editProject"></div>
           </div>
           
         </div>
 
         <h4>
-          <span translate="dashboard.createdAt"></span>
-          <b>{{project.createdAt | date : "dd MMM yyyy',' H:mm"}}</b>
+          <span translate="dashboard.updatedAt"></span>
+          <b>{{project.updatedAt | date : "dd MMM yyyy',' H:mm"}}</b>
         </h4>
       </div>
     </li>

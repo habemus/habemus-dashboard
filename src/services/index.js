@@ -33,5 +33,5 @@ module.exports = function (DASHBOARD) {
   DASHBOARD.factory('betaPasswordResetModal', require('./beta-password-reset-modal'));
   DASHBOARD.factory('betaLoginModal', require('./beta-login-modal'));
   DASHBOARD.factory('loadingDialog', require('./loading-dialog'));
-  DASHBOARD.factory('introWelcome', require('./intro-welcome'));
+  DASHBOARD.factory('intro', require('./intro'));
 };
