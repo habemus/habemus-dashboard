@@ -15,7 +15,7 @@
     ng-class="{ hidden: collapsed, empty: entry.isEmpty }"
     ui-tree-nodes
     ng-model="entry.entries"
-    file-drop-area="uploadFiles(entry, $files)">
+    file-drop="uploadFiles(entry, $files)">
     <li
       ng-repeat="entry in entry.entries"
       ui-tree-node

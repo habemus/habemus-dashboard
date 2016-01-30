@@ -19,18 +19,16 @@ ul#projects {
   li {
     background-color: #FFF;
     margin-bottom: 32px;
-//  comentented until printscreen is available
-//  height: 294px;
-    height: 204px; // delete once printscreen is available
+    height: 294px;
     width: 29.3%;
     margin: 16px;
     min-width: 220px;
     max-width: 300px;
         
     .drop-to-new-project {
-//    comentented until printscreen is available  
-//    height: 264px;
-      height: 172px; // delete once printscreen is available 
+      position: relative;
+
+      height: 264px;
       margin: 16px;
       border: 2px dashed @habemus-gray-light;
       box-sizing: border-box;
@@ -41,6 +39,21 @@ ul#projects {
       justify-content: center;
       align-items: center;
       align-content: center;
+
+      input[type="file"] {
+        position: absolute;
+        top: 0;
+        left: 0;
+
+        opacity: 0;
+
+        height: 100%;
+        width: 100%;
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
       
       .upload-img {
         width: 95px;
@@ -62,7 +75,7 @@ ul#projects {
 //        }
 //      }
 
-      @-webkit-keyframes cloud-animate-drag-1 {
+      @keyframes cloud-animate-drag-1 {
         0% { transform: translate(0, 0px) }
         15% { transform: translate(10px, -10px) }
         35% { transform: translate(10px, 10px) }
@@ -71,7 +84,7 @@ ul#projects {
         100% { transform: translate(0px, 0px) }
       }
       
-      @-webkit-keyframes cloud-animate-drag-2 {
+      @keyframes cloud-animate-drag-2 {
         0% { transform: translate(0, 0px) }
         50% { transform: translate(0px, -20px) }
         100% { transform: translate(0px, 0px) }
@@ -169,11 +182,6 @@ ul#projects {
         margin-top: 9px;
         margin-bottom: 0;
       }
-      
-      // delete once printscreen is available 
-      .temporary {
-          margin-top: 46px;
-        }
     }
   }
 }

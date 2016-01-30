@@ -106,7 +106,6 @@ module.exports = function (gulp, $) {
     return gulp.src(tmpDir + '/index.html')
       // builds scripts and css into single files
       .pipe($.useref())
-      .pipe($.if('*.js', $.stripDebug()))
       .pipe($.if('*.js', $.uglify()))
       .pipe($.if('*.css', $.minifyCss()))
       .pipe($.size({

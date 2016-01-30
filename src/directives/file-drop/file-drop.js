@@ -1,9 +1,9 @@
 var Q = require('q');
 
-var FD_SELECTOR = '[file-drop-area]';
+var FD_SELECTOR = '[file-drop]';
 var FD_TARGET_CLASS = 'file-drop-target';
 
-var readFiles = require('./lib/read-files');
+var fileReader = require('../../lib/file-reader');
 
 module.exports = function (module) {
 
@@ -56,7 +56,7 @@ module.exports = function (module) {
     }
   });
 
-  module.directive('fileDropArea', function () {
+  module.directive('fileDrop', function () {
 
     return {
       restrict: 'A',
@@ -71,7 +71,7 @@ module.exports = function (module) {
           e.stopPropagation();
           e.preventDefault();
 
-          readFiles
+          fileReader
             .fromDropEvent(e.originalEvent, filterDotFiles)
             .then(function (readData) {
               // clear the target highlighting
@@ -79,11 +79,36 @@ module.exports = function (module) {
               
               scope.$rootDir = readData.rootDir;
               scope.$files   = readData.files;
-              scope.$eval(attrs.fileDropArea);
+              scope.$eval(attrs.fileDrop);
             })
             .done();
         });
       },
+    }
+  });
+
+  module.directive('fileChange', function fileChange() {
+    return {
+      restrict: 'A',
+      link: function link(scope, element, attrs, ctrl) {
+        element.on('change', onChange);
+
+        scope.$on('destroy', function () {
+          element.off('change', onChange);
+        });
+
+        function onChange() {
+          fileReader
+            .fromDirectoryInput(element[0])
+            .then(function (readData) {
+
+              scope.$rootDir = readData.rootDir;
+              scope.$files   = readData.files;
+              scope.$eval(attrs.fileChange);
+            })
+            .done();
+        }
+      }
     }
   });
 };
