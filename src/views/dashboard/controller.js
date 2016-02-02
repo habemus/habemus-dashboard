@@ -88,7 +88,7 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
           $scope.navigateToProject(projectData.objectId);
         
           // loading state ends
-          loadingDialog.close();    
+          loadingDialog.close();
         })
         .done();
     })
