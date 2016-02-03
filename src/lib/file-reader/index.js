@@ -1,5 +1,8 @@
-var Q         = require('q');
-var _         = require('lodash');
+var Q     = require('q');
+var _     = require('lodash');
+
+var Zip = require('../zip');
+var aux = require('../auxiliary');
 
 /**
  * Enforces the FileDataObject interface.
@@ -132,7 +135,7 @@ function _parseWebkitEntry(entry, basePath) {
 /**
  * Reads files from a drop event
  */
-function fromDropEvent(e, filterFn) {
+function webkitFromDropEvent(e, filterFn) {
   var items = Array.prototype.slice.call(e.dataTransfer.items, 0);
 
   // variable that holds the root directory of the drop event
@@ -176,6 +179,36 @@ function fromDropEvent(e, filterFn) {
     });
 }
 
+/**
+ * For non webkit, we must ensure the selected file is a single zip file
+ * @param  {HTMLDropEvent} e        [description]
+ * @param  {Function} filterFn [description]
+ * @return {Promise}          [description]
+ */
+function nonWebkitFromDropEvent(e, filterFn) {
+  var dt = e.dataTransfer;
+  var files = Array.prototype.slice.call(dt.files, 0);
+
+  if (!files.length === 1) {
+    throw new Error('only a single file is accepted');
+  }
+
+  if (files[0].type !== 'application/zip') {
+    throw new Error('file must be of type application/zip');
+  }
+
+  var zip = new Zip();
+  zip.load(files[0]).done();
+
+  setTimeout(function () {
+
+
+    console.log(zip);
+  }, 1000);
+
+  throw new Error('asdasdasd')
+}
+
 function fromDirectoryInput(input) {
 
   var sourceFiles = input.files;
@@ -200,5 +233,5 @@ function fromDirectoryInput(input) {
   });
 }
 
-exports.fromDropEvent = fromDropEvent;
+exports.fromDropEvent = aux.isChrome() ? webkitFromDropEvent : nonWebkitFromDropEvent;
 exports.fromDirectoryInput = fromDirectoryInput;

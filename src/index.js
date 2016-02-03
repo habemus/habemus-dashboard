@@ -1,16 +1,10 @@
 'use strict';
 
-var is_chrome = navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
-
-if (!is_chrome) {
-  $('#browser-not-supported-notice').addClass('active');
-
-  throw new Error('browser not supported');
-}
-
-
 var path = require('path');
 var fs   = require('fs');
+
+var aux  = require('./lib/auxiliary');
+
 /**
  * Globals: angular
  */
@@ -85,8 +79,12 @@ DASHBOARD.config(function ($translateProvider) {
 
 // verify authentication on statechange
 DASHBOARD.run(function ($rootScope, $state, $location, AUTH_EVENTS, auth, authModal, ngDialog) {
-
-  window.auth = auth;
+  /**
+   * Browser data
+   * @type {Object}
+   */
+  $rootScope.browser = {};
+  $rootScope.browser.isChrome = aux.isChrome();
 
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
 

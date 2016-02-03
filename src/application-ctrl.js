@@ -87,7 +87,7 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
       _openLogin();
     }
   }
-
+  
   // authentication
   auth.on('auth-status-change', _handleAuthStatusChange);
   _handleAuthStatusChange();
