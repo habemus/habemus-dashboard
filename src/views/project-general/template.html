@@ -107,7 +107,16 @@
 
       <div class="upload-img"></div>
  
-      <h3 class="default" translate="projectGeneral.dragDirectoryToUpdate"></h3>
+      <h3
+        ng-if="browser.isChrome"
+        class="default"
+        translate="projectGeneral.dragDirectoryToUpdate">
+      </h3>
+      <h3
+        ng-if="!browser.isChrome"
+        class="default"
+        translate="projectGeneral.dragZipToUpdate">
+      </h3>
       <h3 class="while-dragging" translate="projectGeneral.dropHere"></h3>
     </div>
   </div>

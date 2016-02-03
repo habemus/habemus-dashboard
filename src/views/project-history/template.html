@@ -71,7 +71,15 @@
         file-change="uploadNewVersion($files)">
 
       <div class="upload-img"></div>
-      <h3 class="default" translate="projectHistory.dragFolderToUpdate"></h3>
+      <h3
+        ng-if="browser.isChrome"
+        class="default"
+        translate="projectHistory.dragDirectoryToUpdate">
+      </h3>
+      <h3
+        ng-if="!browser.isChrome"
+        class="default"
+        translate="projectHistory.dragZipToUpdate">
       <h3 class="while-dragging" translate="projectHistory.dropHere"></h3>
     </div>
   </div>  

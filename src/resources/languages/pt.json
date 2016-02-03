@@ -9,6 +9,8 @@
     "createdAt": "criado em",
     "dragProjectDirectory1": "arraste para cá a pasta",
     "dragProjectDirectory2": "de um novo projeto",
+    "dragProjectZip1": "arraste uma versão .zip",
+    "dargProjectZip2": "dos arquivos do projeto",
     "dragProjectTooltip": "o projeto deve ser estático (utilizar linguagens: html, css, js). Seu projeto deve ter um arquivo index.html",
     "dropHere": "solte aqui",
     "editProject": "editar"
@@ -39,6 +41,7 @@
     "createdAt": "criado em",
     "lastUpdatedAt": "última atualização",
     "dragDirectoryToUpdate": "arraste a pasta inteira do projeto para atualizar",
+    "dragZipToUpdate": "arraste uma versão .zip do projeto para atualizar",
     "dropHere": "solte aqui"
   },
   
@@ -64,6 +67,7 @@
     "downloadVersion": "baixar",
     "downloadTooltip": "baixe esta versão",
     "dragFolderToUpdate": "arraste a pasta inteira do projeto para atualizar",
+    "dragZipToUpdate": "arraste uma versão .zip dos arquivos do projeto para atualizar",
     "dropHere": "solte aqui"
   },
   

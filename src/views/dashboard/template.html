@@ -4,23 +4,19 @@
 
   <ul id="projects">
     
-    <li class="shadow">
-      <div class="drop-to-new-project" file-drop="createProject($files, $rootDir)">
+    <!-- directory file input and file drop browsers -->
+    <li
+      class="shadow"
+      ng-if="browser.isChrome">
+      <div
+        class="drop-to-new-project"
+        file-drop="createProject($files, $rootDir)">
 
         <input
-          ng-if="browser.isChrome"
           type="file"
           webkitdirectory
           directory
           multiple
-          file-change="createProject($files, $rootDir)"
-          uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}">
-
-        <!-- for browsers that do not support directory upload -->
-        <input
-          ng-if="!browser.isChrome"
-          type="file"
-          accept="application/zip"
           file-change="createProject($files, $rootDir)"
           uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}">
 
@@ -31,6 +27,32 @@
           <span translate="dashboard.dragProjectDirectory1"></span>
           <br>
           <span translate="dashboard.dragProjectDirectory2"></span>
+        </h3>
+        <h3 class="while-dragging" translate="dashboard.dropHere"></h3>
+      </div>
+    </li>
+
+    <!-- for browsers that do not support directory upload -->
+    <li
+      class="shadow"
+      ng-if="!browser.isChrome">
+      <div
+        class="drop-to-new-project"
+        file-drop="createProject($files, $rootDir)">
+
+        <input
+          type="file"
+          accept="application/zip"
+          file-change="createProject($files, $rootDir)"
+          uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}">
+
+        <div class="upload-img">
+        </div>
+        
+        <h3 class="default">
+          <span translate="dashboard.dragProjectZip1"></span>
+          <br>
+          <span translate="dashboard.dargProjectZip2"></span>
         </h3>
         <h3 class="while-dragging" translate="dashboard.dropHere"></h3>
       </div>
