@@ -86,39 +86,42 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
             });
 
           console.log('zip file generated', zipFile);
-          // upload
-          var upload = projectAPI.uploadProjectZip(projectData.objectId, zipFile);
 
-          upload.progress(function (progress) {
-            console.log('upload progress ', progress);
+          try {
 
-            progress = parseInt(progress.completed * 100);
+            // upload
+            var upload = projectAPI.uploadProjectZip(projectData.objectId, zipFile);
 
-            // progress %
-            loadingDialog.setProgress(progress);
-            if (progress === 100) {
-              $translate('dashboard.finishingUpload')
-                .then(function (message) {
-                  loadingDialog.setMessage(message);
-                });
-            }
-          });
+            upload.progress(function (progress) {
+              console.log('upload progress ', progress);
 
-          return upload;
+              progress = parseInt(progress.completed * 100);
+
+              // progress %
+              loadingDialog.setProgress(progress);
+              if (progress === 100) {
+                $translate('dashboard.finishingUpload')
+                  .then(function (message) {
+                    loadingDialog.setMessage(message);
+                  });
+              }
+            });
+
+            return upload;
+          } catch (e) {
+            alert('file exceeds 50Mb size limit');
+            loadingDialog.close();
+          }
         })
         .then(function () {
           // navigate to the project view
           $scope.navigateToProject(projectData.objectId);
         
           // loading state ends
-          loadingDialog.close();    
-        })
-        .done();
+          loadingDialog.close();
+        });
     })
     .fail(function (err) {
-
-      window.err = err;
-
       loadingDialog.close();
     })
     .done();
