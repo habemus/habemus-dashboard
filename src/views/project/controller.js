@@ -108,26 +108,31 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
             loadingDialog.setMessage(message);
           });
 
-        // upload
-        var upload = projectAPI.uploadProjectZip(projectId, zipFile);
+        try {
+          // upload
+          var upload = projectAPI.uploadProjectZip(projectId, zipFile);
 
-        upload.progress(function (progress) {
-          console.log('upload progress ', progress);
+          upload.progress(function (progress) {
+            console.log('upload progress ', progress);
 
-          progress = parseInt(progress.completed * 100);
+            progress = parseInt(progress.completed * 100);
 
-          // progress %
-          loadingDialog.setProgress(progress);
-          if (progress === 100) {
-            $translate('project.finishingUpload')
-              .then(function (message) {
-                loadingDialog.setMessage(message);
-              });
-          }
-        });
+            // progress %
+            loadingDialog.setProgress(progress);
+            if (progress === 100) {
+              $translate('project.finishingUpload')
+                .then(function (message) {
+                  loadingDialog.setMessage(message);
+                });
+            }
+          });
 
-        return upload;
-
+          return upload;
+        } catch (e) {
+          
+          alert('file exceeds 50Mb size limit');
+          loadingDialog.close();
+        }
       })
       .then(function () {
 
