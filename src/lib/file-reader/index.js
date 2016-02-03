@@ -1,7 +1,6 @@
 var Q     = require('q');
 var _     = require('lodash');
 
-var Zip = require('../zip');
 var aux = require('../auxiliary');
 
 /**
@@ -189,24 +188,16 @@ function nonWebkitFromDropEvent(e, filterFn) {
   var dt = e.dataTransfer;
   var files = Array.prototype.slice.call(dt.files, 0);
 
-  if (!files.length === 1) {
-    throw new Error('only a single file is accepted');
-  }
+  var basePath = '';
 
-  if (files[0].type !== 'application/zip') {
-    throw new Error('file must be of type application/zip');
-  }
+  files = files.map(function (file) {
+    return _buildFileDataObject(file, basePath);
+  });
 
-  var zip = new Zip();
-  zip.load(files[0]).done();
-
-  setTimeout(function () {
-
-
-    console.log(zip);
-  }, 1000);
-
-  throw new Error('asdasdasd')
+  return Q({
+    rootDir: '',
+    files: files
+  });
 }
 
 function fromDirectoryInput(input) {
@@ -233,5 +224,28 @@ function fromDirectoryInput(input) {
   });
 }
 
-exports.fromDropEvent = aux.isChrome() ? webkitFromDropEvent : nonWebkitFromDropEvent;
+function fromFileInput(input) {
+
+  var sourceFiles = input.files;
+  sourceFiles = Array.prototype.slice.call(sourceFiles, 0);
+
+  var files = sourceFiles.map(function (sourceFile) {
+    return {
+      lastModified: sourceFile.lastModified,
+      name: sourceFile.name,
+      size: sourceFile.size,
+      path: sourceFile.name,
+      file: sourceFile,
+    };
+  });
+
+  return Q({
+    rootDir: '',
+    files: files
+  });
+
+}
+
+exports.fromDropEvent      = aux.isChrome() ? webkitFromDropEvent : nonWebkitFromDropEvent;
 exports.fromDirectoryInput = fromDirectoryInput;
+exports.fromFileInput      = fromFileInput;

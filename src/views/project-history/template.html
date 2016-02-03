@@ -57,11 +57,18 @@
     <div class="drop-to-new-project" file-drop="uploadNewVersion($files)">
       
       <input
+        ng-if="browser.isChrome"
         type="file"
         file-change="uploadNewVersion($files)"
         webkitdirectory
         directory
         multiple>
+      <!-- for browsers that do not support directory upload -->
+      <input
+        ng-if="!browser.isChrome"
+        type="file"
+        accept="application/zip"
+        file-change="uploadNewVersion($files)">
 
       <div class="upload-img"></div>
       <h3 class="default" translate="projectHistory.dragFolderToUpdate"></h3>

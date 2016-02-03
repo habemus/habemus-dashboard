@@ -8,10 +8,19 @@
       <div class="drop-to-new-project" file-drop="createProject($files, $rootDir)">
 
         <input
+          ng-if="browser.isChrome"
           type="file"
           webkitdirectory
           directory
           multiple
+          file-change="createProject($files, $rootDir)"
+          uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}">
+
+        <!-- for browsers that do not support directory upload -->
+        <input
+          ng-if="!browser.isChrome"
+          type="file"
+          accept="application/zip"
           file-change="createProject($files, $rootDir)"
           uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}">
 

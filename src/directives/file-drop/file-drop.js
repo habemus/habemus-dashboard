@@ -86,29 +86,4 @@ module.exports = function (module) {
       },
     }
   });
-
-  module.directive('fileChange', function fileChange() {
-    return {
-      restrict: 'A',
-      link: function link(scope, element, attrs, ctrl) {
-        element.on('change', onChange);
-
-        scope.$on('destroy', function () {
-          element.off('change', onChange);
-        });
-
-        function onChange() {
-          fileReader
-            .fromDirectoryInput(element[0])
-            .then(function (readData) {
-
-              scope.$rootDir = readData.rootDir;
-              scope.$files   = readData.files;
-              scope.$eval(attrs.fileChange);
-            })
-            .done();
-        }
-      }
-    }
-  });
 };

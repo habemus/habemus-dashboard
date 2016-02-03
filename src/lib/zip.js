@@ -1,5 +1,6 @@
 var JSZip = require('jszip');
 var Q     = require('q');
+var _     = require('lodash');
 
 /**
  * Auxiliary function that instantiates file reader and sets
@@ -43,21 +44,36 @@ function Zip() {
  * @param  {[type]} file [description]
  * @return {[type]}      [description]
  */
-Zip.prototype.load = function (file) {
+// Zip.prototype.load = function (file) {
 
-  return _readFile({
-    name: '',
-    file: file
-  })
-  .then(function (fData) {
-    var zip = new JSZip();
-    zip.load(fData);
+//   var self = this;
 
-    console.log(zip);
+//   return _readFile({
+//     name: '',
+//     file: file
+//   })
+//   .then(function (fData) {
 
-    return zip.files;
-  })
-};
+
+//     console.log(fData);
+//     var zip = new JSZip();
+//     zip.load(fData.contents);
+
+//     console.log(zip.files);
+
+//     _.each(zip.files, function (file, filename) {
+//       self.fileDataObjects.push({
+//         name: filename,
+//       })
+//     });
+
+//     zip.files.forEach(function (f) {
+
+//     });
+
+//     return zip.files;
+//   })
+// };
 
 /**
  * Adds a file to be zipped

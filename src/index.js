@@ -118,6 +118,7 @@ DASHBOARD.controller('ApplicationCtrl', require('./application-ctrl'));
  */
 // require('./directives/file-navigator/file-navigator')(DASHBOARD);
 require('./directives/file-drop/file-drop')(DASHBOARD);
+require('./directives/file-change/file-change')(DASHBOARD);
 
 // http://stackoverflow.com/questions/16310298/if-a-ngsrc-path-resolves-to-a-404-is-there-a-way-to-fallback-to-a-default
 DASHBOARD.directive('errSrc', function() {

@@ -26,11 +26,14 @@ module.exports = function (DASHBOARD) {
       auth: auth,
     });
   });
-
-  DASHBOARD.factory('zipper', require('./zipper'));
-
+  
   DASHBOARD.factory('authModal', require('./auth-modal'));
   DASHBOARD.factory('betaPasswordResetModal', require('./beta-password-reset-modal'));
   DASHBOARD.factory('betaLoginModal', require('./beta-login-modal'));
   DASHBOARD.factory('loadingDialog', require('./loading-dialog'));
+  DASHBOARD.factory('confirmationDialog', require('./confirmation-dialog'));
+  DASHBOARD.factory('errorDialog', require('./error-dialog'));
+  DASHBOARD.factory('infoDialog', require('./info-dialog'));
+
+  DASHBOARD.factory('zipPrepare', require('./zip-prepare'));
 };

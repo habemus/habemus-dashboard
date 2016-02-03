@@ -8,10 +8,12 @@ var fs   = require('fs');
 var _    = require('lodash');
 var Q    = require('q');
 
+var Zip  = require('../../lib/zip');
+
 // load models
 var DirectoryData = require('../../models/file-system/directory');
 
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, $translate, projectAPI, zipper, auth, $timeout, ngDialog, CONFIG, loadingDialog) {
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, $translate, projectAPI, auth, $timeout, ngDialog, errorDialog, CONFIG, loadingDialog, zipPrepare) {
 
   console.log('loadingDialog on ProjectCtrl', loadingDialog);
 
@@ -86,11 +88,6 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
    * File updating
    */
   $scope.uploadNewVersion = function (files) {
-    var zip = zipper.create();
-
-    files.forEach(function (fData) {
-      zip.file(fData.path, fData.file);
-    });
 
     $translate('project.preparingUpload')
       .then(function (message) {
@@ -98,8 +95,15 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
         loadingDialog.open({ message: message });
       });
 
-    return zip.generate()
+    zipPrepare(files)
       .then(function (zipFile) {
+        if (zipFile.size > 52428800) {
+          errorDialog('Your project is too large');
+
+          loadingDialog.close();
+
+          return;
+        }
 
         console.log('zip file generated', zipFile);
 
@@ -108,33 +112,29 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
             loadingDialog.setMessage(message);
           });
 
-        try {
-          // upload
-          var upload = projectAPI.uploadProjectZip(projectId, zipFile);
+        var upload = projectAPI.uploadProjectZip(projectId, zipFile);
 
-          upload.progress(function (progress) {
-            console.log('upload progress ', progress);
+        upload.progress(function (progress) {
+          console.log('upload progress ', progress);
 
-            progress = parseInt(progress.completed * 100);
+          progress = parseInt(progress.completed * 100);
 
-            // progress %
-            loadingDialog.setProgress(progress);
-            if (progress === 100) {
-              $translate('project.finishingUpload')
-                .then(function (message) {
-                  loadingDialog.setMessage(message);
-                });
-            }
-          });
+          // progress %
+          loadingDialog.setProgress(progress);
+          if (progress === 100) {
+            $translate('project.finishingUpload')
+              .then(function (message) {
+                loadingDialog.setMessage(message);
+              });
+          }
+        });
 
-          return upload;
-        } catch (e) {
-          
-          alert('file exceeds 50Mb size limit');
-          loadingDialog.close();
-        }
+        return upload;
+
+      }, function prepareError() {
+        loadingDialog.close();
       })
-      .then(function () {
+      .then(function uploadSuccess() {
 
         $translate('project.reloadingProjectData')
           .then(function (message) {
