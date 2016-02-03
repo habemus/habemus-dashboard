@@ -1,7 +1,11 @@
 {
   "sessionExpiredLogin": "Sorry, it looks like your session has expired. Please login:",
   "dashboard": {
+    "introCreateProject": "Upload a new project by dragging a folder here or by clicking to choose a folder",
+    "introAccessAcount": "Access this menu to quickly see the overview of your projects or manage your account settings",
+    "introSendFeedBack": "Use this box to send us feedbacks. We want to hear you!",
     "myProjects": "My projects",
+    "subTitle": "Upload your projects of static websites (html, css, js) to host them in the cloud and have a nice url",
     "preparingUpload": "preparing upload",
     "uploading": "uploading",
     "finishingUpload": "setting up last details",
@@ -27,6 +31,12 @@
   },
 
   "projectGeneral": {
+    "introMenuGeneral": "Set general options of your project",
+    "introEditName": "Click to edit the name of your project",
+    "introUpdate": "Update your project by dragging the folder here or by clicking to choose the folder from your computer",
+    "introMyProjects": "Go back to see the overview of all your projects",
+    "introMenuHistory": "See the versions of your project, restore and download them",
+    "introMenuDomains": "Connect custom domains and edit the domain created by habemus for your project",
     "myProjects": "My projects",
     "general": "(general)",
     "editProjectName": "edit project name",
@@ -65,7 +75,7 @@
 
   "projectDomain": {
     "myProjects": "My projects",
-    "domain": "domain",
+    "domain": "domains",
 
     "connect": {
       "title": "connect a custom domain",

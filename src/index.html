@@ -51,7 +51,7 @@
     <section ui-view="body" id="body-section" ng-cloak>
     </section>
     
-    <div id="feedback-section" class="shadow" ng-class="{ active: boxIsOpen }" ng-cloak>
+    <div id="feedback-section" class="shadow" ng-class="{ active: boxIsOpen }" ng-cloak data-intro-name="send-feedback">
       <div class="box-title" ng-click="openBoxFeedback()">
         <div ng-show="boxIsOpen" translate="feedback.hearYou"></div>
         <div ng-hide="boxIsOpen" translate="feedback.sendUsYourFeedback"></div>

@@ -22,7 +22,9 @@
       ng-if="currentUser"
       ng-click="toggleMenu()"
       id="user-menu"
-      ng-class="{ active: menuIsOpen }">
+      ng-class="{ active: menuIsOpen }"
+      data-intro-name="access-account"
+         >
 
       <div id="user">
         {{ currentUser.name }}

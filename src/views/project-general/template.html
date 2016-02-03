@@ -1,9 +1,17 @@
 <div id="project-general-content" file-drop-container>
   <h1>
-    <a href="#/" translate="projectGeneral.myProjects">meus projetos</a>  
+    <a 
+       href="#/" 
+       translate="projectGeneral.myProjects"
+       data-intro-name="habemus-view-projects">meus projetos</a>  
     <img class="arrow-right" src="resources/img/arrow-right.svg">  
-    <span class="project-name" ng-click="editNameOfProject()">{{ project.name }} </span>
-    <span class="section-name" translate="projectGeneral.general"></span>
+    <span class="project-name" 
+          ng-click="editNameOfProject()"
+          data-intro-name="habemus-edit-name">{{ project.name }} 
+    </span>
+    <span class="section-name"
+          translate="projectGeneral.general"
+          ></span>
   </h1>
   
   <div class="main-content">
@@ -79,6 +87,7 @@
         </a>
                 
       </div>
+      
       <h4>
         <span translate="projectGeneral.createdAt"></span>
         <b>{{project.createdAt | date : "dd MMM yyyy',' H:mm"}}</b>
@@ -92,7 +101,7 @@
   </div>
   
   <!-- draggable area -->
-  <div class="drop-to-new-project-container">
+  <div class="drop-to-new-project-container" data-intro-name="habemus-update-project">
     <div class="drop-to-new-project" file-drop="uploadNewVersion($files)">
       
       <input
