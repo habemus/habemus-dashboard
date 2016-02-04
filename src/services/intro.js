@@ -54,13 +54,13 @@ module.exports = /* @ngInject */ function (auth, $rootScope, $compile, $timeout)
       },
       {
         element: '[data-intro-name="access-account"]',
-        intro: "<p translate='dashboard.introAccessAccount'>Access this menu to quickly see the overview of your projects or manage your account settings</p>",
+        intro: "<p translate='dashboard.introAccessAccount'></p>",
         position: 'bottom-right-aligned',
         tooltipClass: 'intro-style'
       },
       {
         element: '[data-intro-name="send-feedback"]',
-        intro: "<p translate='dashboard.introSendFeedBack'>Use this box to contact us whenever you feel like. We want to hear you :)</p>",
+        intro: "<p translate='dashboard.introSendFeedBack'></p>",
         position: 'top',
         tooltipClass: 'intro-style'
       },
@@ -73,6 +73,7 @@ module.exports = /* @ngInject */ function (auth, $rootScope, $compile, $timeout)
         dIntro.setOptions({
           steps: steps,
           showStepNumbers: false,
+          disableInteraction: true,
         });
 
         dIntro.setAsShown = _setAsShown.bind(null, 'showDashboardIntro');
@@ -87,52 +88,67 @@ module.exports = /* @ngInject */ function (auth, $rootScope, $compile, $timeout)
   
   /////////////////////
   /// PROJECT INTRO ///
-  var projectIntro = introJs();
-  projectIntro.setOptions({
-    steps: [
+  function projectIntro() {
+
+    var updateProjectIntro = aux.isChrome() ?
+      "<p translate='projectGeneral.introUpdate'></p>" : 
+      "<p translate='projectGeneral.introUpdateByZip'></p>";
+
+    var sourceSteps = [
       {
         element: '[data-intro-name="habemus-menu-general"]',
-        intro: "<p translate='project.introMenuGeneral'>Set general options of your project</p>",
+        intro: "<p translate='projectGeneral.introMenuGeneral'></p>",
         position: 'right',
         tooltipClass: 'intro-style'
       },
       {
         element: '[data-intro-name="habemus-edit-name"]',
-        intro: "<p translate='project.introEditName'>Click to edit the name of your project</p>",
+        intro: "<p translate='projectGeneral.introEditName'></p>",
         position: 'bottom',
         tooltipClass: 'intro-style'
       },
       {
         element: '[data-intro-name="habemus-update-project"]',
-        intro: "<p translate='project.introUpdate'>Update your project by dragging the folder here or by clicking to choose the folder from your computer</p>",
+        intro: updateProjectIntro,
         position: 'top',
         tooltipClass: 'intro-style'
       },
       {
         element: '[data-intro-name="habemus-view-projects"]',
-        intro: "<p translate='project.introMyProjects'>Go back to see the overview of all your projects</p>",
+        intro: "<p translate='projectGeneral.introMyProjects'></p>",
         position: 'bottom',
         tooltipClass: 'intro-style'
       },
       {
         element: '[data-intro-name="habemus-menu-history"]',
-        intro: "<p translate='project.introMenuHistory'>See the versions of your project, restore and download them</p>",
+        intro: "<p translate='projectGeneral.introMenuHistory'></p>",
         position: 'right',
         tooltipClass: 'intro-style'
       },
       {
         element: '[data-intro-name="habemus-menu-domains"]',
-        intro: "<p translate='project.introMenuDomains'>Connect custom domains and edit the domain created by habemus for your project</p>",
+        intro: "<p translate='projectGeneral.introMenuDomains'></p>",
         position: 'right',
         tooltipClass: 'intro-style'
       },
-    ],
-    showStepNumbers: false,
-  });
+    ];
 
-  projectIntro.setAsShown = _setAsShown.bind(null, 'showProjectIntro');
-  projectIntro.onexit(projectIntro.setAsShown);
-  projectIntro.oncomplete(projectIntro.setAsShown);
+    return Q.all(sourceSteps.map(_compileStep))
+      .then(function (steps) {
+        var pIntro = introJs();
+        pIntro.setOptions({
+          steps: steps,
+          showStepNumbers: false,
+          disableInteraction: true
+        });
+
+        pIntro.setAsShown = _setAsShown.bind(null, 'showProjectIntro');
+        pIntro.onexit(pIntro.setAsShown);
+        pIntro.oncomplete(pIntro.setAsShown);
+
+        return pIntro;
+      });
+  }
   /// PROJECT INTRO ///
   /////////////////////
 

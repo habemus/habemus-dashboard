@@ -1,0 +1,10 @@
+<div class="content">
+  <h2>{{ ngDialogData.message }}</h2>
+
+  <button ng-click="closeThisDialog()">
+    {{ ngDialogData.cancelLabel || 'Cancel' }}
+  </button>
+  <button ng-click="confirm()">
+    {{ ngDialogData.confirmLabel || 'Confirm' }}
+  </button>
+</div>
