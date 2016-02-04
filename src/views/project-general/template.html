@@ -1,9 +1,17 @@
 <div id="project-general-content" file-drop-container>
   <h1>
-    <a href="#/" translate="projectGeneral.myProjects">meus projetos</a>  
+    <a 
+       href="#/" 
+       translate="projectGeneral.myProjects"
+       data-intro-name="habemus-view-projects">meus projetos</a>  
     <img class="arrow-right" src="resources/img/arrow-right.svg">  
-    <span class="project-name" ng-click="editNameOfProject()">{{ project.name }} </span>
-    <span class="section-name" translate="projectGeneral.general"></span>
+    <span class="project-name" 
+          ng-click="editNameOfProject()"
+          data-intro-name="habemus-edit-name">{{ project.name }} 
+    </span>
+    <span class="section-name"
+          translate="projectGeneral.general"
+          ></span>
   </h1>
   
   <div class="main-content">
@@ -16,10 +24,14 @@
     
     <div class="info-container">
       <div class="domains-list">
-        <a ng-href="http://{{ project.safeName }}.habemus.website" target="_blank">http://{{ project.safeName }}.habemus.website</a>
+        <a
+          ng-show="project.safeName"
+          ng-href="{{ 'http://' + project.safeName + '.habemus.website' }}"
+          target="_blank"
+          data-intro-name="habemus-domain">{{ 'http://' + project.safeName + '.habemus.website' }}</a>
         <a ng-repeat="record in project.domainRecords | orderBy:'createdAt'" href="http://{{ record.hostname }}" target="_blank">http://{{ record.hostname }}</a>
       </div>
-      <div class="actions">
+      <div class="actions" data-intro-name="actions">
         
         <a href="" id="edit-name" class="action" ng-click="editNameOfProject()">
           <svg width="11.919px" height="11.918px" viewBox="0 0 11.919 11.918">
@@ -75,20 +87,21 @@
         </a>
                 
       </div>
+      
       <h4>
         <span translate="projectGeneral.createdAt"></span>
-        <b>{{project.createdDate | date : "dd MMM yyyy',' H:mm"}}</b>
+        <b>{{project.createdAt | date : "dd MMM yyyy',' H:mm"}}</b>
       </h4>
       <h4 class="no-margin">
         <span translate="projectGeneral.lastUpdatedAt"></span>
-        <b>{{project.createdDate | date : "dd MMM yyyy',' H:mm"}}</b>
+        <b>{{project.updatedAt | date : "dd MMM yyyy',' H:mm"}}</b>
       </h4>
     </div>
 
   </div>
   
   <!-- draggable area -->
-  <div class="drop-to-new-project-container">
+  <div class="drop-to-new-project-container" data-intro-name="habemus-update-project">
     <div class="drop-to-new-project" file-drop="uploadNewVersion($files)">
       
       <input

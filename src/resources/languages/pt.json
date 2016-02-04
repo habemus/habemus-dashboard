@@ -1,10 +1,16 @@
 {
   "sessionExpiredLogin": "Sua sessão expirou. Por favor faça o log-in:",
   "dashboard": {
+    "introCreateProject": "Arraste para cá uma pasta com os arquivos do seu projeto ou clique para abrir o seletor de arquivos.",
+    "introCreateProjectByZip": "Arraste para cá um arquivo .zip com os arquivos do seu projeto.",
+    "introAccessAccount": "Acesse o menu para ver a lista dos seus projetos ou gerenciar as preferências da sua conta",
+    "introSendFeedBack": "Use este espaço para nos mandar feedbacks. Nós queremos te ouvir!",
     "myProjects": "Meus projetos",
+    "subTitle": "Faça upload dos seus projetos de websites estáticos (html, css, js) para hospedá-los na nuvem e ter boas urls",
     "preparingUpload": "preparando upload",
     "uploading": "enviando arquivos para a nuvem",
     "finishingUpload": "finalizando últimos detalhes",
+    "updatedAt": "atualizado em",
     "edit": "editar",
     "createdAt": "criado em",
     "dragProjectDirectory1": "arraste para cá a pasta",
@@ -36,6 +42,13 @@
   },
 
   "projectGeneral": {
+    "introMenuGeneral": "Defina configurações gerais do seu projeto",
+    "introEditName": "Clique para alterar o nome do seu projeto",
+    "introUpdate": "Atualize seu projeto arrastando a pasta com os arquivos do seu computador para cá ou clicando para escolher a pasta",
+    "introUpdateByZip": "Atualize seu projeto arrastando o arquivo .zip para cá ou clicando para escolher o arquivo .zip",
+    "introMyProjects": "Volte para ver a lista de todos os seus projetos",
+    "introMenuHistory": "Veja as versões do seu projeto, recupere e baixe-as",
+    "introMenuDomains": "Conecte domínios personalizados e altere o domínio criado pela habemus para o seu projeto",
     "myProjects": "Meus projetos",
     "general": "(geral)",
     "editProjectName": "editar nome do projeto",

@@ -18,7 +18,14 @@
       <img id="logo-light" src="resources/img/logo-light.svg">
     </a>
 
-    <div ng-if="currentUser" ng-click="toggleMenu()" id="user-menu" ng-class="{ active: menuIsOpen }">
+    <div
+      ng-if="currentUser"
+      ng-click="toggleMenu()"
+      id="user-menu"
+      ng-class="{ active: menuIsOpen }"
+      data-intro-name="access-account"
+         >
+
       <div id="user">
         {{ currentUser.name }}
       </div>

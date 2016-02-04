@@ -9,7 +9,26 @@ var JSZip = require('jszip');
 // own
 var fileReader = require('../../lib/file-reader');
 
-module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projectAPI, $state, ngDialog, loadingDialog, errorDialog, zipPrepare) {
+module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projectAPI, $state, ngDialog, loadingDialog, errorDialog, zipPrepare, intro) {
+
+  /**
+   * Setup intro
+   */
+  $scope.$watch('currentUser', function () {
+
+    var currentUser = $scope.currentUser;
+
+    if (!currentUser) { return; }
+
+    // design this so that the intro is only shown when explicitly set
+    var guideState = currentUser.guideState || {};
+
+    if (guideState.showDashboardIntro) {
+      intro.dashboard().then(function (intro) {
+        intro.start()
+      });
+    }
+  });
 
   // retrieve all projects owned by the current logged user
   // and put them onto the scope as `currentUserProjects`
@@ -103,8 +122,6 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
       loadingDialog.close();
     });
   }
-
-
 
   /**
    * Creates a project given a set of files

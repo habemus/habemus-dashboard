@@ -1,17 +1,20 @@
 <div class="body-content-dashboard">
   
   <h1 translate="dashboard.myProjects"></h1>
+  
+  <h2 translate="dashboard.subTitle">Upload your projects of static websites (html, css, js) to host them in the cloud and have a nice url</h2>
 
   <ul id="projects">
     
     <!-- directory file input and file drop browsers -->
     <li
       class="shadow"
-      ng-if="browser.isChrome">
+      ng-if="browser.isChrome"
+      data-intro-name="create-project">
       <div
         class="drop-to-new-project"
         file-drop="createProject($files, $rootDir)">
-
+        
         <input
           type="file"
           webkitdirectory
@@ -35,7 +38,8 @@
     <!-- for browsers that do not support directory upload -->
     <li
       class="shadow"
-      ng-if="!browser.isChrome">
+      ng-if="!browser.isChrome"
+      data-intro-name="create-project">
       <div
         class="drop-to-new-project"
         file-drop="createProject($files, $rootDir)">
@@ -70,15 +74,14 @@
             ng-src="{{ project.activeVersion.screenshotURL }}"
             err-src="resources/img/screenshot-placeholder.png">
           <div class="on-hover">
-            <div class="button" translate="dashboard.edit">editar
-            </div>
+            <div class="button" translate="dashboard.editProject"></div>
           </div>
           
         </div>
 
         <h4>
-          <span translate="dashboard.createdAt"></span>
-          <b>{{project.createdAt | date : "dd MMM yyyy',' H:mm"}}</b>
+          <span translate="dashboard.updatedAt"></span>
+          <b>{{project.updatedAt | date : "dd MMM yyyy',' H:mm"}}</b>
         </h4>
       </div>
     </li>
