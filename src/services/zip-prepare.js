@@ -41,15 +41,17 @@ module.exports = /*@ ngInject */ function zipUploadPrepareService(errorDialog, c
 
     var defer = Q.defer();
 
+    console.log(files);
+
     if (files.length > 1) {
       errorDialog('you\'ve selected multiple files, you should zip them in a single file before uploading')
         .closePromise.then(function () {
           defer.reject(new Error('invalid zip file'));
         });
 
-    } else if (files[0].file.type !== '' && files[0].file.type !== 'application/zip') {
+    } else if (!aux.isZipFile(files[0].file)) {
 
-      errorDialog('you should select a .zip file')
+      errorDialog('invalid zip file')
         .closePromise.then(function () {
           defer.reject(new Error('invalid zip file'));
         });
@@ -62,7 +64,15 @@ module.exports = /*@ ngInject */ function zipUploadPrepareService(errorDialog, c
         var contents = reader.result;
 
         var originalZip = new JSZip();
-        originalZip.load(contents);
+
+        try {
+          originalZip.load(contents);
+        } catch (e) {
+          errorDialog('invalid zip file')
+            .closePromise.then(function () {
+              defer.reject(new Error('invalid zip file'));
+            });
+        }
         var finalZip;
 
         // filter out OSInternal files
@@ -126,8 +136,8 @@ module.exports = /*@ ngInject */ function zipUploadPrepareService(errorDialog, c
    * files and generate a zip
    */
   function _chromeCreateProject(files) {
-    if (files.length > 1) {
-      // multiple files
+    if (files.length > 1 || (files.length === 1 && !aux.isZipFile(files[0].file))) {
+      // multiple files or single html file
       return _multiFileUploadCreateProject(files);
     } else {
       return _zipFileUploadCreateProject(files);

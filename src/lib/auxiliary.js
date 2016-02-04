@@ -16,9 +16,17 @@ exports.isOSInternalFile = function (filename) {
   });
 };
 
-exports.commonPrefix = function commonPrefix(array) {
+exports.commonPrefix = function (array) {
   var A= array.concat().sort(), 
   a1= A[0], a2= A[A.length-1], L= a1.length, i= 0;
   while(i<L && a1.charAt(i)=== a2.charAt(i)) i++;
   return a1.substring(0, i);
 };
+
+exports.isZipFile = function (file) {
+  if (file.type) {
+    return file.type === 'application/zip';
+  } else {
+    return /\.zip$/.test(file.name);
+  }
+}

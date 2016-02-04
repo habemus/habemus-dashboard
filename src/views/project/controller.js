@@ -15,8 +15,6 @@ var DirectoryData = require('../../models/file-system/directory');
 
 module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, $translate, projectAPI, auth, $timeout, ngDialog, errorDialog, CONFIG, loadingDialog, zipPrepare) {
 
-  console.log('loadingDialog on ProjectCtrl', loadingDialog);
-
   var projectId = $stateParams.projectId;
 
   /**
