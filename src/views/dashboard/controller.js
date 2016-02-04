@@ -21,7 +21,9 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
     var guideState = currentUser.guideState || {};
 
     if (guideState.showDashboardIntro) {
-      intro.dashboard.start();
+      intro.dashboard().then(function (intro) {
+        intro.start()
+      });
     }
   });
 

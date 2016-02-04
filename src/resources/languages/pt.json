@@ -1,7 +1,8 @@
 {
   "sessionExpiredLogin": "Sua sessão expirou. Por favor faça o log-in:",
   "dashboard": {
-    "introCreateProject": "Upload a new project by dragging a folder here or by clicking to choose a folder",
+    "introCreateProject": "Arraste para cá uma pasta com os arquivos do seu projeto ou clique para abrir o seletor de arquivos.",
+    "introCreateProjectByZip": "Arraste para cá um arquivo .zip com os arquivos do seu projeto.",
     "introAccessAcount": "Acesse o menu para ver a lista dos seus projetos ou gerenciar as preferências da sua conta",
     "introSendFeedBack": "Use este espaço para nos mandar feedbacks. Nós queremos te ouvir!",
     "myProjects": "Meus projetos",

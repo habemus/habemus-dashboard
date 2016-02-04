@@ -1,7 +1,10 @@
 // third party
+var Q = require('q');
 var _ = require('lodash');
 
-module.exports = /* @ngInject */ function (auth, $rootScope) {
+var aux = require('../lib/auxiliary');
+
+module.exports = /* @ngInject */ function (auth, $rootScope, $compile, $timeout) {
 
   // saves data about the intro so that it will not appear automatically
   // anymore to the user
@@ -18,14 +21,34 @@ module.exports = /* @ngInject */ function (auth, $rootScope) {
     });
   };
 
+  function _compileStep(step) {
+    var defer = Q.defer();
+
+    var $compiledEl = $compile('<div>' + step.intro + '</div>')($rootScope.$new());
+
+    // get the html on the next tick,
+    // we need to let angular run a $diget cycle
+    $timeout(function () {
+      step.intro = $compiledEl.html();
+
+      defer.resolve(step);
+    }, 0);
+
+    return defer.promise;
+  }
+
   ///////////////////////
   /// DASHBOARD INTRO ///
-  var dashboardIntro = introJs();
-  dashboardIntro.setOptions({
-    steps: [
+  function dashboard() {
+
+    var createProjectIntro = aux.isChrome() ? 
+      "<p translate='dashboard.introCreateProject'></p>" :
+      "<p translate='dashboard.introCreateProjectByZip'></p>";
+
+    var sourceSteps = [
       {
         element: '[data-intro-name="create-project"]',
-        intro: "<p translate='dashboard.introCreateProject'>Upload a new project by dragging a folder here or by clicking to choose a folder</p>",
+        intro: createProjectIntro,
         position: 'right',
         tooltipClass: 'intro-style'
       },
@@ -41,13 +64,24 @@ module.exports = /* @ngInject */ function (auth, $rootScope) {
         position: 'top',
         tooltipClass: 'intro-style'
       },
-    ],
-    showStepNumbers: false,
-  });
+    ];
 
-  dashboardIntro.setAsShown = _setAsShown.bind(null, 'showDashboardIntro');
-  dashboardIntro.onexit(dashboardIntro.setAsShown);
-  dashboardIntro.oncomplete(dashboardIntro.setAsShown);
+    return Q.all(sourceSteps.map(_compileStep))
+      .then(function (steps) {
+
+        var dIntro = introJs();
+        dIntro.setOptions({
+          steps: steps,
+          showStepNumbers: false,
+        });
+
+        dIntro.setAsShown = _setAsShown.bind(null, 'showDashboardIntro');
+        dIntro.onexit(dIntro.setAsShown);
+        dIntro.oncomplete(dIntro.setAsShown);
+
+        return dIntro;
+      });
+  }
   /// DASHBOARD INTRO ///
   ///////////////////////
   
@@ -104,7 +138,7 @@ module.exports = /* @ngInject */ function (auth, $rootScope) {
 
 
   var intro = {
-    dashboard: dashboardIntro,
+    dashboard: dashboard,
     project: projectIntro
   }
 
