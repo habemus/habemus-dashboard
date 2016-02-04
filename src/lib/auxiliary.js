@@ -24,9 +24,5 @@ exports.commonPrefix = function (array) {
 };
 
 exports.isZipFile = function (file) {
-  if (file.type) {
-    return file.type === 'application/zip';
-  } else {
-    return /\.zip$/.test(file.name);
-  }
+  return /\.zip$/.test(file.name);
 }

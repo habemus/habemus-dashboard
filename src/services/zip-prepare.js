@@ -5,7 +5,7 @@ var Zip   = require('../lib/zip');
 
 var aux = require('../lib/auxiliary');
 
-module.exports = /*@ ngInject */ function zipUploadPrepareService(errorDialog, confirmationDialog, $translate) {
+module.exports = /* @ngInject */ function zipUploadPrepareService(errorDialog, confirmationDialog, $translate) {
 
   /**
    * Assumes the files are to be zipped together by the browser
