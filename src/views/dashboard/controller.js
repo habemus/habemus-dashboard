@@ -35,10 +35,10 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
   function _createProject(zipFile, projectName) {
     if (zipFile.size > 52428800) {
       $translate('project.errorSize')
-          .then(function (message) {
-            // error Dialog opens
-            errorDialog(message);
-          });
+        .then(function (message) {
+          // error Dialog opens
+          errorDialog(message);
+        });
 
       loadingDialog.close();
 
