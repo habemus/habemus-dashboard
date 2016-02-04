@@ -27,10 +27,23 @@ module.exports = /*@ ngInject */ function zipUploadPrepareService(errorDialog, c
 
       return zip.generate();
     } else {
-      return Q(confirmationDialog('we could not find any index.html file in the package you\'ve selected, do you want to continue?'))
-        .then(function () {
-          return zip.generate();
-        })
+      
+      return Q.all([
+        $translate('zipPrepare.noIndexHtml'),
+        $translate('zipPrepare.cancel'),
+        $translate('zipPrepare.confirm')
+      ])
+      .spread(function (message, cancelLabel, confirmLabel) {
+        
+        return Q(confirmationDialog({
+          message: message,
+          cancelLabel: cancelLabel,
+          confirmLabel: confirmLabel
+        }));
+      })
+      .then(function () {
+        return zip.generate();
+      });
     }
   }
 
@@ -44,16 +57,23 @@ module.exports = /*@ ngInject */ function zipUploadPrepareService(errorDialog, c
     console.log(files);
 
     if (files.length > 1) {
-      errorDialog('you\'ve selected multiple files, you should zip them in a single file before uploading')
-        .closePromise.then(function () {
-          defer.reject(new Error('invalid zip file'));
+      
+      $translate('zipPrepare.pleaseZipBeforeUploading')
+        .then(function (messsage) {
+          errorDialog(messsage)
+            .closePromise.then(function () {
+              defer.reject(new Error('invalid zip file'));
+            });
         });
 
     } else if (!aux.isZipFile(files[0].file)) {
-
-      errorDialog('invalid zip file')
-        .closePromise.then(function () {
-          defer.reject(new Error('invalid zip file'));
+      
+      $translate('zipPrepare.invalidZipFile')
+        .then(function (message) {
+          errorDialog(message)
+            .closePromise.then(function () {
+              defer.reject(new Error('invalid zip file'));
+            });
         });
 
     } else {
@@ -114,12 +134,27 @@ module.exports = /*@ ngInject */ function zipUploadPrepareService(errorDialog, c
           defer.resolve(finalZip.generate({ type: 'blob' }));
 
         } else {
-          confirmationDialog('we could not find any index.html file in the package you\'ve selected, do you want to continue?')
-            .then(function () {
-              defer.resolve(finalZip.generate({ type: 'blob' }));
-            }, function () {
-              defer.reject(new Error('cancelled'));
-            });
+      
+          Q.all([
+            $translate('zipPrepare.noIndexHtml'),
+            $translate('zipPrepare.cancel'),
+            $translate('zipPrepare.confirm')
+          ])
+          .spread(function (message, cancelLabel, confirmLabel) {
+
+            return Q(confirmationDialog({
+              message: message,
+              cancelLabel: cancelLabel,
+              confirmLabel: confirmLabel
+            }));
+          })
+          .then(function () {
+            defer.resolve(finalZip.generate({
+              type: 'blob'
+            }));
+          }, function () {
+            defer.reject(new Error('cancelled'));
+          });
         }
       };
 

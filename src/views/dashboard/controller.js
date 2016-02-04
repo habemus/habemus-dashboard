@@ -34,7 +34,11 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
    */
   function _createProject(zipFile, projectName) {
     if (zipFile.size > 52428800) {
-      errorDialog('Your project is too large');
+      $translate('project.errorSize')
+          .then(function (message) {
+            // error Dialog opens
+            errorDialog(message);
+          });
 
       loadingDialog.close();
 
@@ -74,7 +78,11 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
 
     }, function () {
       loadingDialog.close();
-      errorDialog('create project failed');
+      $translate('project.errorFailed')
+        .then(function (message) {
+          // error Dialog opens
+          errorDialog(message);
+        });
     })
     .then(function (projectData) {
 
@@ -86,7 +94,11 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
 
     }, function (err) {
       console.error(err);
-      errorDialog('upload failed');
+      $translate('project.errorUploaded')
+        .then(function (message) {
+          // error Dialog opens
+          errorDialog(message);
+        });
 
       loadingDialog.close();
     });

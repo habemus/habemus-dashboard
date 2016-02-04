@@ -25,6 +25,9 @@
     "history": "history",
     "domain": "domain",
     "delete": "delete",
+    "errorSize": "Your project exceeds current limit of 50MB.",
+    "errorFailed": "Something went wrong. Please try again.",
+    "errorUploaed": "An error occured when uploading files. Your project is incomplete. Update your files or delete project to create another one.",
   },
 
   "projectGeneral": {
@@ -219,5 +222,13 @@
     "myAccount": "my account",
     "logOut": "logout",
     "languages": "languages"
+  },
+  
+  "zipPrepare": {
+    "noIndexHtml": "we could not find any index.html file in the package you've selected, do you want to continue?",
+    "cancel": "cancel",
+    "confirm": "confirm",
+    "invalidZipFile": "invalid zip file",
+    "pleaseZipBeforeUploading": "you have selected multiple files, you should zip them in a single file before uploading"
   }
 }

@@ -6,13 +6,28 @@ var template = fs.readFileSync(path.join(__dirname, '../views/confirmation-dialo
 
 module.exports = /* @ngInject */ function confirmationDialogService(ngDialog) {
 
-  return function (message) {
+  return function (options) {
+    
+    var message, cancelLabel, confirmLabel;
+    
+    if (typeof options === 'object') {
+      message = options.message;
+      cancelLabel = options.cancelLabel;
+      confirmLabel = options.confirmLabel;
+    } else {
+      message = options.message;
+      cancelLabel = undefined;
+      confirmLabel = undefined;
+    }
+    
     return ngDialog.openConfirm({
       template: template,
       plain: true,
       className: 'ngdialog-theme-habemus',
       data: {
         message: message,
+        cancelLabel: cancelLabel,
+        confirmLabel: confirmLabel,
       },
     });
   };

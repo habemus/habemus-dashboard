@@ -29,7 +29,10 @@
     "files": "arquivos",
     "history": "histórico",
     "domain": "domínios",
-    "delete": "deletar"
+    "delete": "deletar",
+    "errorSize": "Seu projeto ultrapassa o limite de 50MB.",
+    "errorFailed": "Ocorreu algum erro. Por favor, tente novamente.",
+    "errorUploaed": "Erro ao fazer o upload dos arquivos. Seu projeto está incompleto. Atualize os arquivos ou remova-o e crie outro.",
   },
 
   "projectGeneral": {
@@ -220,5 +223,13 @@
     "myAccount": "minha conta",
     "logOut": "sair",
     "languages": "languages"
+  },
+  
+  "zipPrepare": {
+    "noIndexHtml": "não encontramos nenhum arquivo 'index.html' no pacote selecionado, você gostaria de continuar mesmo assim?",
+    "cancel": "cancelar",
+    "confirm": "continuar",
+    "invalidZipFile": "arquivo zip inválido",
+    "pleaseZipBeforeUploading": "você selecionou múltiplos arquivos. Por favor comprima-os em um arquivo zip e refaça o upload"
   }
 }

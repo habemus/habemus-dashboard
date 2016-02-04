@@ -96,7 +96,12 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
     zipPrepare(files)
       .then(function (zipFile) {
         if (zipFile.size > 52428800) {
-          errorDialog('Your project is too large');
+          
+          $translate('project.errorSize')
+          .then(function (message) {
+            // error Dialog opens
+            errorDialog(message);
+          });
 
           loadingDialog.close();
 
