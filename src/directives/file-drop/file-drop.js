@@ -4,28 +4,33 @@ var FD_SELECTOR = '[file-drop]';
 var FD_TARGET_CLASS = 'file-drop-target';
 
 var fileReader = require('../../lib/file-reader');
+var aux        = require('../../lib/auxiliary');
 
 module.exports = function (module) {
 
-  module.directive('fileDropContainer', function () {
+  module.directive('fileDropContainer', function ($document) {
 
     return {
       restrict: 'A',
       link: function (scope, element, attrs) {
 
         scope.clearDropTargets = function () {
-          console.log('clear')
           element
             .find(FD_SELECTOR)
             .removeClass(FD_TARGET_CLASS);
         }
         
         scope.setDropTargets = function () {
-          console.log('set');
           element
             .find(FD_SELECTOR)
             .addClass(FD_TARGET_CLASS);
         }
+
+        $document.bind('mouseout', function (e) {
+          if (!e.relatedTarget) {
+            scope.clearDropTargets();
+          }
+        });
 
         element.bind('dragend', function (e) {
           e.preventDefault();
@@ -44,6 +49,8 @@ module.exports = function (module) {
         });
 
         element.bind('dragleave', function (e) {
+          // dragleave is triggered too frequently...
+          // TODO: we must improve this event handling..
           // scope.clearDropTargets();
         });
 
@@ -62,8 +69,8 @@ module.exports = function (module) {
       restrict: 'A',
       link: function (scope, element, attrs, ctrl) {
 
-        function filterDotFiles(fileData) {
-          return fileData.name !== '.DS_Store';
+        function filterSystemFiles(fileData) {
+          return !aux.isOSInternalFile(fileData.name);
         }
 
         element.bind('drop', function (e) {
@@ -72,7 +79,7 @@ module.exports = function (module) {
           e.preventDefault();
 
           fileReader
-            .fromDropEvent(e.originalEvent, filterDotFiles)
+            .fromDropEvent(e.originalEvent, filterSystemFiles)
             .then(function (readData) {
               // clear the target highlighting
               scope.clearDropTargets();

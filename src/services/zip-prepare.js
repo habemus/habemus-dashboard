@@ -1,5 +1,6 @@
 var Q     = require('q');
 var JSZip = require('jszip');
+var _     = require('lodash');
 var Zip   = require('../lib/zip');
 
 var aux = require('../lib/auxiliary');
@@ -60,20 +61,52 @@ module.exports = /*@ ngInject */ function zipUploadPrepareService(errorDialog, c
       reader.onload = function () {
         var contents = reader.result;
 
-        var zip = new JSZip();
-        zip.load(contents);
+        var originalZip = new JSZip();
+        originalZip.load(contents);
+        var finalZip;
+
+        // filter out OSInternal files
+        _.each(originalZip.files, function (zipFileObject, filename) {
+          if (aux.isOSInternalFile(filename)) {
+            originalZip.remove(filename);
+          }
+        });
+
+        // attempt to find a common prefix for all files
+        var commonPrefix = aux.commonPrefix(_.keys(originalZip.files));
+        var commonPrefixRegExp = new RegExp('^' + commonPrefix);
+
+        if (commonPrefix && originalZip.files[commonPrefix] && originalZip.files[commonPrefix].dir) {
+          // there is a common directory, we should create a new zip file
+          finalZip = new JSZip();
+
+          _.each(originalZip.files, function (zipFileObject, filename) {
+
+            if (!zipFileObject.dir) {
+              filename = filename.replace(commonPrefixRegExp, '');
+
+              finalZip.file(filename, zipFileObject.asArrayBuffer(), {
+                createFolders: true,
+              });
+            }
+          });
+
+        } else {
+          // no common base directory
+          finalZip = originalZip;
+        }
 
         // check if there is an index.html file
-        var indexFile = zip.file('index.html');
+        var indexFile = finalZip.file('index.html');
 
         if (indexFile) {
 
-          defer.resolve(files[0].file);
+          defer.resolve(finalZip.generate({ type: 'blob' }));
 
         } else {
           confirmationDialog('we could not find any index.html file in the package you\'ve selected, do you want to continue?')
             .then(function () {
-              defer.resolve(files[0].file);
+              defer.resolve(finalZip.generate({ type: 'blob' }));
             }, function () {
               defer.reject(new Error('cancelled'));
             });

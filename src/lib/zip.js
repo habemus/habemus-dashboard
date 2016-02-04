@@ -40,42 +40,6 @@ function Zip() {
 }
 
 /**
- * Loads a zip file
- * @param  {[type]} file [description]
- * @return {[type]}      [description]
- */
-// Zip.prototype.load = function (file) {
-
-//   var self = this;
-
-//   return _readFile({
-//     name: '',
-//     file: file
-//   })
-//   .then(function (fData) {
-
-
-//     console.log(fData);
-//     var zip = new JSZip();
-//     zip.load(fData.contents);
-
-//     console.log(zip.files);
-
-//     _.each(zip.files, function (file, filename) {
-//       self.fileDataObjects.push({
-//         name: filename,
-//       })
-//     });
-
-//     zip.files.forEach(function (f) {
-
-//     });
-
-//     return zip.files;
-//   })
-// };
-
-/**
  * Adds a file to be zipped
  * @param {[type]} filename [description]
  * @param {[type]} file     [description]
@@ -105,7 +69,7 @@ Zip.prototype.generate = function () {
       var zip = new JSZip();
 
       readResults.forEach(function (res) {
-        zip.file(res.name, res.contents, { base64: true });
+        zip.file(res.name, res.contents);
       });
 
       return zip.generate({ type: 'blob' });

@@ -61,7 +61,7 @@
     "currentTooltip": "this is current online version",
     "downloadVersion": "download",
     "downloadTooltip": "download this version",
-    "dragFolderToUpdate": "drag the project's folder to update",
+    "dragDirectoryToUpdate": "drag the project's folder to update",
     "dragZipToUpdate": "drag a zipped version of the project's files to update",
     "dropHere": "drop here"
   },
