@@ -88,9 +88,12 @@ module.exports = /*@ ngInject */ function zipUploadPrepareService(errorDialog, c
         try {
           originalZip.load(contents);
         } catch (e) {
-          errorDialog('invalid zip file')
-            .closePromise.then(function () {
-              defer.reject(new Error('invalid zip file'));
+          $translate('zipPrepare.invalidZipFile')
+            .then(function (message) {
+              errorDialog(message)
+                .closePromise.then(function () {
+                  defer.reject(new Error('invalid zip file'));
+                });
             });
         }
         var finalZip;
