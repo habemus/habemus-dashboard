@@ -18,6 +18,7 @@
     "dropHere": "solte aqui",
     "editProject": "editar"
   },
+  
   "domainInvalid": {
     "empty": "insira o nome do domínio que você possui",
     "invalid": "domínio inválido"
@@ -97,6 +98,7 @@
       "viewSettings": "ver configurações DNS",
       "disconnectDomain": "desconectar domínio personalizado"
     },
+    
     "disconnect": {
       "title": "Desconectar",
       "p11": "Tem certeza que deseja desconectar o domínio",
@@ -106,6 +108,7 @@
       "doNotDisconnect": "continuar conectado",
       "disconnect": "desconectar domínio"
     },
+    
     "dns": {
       "connectionInProgress": "Conexão em progresso!",
       "setupYourDomain": "Para completar a conexão, você precisa configurar seu domínio.",
@@ -136,6 +139,7 @@
       "active": "ativo",
       "connectCustomDomain": "conectar domínio personalizado"
     },
+    
     "rename": {
       "rename": "renomear domínio",
       "renaming": "renomeando o seu domínio habemus",
@@ -167,6 +171,7 @@
     "noBetaCodeError": "por favor insira seu código de acesso",
     "invalidCodeError": "código de acesso inválido"
   },
+  
   "betaPasswordReset": {
     "resetPassword": "Para sua segurança, defina uma senha",
     "newPassword": "senha",
@@ -175,6 +180,7 @@
     "resetError": "ocorreu um erro ao criar sua senha, por favor tente novamente",
     "start": "começar!"
   },
+  
   "auth": {
     "usernameAndPasswordMismatch": "usuário ou senha incorretos",
     "email": "e-mail",
@@ -182,6 +188,7 @@
     "password": "senha",
     "login": "login"
   },
+  
   "accountPasswordReset": {
     "resetPassword": "Redefinir senha da sua conta",
     "newPassword": "nova senha",
@@ -192,6 +199,7 @@
     "passwordsDoNotMatch": "as senhas estão diferentes",
     "couldNotUpdatePassword": "ocorreu um erro ao redefinir sua senha, por favor tente novamente"
   },
+  
   "accountDelete": {
     "deleteAccount": "Excluir conta",
     "areYouSure": "Tem certeza de que deseja excluir sua conta?",
@@ -200,6 +208,7 @@
     "cancel": "não excluir",
     "confirm": "excluir definitivamente"
   },
+  
   "account": {
     "myAccount": "Minha conta",
     "fullName": "nome completo",
@@ -210,6 +219,7 @@
     "discard": "descartar alterações",
     "updateDataError": "ocorreu um erro ao atualizar os dados da sua conta, por favor tente novamente"
   },
+  
   "feedback": {
     "hearYou": "queremos te ouvir :)",
     "sendUsYourFeedback": "mande um feedback pra gente!",
@@ -222,9 +232,11 @@
     "somethingWentWrong": "algo deu errado, por favor tente novamente",
     "messageRequired": "por favor escreva uma mensagem"
   },
+  
   "header": {
     "myProjects": "meus projetos",
     "myAccount": "minha conta",
+    "startIntro": "ver tutorial rápido",    
     "logOut": "sair",
     "languages": "languages"
   }

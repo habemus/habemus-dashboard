@@ -43,6 +43,7 @@ module.exports = /* @ngInject */ function (auth, $rootScope) {
       },
     ],
     showStepNumbers: false,
+    disableInteraction: true,
   });
 
   dashboardIntro.setAsShown = _setAsShown.bind(null, 'showDashboardIntro');
@@ -94,6 +95,7 @@ module.exports = /* @ngInject */ function (auth, $rootScope) {
       },
     ],
     showStepNumbers: false,
+    disableInteraction: true,
   });
 
   projectIntro.setAsShown = _setAsShown.bind(null, 'showProjectIntro');

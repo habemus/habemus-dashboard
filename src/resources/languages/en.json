@@ -18,6 +18,12 @@
     "dropHere": "drop here",
     "editProject": "edit"
   },
+  
+  "domainInvalid": {
+    "empty": "insert the name of domain you own",
+    "invalid": "invalid domain"
+  },  
+  
   "project":{
     "general": "general",
     "preparingUpload": "preparing upload",
@@ -91,8 +97,8 @@
       "p2": "Managed by a third-party domain provider.",
       "viewSettings": "view DNS settings",
       "disconnectDomain": "disconnect custom domain",
-      
     },
+    
     "disconnect": {
       "title": "Desconnect",
       "p11": "Are you sure you want to disconnect domain ",
@@ -133,6 +139,7 @@
       "active": "active",
       "connectCustomDomain": "connect custom domain"
     },
+    
     "rename": {
       "rename": "rename domain",
       "renaming": "renaming your habemus domain",
@@ -143,7 +150,6 @@
       "serverError": "there was an error renaming your project, please try again",
       "safeNameRequired": "your domain name must not be empty"
     }
-    
   },
 
   "projectRename": {
@@ -165,6 +171,7 @@
     "noBetaCodeError": "please insert your access code",
     "invalidCodeError": "invalid access code"
   },
+  
   "betaPasswordReset": {
     "resetPassword": "For your security, define a password",
     "newPassword": "password",
@@ -173,6 +180,7 @@
     "resetError": "there was a problem setting your password, please try again",
     "start": "start!"
   },
+  
   "auth": {
     "usernameAndPasswordMismatch": "email and password do not match",
     "email": "e-mail",
@@ -180,6 +188,7 @@
     "password": "password",
     "login": "login"
   },
+  
   "accountPasswordReset": {
     "resetPassword": "Reset your password",
     "newPassword": "new password",
@@ -190,6 +199,7 @@
     "passwordsDoNotMatch": "passwords do not match",
     "couldNotUpdatePassword": "there was an error resetting your password, please retry"
   },
+  
   "accountDelete": {
     "deleteAccount": "Delete account",
     "areYouSure": "Are you sure you want to delete your account?",
@@ -198,6 +208,7 @@
     "cancel": "don't delete",
     "confirm": "delete my account"
   },
+  
   "account": {
     "myAccount": "My account",
     "fullName": "full name",
@@ -208,6 +219,7 @@
     "discard": "discard modifications",
     "updateDataError": "there was an error updating your account's data, please retry"
   },
+  
   "feedback": {
     "hearYou": "we want to hear you :)",
     "sendUsYourFeedback": "send us a feedback!",
@@ -224,6 +236,7 @@
   "header": {
     "myProjects": "my projects",
     "myAccount": "my account",
+    "startIntro": "view fast tutorial",
     "logOut": "logout",
     "languages": "languages"
   }
