@@ -48,6 +48,12 @@ module.exports = /*@ngInject*/ function BetaPasswordReset($scope, $state, $trans
       user.setPassword($scope.newPassword);
       user.set('requirePasswordReset_', false);
 
+      // set the guide to show
+      user.set('guideState', {
+        showDashboardIntro: true,
+        showProjectIntro: true
+      });
+
       Q(user.save())
         /// no longer needed, as long as sessions are not revoked on
         /// password change (parse.com setting)
