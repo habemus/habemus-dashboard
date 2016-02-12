@@ -131,6 +131,21 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
    */
   $scope.createProject = function (files, projectName) {
 
+    // explicitly compare with false,
+    // because 'undefined' means that the account 
+    // was created before the email verification was activated
+    if ($scope.currentUser.emailVerified === false) {
+
+      $translate('dashboard.errorUnverifiedEmail')
+        .then(function (message) {
+          errorDialog(message);
+        });
+
+      loadingDialog.close();
+
+      return;
+    }
+
     $translate('dashboard.preparingUpload')
       .then(function (message) {
         // loading state starts

@@ -58,16 +58,9 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
 
           $scope.setCurrentUser(userData);
 
-          // remove this for final publish
-          // requirePasswordReset_ is required if not defined otherwise
-          var requirePasswordReset_ = userData.requirePasswordReset_;
-
-          if (typeof requirePasswordReset_ === 'undefined') {
-            requirePasswordReset_ = true;
-          }
-
           // check for beta users that need to change password
-          if (requirePasswordReset_) {
+          // initially implemented for beta test users
+          if (userData.requirePasswordReset_ === true) {
             
             betaPasswordResetModal.open({
               welcomeMessage: userData.welcomeMessage

@@ -19,7 +19,8 @@
     "dargProjectZip2": "dos arquivos do projeto",
     "dragProjectTooltip": "o projeto deve ser estático (utilizar linguagens: html, css, js). Seu projeto deve ter um arquivo index.html",
     "dropHere": "solte aqui",
-    "editProject": "editar"
+    "editProject": "editar",
+    "errorUnverifiedEmail": "Não conseguimos verificar seu email. Por favor acesse sua caixa de e-mail e efetue a verificação :)"
   },
   "domainInvalid": {
     "empty": "insira o nome do domínio que você possui",
