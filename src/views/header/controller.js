@@ -26,15 +26,26 @@ module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state,
   
   $scope.startIntro = function () {
     var currentState = $state.current;
-//    console.log(currentState.name);
     
     if (currentState.name == 'dashboard'){
-      intro.dashboard.start();
+
+      intro.dashboard().then(function (dashboardIntro) {
+        dashboardIntro.start();
+      });
+
     } else if (currentState.name == 'project.general') {
-      intro.project.start();
+
+      intro.project().then(function (projectIntro) {
+        projectIntro.start();
+      });
+
     } else if (currentState.name.substr(0,7) == 'project') {
       $state.go('project.general');
-      intro.project.start();
+
+      intro.project().then(function (projectIntro) {
+        projectIntro.start();
+      });
+      
     }
   }
   
