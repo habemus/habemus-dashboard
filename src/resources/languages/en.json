@@ -2,7 +2,8 @@
   "sessionExpiredLogin": "Sorry, it looks like your session has expired. Please login:",
   "dashboard": {
     "introCreateProject": "Upload a new project by dragging a folder here or by clicking to choose a folder",
-    "introAccessAcount": "Access this menu to quickly see the overview of your projects or manage your account settings",
+    "introCreateProjectByZip": "Upload a new project by dragging a .zip file here or by clicking to choose a .zip file",
+    "introAccessAccount": "Access this menu to quickly see the overview of your projects or manage your account settings",
     "introSendFeedBack": "Use this box to send us feedbacks. We want to hear you!",
     "myProjects": "My projects",
     "subTitle": "Upload your projects of static websites (html, css, js) to host them in the cloud and have a nice url",
@@ -14,9 +15,12 @@
     "createdAt": "created at",
     "dragProjectDirectory1": "drag here the folder",
     "dragProjectDirectory2": "of a new project",
+    "dragProjectZip1": "drag a zipped version",
+    "dargProjectZip2": "of the project's files",
     "dragProjectTooltip": "the project must be static (languages: html, css, js). Your project must have an index.html file",
     "dropHere": "drop here",
-    "editProject": "edit"
+    "editProject": "edit",
+    "errorUnverifiedEmail": "We could not verify your email. Please go to your inbox and verify it ;)"
   },
   
   "domainInvalid": {
@@ -34,12 +38,16 @@
     "history": "history",
     "domain": "domain",
     "delete": "delete",
+    "errorSize": "Your project exceeds current limit of 50MB.",
+    "errorFailed": "Something went wrong. Please try again.",
+    "errorUploaed": "An error occured when uploading files. Your project is incomplete. Update your files or delete project to create another one.",
   },
 
   "projectGeneral": {
     "introMenuGeneral": "Set general options of your project",
     "introEditName": "Click to edit the name of your project",
     "introUpdate": "Update your project by dragging the folder here or by clicking to choose the folder from your computer",
+    "introUpdateByZip": "Update your project by dragging a .zip file here or by clicking to open the file picker",
     "introMyProjects": "Go back to see the overview of all your projects",
     "introMenuHistory": "See the versions of your project, restore and download them",
     "introMenuDomains": "Connect custom domains and edit the domain created by habemus for your project",
@@ -51,6 +59,7 @@
     "createdAt": "created at",
     "lastUpdatedAt": "last updated at",
     "dragDirectoryToUpdate": "drag folder to update",
+    "dragZipToUpdate": "drag a zipped version of the project's files to update",
     "dropHere": "drop here"
   },
 
@@ -75,7 +84,8 @@
     "currentTooltip": "this is current online version",
     "downloadVersion": "download",
     "downloadTooltip": "download this version",
-    "dragFolderToUpdate": "drag the project's folder to update",
+    "dragDirectoryToUpdate": "drag the project's folder to update",
+    "dragZipToUpdate": "drag a zipped version of the project's files to update",
     "dropHere": "drop here"
   },
 
@@ -239,5 +249,13 @@
     "startIntro": "view fast tutorial",
     "logOut": "logout",
     "languages": "languages"
+  },
+  
+  "zipPrepare": {
+    "noIndexHtml": "we could not find any index.html file in the package you've selected, do you want to continue?",
+    "cancel": "cancel",
+    "confirm": "confirm",
+    "invalidZipFile": "invalid zip file",
+    "pleaseZipBeforeUploading": "you have selected multiple files, you should zip them in a single file before uploading"
   }
 }

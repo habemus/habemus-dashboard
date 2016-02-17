@@ -1,5 +1,6 @@
 var JSZip = require('jszip');
 var Q     = require('q');
+var _     = require('lodash');
 
 /**
  * Auxiliary function that instantiates file reader and sets
@@ -68,18 +69,11 @@ Zip.prototype.generate = function () {
       var zip = new JSZip();
 
       readResults.forEach(function (res) {
-        zip.file(res.name, res.contents, { base64: true });
+        zip.file(res.name, res.contents);
       });
 
       return zip.generate({ type: 'blob' });
     });
 };
 
-// the export
-module.exports = /* @ngInject */ function () {
-  return {
-    create: function () {
-      return new Zip();
-    },
-  };
-};
+module.exports = Zip;

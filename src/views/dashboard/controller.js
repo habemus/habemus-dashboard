@@ -1,12 +1,15 @@
 'use strict';
 
-var fs = require('fs');
-var path = require('path');
+var fs    = require('fs');
+var path  = require('path');
+
+var Zip   = require('../../lib/zip');
+var JSZip = require('jszip');
 
 // own
 var fileReader = require('../../lib/file-reader');
 
-module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projectAPI, $state, zipper, ngDialog, loadingDialog, intro) {
+module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projectAPI, $state, ngDialog, loadingDialog, errorDialog, zipPrepare, intro) {
 
   /**
    * Setup intro
@@ -21,10 +24,11 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
     var guideState = currentUser.guideState || {};
 
     if (guideState.showDashboardIntro) {
-      intro.dashboard.start();
+      intro.dashboard().then(function (intro) {
+        intro.start()
+      });
     }
   });
-
 
   // retrieve all projects owned by the current logged user
   // and put them onto the scope as `currentUserProjects`
@@ -38,8 +42,85 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
    * Navigate to the visualization of a given project
    * @param  {String} projectId
    */
-  $scope.navigateToProject = function(projectId) {
-    $state.go("project.general", {projectId:projectId});
+  $scope.navigateToProject = function (projectId) {
+    $state.go("project.general", { projectId: projectId });
+  };
+
+  /**
+   * Shared create project logic among zip file and multi-file upload types
+   * @param  {String} projectName 
+   * @param  {File} zipFile     
+   */
+  function _createProject(zipFile, projectName) {
+    if (zipFile.size > 52428800) {
+      $translate('project.errorSize')
+        .then(function (message) {
+          // error Dialog opens
+          errorDialog(message);
+        });
+
+      loadingDialog.close();
+
+      return;
+    }
+
+    projectAPI.createProject({
+      name: projectName,
+    })
+    .then(function (projectData) {
+      $translate('dashboard.uploading')
+        .then(function (message) {
+          loadingDialog.setMessage(message);
+        });
+
+      // upload
+      var upload = projectAPI.uploadProjectZip(projectData.objectId, zipFile);
+
+      upload.progress(function (progress) {
+        console.log('upload progress ', progress);
+
+        progress = parseInt(progress.completed * 100);
+
+        // progress %
+        loadingDialog.setProgress(progress);
+        if (progress === 100) {
+          $translate('dashboard.finishingUpload')
+            .then(function (message) {
+              loadingDialog.setMessage(message);
+            });
+        }
+      });
+
+      return upload.then(function () {
+        return projectData;
+      });
+
+    }, function () {
+      loadingDialog.close();
+      $translate('project.errorFailed')
+        .then(function (message) {
+          // error Dialog opens
+          errorDialog(message);
+        });
+    })
+    .then(function (projectData) {
+
+      // navigate to the project view
+      $scope.navigateToProject(projectData.objectId);
+      
+      // loading state ends
+      loadingDialog.close();
+
+    }, function (err) {
+      console.error(err);
+      $translate('project.errorUploaded')
+        .then(function (message) {
+          // error Dialog opens
+          errorDialog(message);
+        });
+
+      loadingDialog.close();
+    });
   }
 
   /**
@@ -50,10 +131,20 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
    */
   $scope.createProject = function (files, projectName) {
 
-    // close the dashboard intro
-    intro.dashboard.exit();
-    // call setAsShown manually as the 'exit()' method does not fire the event
-    intro.dashboard.setAsShown();
+    // explicitly compare with false,
+    // because 'undefined' means that the account 
+    // was created before the email verification was activated
+    if ($scope.currentUser.emailVerified === false) {
+
+      $translate('dashboard.errorUnverifiedEmail')
+        .then(function (message) {
+          errorDialog(message);
+        });
+
+      loadingDialog.close();
+
+      return;
+    }
 
     $translate('dashboard.preparingUpload')
       .then(function (message) {
@@ -61,70 +152,13 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
         loadingDialog.open({ message: message });
       });
 
-
-    var zip = zipper.create();
-
-    files.forEach(function (fData) {
-      zip.file(fData.path, fData.file);
-    });
-    
-    // create an entry for the project
-    projectAPI.createProject({
-      name: projectName,
-    })
-    .then(function (projectData) {
-      
-      console.log('project created at parse', projectData);
-
-      // generate the zip file
-      return zip.generate()
-        .then(function (zipFile) {
-
-          $translate('dashboard.uploading')
-            .then(function (message) {
-              loadingDialog.setMessage(message);
-            });
-
-          console.log('zip file generated', zipFile);
-
-          try {
-
-            // upload
-            var upload = projectAPI.uploadProjectZip(projectData.objectId, zipFile);
-
-            upload.progress(function (progress) {
-              console.log('upload progress ', progress);
-
-              progress = parseInt(progress.completed * 100);
-
-              // progress %
-              loadingDialog.setProgress(progress);
-              if (progress === 100) {
-                $translate('dashboard.finishingUpload')
-                  .then(function (message) {
-                    loadingDialog.setMessage(message);
-                  });
-              }
-            });
-
-            return upload;
-          } catch (e) {
-            alert('file exceeds 50Mb size limit');
-            loadingDialog.close();
-          }
-        })
-        .then(function () {
-          // navigate to the project view
-          $scope.navigateToProject(projectData.objectId);
-        
-          // loading state ends
-          loadingDialog.close();
-        });
-    })
-    .fail(function (err) {
-      loadingDialog.close();
-    })
-    .done();
+    zipPrepare(files)
+      .then(function (zipFile) {
+        return _createProject(zipFile, projectName);
+      }, function (err) {
+        loadingDialog.close();
+      })
+      .done();
   };
   
 };

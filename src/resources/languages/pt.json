@@ -1,8 +1,9 @@
 {
   "sessionExpiredLogin": "Sua sessão expirou. Por favor faça o log-in:",
   "dashboard": {
-    "introCreateProject": "Upload a new project by dragging a folder here or by clicking to choose a folder",
-    "introAccessAcount": "Acesse o menu para ver a lista dos seus projetos ou gerenciar as preferências da sua conta",
+    "introCreateProject": "Arraste para cá uma pasta com os arquivos do seu projeto ou clique para abrir o seletor de arquivos.",
+    "introCreateProjectByZip": "Arraste para cá um arquivo .zip com os arquivos do seu projeto.",
+    "introAccessAccount": "Acesse o menu para ver a lista dos seus projetos ou gerenciar as preferências da sua conta",
     "introSendFeedBack": "Use este espaço para nos mandar feedbacks. Nós queremos te ouvir!",
     "myProjects": "Meus projetos",
     "subTitle": "Faça upload dos seus projetos de websites estáticos (html, css, js) para hospedá-los na nuvem e ter boas urls",
@@ -14,9 +15,12 @@
     "createdAt": "criado em",
     "dragProjectDirectory1": "arraste para cá a pasta",
     "dragProjectDirectory2": "de um novo projeto",
+    "dragProjectZip1": "arraste uma versão .zip",
+    "dargProjectZip2": "dos arquivos do projeto",
     "dragProjectTooltip": "o projeto deve ser estático (utilizar linguagens: html, css, js). Seu projeto deve ter um arquivo index.html",
     "dropHere": "solte aqui",
-    "editProject": "editar"
+    "editProject": "editar",
+    "errorUnverifiedEmail": "Não conseguimos verificar seu email. Por favor acesse sua caixa de e-mail e efetue a verificação :)"
   },
   
   "domainInvalid": {
@@ -25,12 +29,6 @@
   },
   
   "project": {
-    "introMenuGeneral": "Defina configurações gerais do seu projeto",
-    "introEditName": "Clique para alterar o nome do seu projeto",
-    "introUpdate": "Atualize seu projeto arrastando a pasta com os arquivos do seu computador para cá ou clicando para escolher a pasta",
-    "introMyProjects": "Volte para ver a lista de todos os seus projetos",
-    "introMenuHistory": "Veja as versões do seu projeto, recupere e baixe-as",
-    "introMenuDomains": "Conecte domínios personalizados e altere o domínio criado pela habemus para o seu projeto",
     "general": "geral",
     "preparingUpload": "preparando upload",
     "uploading": "enviando arquivos para a nuvem",
@@ -39,10 +37,20 @@
     "files": "arquivos",
     "history": "histórico",
     "domain": "domínios",
-    "delete": "deletar"
+    "delete": "deletar",
+    "errorSize": "Seu projeto ultrapassa o limite de 50MB.",
+    "errorFailed": "Ocorreu algum erro. Por favor, tente novamente.",
+    "errorUploaed": "Erro ao fazer o upload dos arquivos. Seu projeto está incompleto. Atualize os arquivos ou remova-o e crie outro.",
   },
 
   "projectGeneral": {
+    "introMenuGeneral": "Defina configurações gerais do seu projeto",
+    "introEditName": "Clique para alterar o nome do seu projeto",
+    "introUpdate": "Atualize seu projeto arrastando a pasta com os arquivos do seu computador para cá ou clicando para escolher a pasta",
+    "introUpdateByZip": "Atualize seu projeto arrastando o arquivo .zip para cá ou clicando para escolher o arquivo .zip",
+    "introMyProjects": "Volte para ver a lista de todos os seus projetos",
+    "introMenuHistory": "Veja as versões do seu projeto, recupere e baixe-as",
+    "introMenuDomains": "Conecte domínios personalizados e altere o domínio criado pela habemus para o seu projeto",
     "myProjects": "Meus projetos",
     "general": "(geral)",
     "editProjectName": "editar nome do projeto",
@@ -51,6 +59,7 @@
     "createdAt": "criado em",
     "lastUpdatedAt": "última atualização",
     "dragDirectoryToUpdate": "arraste a pasta inteira do projeto para atualizar",
+    "dragZipToUpdate": "arraste uma versão .zip do projeto para atualizar",
     "dropHere": "solte aqui"
   },
   
@@ -75,7 +84,8 @@
     "currentTooltip": "esta é a versão que está online",
     "downloadVersion": "baixar",
     "downloadTooltip": "baixe esta versão",
-    "dragFolderToUpdate": "arraste a pasta inteira do projeto para atualizar",
+    "dragDirectoryToUpdate": "arraste a pasta inteira do projeto para atualizar",
+    "dragZipToUpdate": "arraste uma versão .zip dos arquivos do projeto para atualizar",
     "dropHere": "solte aqui"
   },
   
@@ -239,5 +249,13 @@
     "startIntro": "ver tutorial rápido",    
     "logOut": "sair",
     "languages": "languages"
+  },
+  
+  "zipPrepare": {
+    "noIndexHtml": "não encontramos nenhum arquivo 'index.html' no pacote selecionado, você gostaria de continuar mesmo assim?",
+    "cancel": "cancelar",
+    "confirm": "continuar",
+    "invalidZipFile": "arquivo zip inválido",
+    "pleaseZipBeforeUploading": "você selecionou múltiplos arquivos. Por favor comprima-os em um arquivo zip e refaça o upload"
   }
 }
