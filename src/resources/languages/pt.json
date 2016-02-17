@@ -3,7 +3,7 @@
   "dashboard": {
     "introCreateProject": "Arraste para cá uma pasta com os arquivos do seu projeto ou clique para abrir o seletor de arquivos.",
     "introCreateProjectByZip": "Arraste para cá um arquivo .zip com os arquivos do seu projeto.",
-    "introAccessAccount": "Acesse o menu para ver a lista dos seus projetos ou gerenciar as preferências da sua conta",
+    "introAccessAccount": "Acesse o menu para ver a lista dos seus projetos, consultar a documentação ou gerenciar as preferências da sua conta",
     "introSendFeedBack": "Use este espaço para nos mandar feedbacks. Nós queremos te ouvir!",
     "myProjects": "Meus projetos",
     "subTitle": "Faça upload dos seus projetos de websites estáticos (html, css, js) para hospedá-los na nuvem e ter boas urls",
@@ -246,7 +246,8 @@
   "header": {
     "myProjects": "meus projetos",
     "myAccount": "minha conta",
-    "startIntro": "ver tutorial rápido",    
+    "startIntro": "ver tutorial rápido",
+    "viewDocs": "documentação",
     "logOut": "sair",
     "languages": "languages"
   },

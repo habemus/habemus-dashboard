@@ -174,7 +174,7 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, auth, $rootSco
       
       $scope.resultMessage = "Enviando...";
       
-      var parseFile = new Parse.File(file.name, file);
+      var parseFile = new Parse.File(file.name.replace(/:/g, "-"), file);
       
       parseFile.save().then(function() {
         var feedback = new Parse.Object("Feedback");

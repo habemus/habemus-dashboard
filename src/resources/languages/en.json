@@ -3,7 +3,7 @@
   "dashboard": {
     "introCreateProject": "Upload a new project by dragging a folder here or by clicking to choose a folder",
     "introCreateProjectByZip": "Upload a new project by dragging a .zip file here or by clicking to choose a .zip file",
-    "introAccessAccount": "Access this menu to quickly see the overview of your projects or manage your account settings",
+    "introAccessAccount": "Access this menu to quickly see the overview of your projects, read documentation or manage your account settings",
     "introSendFeedBack": "Use this box to send us feedbacks. We want to hear you!",
     "myProjects": "My projects",
     "subTitle": "Upload your projects of static websites (html, css, js) to host them in the cloud and have a nice url",
@@ -238,7 +238,7 @@
     "attachImage": "would you like to attach an image?",
     "submit": "send",
     "sending": "sending...",
-    "thanks": "Than you!!!",
+    "thanks": "Thank you!!!",
     "somethingWentWrong": "oops something went wrong, please retry",
     "messageRequired": "please write a message"
   },
@@ -247,8 +247,9 @@
     "myProjects": "my projects",
     "myAccount": "my account",
     "startIntro": "view fast tutorial",
+    "viewDocs": "documentation",
     "logOut": "logout",
-    "languages": "languages"
+    "languages": "languages",
   },
   
   "zipPrepare": {
