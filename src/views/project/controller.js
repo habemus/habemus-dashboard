@@ -18,7 +18,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
    * Setup intro
    */
   $scope.$watch('currentUser', function () {
-
+project.domains
     var currentUser = $scope.currentUser;
 
     if (!currentUser) { return; }

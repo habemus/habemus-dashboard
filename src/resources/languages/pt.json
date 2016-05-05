@@ -1,7 +1,7 @@
 {
   "sessionExpiredLogin": "Sua sessão expirou. Por favor faça o log-in:",
   "dashboard": {
-    "introCreateProject": "Arraste para cá uma pasta com os arquivos do seu projeto ou clique para abrir o seletor de arquivos.",
+    "introCreateProject": "Arraste para cá uma pasta com os arquivos do seu projeto ou clique para abrir o seletor de arquivos. Pode ser compilada .zip ou uma pasta comum",
     "introCreateProjectByZip": "Arraste para cá um arquivo .zip com os arquivos do seu projeto.",
     "introAccessAccount": "Acesse o menu para ver a lista dos seus projetos, consultar a documentação ou gerenciar as preferências da sua conta",
     "introSendFeedBack": "Use este espaço para nos mandar feedbacks. Nós queremos te ouvir!",
@@ -232,7 +232,7 @@
   
   "feedback": {
     "hearYou": "queremos te ouvir :)",
-    "sendUsYourFeedback": "mande um feedback pra gente!",
+    "sendUsYourFeedback": "fale conosco!",
     "whatDoYouThink": "o que você está achando da habemus? como podemos melhorar?",
     "ideaPlaceholder": "dúvida, bug, sugestão, comentário, melhoria...",
     "attachImage": "quer anexar uma imagem para facilitar a comunicação?",
