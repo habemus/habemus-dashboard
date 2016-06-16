@@ -1,7 +1,7 @@
 {
   "sessionExpiredLogin": "Sorry, it looks like your session has expired. Please login:",
   "dashboard": {
-    "introCreateProject": "Upload a new project by dragging a folder here or by clicking to choose a folder",
+    "introCreateProject": "Upload a new project by dragging a folder here or by clicking to choose a folder. It can be a .zip or a single folder.",
     "introCreateProjectByZip": "Upload a new project by dragging a .zip file here or by clicking to choose a .zip file",
     "introAccessAccount": "Access this menu to quickly see the overview of your projects, read documentation or manage your account settings",
     "introSendFeedBack": "Use this box to send us feedbacks. We want to hear you!",
@@ -232,7 +232,7 @@
   
   "feedback": {
     "hearYou": "we want to hear you :)",
-    "sendUsYourFeedback": "send us a feedback!",
+    "sendUsYourFeedback": "contact us!",
     "whatDoYouThink": "what do you think of habemus? what can we improve?",
     "ideaPlaceholder": "questions, bugs, suggestions, comments, improvements...",
     "attachImage": "would you like to attach an image?",
