@@ -2,9 +2,9 @@
 var Q = require('q');
 var _ = require('lodash');
 
-var aux = require('../lib/auxiliary');
+var aux = require('../../lib/auxiliary');
 
-module.exports = /* @ngInject */ function (auth, $rootScope, $compile, $timeout) {
+module.exports = /* @ngInject */ function (apiAuth, $rootScope, $compile, $timeout) {
 
   // saves data about the intro so that it will not appear automatically
   // anymore to the user
@@ -16,7 +16,7 @@ module.exports = /* @ngInject */ function (auth, $rootScope, $compile, $timeout)
 
     guideState[prop] = false;
 
-    auth.updateCurrentUserData({
+    apiAuth.updateCurrentUserData({
       guideState: guideState
     });
   };

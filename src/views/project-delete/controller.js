@@ -8,18 +8,14 @@ var fs   = require('fs');
 var _    = require('lodash');
 var Q    = require('q');
 
-// load models
-var DirectoryData = require('../../models/file-system/directory');
+module.exports = /*@ngInject*/ function projectDeleteCtrl($scope, $stateParams, $state, $translate, ngDialog, apiAuth, apiProjectManager) {
 
-
-module.exports = /*@ngInject*/ function projectDeleteCtrl($scope, $stateParams, $state, $translate, auth, ngDialog, projectAPI) {
-  
   $scope.verifyAndConfirm = function () {
-          
+
     if ($scope.projectName === $scope.project.name) {
       $scope.loading = true;
 
-      projectAPI.deleteProject($scope.project.id)
+      apiProjectManager.scheduleRemoval(apiAuth.getAuthToken(), $stateParams.projectId)
       .then(function () {
 
         $scope.loading = false;

@@ -14,8 +14,6 @@ var DASHBOARD = angular.module('habemus-dashboard', [
   'pascalprecht.translate',
   'ui.router',
   'ngDialog',
-  'ui.bootstrap',
-  'file-model',
   'angular-clipboard',
 ]);
 
@@ -50,7 +48,6 @@ require('./services')(DASHBOARD);
 /**
  * Controllers
  */
-require('./views/templates')(DASHBOARD);
 
 DASHBOARD.config(function ($translateProvider) {
   $translateProvider.useStaticFilesLoader({
@@ -78,32 +75,38 @@ DASHBOARD.config(function ($translateProvider) {
 });
 
 // verify authentication on statechange
-DASHBOARD.run(function ($rootScope, $state, $location, AUTH_EVENTS, auth, authModal, ngDialog) {
-  /**
-   * Browser data
-   * @type {Object}
-   */
-  $rootScope.browser = {};
-  $rootScope.browser.isChrome = aux.isChrome();
+DASHBOARD.run(function ($rootScope, $state, $location, AUTH_EVENTS, apiAuth, ngDialog) {
+  // /**
+  //  * Browser data
+  //  * @type {Object}
+  //  */
+  // $rootScope.browser = {};
+  // $rootScope.browser.isChrome = aux.isChrome();
 
   $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
 
     if (toState.data && toState.data.authorizedRoles) {
       var authorizedRoles = toState.data.authorizedRoles;
 
-      if (!auth.isAuthorized(authorizedRoles)) {
-        event.preventDefault();
-        if (auth.isAuthenticated()) {
-          // user is not allowed
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-        } else {
-
-          auth.handleSessionReset();
-
-          // user is not logged in
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-        }
+      if (apiAuth.status !== 'logged_in') {     
+        // event.preventDefault();
+        // user is not logged in
+        $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
       }
+
+      // if (!auth.isAuthorized(authorizedRoles)) {
+      //   event.preventDefault();
+      //   if (auth.isAuthenticated()) {
+      //     // user is not allowed
+      //     $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
+      //   } else {
+
+      //     auth.handleSessionReset();
+
+      //     // user is not logged in
+      //     $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
+      //   }
+      // }
     }
 
     // no authorization config set, thus simply continue

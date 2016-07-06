@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state, $translate, auth, intro) {
+module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state, $translate, apiAuth, uiIntro) {
   
   $scope.menuIsOpen = false;
   
@@ -14,7 +14,7 @@ module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state,
   }
   
   $scope.logOut = function () {
-    auth.logOut()
+    apiAuth.logOut()
       .then(function () {
         window.location.href = "http://habem.us";
       });
@@ -29,20 +29,20 @@ module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state,
     
     if (currentState.name == 'dashboard'){
 
-      intro.dashboard().then(function (dashboardIntro) {
+      uiIntro.dashboard().then(function (dashboardIntro) {
         dashboardIntro.start();
       });
 
     } else if (currentState.name == 'project.general') {
 
-      intro.project().then(function (projectIntro) {
+      uiIntro.project().then(function (projectIntro) {
         projectIntro.start();
       });
 
     } else if (currentState.name.substr(0,7) == 'project') {
       $state.go('project.general');
 
-      intro.project().then(function (projectIntro) {
+      uiIntro.project().then(function (projectIntro) {
         projectIntro.start();
       });
       

@@ -7,10 +7,7 @@ var fs   = require('fs');
 // third-party
 var _    = require('lodash');
 
-// load models
-var DirectoryData = require('../../models/file-system/directory');
-
-module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $stateParams, $state, $translate, auth, ngDialog, loadingDialog) {
+module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $stateParams, $state, $translate, apiAuth, ngDialog, uiDialogLoading) {
   
   /**
    * Object onto which the account data input fields
@@ -24,11 +21,11 @@ module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $statePa
    */
   $scope.updateAccountData = function () {
 
-    loadingDialog.open({
+    uiDialogLoading.open({
       message: 'saving data'
     });
 
-    auth.updateCurrentUserData({
+    apiAuth.updateCurrentUserData({
       name: $scope.accountData.name
     })
     .then(function (updatedUser) {
@@ -39,10 +36,10 @@ module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $statePa
       $scope.resetAccountFormData();
       $rootScope.$apply();
 
-      loadingDialog.close();
+      uiDialogLoading.close();
     }, function (err) {
 
-      loadingDialog.close();
+      uiDialogLoading.close();
 
       $translate('account.updateDataError')
         .then(function (errorMessage) {

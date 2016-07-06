@@ -15,33 +15,33 @@
         <th></th>
         <th></th>
       </tr>
-      <tr class="table-row-body" ng-repeat="version in project.versions | orderBy:'+':true">
-        <td>{{ version.name }}</td>
+      <tr class="table-row-body" ng-repeat="version in projectVersions | orderBy:'+':true">
+        <td>{{ version.detail.name }}</td>
         <td>{{ version.createdAt | date : "dd MMM yyyy',' HH:mm" }}</td>
         <td>
           <a
             target="_blank"
-            href="http://{{ version.name }}.{{ project.safeName }}.habemus.website"
+            href="http://{{ version.detail.name }}.{{ project.safeName }}.habemus.website"
             uib-tooltip="{{ 'projectHistory.visitVersion' | translate }}">
-            http://{{ version.name }}.{{ project.safeName }}.habemus.website
+            http://{{ version.detail.name }}.{{ project.safeName }}.habemus.website
           </a>
         </td> 
         <td class="padding-right">
           <span
             class="restore"
-            ng-if="version.name !== project.activeVersion.name"
-            ng-click="restoreProjectVersion(version.name)"
+            ng-if="version.detail.name !== project.activeVersion.name"
+            ng-click="restoreProjectVersion(version.detail.name)"
             uib-tooltip="{{ 'projectHistory.restoreTooltip' | translate }}"
             translate="projectHistory.restoreVersion">
           </span>
           <span
             class="current"
-            ng-if="version.name === project.activeVersion.name"
+            ng-if="version.detail.name === project.activeVersion.name"
             uib-tooltip="{{ 'projectHistory.currentTooltip' | translate }}"
             translate="projectHistory.currentVersion">
           </span>
         </td>
-        <td class="download" ng-click="downloadProjectVersion(version.name)">
+        <td class="download" ng-click="downloadProjectVersion(version._id)">
           <img src="resources/img/icon-download.svg">
           <span
             uib-tooltip="{{ 'projectHistory.downloadTooltip' | translate }}"

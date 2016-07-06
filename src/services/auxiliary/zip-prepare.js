@@ -1,11 +1,11 @@
 var Q     = require('q');
 var JSZip = require('jszip');
 var _     = require('lodash');
-var Zip   = require('../lib/zip');
+var Zip   = require('../../lib/zip');
 
-var aux = require('../lib/auxiliary');
+var aux = require('../../lib/auxiliary');
 
-module.exports = /* @ngInject */ function zipUploadPrepareService(errorDialog, confirmationDialog, $translate) {
+module.exports = /* @ngInject */ function zipUploadPrepareService(uiDialogError, uiDialogConfirm, $translate) {
 
   /**
    * Assumes the files are to be zipped together by the browser
@@ -35,7 +35,7 @@ module.exports = /* @ngInject */ function zipUploadPrepareService(errorDialog, c
       ])
       .spread(function (message, cancelLabel, confirmLabel) {
         
-        return Q(confirmationDialog({
+        return Q(uiDialogConfirm({
           message: message,
           cancelLabel: cancelLabel,
           confirmLabel: confirmLabel
@@ -53,14 +53,12 @@ module.exports = /* @ngInject */ function zipUploadPrepareService(errorDialog, c
   function _zipFileUploadCreateProject(files) {
 
     var defer = Q.defer();
-
-    console.log(files);
-
+    
     if (files.length > 1) {
       
       $translate('zipPrepare.pleaseZipBeforeUploading')
         .then(function (messsage) {
-          errorDialog(messsage)
+          uiDialogError(messsage)
             .closePromise.then(function () {
               defer.reject(new Error('invalid zip file'));
             });
@@ -70,7 +68,7 @@ module.exports = /* @ngInject */ function zipUploadPrepareService(errorDialog, c
       
       $translate('zipPrepare.invalidZipFile')
         .then(function (message) {
-          errorDialog(message)
+          uiDialogError(message)
             .closePromise.then(function () {
               defer.reject(new Error('invalid zip file'));
             });
@@ -90,7 +88,7 @@ module.exports = /* @ngInject */ function zipUploadPrepareService(errorDialog, c
         } catch (e) {
           $translate('zipPrepare.invalidZipFile')
             .then(function (message) {
-              errorDialog(message)
+              uiDialogError(message)
                 .closePromise.then(function () {
                   defer.reject(new Error('invalid zip file'));
                 });
@@ -145,7 +143,7 @@ module.exports = /* @ngInject */ function zipUploadPrepareService(errorDialog, c
           ])
           .spread(function (message, cancelLabel, confirmLabel) {
 
-            return Q(confirmationDialog({
+            return Q(uiDialogConfirm({
               message: message,
               cancelLabel: cancelLabel,
               confirmLabel: confirmLabel

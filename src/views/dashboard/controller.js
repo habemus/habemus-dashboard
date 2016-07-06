@@ -9,35 +9,24 @@ var JSZip = require('jszip');
 // own
 var fileReader = require('../../lib/file-reader');
 
-module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projectAPI, $state, ngDialog, loadingDialog, errorDialog, zipPrepare, intro) {
+module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, apiAuth, apiProjectManager, $state, ngDialog, uiDialogLoading, uiDialogError, auxZipPrepare, uiIntro) {
 
-  /**
-   * Setup intro
-   */
-  $scope.$watch('currentUser', function () {
-
-    var currentUser = $scope.currentUser;
-
-    if (!currentUser) { return; }
-
-    // design this so that the intro is only shown when explicitly set
-    var guideState = currentUser.guideState || {};
-
-    if (guideState.showDashboardIntro) {
-      intro.dashboard().then(function (intro) {
-        intro.start()
+  $scope.loadProjectsIntoScope = function () {
+    return apiAuth.getCurrentUser()
+      .then(function (user) {
+        return apiProjectManager.list(apiAuth.getAuthToken());
+      })
+      .then(function (projects) {
+        $scope.currentUserProjects = projects;
+        $scope.$apply();
       });
-    }
-  });
+  };
 
-  // retrieve all projects owned by the current logged user
-  // and put them onto the scope as `currentUserProjects`
-  projectAPI.findProjects()
-    .then(function (projects) {
-      $scope.currentUserProjects = projects || [];
-      $scope.$apply();
+  $scope.loadProjectsIntoScope()
+    .catch(function (err) {
+      console.warn(err);
     });
-  
+
   /**
    * Navigate to the visualization of a given project
    * @param  {String} projectId
@@ -56,71 +45,79 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
       $translate('project.errorSize')
         .then(function (message) {
           // error Dialog opens
-          errorDialog(message);
+          uiDialogError(message);
         });
 
-      loadingDialog.close();
+      uiDialogLoading.close();
 
       return;
     }
 
-    projectAPI.createProject({
-      name: projectName,
-    })
-    .then(function (projectData) {
-      $translate('dashboard.uploading')
-        .then(function (message) {
-          loadingDialog.setMessage(message);
+    projectName = projectName || 'Project';
+    
+    apiProjectManager.create(apiAuth.getAuthToken(), { name: projectName })
+      .then(function (projectData) {
+        $translate('dashboard.uploading')
+          .then(function (message) {
+            uiDialogLoading.setMessage(message);
+          });
+
+        // upload
+        var upload = apiProjectManager.uploadProjectZip(
+          apiAuth.getAuthToken(),
+          projectData._id,
+          zipFile
+        );
+
+        upload.progress(function (progress) {
+          console.log('upload progress ', progress);
+
+          progress = parseInt(progress.completed * 100);
+
+          // progress %
+          uiDialogLoading.setProgress(progress);
+          if (progress === 100) {
+            $translate('dashboard.finishingUpload')
+              .then(function (message) {
+                uiDialogLoading.setMessage(message);
+              });
+          }
         });
 
-      // upload
-      var upload = projectAPI.uploadProjectZip(projectData.objectId, zipFile);
+        return upload.then(function () {
+          return projectData;
+        });
 
-      upload.progress(function (progress) {
-        console.log('upload progress ', progress);
+      }, function (err) {        
+        uiDialogLoading.close();
+        $translate('project.errorFailed')
+          .then(function (message) {
+            // error Dialog opens
+            uiDialogError(message);
+          });
+      })
+      .then(function (projectData) {
 
-        progress = parseInt(progress.completed * 100);
+        // navigate to the project view
+        $scope.navigateToProject(projectData._id);
+        
+        // loading state ends
+        uiDialogLoading.close();
 
-        // progress %
-        loadingDialog.setProgress(progress);
-        if (progress === 100) {
-          $translate('dashboard.finishingUpload')
-            .then(function (message) {
-              loadingDialog.setMessage(message);
-            });
-        }
+      }, function (err) {
+        console.error(err);
+        $translate('project.errorUploaded')
+          .then(function (message) {
+            // error Dialog opens
+            uiDialogError(message);
+          });
+
+        uiDialogLoading.close();
+      })
+      .catch(function (err) {
+
+        console.log(err);
       });
-
-      return upload.then(function () {
-        return projectData;
-      });
-
-    }, function () {
-      loadingDialog.close();
-      $translate('project.errorFailed')
-        .then(function (message) {
-          // error Dialog opens
-          errorDialog(message);
-        });
-    })
-    .then(function (projectData) {
-
-      // navigate to the project view
-      $scope.navigateToProject(projectData.objectId);
-      
-      // loading state ends
-      loadingDialog.close();
-
-    }, function (err) {
-      console.error(err);
-      $translate('project.errorUploaded')
-        .then(function (message) {
-          // error Dialog opens
-          errorDialog(message);
-        });
-
-      loadingDialog.close();
-    });
   }
 
   /**
@@ -138,10 +135,10 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
 
       $translate('dashboard.errorUnverifiedEmail')
         .then(function (message) {
-          errorDialog(message);
+          uiDialogError(message);
         });
 
-      loadingDialog.close();
+      uiDialogLoading.close();
 
       return;
     }
@@ -149,14 +146,14 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
     $translate('dashboard.preparingUpload')
       .then(function (message) {
         // loading state starts
-        loadingDialog.open({ message: message });
+        uiDialogLoading.open({ message: message });
       });
 
-    zipPrepare(files)
+    auxZipPrepare(files)
       .then(function (zipFile) {
         return _createProject(zipFile, projectName);
       }, function (err) {
-        loadingDialog.close();
+        uiDialogLoading.close();
       })
       .done();
   };

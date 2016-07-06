@@ -2,7 +2,9 @@
 
 var Q    = require('q');
 
-module.exports = /*@ngInject*/ function RenameProject($scope, $translate, projectAPI) {
+module.exports = /*@ngInject*/ function RenameProject($stateParams, $scope, $translate, apiProjectManager, apiAuth) {
+
+  var projectId = $stateParams.projectId;
 
   $scope.editName = function () {
 
@@ -22,7 +24,11 @@ module.exports = /*@ngInject*/ function RenameProject($scope, $translate, projec
 
     if ($scope.renameDomain) {
       // start the edition by setting safeName
-      editionPromise = projectAPI.setProjectSafeName($scope.project.id, $scope.projectName);
+      editionPromise = apiProjectManager.updateSafeName(
+        apiAuth.getAuthToken(),
+        projectId,
+        $scope.projectName
+      );
     } else {
       editionPromise = Q();
     }
@@ -30,14 +36,9 @@ module.exports = /*@ngInject*/ function RenameProject($scope, $translate, projec
     editionPromise
       .then(function () {
         // change the project's name
-        return projectAPI.updateProject($scope.project.id, {
+        return apiProjectManager.update(apiAuth.getAuthToken(), projectId, {
           name: $scope.projectName
         });
-      })
-      .then(function () {
-        // call main scope's loadProject method
-        // to ensure the data is up to date
-        return $scope.loadProject();
       })
       .then(function () {
         $scope.closeThisDialog();
@@ -46,8 +47,7 @@ module.exports = /*@ngInject*/ function RenameProject($scope, $translate, projec
 
         $scope.$apply();
       })
-      .fail(function (err) {
-
+      .catch(function (err) {
         // TODO: improve server-side error handling
         $translate('projectRename.serverSideError')
           .then(function (message) {

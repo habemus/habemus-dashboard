@@ -10,83 +10,67 @@ var Q    = require('q');
 
 var Zip  = require('../../lib/zip');
 
-// load models
-var DirectoryData = require('../../models/file-system/directory');
-
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, $translate, projectAPI, auth, $timeout, ngDialog, errorDialog, CONFIG, loadingDialog, zipPrepare, intro) {
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, $translate, apiProjectManager, apiAuth, $timeout, ngDialog, uiDialogError, CONFIG, uiDialogLoading, auxZipPrepare, auxZipUpload, uiIntro) {
   /**
-   * Setup intro
+   * Setup uiIntro
    */
-  $scope.$watch('currentUser', function () {
-project.domains
-    var currentUser = $scope.currentUser;
+//   $scope.$watch('currentUser', function () {
+// project.domains
+//     var currentUser = $scope.currentUser;
 
-    if (!currentUser) { return; }
+//     if (!currentUser) { return; }
 
-    // design this so that the intro is only shown when explicitly set
-    var guideState = currentUser.guideState || {};
+//     // design this so that the uiIntro is only shown when explicitly set
+//     var guideState = currentUser.guideState || {};
 
-    if (guideState.showProjectIntro) {
-      intro.project().then(function (intro) {
-        intro.start();
-      });
-    }
-  });
+//     if (guideState.showProjectIntro) {
+//       uiIntro.project().then(function (uiIntro) {
+//         uiIntro.start();
+//       });
+//     }
+//   });
 
   var projectId = $stateParams.projectId;
-
-  /**
-   * Data store related to the project
-   * @type {Object}
-   */
-  var project = $scope.project = {
-    domainRecords: [],
-  };
   
   /**
    * Project data loading
    */
-  $scope.loadProject = function () {
+  $scope.loadProjectIntoScope = function () {
     // retrieve the requested project
-    var projectDataPromise = projectAPI
-      .getProjectById(projectId)
+    return apiAuth.getCurrentUser()
+      .then(function (user) {
+        return apiProjectManager.getById(apiAuth.getAuthToken(), projectId);
+      })
       .then(function (project) {
+
+        $scope.project = project;
 
         // set pageTitle
         $rootScope.pageTitle = project.name;
 
-        _.assign($scope.project, project);
-
-        $scope.project.id        = project.objectId;
-        $scope.project.name      = project.name;
-        $scope.project.safeName  = project.safeName;
-        $scope.project.createdAt = project.createdAt;
-
         $scope.$apply();
-      }, function (err) {
-
-        // project loading failed due to some reason.
-        // treat this better, for now just go to dashboard
-        $state.go('dashboard');
       });
+  };
 
+  $scope.loadProjectVersionsIntoScope = function () {
 
-    // retrieve domainRecords related to the project
-    var domainDataPromise = projectAPI.listProjectDomainRecords(projectId)
-      .then(function (domainRecords) {
-        $scope.project.domainRecords = domainRecords || [];
+    console.log('loadProjectVersionsIntoScope');
+
+    return apiProjectManager.listVersions(apiAuth.getAuthToken(), projectId)
+      .then(function (versions) {
+
+        console.log(versions);
+        
+        $scope.projectVersions = versions;
+        
         $scope.$apply();
-      }, function (err) {
-        console.warn('failed to retrieve domainRecords from project');
       });
-
-    return Q.all([projectDataPromise, domainDataPromise]);
   };
 
   /**
-   * Name editing
-   */
-  $scope.editNameOfProject = function () {
+    * Name editing
+    */
+  $scope.editProjectName = function () {
     ngDialog.open({
       template: fs.readFileSync(path.join(__dirname, '../project-rename/template.html'), 'utf-8'),
       plain: true,
@@ -95,131 +79,167 @@ project.domains
       scope: $scope,
 
       preCloseCallback: function () {
-        $scope.loadProject();
+        $scope.loadProjectIntoScope();
       }
     });
-  }
+  };
 
-  /**
-   * File updating
-   */
+  // initialize
+  $scope
+    .loadProjectIntoScope()
+    .done();
+
+
   $scope.uploadNewVersion = function (files) {
 
-    $translate('project.preparingUpload')
-      .then(function (message) {
-        // loading state starts
-        loadingDialog.open({ message: message });
-      });
-
-    zipPrepare(files)
-      .then(function (zipFile) {
-        if (zipFile.size > 52428800) {
-          
-          $translate('project.errorSize')
-          .then(function (message) {
-            // error Dialog opens
-            errorDialog(message);
-          });
-
-          loadingDialog.close();
-
-          return;
-        }
-
-        console.log('zip file generated', zipFile);
-
-        $translate('project.uploading')
-          .then(function (message) {
-            loadingDialog.setMessage(message);
-          });
-
-        var upload = projectAPI.uploadProjectZip(projectId, zipFile);
-
-        upload.progress(function (progress) {
-          console.log('upload progress ', progress);
-
-          progress = parseInt(progress.completed * 100);
-
-          // progress %
-          loadingDialog.setProgress(progress);
-          if (progress === 100) {
-            $translate('project.finishingUpload')
-              .then(function (message) {
-                loadingDialog.setMessage(message);
-              });
-          }
-        });
-
-        return upload;
-
-      }, function prepareError() {
-        loadingDialog.close();
-      })
-      .then(function uploadSuccess() {
-
+    console.log('upload new version');
+    auxZipUpload(apiAuth.getAuthToken(), projectId, files)
+      .then(function () {
         $translate('project.reloadingProjectData')
           .then(function (message) {
-            loadingDialog.setMessage(message);
+            uiDialogLoading.open({
+              message: message,
+            });
           });
 
-        return $scope.loadProject();
+        return Q.all([
+          $scope.loadProjectIntoScope(),
+          $scope.loadProjectVersionsIntoScope(),
+        ]);
       })
-      .finally(function () {
+      .then(function () {
 
-        // loading state ends
-        loadingDialog.close();
+        uiDialogLoading.close();
+
+      }, function () {
+
+        uiDialogLoading.close();
       })
       .done();
   };
 
+  // /**
+  //  * File updating
+  //  */
+  // $scope.uploadNewVersion = function (files) {
+
+  //   $translate('project.preparingUpload')
+  //     .then(function (message) {
+  //       // loading state starts
+  //       uiDialogLoading.open({ message: message });
+  //     });
+
+  //   auxZipPrepare(files)
+  //     .then(function (zipFile) {
+  //       if (zipFile.size > 52428800) {
+          
+  //         $translate('project.errorSize')
+  //         .then(function (message) {
+  //           // error Dialog opens
+  //           uiDialogError(message);
+  //         });
+
+  //         uiDialogLoading.close();
+
+  //         return;
+  //       }
+
+  //       console.log('zip file generated', zipFile);
+
+  //       $translate('project.uploading')
+  //         .then(function (message) {
+  //           uiDialogLoading.setMessage(message);
+  //         });
+
+  //       var upload = projectAPI.uploadProjectIntoScopeZip(projectId, zipFile);
+
+  //       upload.progress(function (progress) {
+  //         console.log('upload progress ', progress);
+
+  //         progress = parseInt(progress.completed * 100);
+
+  //         // progress %
+  //         uiDialogLoading.setProgress(progress);
+  //         if (progress === 100) {
+  //           $translate('project.finishingUpload')
+  //             .then(function (message) {
+  //               uiDialogLoading.setMessage(message);
+  //             });
+  //         }
+  //       });
+
+  //       return upload;
+
+  //     }, function prepareError() {
+  //       uiDialogLoading.close();
+  //     })
+  //     .then(function uploadSuccess() {
+
+  //       $translate('project.reloadingProjectData')
+  //         .then(function (message) {
+  //           uiDialogLoading.setMessage(message);
+  //         });
+
+  //       return $scope.loadProjectIntoScope();
+  //     })
+  //     .finally(function () {
+
+  //       // loading state ends
+  //       uiDialogLoading.close();
+  //     })
+  //     .done();
+  // };
+
   /**
    * Versioning
-   * @param  {[type]} versionName [description]
+   * @param  {[type]} versionId [description]
    * @return {[type]}             [description]
    */
-  $scope.downloadProjectVersion = function (versionName) {
+  $scope.downloadProjectVersion = function (versionId) {
 
     // loading state starts
-    loadingDialog.open({
+    uiDialogLoading.open({
       message: 'preparing download'
     });
 
-    return projectAPI
-      .generateDownload($scope.project.id, versionName)
-      .then(function (url) {
+    return apiProjectManager
+      .getVersionSignedURL(apiAuth.getAuthToken(), projectId, versionId)
+      .then(function (data) {
 
-        loadingDialog.close();
+        uiDialogLoading.close();
 
         // http://stackoverflow.com/questions/1066452/easiest-way-to-open-a-download-window-without-navigating-away-from-the-page
-        window.location.assign(url);
+        window.location.assign(data.url);
 
       }, function (err) {
+        uiDialogLoading.close();
+
         console.warn('failed to retrieve download url');
       });
   };
 
-  $scope.restoreProjectVersion = function (versionName) {
+  // $scope.restoreProjectVersion = function (versionId) {
 
-    // loading state starts
-    loadingDialog.open({
-      message: 'restoring version ' + versionName
-    });
+  //   // loading state starts
+  //   uiDialogLoading.open({
+  //     message: 'restoring version ' + versionId
+  //   });
 
-    return projectAPI.restoreVersion($scope.project.id, versionName)
-      .then(function (res) {
+  //   return projectAPI.restoreVersion($scope.project.id, versionId)
+  //     .then(function (res) {
 
-        loadingDialog.setMessage('reloading project data');
+  //       uiDialogLoading.setMessage('reloading project data');
 
-        return $scope.loadProject();
-        console.log(res);
-      }, function (err) {
-        console.warn('failed to restore version');
-      })
-      .then(function () {
-        // loading state starts
-        loadingDialog.close();
-      });
-  }
+  //       return $scope.loadProjectIntoScope();
+  //       console.log(res);
+  //     }, function (err) {
+  //       console.warn('failed to restore version');
+  //     })
+  //     .then(function () {
+  //       // loading state starts
+  //       uiDialogLoading.close();
+  //     });
+  // }
   
   $scope.deleteProject = function () {
     ngDialog.open({ 
@@ -230,6 +250,4 @@ project.domains
       scope: $scope,
     });
   }
-
-  $scope.loadProject();
 };

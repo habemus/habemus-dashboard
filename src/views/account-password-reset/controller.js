@@ -1,4 +1,4 @@
-module.exports = /* @ngInject */ function PasswordResetCtrl($scope, $translate, auth) {
+module.exports = /* @ngInject */ function PasswordResetCtrl($scope, $translate, apiAuth) {
 
   $scope.validatePassword = function () {
 
@@ -40,7 +40,7 @@ module.exports = /* @ngInject */ function PasswordResetCtrl($scope, $translate, 
 
       $scope.loading = true;
 
-      auth.changePassword($scope.newPassword)
+      apiAuth.changePassword($scope.newPassword)
         .then(function () {
 
           $scope.loading = false;

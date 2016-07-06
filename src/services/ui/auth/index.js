@@ -1,7 +1,6 @@
-var path = require('path');
 var fs = require('fs');
 
-var template = fs.readFileSync(path.join(__dirname, '../views/beta-password-reset/template.html'), 'utf-8');
+var template = fs.readFileSync(__dirname + '/template.html', 'utf-8');
 
 module.exports = /* @ngInject */ function (ngDialog) {
 
@@ -13,8 +12,9 @@ module.exports = /* @ngInject */ function (ngDialog) {
 
       options = options || {};
 
-      var welcomeMessage = options.welcomeMessage || 'Welcome!';
-      var closeable      = options.closeable || false;
+      var message   = options.message || 'Login';
+      var closeable = options.closeable || false;
+
 
       if (openDialog) {
         return openDialog;
@@ -23,10 +23,11 @@ module.exports = /* @ngInject */ function (ngDialog) {
           template: template,
           plain: true,
           className: 'ngdialog-theme-habemus',
-          controller: require('../views/beta-password-reset/controller'),
+          controller: require('./controller'),
 
           data: {
-            welcomeMessage: welcomeMessage,
+            message: message,
+            email: options.email
           },
 
           // prevent it from being closed by the user

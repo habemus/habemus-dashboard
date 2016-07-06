@@ -1,8 +1,7 @@
 // native
-var path = require('path');
-var fs   = require('fs');
+var fs = require('fs');
 
-var template = fs.readFileSync(path.join(__dirname, '../views/error-dialog/template.html'), 'utf8');
+var template = fs.readFileSync(__dirname + '/template.html', 'utf8');
 
 module.exports = /* @ngInject */ function errorDialogService(ngDialog) {
 

@@ -63,7 +63,7 @@
     </li>
     
     <li ng-repeat="project in currentUserProjects" class="shadow">
-      <div ng-click="navigateToProject(project.objectId)" class="each-project-content">
+      <div ng-click="navigateToProject(project._id)" class="each-project-content">
         <h2>{{ project.name }}</h2>
         <a
           ng-click="$event.stopPropagation();"
