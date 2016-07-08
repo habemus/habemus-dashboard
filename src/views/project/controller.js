@@ -11,24 +11,6 @@ var Q    = require('q');
 var Zip  = require('../../lib/zip');
 
 module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, $translate, apiProjectManager, apiAuth, $timeout, ngDialog, uiDialogError, CONFIG, uiDialogLoading, auxZipPrepare, auxZipUpload, uiIntro) {
-  /**
-   * Setup uiIntro
-   */
-//   $scope.$watch('currentUser', function () {
-// project.domains
-//     var currentUser = $scope.currentUser;
-
-//     if (!currentUser) { return; }
-
-//     // design this so that the uiIntro is only shown when explicitly set
-//     var guideState = currentUser.guideState || {};
-
-//     if (guideState.showProjectIntro) {
-//       uiIntro.project().then(function (uiIntro) {
-//         uiIntro.start();
-//       });
-//     }
-//   });
 
   var projectId = $stateParams.projectId;
   
@@ -54,12 +36,8 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
 
   $scope.loadProjectVersionsIntoScope = function () {
 
-    console.log('loadProjectVersionsIntoScope');
-
     return apiProjectManager.listVersions(apiAuth.getAuthToken(), projectId)
       .then(function (versions) {
-
-        console.log(versions);
         
         $scope.projectVersions = versions;
         
@@ -91,8 +69,6 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
 
 
   $scope.uploadNewVersion = function (files) {
-
-    console.log('upload new version');
     auxZipUpload(apiAuth.getAuthToken(), projectId, files)
       .then(function () {
         $translate('project.reloadingProjectData')
@@ -117,78 +93,6 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
       })
       .done();
   };
-
-  // /**
-  //  * File updating
-  //  */
-  // $scope.uploadNewVersion = function (files) {
-
-  //   $translate('project.preparingUpload')
-  //     .then(function (message) {
-  //       // loading state starts
-  //       uiDialogLoading.open({ message: message });
-  //     });
-
-  //   auxZipPrepare(files)
-  //     .then(function (zipFile) {
-  //       if (zipFile.size > 52428800) {
-          
-  //         $translate('project.errorSize')
-  //         .then(function (message) {
-  //           // error Dialog opens
-  //           uiDialogError(message);
-  //         });
-
-  //         uiDialogLoading.close();
-
-  //         return;
-  //       }
-
-  //       console.log('zip file generated', zipFile);
-
-  //       $translate('project.uploading')
-  //         .then(function (message) {
-  //           uiDialogLoading.setMessage(message);
-  //         });
-
-  //       var upload = projectAPI.uploadProjectIntoScopeZip(projectId, zipFile);
-
-  //       upload.progress(function (progress) {
-  //         console.log('upload progress ', progress);
-
-  //         progress = parseInt(progress.completed * 100);
-
-  //         // progress %
-  //         uiDialogLoading.setProgress(progress);
-  //         if (progress === 100) {
-  //           $translate('project.finishingUpload')
-  //             .then(function (message) {
-  //               uiDialogLoading.setMessage(message);
-  //             });
-  //         }
-  //       });
-
-  //       return upload;
-
-  //     }, function prepareError() {
-  //       uiDialogLoading.close();
-  //     })
-  //     .then(function uploadSuccess() {
-
-  //       $translate('project.reloadingProjectData')
-  //         .then(function (message) {
-  //           uiDialogLoading.setMessage(message);
-  //         });
-
-  //       return $scope.loadProjectIntoScope();
-  //     })
-  //     .finally(function () {
-
-  //       // loading state ends
-  //       uiDialogLoading.close();
-  //     })
-  //     .done();
-  // };
 
   /**
    * Versioning
@@ -217,7 +121,6 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
         console.warn('failed to retrieve download url');
       });
   };
-
   // $scope.restoreProjectVersion = function (versionId) {
 
   //   // loading state starts
@@ -249,5 +152,5 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
       controller: require('../project-delete/controller'),
       scope: $scope,
     });
-  }
+  };
 };

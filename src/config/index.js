@@ -13,4 +13,6 @@ exports.projectAPI = url.parse(cfg.PROJECT_API_LOCATION);
 exports.projectAPI.location = cfg.PROJECT_API_LOCATION;
 
 exports.hAuthURI = 'http://104.196.138.132';
-exports.hProjectManagerURI = 'http://localhost:5000';
+// exports.hProjectManagerURI = 'http://localhost:5000';
+exports.hProjectManagerURI = 'http://104.196.1.248';
+exports.hDevURI = 'http://localhost:5001';

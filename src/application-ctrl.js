@@ -97,7 +97,7 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, apiAuth, $root
     // we can't set focus at this point; the DOM isn't ready for us  
   
     // instead, we define a callback to be called after the $digest loop  
-    $timeout(function(){  
+    $timeout(function() {  
       // once this is executed, our input should be focusable, so find (with jQuery)  
       // whatever is on the page with the autofocus attribute and focus it; fin.  
       $('[autofocus]').focus();  

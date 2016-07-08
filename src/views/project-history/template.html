@@ -11,22 +11,22 @@
       <tr class="table-header">
         <th translate="projectHistory.versionLabel"></th>
         <th translate="projectHistory.versionDeployedAt"></th>
-        <th translate="projectHistory.versionUrl"></th> 
-        <th></th>
+        <!-- <th translate="projectHistory.versionUrl"></th>  -->
+        <!-- <th></th> -->
         <th></th>
       </tr>
       <tr class="table-row-body" ng-repeat="version in projectVersions | orderBy:'+':true">
         <td>{{ version.detail.name }}</td>
         <td>{{ version.createdAt | date : "dd MMM yyyy',' HH:mm" }}</td>
-        <td>
+<!--         <td>
           <a
             target="_blank"
             href="http://{{ version.detail.name }}.{{ project.safeName }}.habemus.website"
             uib-tooltip="{{ 'projectHistory.visitVersion' | translate }}">
             http://{{ version.detail.name }}.{{ project.safeName }}.habemus.website
           </a>
-        </td> 
-        <td class="padding-right">
+        </td>  -->
+<!--         <td class="padding-right">
           <span
             class="restore"
             ng-if="version.detail.name !== project.activeVersion.name"
@@ -40,7 +40,7 @@
             uib-tooltip="{{ 'projectHistory.currentTooltip' | translate }}"
             translate="projectHistory.currentVersion">
           </span>
-        </td>
+        </td> -->
         <td class="download" ng-click="downloadProjectVersion(version._id)">
           <img src="resources/img/icon-download.svg">
           <span
