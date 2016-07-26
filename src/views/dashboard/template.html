@@ -63,12 +63,12 @@
     </li>
     
     <li ng-repeat="project in currentUserProjects" class="shadow">
-      <div ng-click="navigateToProject(project._id)" class="each-project-content">
+      <div ng-click="navigateToProject(project.code)" class="each-project-content">
         <h2>{{ project.name }}</h2>
         <a
           ng-click="$event.stopPropagation();"
-          ng-href="http://{{ project.safeName }}.habemus.website"
-          target="_blank">http://{{ project.safeName }}.habemus.website</a>
+          ng-href="http://{{ project.code }}.habemus.website"
+          target="_blank">http://{{ project.code }}.habemus.website</a>
         <div class="project-preview-img">
           <img
             ng-src="{{ project.activeVersion.screenshotURL }}"

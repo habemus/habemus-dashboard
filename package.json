@@ -41,7 +41,6 @@
   "dependencies": {
     "angular-ui-bootstrap": "^1.0.3",
     "h-auth": "git+ssh://git@bitbucket.org:habemus-tutti/h-auth.git",
-    "h-project-api": "git+ssh://git@bitbucket.org:habemus-tutti/h-project-api.git",
     "h-project-manager": "git+ssh://git@bitbucket.org/habemus-tutti/h-project-manager.git",
     "jszip": "^2.5.0",
     "lodash": "^3.10.1",

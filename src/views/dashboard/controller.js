@@ -29,10 +29,10 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, apiAut
 
   /**
    * Navigate to the visualization of a given project
-   * @param  {String} projectId
+   * @param  {String} projectCode
    */
-  $scope.navigateToProject = function (projectId) {
-    $state.go("project.general", { projectId: projectId });
+  $scope.navigateToProject = function (projectCode) {
+    $state.go("project.general", { projectCode: projectCode });
   };
 
   /**
@@ -65,7 +65,7 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, apiAut
         // upload
         var upload = apiProjectManager.uploadProjectZip(
           apiAuth.getAuthToken(),
-          projectData._id,
+          projectData.code,
           zipFile
         );
 
@@ -99,7 +99,7 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, apiAut
       .then(function (projectData) {
 
         // navigate to the project view
-        $scope.navigateToProject(projectData._id);
+        $scope.navigateToProject(projectData.code);
         
         // loading state ends
         uiDialogLoading.close();

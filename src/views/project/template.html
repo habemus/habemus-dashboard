@@ -2,24 +2,24 @@
   
   <div id="project-menu">
     <ul>
-      <li><a ui-sref="project.general({ projectId: project._id })" 
+      <li><a ui-sref="project.general({ projectCode: project.code })" 
              ui-sref-active="active"
              translate="project.general"
              data-intro-name="habemus-menu-general"
              >geral</a></li>
-      <!-- <li><a ui-sref="project.files({ projectId: project._id })" 
+      <!-- <li><a ui-sref="project.files({ projectCode: project.code })" 
              ui-sref-active="active" translate="project.files">arquivos</a></li> -->
-      <li><a ui-sref="project.history({ projectId: project._id })" 
+      <li><a ui-sref="project.history({ projectCode: project.code })" 
              ui-sref-active="active"
              translate="project.history"
              data-intro-name="habemus-menu-history">histórico</a></li>
-      <!-- <li><a ui-sref="project.domain.info({ projectId: project._id })" 
+      <!-- <li><a ui-sref="project.domain.info({ projectCode: project.code })" 
              ui-sref-active-if="project.domains" 
              translate="project.domain"
              data-intro-name="habemus-menu-domains">domínio</a></li> -->
     </ul>
   </div>
 
-  <div id="project-content" ui-view="tab" ng-show="project._id"></div>
+  <div id="project-content" ui-view="tab" ng-show="project.code"></div>
   
 </div>

@@ -84,7 +84,7 @@ module.exports = function (DASHBOARD) {
     
     $stateProvider.state('project', {
       abstract: true,
-      url: '/projects/:projectId',
+      url: '/projects/:projectCode',
       data: {
         authorizedRoles: ['developer']
       },

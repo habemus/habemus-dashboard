@@ -25,10 +25,10 @@
     <div class="info-container">
       <div class="domains-list">
         <a
-          ng-show="project.safeName"
-          ng-href="{{ 'http://' + project.safeName + '.habemus.website' }}"
+          ng-show="project.code"
+          ng-href="{{ 'http://' + project.code + '.habemus.website' }}"
           target="_blank"
-          data-intro-name="habemus-domain">{{ 'http://' + project.safeName + '.habemus.website' }}</a>
+          data-intro-name="habemus-domain">{{ 'http://' + project.code + '.habemus.website' }}</a>
         <a ng-repeat="record in project.domainRecords | orderBy:'createdAt'" href="http://{{ record.hostname }}" target="_blank">http://{{ record.hostname }}</a>
       </div>
       <div class="actions" data-intro-name="actions">
@@ -46,7 +46,7 @@
         </a>
         
         <a 
-          href="http://localhost:3004/?projectId={{ project._id }}"
+          href="http://localhost:3002/?projectCode={{ project.code }}"
           class="action"
           target="_blank">
           <svg width="11.919px" height="11.918px" viewBox="0 0 11.919 11.918">
@@ -61,7 +61,7 @@
         </a>
         
         <!-- <a id="edit-domain" 
-           ui-sref="project.domain.info({projectId: project.id })"
+           ui-sref="project.domain.info({projectCode: project.id })"
            class="action"
            >
           <svg x="0px" y="0px"

@@ -24,11 +24,7 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, apiAuth, $root
     $translate('sessionExpiredLogin').then(function (message) {
       // normal login
       // open login modal and navigate to the desired state
-      var dialog = uiAuthDialog.open({
-        message: message
-      });
-
-      dialog.closePromise.then(function () {
+      uiAuthDialog.logIn().then(function () {
         $state.go('dashboard');
       });
     });

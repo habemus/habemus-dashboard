@@ -12,7 +12,7 @@ var Zip  = require('../../lib/zip');
 
 module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, $translate, apiProjectManager, apiAuth, $timeout, ngDialog, uiDialogError, CONFIG, uiDialogLoading, auxZipPrepare, auxZipUpload, uiIntro) {
 
-  var projectId = $stateParams.projectId;
+  var projectCode = $stateParams.projectCode;
   
   /**
    * Project data loading
@@ -21,7 +21,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
     // retrieve the requested project
     return apiAuth.getCurrentUser()
       .then(function (user) {
-        return apiProjectManager.getById(apiAuth.getAuthToken(), projectId);
+        return apiProjectManager.getByCode(apiAuth.getAuthToken(), projectCode);
       })
       .then(function (project) {
 
@@ -36,7 +36,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
 
   $scope.loadProjectVersionsIntoScope = function () {
 
-    return apiProjectManager.listVersions(apiAuth.getAuthToken(), projectId)
+    return apiProjectManager.listVersions(apiAuth.getAuthToken(), projectCode)
       .then(function (versions) {
         
         $scope.projectVersions = versions;
@@ -69,7 +69,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
 
 
   $scope.uploadNewVersion = function (files) {
-    auxZipUpload(apiAuth.getAuthToken(), projectId, files)
+    auxZipUpload(apiAuth.getAuthToken(), projectCode, files)
       .then(function () {
         $translate('project.reloadingProjectData')
           .then(function (message) {
@@ -107,7 +107,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams
     });
 
     return apiProjectManager
-      .getVersionSignedURL(apiAuth.getAuthToken(), projectId, versionId)
+      .getVersionSignedURL(apiAuth.getAuthToken(), projectCode, versionId)
       .then(function (data) {
 
         uiDialogLoading.close();

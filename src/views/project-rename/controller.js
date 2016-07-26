@@ -4,7 +4,7 @@ var Q    = require('q');
 
 module.exports = /*@ngInject*/ function RenameProject($stateParams, $scope, $translate, apiProjectManager, apiAuth) {
 
-  var projectId = $stateParams.projectId;
+  var projectCode = $stateParams.projectCode;
 
   $scope.editName = function () {
 
@@ -24,9 +24,9 @@ module.exports = /*@ngInject*/ function RenameProject($stateParams, $scope, $tra
 
     if ($scope.renameDomain) {
       // start the edition by setting safeName
-      editionPromise = apiProjectManager.updateSafeName(
+      editionPromise = apiProjectManager.updateCode(
         apiAuth.getAuthToken(),
-        projectId,
+        projectCode,
         $scope.projectName
       );
     } else {
@@ -36,7 +36,7 @@ module.exports = /*@ngInject*/ function RenameProject($stateParams, $scope, $tra
     editionPromise
       .then(function () {
         // change the project's name
-        return apiProjectManager.update(apiAuth.getAuthToken(), projectId, {
+        return apiProjectManager.update(apiAuth.getAuthToken(), projectCode, {
           name: $scope.projectName
         });
       })
