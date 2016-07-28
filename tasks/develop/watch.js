@@ -1,16 +1,17 @@
-var path = require('path');
+const path = require('path');
 
 // External
-var runSequence = require('run-sequence');
-var browserSync = require('browser-sync');
-var browserify  = require('browserify');
-var watchify    = require('watchify');
-var brfs        = require('brfs');
-var vinylSource = require('vinyl-source-stream');
-var vinylBuffer = require('vinyl-buffer');
-var del         = require('del');
+const runSequence = require('run-sequence');
+const browserSync = require('browser-sync');
+const browserify  = require('browserify');
+const watchify    = require('watchify');
+const brfs        = require('brfs');
+const vinylSource = require('vinyl-source-stream');
+const vinylBuffer = require('vinyl-buffer');
+const del         = require('del');
+const envify      = require('envify/custom');
 
-var config = require('../config');
+const config = require('../config');
 
 module.exports = function (gulp, $) {
 
@@ -20,11 +21,25 @@ module.exports = function (gulp, $) {
    */
   gulp.task('watch:watchify', function () {
 
+    if (!process.env.H_AUTH_URI) {
+      throw new Error('H_AUTH_URI env var MUST be set');
+    }
+
+    if (!process.env.H_PROJECT_MANAGER_URI) {
+      throw new Error('H_PROJECT_MANAGER_URI env var MUST be set');
+    }
+
     // Instantiate watchify
     var w = watchify(browserify({
       entries: ['src/index.js'],
       // transforms
-      transform: [brfs],
+      transform: [
+        brfs,
+        envify({
+          H_AUTH_URI: process.env.H_AUTH_URI,
+          H_PROJECT_MANAGER_URI: process.env.H_PROJECT_MANAGER_URI,
+        })
+      ],
 
       // standalone global object for main module
       standalone: 'habemus'

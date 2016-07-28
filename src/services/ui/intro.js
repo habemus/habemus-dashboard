@@ -1,6 +1,5 @@
 // third party
 var Q = require('q');
-var _ = require('lodash');
 
 var aux = require('../../lib/auxiliary');
 

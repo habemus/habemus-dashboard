@@ -4,10 +4,6 @@
 var path = require('path');
 var fs   = require('fs');
 
-// third-party
-var _    = require('lodash');
-
-
 module.exports = /*@ngInject*/ function tabCtrlDomainDetail($scope, $stateParams, $state, ngDialog, projectAPI, loadingDialog) {
   $scope.domain = $stateParams.domain;
   

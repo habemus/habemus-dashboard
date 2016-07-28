@@ -1,7 +1,11 @@
-var Q     = require('q');
-var _     = require('lodash');
+const Q        = require('q');
+const _flatten = require('lodash.flatten');
 
-var aux = require('../auxiliary');
+const aux = require('../auxiliary');
+
+function _toArray(obj) {
+  return Array.prototype.slice.call(obj, 0);
+}
 
 /**
  * Enforces the FileDataObject interface.
@@ -90,13 +94,13 @@ function _parseDirectoryEntry(directoryEntry, basePath, options) {
 
       if (!results.length) {
         // no more results, 
-        var entryFilePromises = _.map(directorySubEntries, function (subEntry) {
+        var entryFilePromises = directorySubEntries.map(function (subEntry) {
           return _parseWebkitEntry(subEntry, basePath);
         });
 
         Q.all(entryFilePromises)
           .then(function (entryFiles) {
-            defer.resolve(_.flatten(entryFiles));
+            defer.resolve(_flatten(entryFiles));
           }, function (err) {
             defer.reject(err);
           });
@@ -105,7 +109,7 @@ function _parseDirectoryEntry(directoryEntry, basePath, options) {
         // not yet reached the end,
         // add sub entries to the array and
         // continue reading
-        directorySubEntries = directorySubEntries.concat(_.toArray(results));
+        directorySubEntries = directorySubEntries.concat(_toArray(results));
         _readSubEntries();
       }
     }, defer.reject);
@@ -140,7 +144,7 @@ function webkitFromDropEvent(e, filterFn) {
   // variable that holds the root directory of the drop event
   var rootDir = '';
 
-  var parsePromises = _.map(items, function (item) {
+  var parsePromises = items.map(function (item) {
 
     var entry = item.webkitGetAsEntry();
 
@@ -163,11 +167,11 @@ function webkitFromDropEvent(e, filterFn) {
     .then(function (files) {
 
       // flatten deep array
-      files = _.flatten(files);
+      files = _flatten(files);
 
       // check if there is a filter function
       if (typeof filterFn === 'function') {
-        files = _.filter(files, filterFn);
+        files = files.filter(filterFn);
       }
 
       return {

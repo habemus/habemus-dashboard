@@ -1,6 +1,5 @@
 var Q     = require('q');
 var JSZip = require('jszip');
-var _     = require('lodash');
 var Zip   = require('../../lib/zip');
 
 var aux = require('../../lib/auxiliary');

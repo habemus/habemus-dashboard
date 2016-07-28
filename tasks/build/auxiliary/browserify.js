@@ -1,28 +1,43 @@
 // native
-var path = require('path');
+const path = require('path');
 
 // gulp plugins
-var gulp       = require('gulp');
-var gulpUtil   = require('gulp-util');
-var gulpNotify = require('gulp-notify');
-var gulpSize   = require('gulp-size');
+const gulp       = require('gulp');
+const gulpUtil   = require('gulp-util');
+const gulpNotify = require('gulp-notify');
+const gulpSize   = require('gulp-size');
 
 // browserify stuff
-var browserify   = require('browserify');
-var brfs         = require('brfs');
-var vinylSource  = require('vinyl-source-stream');
-var vinylBuffer  = require('vinyl-buffer');
+const browserify   = require('browserify');
+const brfs         = require('brfs');
+const envify       = require('envify/custom');
+const vinylSource  = require('vinyl-source-stream');
+const vinylBuffer  = require('vinyl-buffer');
 
-var config = require('../../config');
+const config = require('../../config');
 
 module.exports = function returnBrowserifyPipe(entry) {
+  if (!process.env.H_AUTH_URI) {
+    throw new Error('H_AUTH_URI env var MUST be set');
+  }
+
+  if (!process.env.H_PROJECT_MANAGER_URI) {
+    throw new Error('H_PROJECT_MANAGER_URI env var MUST be set');
+  }
+
   // Create a gulp stream for the single browserify task
   return browserify({
       // Set the entry option so that it browserifies
       // only one file
       entries: [entry],
       // transforms
-      transform: [brfs],
+      transform: [
+        brfs,
+        envify({
+          H_AUTH_URI: process.env.H_AUTH_URI,
+          H_PROJECT_MANAGER_URI: process.env.H_PROJECT_MANAGER_URI,
+        })
+      ],
 
       // standalone global object for main module
       standalone: 'habemus'

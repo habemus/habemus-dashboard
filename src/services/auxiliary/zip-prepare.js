@@ -1,9 +1,19 @@
 var Q     = require('q');
 var JSZip = require('jszip');
-var _     = require('lodash');
 var Zip   = require('../../lib/zip');
 
 var aux = require('../../lib/auxiliary');
+
+/**
+ * Helper function to loop over object's properties
+ */
+function _loopObject(obj, fn) {
+  for (var prop in obj) {
+    if (obj.hasOwnProperty(prop)) {
+      fn(obj[prop], prop);
+    }
+  }
+}
 
 module.exports = /* @ngInject */ function zipUploadPrepareService(uiDialogError, uiDialogConfirm, $translate) {
 
@@ -97,21 +107,21 @@ module.exports = /* @ngInject */ function zipUploadPrepareService(uiDialogError,
         var finalZip;
 
         // filter out OSInternal files
-        _.each(originalZip.files, function (zipFileObject, filename) {
+        _loopObject(originalZip.files, function (zipFileObject, filename) {
           if (aux.isOSInternalFile(filename)) {
             originalZip.remove(filename);
           }
         });
 
         // attempt to find a common prefix for all files
-        var commonPrefix = aux.commonPrefix(_.keys(originalZip.files));
+        var commonPrefix = aux.commonPrefix(Object.keys(originalZip.files));
         var commonPrefixRegExp = new RegExp('^' + commonPrefix);
 
         if (commonPrefix && originalZip.files[commonPrefix] && originalZip.files[commonPrefix].dir) {
           // there is a common directory, we should create a new zip file
           finalZip = new JSZip();
 
-          _.each(originalZip.files, function (zipFileObject, filename) {
+          _loopObject(originalZip.files, function (zipFileObject, filename) {
 
             if (!zipFileObject.dir) {
               filename = filename.replace(commonPrefixRegExp, '');

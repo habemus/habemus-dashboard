@@ -3,17 +3,9 @@ var path = require('path');
 
 var del         = require('del');
 var runSequence = require('run-sequence');
-var inquirer    = require('inquirer');
-var _           = require('lodash');
 
 var config = require('../config');
-var browserifyPipe = require('./auxiliary/browserify')
-
-var REQUIRED_CONFIGURATIONS = [
-  'PARSE_APPLICATION_ID',
-  'PARSE_JAVASCRIPT_KEY',
-  'PROJECT_API_LOCATION',
-];
+var browserifyPipe = require('./auxiliary/browserify');
 
 module.exports = function (gulp, $) {
 
@@ -35,62 +27,9 @@ module.exports = function (gulp, $) {
   });
 
   /**
-   * Retrieves configuration from the building environment variables
-   * and writes to the configuration file
-   */
-  gulp.task('distribute:config', ['distribute:tmp'], function (done) {
-
-    // load development configurations
-    var devConfig = require('../../src/config/config.json');
-
-    // function that writes the config and finishes the stream
-    function writeConfig(appConfig) {
-      fs.writeFileSync(
-        path.join(config.root, tmpDir, 'config/config.json'),
-        JSON.stringify(appConfig),
-        'utf8'
-      );
-
-      done();
-    }
-
-    // check if required configurations are available in the environment
-    // if so, proceed to writing the file,
-    // otherwise, prompt questions at the user
-    var appConfig = {};
-    var questions = [];
-
-    REQUIRED_CONFIGURATIONS.forEach(function (cfg) {
-      var envValue = process.env[cfg];
-
-      if (envValue) {
-        appConfig[cfg] = envValue;
-      } else {
-        questions.push({
-          name: cfg,
-          message: cfg,
-          // default: devConfig[cfg],
-          // make question required
-          validate: function (value) {
-            return (typeof value !== 'undefined');
-          },
-        });
-      }
-    });
-
-    if (questions.length > 0) {
-      // ask
-      inquirer.prompt(questions, writeConfig);
-    } else {
-      // write
-      writeConfig(appConfig);
-    }
-  });
-
-  /**
    * Browserifies tmp and annotates
    */
-  gulp.task('distribute:javascript', ['distribute:config'], function () {
+  gulp.task('distribute:javascript', ['distribute:tmp'], function () {
     return browserifyPipe(tmpDir + '/index.js')
       .pipe($.ngAnnotate())
       .pipe($.stripDebug())

@@ -5,7 +5,6 @@ var path = require('path');
 var fs   = require('fs');
 
 // third-party
-var _    = require('lodash');
 var Q    = require('q');
 
 module.exports = /*@ngInject*/ function projectDeleteCtrl($scope, $stateParams, $state, $translate, ngDialog, apiAuth, apiProjectManager) {

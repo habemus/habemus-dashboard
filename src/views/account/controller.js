@@ -1,11 +1,8 @@
 'use strict';
 
 // native
-var path = require('path');
-var fs   = require('fs');
-
-// third-party
-var _    = require('lodash');
+const path = require('path');
+const fs   = require('fs');
 
 module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $stateParams, $state, $translate, apiAuth, ngDialog, uiDialogLoading) {
   
