@@ -29,6 +29,14 @@ module.exports = function (gulp, $) {
       throw new Error('H_PROJECT_MANAGER_URI env var MUST be set');
     }
 
+    if (!process.env.HOST_URL) {
+      throw new Error('HOST_URL env var MUST be set');
+    }
+
+    if (!process.env.WORKSPACE_URL) {
+      throw new Error('WORKSPACE_URL env var MUST be set');
+    }
+
     // Instantiate watchify
     var w = watchify(browserify({
       entries: ['src/index.js'],
@@ -38,6 +46,8 @@ module.exports = function (gulp, $) {
         envify({
           H_AUTH_URI: process.env.H_AUTH_URI,
           H_PROJECT_MANAGER_URI: process.env.H_PROJECT_MANAGER_URI,
+          HOST_URL: process.env.HOST_URL,
+          WORKSPACE_URL: process.env.WORKSPACE_URL,
         })
       ],
 

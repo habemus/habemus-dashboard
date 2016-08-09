@@ -1,10 +1,15 @@
 'use strict';
 
-var Q    = require('q');
+var Q = require('q');
 
-module.exports = /*@ngInject*/ function RenameProject($stateParams, $scope, $translate, apiProjectManager, apiAuth) {
+module.exports = /*@ngInject*/ function RenameProject($stateParams, $scope, $translate, $state, apiProjectManager, apiAuth) {
 
-  var projectCode = $stateParams.projectCode;
+  /**
+   * Get the current project code.
+   * It may be modified during the process of renaming
+   * @type {String}
+   */
+  var currentProjectCode = $stateParams.projectCode;
 
   $scope.editName = function () {
 
@@ -26,28 +31,63 @@ module.exports = /*@ngInject*/ function RenameProject($stateParams, $scope, $tra
       // start the edition by setting safeName
       editionPromise = apiProjectManager.updateCode(
         apiAuth.getAuthToken(),
-        projectCode,
+        currentProjectCode,
         $scope.projectName
       );
     } else {
-      editionPromise = Q();
+      // simulate a project object using the currentProjectCode
+      editionPromise = Q.resolve({
+        code: currentProjectCode,
+      });
     }
 
     editionPromise
-      .then(function () {
+      .then(function (projectData) {
+
         // change the project's name
-        return apiProjectManager.update(apiAuth.getAuthToken(), projectCode, {
-          name: $scope.projectName
-        });
+        return apiProjectManager.update(
+          apiAuth.getAuthToken(),
+          projectData.code,
+          {
+            name: $scope.projectName
+          }
+        );
       })
-      .then(function () {
-        $scope.closeThisDialog();
+      .then(function (projectData) {
 
-        $scope.loading = false;
+        console.log('changeddd')
 
-        $scope.$apply();
+        var codeChanged = (currentProjectCode !== projectData.code);
+
+        if (codeChanged) {
+          // projectCode was changed, we have to navigate to a new url
+          $state.go("project.general", { projectCode: projectData.code });
+
+          $scope.closeThisDialog();
+
+          $scope.loading = false;
+
+          $scope.$apply();
+
+        } else {
+          // if no changes were made to the project's code,
+          // simply reload its data
+          // require the loadProjectIntoScope method
+          // to be defined in the scope
+          $scope.loadProjectIntoScope()
+            .then(function () {
+              $scope.closeThisDialog();
+
+              $scope.loading = false;
+
+              $scope.$apply();
+            });
+        }
       })
       .catch(function (err) {
+
+        console.log(err);
+
         // TODO: improve server-side error handling
         $translate('projectRename.serverSideError')
           .then(function (message) {

@@ -14,7 +14,7 @@ module.exports = /*@ngInject*/ function projectDeleteCtrl($scope, $stateParams, 
     if ($scope.projectName === $scope.project.name) {
       $scope.loading = true;
 
-      apiProjectManager.scheduleRemoval(apiAuth.getAuthToken(), $stateParams.projectId)
+      apiProjectManager.scheduleRemoval(apiAuth.getAuthToken(), $stateParams.projectCode)
       .then(function () {
 
         $scope.loading = false;

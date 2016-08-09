@@ -25,6 +25,14 @@ module.exports = function returnBrowserifyPipe(entry) {
     throw new Error('H_PROJECT_MANAGER_URI env var MUST be set');
   }
 
+  if (!process.env.HOST_URL) {
+    throw new Error('HOST_URL env var MUST be set');
+  }
+
+  if (!process.env.WORKSPACE_URL) {
+    throw new Error('WORKSPACE_URL env var MUST be set');
+  }
+
   // Create a gulp stream for the single browserify task
   return browserify({
       // Set the entry option so that it browserifies
@@ -36,6 +44,8 @@ module.exports = function returnBrowserifyPipe(entry) {
         envify({
           H_AUTH_URI: process.env.H_AUTH_URI,
           H_PROJECT_MANAGER_URI: process.env.H_PROJECT_MANAGER_URI,
+          HOST_URL: process.env.HOST_URL,
+          WORKSPACE_URL: process.env.WORKSPACE_URL,
         })
       ],
 
