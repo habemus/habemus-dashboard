@@ -1,10 +1,9 @@
 module.exports = function (DASHBOARD) {
   // api services
-  DASHBOARD.factory('apiAuth', require('./api/auth'));
-  DASHBOARD.factory('apiProjectManager', require('./api/project-manager'));
+  DASHBOARD.factory('apiHProject', require('./api/h-project'));
   
   // ui services
-  DASHBOARD.factory('uiAuthDialog', require('./ui/auth'));
+  DASHBOARD.factory('uiHAccountDialog', require('./ui/h-account'));
 
   DASHBOARD.factory('uiIntro', require('./ui/intro'));
 

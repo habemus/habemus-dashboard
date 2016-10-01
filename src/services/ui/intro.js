@@ -3,7 +3,7 @@ var Q = require('q');
 
 var aux = require('../../lib/auxiliary');
 
-module.exports = /* @ngInject */ function (apiAuth, $rootScope, $compile, $timeout) {
+module.exports = /* @ngInject */ function ($rootScope, $compile, $timeout) {
 
   // saves data about the intro so that it will not appear automatically
   // anymore to the user
@@ -15,9 +15,7 @@ module.exports = /* @ngInject */ function (apiAuth, $rootScope, $compile, $timeo
 
     guideState[prop] = false;
 
-    apiAuth.updateCurrentUserData({
-      guideState: guideState
-    });
+    console.warn('_setAsShown implement');
   };
 
   function _compileStep(step) {

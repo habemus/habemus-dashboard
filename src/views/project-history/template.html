@@ -16,7 +16,7 @@
         <th></th>
       </tr>
       <tr class="table-row-body" ng-repeat="version in projectVersions | orderBy:'+':true">
-        <td>{{ version.detail.name }}</td>
+        <td>{{ version.code }}</td>
         <td>{{ version.createdAt | date : "dd MMM yyyy',' HH:mm" }}</td>
 <!--         <td>
           <a
@@ -41,7 +41,7 @@
             translate="projectHistory.currentVersion">
           </span>
         </td> -->
-        <td class="download" ng-click="downloadProjectVersion(version._id)">
+        <td class="download" ng-click="downloadVersion(version.code, 'src')">
           <img src="resources/img/icon-download.svg">
           <span
             uib-tooltip="{{ 'projectHistory.downloadTooltip' | translate }}"
@@ -54,12 +54,12 @@
  
   <!-- draggable area -->
   <div class="drop-to-new-project-container">
-    <div class="drop-to-new-project" file-drop="uploadNewVersion($files)">
+    <div class="drop-to-new-project" file-drop="createVersion($files)">
       
       <input
         ng-if="browser.isChrome"
         type="file"
-        file-change="uploadNewVersion($files)"
+        file-change="createVersion($files)"
         webkitdirectory
         directory
         multiple>
@@ -68,7 +68,7 @@
         ng-if="!browser.isChrome"
         type="file"
         accept="application/zip"
-        file-change="uploadNewVersion($files)">
+        file-change="createVersion($files)">
 
       <div class="upload-img"></div>
       <h3

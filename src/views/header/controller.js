@@ -1,7 +1,7 @@
 'use strict';
 
 
-module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state, $translate, apiAuth, uiIntro) {
+module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state, $translate, uiHAccountDialog, uiIntro) {
   
   $scope.menuIsOpen = false;
   
@@ -14,7 +14,7 @@ module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state,
   }
   
   $scope.logOut = function () {
-    apiAuth.logOut()
+    uiHAccountDialog.logOut()
       .then(function () {
         window.location.href = "http://habem.us";
       });

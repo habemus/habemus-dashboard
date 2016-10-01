@@ -18,43 +18,7 @@ function _getBetaData() {
   return parsedQs[BETA_DATA_QUERY_PARAM];
 }
 
-module.exports = /* @ngInject */ function ApplicationCtrl($scope, apiAuth, $rootScope, $state, $timeout, $translate, uiAuthDialog) {
-  
-  function _openLogin() {
-    $translate('sessionExpiredLogin').then(function (message) {
-      // normal login
-      // open login modal and navigate to the desired state
-      uiAuthDialog.logIn().then(function () {
-        $state.go('dashboard');
-      });
-    });
-  }
-
-  function _handleAuthStatusChange() {
-    // logged in
-    apiAuth.getCurrentUser()
-      .then(function (user) {
-
-        $scope.setCurrentUser(user);
-      }, function (err) {
-
-        if (err.name === 'NotLoggedIn') {
-          _openLogin();
-        }
-      })
-      .done();
-  }
-  
-  // apiAuthentication
-  apiAuth.on('auth-status-change', _handleAuthStatusChange);
-  _handleAuthStatusChange();
-  
-  $scope.setCurrentUser = function (user) {
-    $rootScope.currentUser = user;
-
-    $rootScope.$apply();
-  };
-
+module.exports = /* @ngInject */ function ApplicationCtrl($scope, $rootScope, $state, $timeout, $translate) {
   ///////////////
   /// HISTORY ///
   

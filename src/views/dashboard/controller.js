@@ -1,31 +1,24 @@
 'use strict';
 
-var fs    = require('fs');
-var path  = require('path');
-
-var Zip   = require('../../lib/zip');
-var JSZip = require('jszip');
-
 // own
 var fileReader = require('../../lib/file-reader');
 
-module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, apiAuth, apiProjectManager, $state, ngDialog, uiDialogLoading, uiDialogError, auxZipPrepare, uiIntro) {
+module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, uiHAccountDialog, apiHProject, $state, uiDialogLoading, uiDialogError, auxZipPrepare, uiIntro) {
 
-  $scope.loadProjectsIntoScope = function () {
-    return apiAuth.getCurrentUser()
-      .then(function (user) {
-        return apiProjectManager.list(apiAuth.getAuthToken());
-      })
+  uiHAccountDialog.ensureUser({
+    ensureEmailVerified: true,
+  })
+  .then(function (user) {
+    return $scope.loadProjects();
+  });
+
+  $scope.loadProjects = function () {
+    return apiHProject.list(uiHAccountDialog.getAuthToken())
       .then(function (projects) {
-        $scope.currentUserProjects = projects;
+        $scope.projects = projects;
         $scope.$apply();
       });
   };
-
-  $scope.loadProjectsIntoScope()
-    .catch(function (err) {
-      console.warn(err);
-    });
 
   /**
    * Navigate to the visualization of a given project
@@ -55,7 +48,7 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, apiAut
 
     projectName = projectName || 'Project';
     
-    apiProjectManager.create(apiAuth.getAuthToken(), { name: projectName })
+    apiHProject.create(uiHAccountDialog.getAuthToken(), { name: projectName })
       .then(function (projectData) {
         $translate('dashboard.uploading')
           .then(function (message) {
@@ -63,13 +56,13 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, apiAut
           });
 
         // upload
-        var upload = apiProjectManager.uploadProjectZip(
-          apiAuth.getAuthToken(),
-          projectData.code,
+        var upload = apiHProject.createVersion(
+          uiHAccountDialog.getAuthToken(),
+          projectData._id,
           zipFile
         );
 
-        upload.progress(function (progress) {
+        upload.on('progress', function (progress) {
           console.log('upload progress ', progress);
 
           progress = parseInt(progress.completed * 100);
@@ -84,7 +77,7 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, apiAut
           }
         });
 
-        return upload.then(function () {
+        return upload.promise.then(function () {
           return projectData;
         });
 
@@ -127,21 +120,6 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, apiAut
    *         as defined by models/file-system/file
    */
   $scope.createProject = function (files, projectName) {
-
-    // explicitly compare with false,
-    // because 'undefined' means that the account 
-    // was created before the email verification was activated
-    if ($scope.currentUser.emailVerified === false) {
-
-      $translate('dashboard.errorUnverifiedEmail')
-        .then(function (message) {
-          uiDialogError(message);
-        });
-
-      uiDialogLoading.close();
-
-      return;
-    }
 
     $translate('dashboard.preparingUpload')
       .then(function (message) {

@@ -7,14 +7,20 @@ var fs   = require('fs');
 // third-party
 var Q    = require('q');
 
-module.exports = /*@ngInject*/ function projectDeleteCtrl($scope, $stateParams, $state, $translate, ngDialog, apiAuth, apiProjectManager) {
+module.exports = /*@ngInject*/ function projectDeleteCtrl($scope, $stateParams, $state, $translate, ngDialog, uiHAccountDialog, apiHProject) {
 
   $scope.verifyAndConfirm = function () {
 
     if ($scope.projectName === $scope.project.name) {
       $scope.loading = true;
 
-      apiProjectManager.scheduleRemoval(apiAuth.getAuthToken(), $stateParams.projectCode)
+      apiHProject.scheduleRemoval(
+        uiHAccountDialog.getAuthToken(),
+        $stateParams.projectCode,
+        {
+          byCode: true
+        }
+      )
       .then(function () {
 
         $scope.loading = false;

@@ -4,9 +4,9 @@ var Zip   = require('../../lib/zip');
 
 var aux = require('../../lib/auxiliary');
 
-module.exports = /* @ngInject */ function zipUploadPrepareService(uiDialogError, uiDialogLoading, $translate, auxZipPrepare, apiProjectManager) {
+module.exports = /* @ngInject */ function zipUploadPrepareService(uiDialogError, uiDialogLoading, $translate, auxZipPrepare, apiHProject) {
 
-  return function (authToken, projectId, files) {
+  return function (authToken, projectIdentifier, files, options) {
 
     $translate('project.preparingUpload')
       .then(function (message) {
@@ -34,9 +34,14 @@ module.exports = /* @ngInject */ function zipUploadPrepareService(uiDialogError,
             uiDialogLoading.setMessage(message);
           });
 
-        var upload = apiProjectManager.uploadProjectZip(authToken, projectId, zipFile);
+        var upload = apiHProject.createVersion(
+          authToken,
+          projectIdentifier,
+          zipFile,
+          options
+        );
 
-        upload.progress(function (progress) {
+        upload.on('progress', function (progress) {
           console.log('upload progress ', progress);
 
           progress = parseInt(progress.completed * 100);
@@ -51,7 +56,7 @@ module.exports = /* @ngInject */ function zipUploadPrepareService(uiDialogError,
           }
         });
 
-        return upload;
+        return upload.promise;
 
       }, function prepareError() {
         uiDialogLoading.close();

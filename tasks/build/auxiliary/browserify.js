@@ -17,12 +17,12 @@ const vinylBuffer  = require('vinyl-buffer');
 const config = require('../../config');
 
 module.exports = function returnBrowserifyPipe(entry) {
-  if (!process.env.H_AUTH_URI) {
-    throw new Error('H_AUTH_URI env var MUST be set');
+  if (!process.env.H_ACCOUNT_URI) {
+    throw new Error('H_ACCOUNT_URI env var MUST be set');
   }
 
-  if (!process.env.H_PROJECT_MANAGER_URI) {
-    throw new Error('H_PROJECT_MANAGER_URI env var MUST be set');
+  if (!process.env.H_PROJECT_URI) {
+    throw new Error('H_PROJECT_URI env var MUST be set');
   }
 
   if (!process.env.HOST_URL) {
@@ -42,8 +42,8 @@ module.exports = function returnBrowserifyPipe(entry) {
       transform: [
         brfs,
         envify({
-          H_AUTH_URI: process.env.H_AUTH_URI,
-          H_PROJECT_MANAGER_URI: process.env.H_PROJECT_MANAGER_URI,
+          H_ACCOUNT_URI: process.env.H_ACCOUNT_URI,
+          H_PROJECT_URI: process.env.H_PROJECT_URI,
           HOST_URL: process.env.HOST_URL,
           WORKSPACE_URL: process.env.WORKSPACE_URL,
         })

@@ -4,7 +4,7 @@
 const path = require('path');
 const fs   = require('fs');
 
-module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $stateParams, $state, $translate, apiAuth, ngDialog, uiDialogLoading) {
+module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $stateParams, $state, $translate, ngDialog, uiDialogLoading) {
   
   /**
    * Object onto which the account data input fields
@@ -22,28 +22,30 @@ module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $statePa
       message: 'saving data'
     });
 
-    apiAuth.updateCurrentUserData({
-      name: $scope.accountData.name
-    })
-    .then(function (updatedUser) {
+    console.warn('updateAccountData');
 
-      $scope.setCurrentUser(updatedUser);
+    // apiAuth.updateCurrentUserData({
+    //   name: $scope.accountData.name
+    // })
+    // .then(function (updatedUser) {
 
-      // reset form
-      $scope.resetAccountFormData();
-      $rootScope.$apply();
+    //   $scope.setCurrentUser(updatedUser);
 
-      uiDialogLoading.close();
-    }, function (err) {
+    //   // reset form
+    //   $scope.resetAccountFormData();
+    //   $rootScope.$apply();
 
-      uiDialogLoading.close();
+    //   uiDialogLoading.close();
+    // }, function (err) {
 
-      $translate('account.updateDataError')
-        .then(function (errorMessage) {
-          $scope.errorMessage = 'failed to update account data, please try again later';
-        });
-    })
-    .done();
+    //   uiDialogLoading.close();
+
+    //   $translate('account.updateDataError')
+    //     .then(function (errorMessage) {
+    //       $scope.errorMessage = 'failed to update account data, please try again later';
+    //     });
+    // })
+    // .done();
   };
 
   /**

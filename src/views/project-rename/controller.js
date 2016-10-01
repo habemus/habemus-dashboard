@@ -2,7 +2,7 @@
 
 var Q = require('q');
 
-module.exports = /*@ngInject*/ function RenameProject($stateParams, $scope, $translate, $state, apiProjectManager, apiAuth) {
+module.exports = /*@ngInject*/ function RenameProject($stateParams, $scope, $translate, $state, apiHProject, uiHAccountDialog) {
 
   /**
    * Get the current project code.
@@ -29,10 +29,13 @@ module.exports = /*@ngInject*/ function RenameProject($stateParams, $scope, $tra
 
     if ($scope.renameDomain) {
       // start the edition by setting safeName
-      editionPromise = apiProjectManager.updateCode(
-        apiAuth.getAuthToken(),
+      editionPromise = apiHProject.updateCode(
+        uiHAccountDialog.getAuthToken(),
         currentProjectCode,
-        $scope.projectName
+        $scope.projectName,
+        {
+          byCode: true,
+        }
       );
     } else {
       // simulate a project object using the currentProjectCode
@@ -45,22 +48,23 @@ module.exports = /*@ngInject*/ function RenameProject($stateParams, $scope, $tra
       .then(function (projectData) {
 
         // change the project's name
-        return apiProjectManager.update(
-          apiAuth.getAuthToken(),
+        return apiHProject.update(
+          uiHAccountDialog.getAuthToken(),
           projectData.code,
           {
             name: $scope.projectName
+          },
+          {
+            byCode: true
           }
         );
       })
       .then(function (projectData) {
 
-        console.log('changeddd')
-
         var codeChanged = (currentProjectCode !== projectData.code);
 
         if (codeChanged) {
-          // projectCode was changed, we have to navigate to a new url
+          // currentProjectCode was changed, we have to navigate to a new url
           $state.go("project.general", { projectCode: projectData.code });
 
           $scope.closeThisDialog();
@@ -72,9 +76,9 @@ module.exports = /*@ngInject*/ function RenameProject($stateParams, $scope, $tra
         } else {
           // if no changes were made to the project's code,
           // simply reload its data
-          // require the loadProjectIntoScope method
+          // require the loadProject method
           // to be defined in the scope
-          $scope.loadProjectIntoScope()
+          $scope.loadProject()
             .then(function () {
               $scope.closeThisDialog();
 
@@ -85,9 +89,7 @@ module.exports = /*@ngInject*/ function RenameProject($stateParams, $scope, $tra
         }
       })
       .catch(function (err) {
-
-        console.log(err);
-
+        
         // TODO: improve server-side error handling
         $translate('projectRename.serverSideError')
           .then(function (message) {

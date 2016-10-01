@@ -40,8 +40,8 @@
     "watchify": "^3.6.0"
   },
   "dependencies": {
-    "h-auth": "git+ssh://git@bitbucket.org:habemus-tutti/h-auth.git",
-    "h-project-manager": "git+ssh://git@bitbucket.org/habemus-tutti/h-project-manager.git",
+    "h-account": "git+ssh://git@bitbucket.org/habemus-tutti/h-account.git",
+    "h-project": "git+ssh://git@bitbucket.org:habemus-tutti/h-project.git",
     "jszip": "^2.5.0",
     "lodash.flatten": "^4.3.0"
   }
