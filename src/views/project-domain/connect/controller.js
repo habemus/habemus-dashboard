@@ -1,9 +1,8 @@
 'use strict';
 
-module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $stateParams, $translate, projectAPI, loadingDialog) {
+module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $stateParams, $translate, apiHWebsite, uiDialogLoading, uiHAccountDialog) {
   // reset error message
   $scope.errorMessage = '';
-  
 
   /**
    * Auxiliary function that validates the domain name on the client side
@@ -22,46 +21,57 @@ module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $s
   }
 
   $scope.saveConnection = function () {
-    var name = $scope.domainName || '';
+    var domain = $scope.domainName || '';
 
     // make sure the registered domain does not start with www
-    name = name.replace(/^www\./, '');
+    domain = domain.replace(/^www\./, '');
     
-    var error = _validateDomainName(name);
+    var error = _validateDomainName(domain);
     
     // validate input
     if (!error) {
 
-      loadingDialog.open({
+      uiDialogLoading.open({
         message: 'connecting'
       });
-      
-      projectAPI.createDomainRecord($scope.project.id, {
-        hostname: name
-      })
-      .then(function (domain) {
 
-        // add to domainRecords owned by the project
-        $scope.project.domainRecords.push(domain);
+      uiHAccountDialog.ensureUser({ ensureEmailVerified: true })
+        .then(function (user) {
 
-        $state.go('project.domain.dns', {
-          inProgress: true,
-          domain: domain
+          return apiHWebsite.createDomainRecord(
+            uiHAccountDialog.getAuthToken(),
+            $scope.project._id,
+            {
+              domain: domain
+            }
+          );
+
+        })
+        .then(function (domain) {
+
+          // add to domainRecords
+          $scope.domainRecords.push(domain);
+
+          $state.go('project.domain.dns', {
+            inProgress: true,
+            domain: domain
+          });
+
+        }, function (err) {
+
+          console.warn(err);
+
+          if (err.code == 142) {
+            $scope.errorMessage = 'este domínio já está cadastrado em nosso sistema. caso você seja o proprietário, por favor entre em contato conosco: suporte@habem.us';
+          } else {
+            $scope.errorMessage = 'ocorrreu um erro :/ por favor tente novamente mais tarde';
+          }
+
+          $scope.$apply();
+        })
+        .finally(function () {
+          uiDialogLoading.close();
         });
-
-      }, function (err) {
-
-        if (err.code == 142) {
-          $scope.errorMessage = 'este domínio já está cadastrado em nosso sistema. caso você seja o proprietário, por favor entre em contato conosco: suporte@habem.us';
-        } else {
-          $scope.errorMessage = 'ocorrreu um erro :/ por favor tente novamente mais tarde';
-        }
-
-        $scope.$apply();
-      })
-      .finally(function () {
-        loadingDialog.close();
-      });
       
     } else {
 

@@ -1,7 +1,13 @@
 'use strict';
 
+/**
+ * Refresh statuses every 5 seconds
+ * @type {Number}
+ */
+const STATUS_REFRESH_INTERVAL = 5000;
 
-module.exports = /*@ngInject*/ function pHistoryCtrl($scope, $stateParams, $translate, uiHAccountDialog, uiDialogLoading, apiHProject, auxZipUpload) {
+
+module.exports = /*@ngInject*/ function pHistoryCtrl($scope, $interval, $stateParams, $translate, uiHAccountDialog, uiDialogLoading, apiHProject, auxZipUpload) {
 
   uiHAccountDialog.ensureUser({ ensureEmailVerified: true })
     .then(function (user) {
@@ -9,11 +15,39 @@ module.exports = /*@ngInject*/ function pHistoryCtrl($scope, $stateParams, $tran
     });
 
   /**
+   * Set an interval to check if any version has its buildStatus is at 'scheduled' status
+   * If so, refresh the projectVersions.
+   */
+  var buildStatusCheckIntervalId = $interval(function checkBuildStatuses() {
+
+    if (!$scope.projectVersions) {
+      return;
+    }
+
+    var hasVersionAtBuildScheduled = $scope.projectVersions.some(function (version) {
+      return version.buildStatus.value === 'scheduled';
+    });
+
+    if (hasVersionAtBuildScheduled) {
+      $scope.loadProjectVersions();
+    } else {
+      return;
+    }
+
+  }, STATUS_REFRESH_INTERVAL);
+
+  $scope.$on('$destroy', function() {
+    $interval.cancel(buildStatusCheckIntervalId);
+  });
+
+  /**
    * Loads the current project's versions into scope
    * 
    * @return {Promise}
    */
   $scope.loadProjectVersions = function () {
+
+    $scope.loading = true;
 
     return apiHProject.listVersions(
         uiHAccountDialog.getAuthToken(),
@@ -24,8 +58,14 @@ module.exports = /*@ngInject*/ function pHistoryCtrl($scope, $stateParams, $tran
       )
       .then(function (versions) {
         $scope.projectVersions = versions;
+        $scope.loading = false;
         
         $scope.$apply();
+      })
+      .catch(function (err) {
+        $scope.loading = false;
+
+        throw err;
       });
   };
 

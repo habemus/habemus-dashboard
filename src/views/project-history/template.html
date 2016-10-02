@@ -4,6 +4,8 @@
     <img class="arrow-right" src="resources/img/arrow-right.svg">  
     <span class="project-name" ng-click="editNameOfProject()">{{ project.name }} </span> 
     <span class="section-name">(<span translate="projectHistory.history"></span>)</span>
+
+    <span ng-show="loading">loading</span>
   </h1>
   
   <div class="main-content">
@@ -14,6 +16,7 @@
         <!-- <th translate="projectHistory.versionUrl"></th>  -->
         <!-- <th></th> -->
         <th></th>
+        <th>status</th>
       </tr>
       <tr class="table-row-body" ng-repeat="version in projectVersions | orderBy:'+':true">
         <td>{{ version.code }}</td>
@@ -41,12 +44,23 @@
             translate="projectHistory.currentVersion">
           </span>
         </td> -->
-        <td class="download" ng-click="downloadVersion(version.code, 'src')">
-          <img src="resources/img/icon-download.svg">
-          <span
-            uib-tooltip="{{ 'projectHistory.downloadTooltip' | translate }}"
-            translate="projectHistory.downloadVersion">
-          </span>
+        <td>
+          <button class="download" ng-click="downloadVersion(version.code, 'src')">
+            <img src="resources/img/icon-download.svg">
+            <span
+              uib-tooltip="{{ 'projectHistory.downloadTooltip' | translate }}"
+              translate="projectHistory.downloadVersion">
+            </span>
+          </button>
+          <button ng-show="version.buildStatus.value === 'succeeded'" class="download" ng-click="downloadVersion(version.code, 'dist')">
+            <img src="resources/img/icon-download.svg">
+            <span>
+              download dist
+            </span>
+          </button>
+        </td>
+        <td>
+          {{ version.buildStatus.value }}
         </td>
       </tr>
     </table>

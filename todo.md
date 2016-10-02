@@ -1,1 +1,2 @@
 - move src/lib/file-reader out
+- implement method caching for api methods
