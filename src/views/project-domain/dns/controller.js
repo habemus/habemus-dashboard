@@ -2,7 +2,7 @@
 
 var INTERVAL_TIME = 10000;
 
-module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, $interval, projectAPI, loadingDialog) {
+module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, $interval, apiHWebsite, uiHAccountDialog, uiDialogLoading) {
   
   /**
    * Var to hold reference to the interval that checks for domain status
@@ -16,100 +16,89 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
   $scope.inProgress = $stateParams.inProgress;
 
   /**
-   * List of dnsRecords and their respective data and statuses
+   * List of targetDNSRecords and their respective data and statuses
    * @type {Array}
    */
-  $scope.dnsRecords = [];
-  
-  $scope.copySuccess = function () {
-    console.log('copied');
-  };
+  $scope.targetDNSRecords = [];
 
-  $scope.copyError = function (err) {
-    console.log(err);
-    console.log('copy error');
-  };
-
-  $scope.domainRecord = $stateParams.domain;
+  $scope.domainRecord = $stateParams.domainRecord;
 
   /**
    * Method for loading data on the dns configuration statuses
    * @return {[type]} [description]
    */
-  $scope.loadDomainDnsConfigurations = function () {
+  $scope.verifyDomainRecord = function () {
     
     $scope.verifying = true;
     
-    projectAPI
-      .verifyDomainRecord($scope.project.id, $stateParams.domain.objectId)
+    apiHWebsite
+      .verifyDomainRecord(
+        uiHAccountDialog.getAuthToken(),
+        $scope.domainRecord.projectId,
+        $stateParams.domainRecord._id
+      )
       .then(function (domainRecord) {
 
-        $scope.dnsRecords = [];
+        $scope.targetDNSRecords = [];
 
-        var aggregateCheckStatus = domainRecord.verificationStatus_;
-
-        if (aggregateCheckStatus.verification === 1) {
-
-          $scope.inProgress = false;
-          $interval.cancel(CHECK_INTERVAL);
-        } else {
-          $scope.inProgress = true;
-        }
-
-        domainRecord.targetConfigurations_.dnsRecords.forEach(function (recordGroup) {
-
-          var HACK_MAP = {
-            // recordType: kind
-            TXT: 'verification',
-            A: 'A',
-            CNAME: 'CNAME'
-          };
-
-          console.log(recordGroup);
-
-          recordGroup.targetValues.forEach(function (v) {
-            $scope.dnsRecords.push({
-              type: recordGroup.type,
-              value: v.value,
-
-              // this is not perfect: TODO adapt for better compatibility
-              actualValue: recordGroup.actualValues ? recordGroup.actualValues[0] : undefined,
-              required: v.required,
-              status: recordGroup.status,
-              host: recordGroup.host,
-
-              stability: aggregateCheckStatus[HACK_MAP[recordGroup.type]]
-            });
-          });
-
+        // verification code TXT
+        var _txtPartials = domainRecord.verification.computedPartialResults.txt || {
+          active: false,
+          score: 0,
+        };
+        $scope.targetDNSRecords.push({
+          type: 'TXT',
+          host: domainRecord.verification.subdomain,
+          targetValue: domainRecord.verification.code,
+          active: _txtPartials.active,
+          score: _txtPartials.score,
         });
 
-        // configs.records.forEach(function (record) {
-        //   if (record.status === 'pending') {
-        //     $scope.inProgress = true;
-        //   }
-        // });
-        setTimeout(function() {
-          $scope.verifying = false;
-          
-          // $scope.dnsRecords = configs.records;      
-          $scope.$apply();
-        }, 1000);
+        domainRecord.ipAddresses.forEach((ipAddress) => {
+          var _ipv4Partials = domainRecord.verification.computedPartialResults.ipv4 || {
+            active: false,
+            score: 0,
+          }
+          $scope.targetDNSRecords.push({
+            type: 'A',
+            host: '@',
+            targetValue: ipAddress,
+            active: _ipv4Partials.active,
+            score: _ipv4Partials.score,
+          });
+        });
+
+        if (domainRecord.enableWwwAlias) {
+          var _cnamePartials = domainRecord.verification.computedPartialResults.cname || {
+            active: false,
+            score: 0
+          };
+          $scope.targetDNSRecords.push({
+            type: 'CNAME',
+            host: 'www',
+            targetValue: domainRecord.domain,
+            active: _cnamePartials.active,
+            score: _cnamePartials.score,
+          });
+        }
+
+        $scope.verifying = false;
+        $scope.$apply();
 
       }, function (err) {
         console.warn(err);
 
-        loadingDialog.close();
+        uiDialogLoading.close();
       })
       .done();
   };
 
   // start
-  $scope.loadDomainDnsConfigurations();
+  $scope.verifyDomainRecord();
 
   CHECK_INTERVAL = $interval(function () {
 
-    $scope.loadDomainDnsConfigurations();
+    $scope.verifyDomainRecord();
   }, INTERVAL_TIME);
 
   $scope.$on('$destroy', function () {

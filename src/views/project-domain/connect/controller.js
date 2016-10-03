@@ -47,14 +47,14 @@ module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $s
           );
 
         })
-        .then(function (domain) {
+        .then(function (domainRecord) {
 
           // add to domainRecords
-          $scope.domainRecords.push(domain);
+          $scope.domainRecords.push(domainRecord);
 
           $state.go('project.domain.dns', {
             inProgress: true,
-            domain: domain
+            domainRecord: domainRecord
           });
 
         }, function (err) {

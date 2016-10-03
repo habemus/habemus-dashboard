@@ -1,13 +1,13 @@
 'use strict';
 
 
-module.exports = /*@ngInject*/ function ($scope, $translate, $stateParams, loadingDialog, projectAPI) {
+module.exports = /*@ngInject*/ function ($scope, $translate, $state, $stateParams, uiHAccountDialog, uiDialogLoading, apiHProject) {
   
-  $scope.setProjectSafeName = function () {
+  $scope.updateCode = function () {
 
-    var newSafeName = $scope.newSafeName;
+    var newCode = $scope.newCode;
 
-    if (!newSafeName) {
+    if (!newCode) {
       $translate('projectDomain.rename.safeNameRequired')
         .then(function (message) {
           $scope.error = message;
@@ -16,37 +16,45 @@ module.exports = /*@ngInject*/ function ($scope, $translate, $stateParams, loadi
       return;
     }
 
-    if (newSafeName === $scope.project.safeName) {
+    if (newCode === $scope.project.code) {
       return;
     }
 
     $translate('projectDomain.rename.renaming')
       .then(function (message) {
-        loadingDialog.open({
+        uiDialogLoading.open({
           message: message,
         });
       })
 
-    projectAPI.setProjectSafeName($scope.project.id, newSafeName)
-      .then(function (res) {
+    apiHProject.updateCode(
+      uiHAccountDialog.getAuthToken(),
+      $scope.project.code,
+      newCode,
+      {
+        byCode: true
+      }
+    )
+    .then(function (projectData) {
 
-        // clear newSafeName
-        $scope.newSafeName = '';
+      // clear newCode
+      $scope.newCode = '';
+      $scope.$apply();
 
-        return $scope.loadProject();
+      // code was changed, we have to navigate to a new url
+      $state.go('project.domain.rename', { projectCode: projectData.code });
 
-        console.log('success', res);
-      }, function (err) {
+    }, function (err) {
 
-        loadingDialog.close();
+      uiDialogLoading.close();
 
-        $translate('projectDomain.rename.serverError')
-          .then(function (message) {
-            $scope.error = message;
-          })
-      })
-      .then(function () {
-        loadingDialog.close();
-      });
+      $translate('projectDomain.rename.serverError')
+        .then(function (message) {
+          $scope.error = message;
+        })
+    })
+    .then(function () {
+      uiDialogLoading.close();
+    });
   };
 };

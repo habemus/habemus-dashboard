@@ -23,6 +23,8 @@ module.exports = /*@ngInject*/ function tabCtrlDomain($scope, $stateParams, apiH
     })
     .then(function (domainRecords) {
       $scope.domainRecords = domainRecords;
+
+      $scope.$apply();
     });
   };
   

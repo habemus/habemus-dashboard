@@ -4,7 +4,7 @@
     <polyline fill="none" stroke="#6D6D6D" stroke-miterlimit="10" points="10.315,2.602 0.96,12.14 10.315,21.678 			"/>
     <line fill="none" stroke="#6D6D6D" stroke-miterlimit="10" x1="0.96" y1="12.141" x2="23.478" y2="12.141"/>
   </svg>
-  <p>{{ domainRecord.hostname }}</p>
+  <p>{{ domainRecord.domain }}</p>
 </div>
 
 <div class="progress-text margin-bottom" ng-show="inProgress">
@@ -45,13 +45,13 @@
       </span>
     </th>
   </tr>
-  <tr class="table-row-body" ng-repeat="dnsRecord in dnsRecords">
-    <td>{{ dnsRecord.host || '@' }}</td>
-    <td>{{ dnsRecord.type }}</td> 
+  <tr class="table-row-body" ng-repeat="targetDNSRecord in targetDNSRecords">
+    <td>{{ targetDNSRecord.host || '@' }}</td>
+    <td>{{ targetDNSRecord.type }}</td> 
     <td>
       <button
         clipboard
-        text="dnsRecord.value"
+        text="targetDNSRecord.targetValue"
         on-copied="copySuccess()"
         on-error="copyFail(err)">
         {{ 'projectDomain.dns.copy' | translate }}
@@ -60,21 +60,21 @@
     <td>
       <span
         uib-tooltip="{{ 'projectDomain.dns.requiredRecordDataTooltip' | translate }}">
-        {{ dnsRecord.value }}
+        {{ targetDNSRecord.targetValue }}
       </span>
     </td>
-    <td ng-class="{ pending: dnsRecord.status == 'pending'  }">
-      {{ dnsRecord.actualValue }}
-      {{ ('projectDomain.dns.' + (dnsRecord.status || 'pending')) | translate }}
+    <td ng-class="{ pending: !targetDNSRecord.active  }">
+      {{ targetDNSRecord.currentValue }}
+      {{ ('projectDomain.dns.' + (targetDNSRecord.active ? 'completed' : 'pending')) | translate }}
     </td>
-    <td>{{ dnsRecord.stability || 0 }}</td>
+    <td>{{ targetDNSRecord.score || 0 }}</td>
   </tr>
 </table>
 
 <div class="dns-buttons">
   <div>
-    <div ng-if="inProgress" class="button secundary" ng-click="loadDomainDnsConfigurations()" translate="projectDomain.dns.testConnection"></div>
-    <a ng-if="!inProgress" target="_blank" href="http://{{ domainRecord.hostname }}">
+    <div ng-if="domainRecord.status.value !== 'verified'" class="button secundary" ng-click="verifyDomainRecord()" translate="projectDomain.dns.testConnection"></div>
+    <a ng-if="domainRecord.status.value === 'verified'" target="_blank" href="http://{{ domainRecord.hostname }}">
       <div class="button secundary" translate="projectDomain.dns.testConnection"></div>
     </a>
   </div>

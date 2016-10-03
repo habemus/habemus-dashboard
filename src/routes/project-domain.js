@@ -44,7 +44,7 @@ module.exports = function (DASHBOARD) {
         authorizedRoles: ['developer']
       },
       params: {
-        domain: null
+        domainRecord: null
       },
       views: {
         tabContent: {
@@ -66,7 +66,7 @@ module.exports = function (DASHBOARD) {
       },
       params: {
         inProgress: null,
-        domain: null,
+        domainRecord: null,
       },
     });
     
@@ -94,7 +94,7 @@ module.exports = function (DASHBOARD) {
       },
       params: {
         inProgress: null,
-        domain: null,
+        domainRecord: null,
       },
     });
 

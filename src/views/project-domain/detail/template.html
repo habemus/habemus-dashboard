@@ -7,7 +7,7 @@
   <p translate="projectDomain.detail.title">editar domínio</p>
 </div>
 
-<a href="http://{{ domain.hostname }}" target="_blank" class="">http://{{ domain.hostname }}</a>
+<a href="http://{{ domainRecord.domain }}" target="_blank" class="">http://{{ domainRecord.domain }}</a>
 
 <div class="max-width">
   <div class="margin-bottom">
@@ -15,7 +15,12 @@
     <p translate="projectDomain.detail.p2">Administrado por um provedor de domínios externo.</p>
   </div>
 
-  <div class="button secundary centered margin-bottom" ui-sref="project.domain.dns({ domain: domain, inProgress: false })" translate="projectDomain.detail.viewSettings">ver configurações DNS</div>
+  <div
+    class="button secundary centered margin-bottom"
+    ui-sref="project.domain.dns({ domainRecord: domainRecord, inProgress: false })"
+    translate="projectDomain.detail.viewSettings">
+    ver configurações DNS
+  </div>
 
   <div class="button secundary centered margin-bottom" ng-click="disconnectDomain()" translate="projectDomain.detail.disconnectDomain">desconectar domínio personalizado</div>
 </div>
