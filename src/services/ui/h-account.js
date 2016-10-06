@@ -1,5 +1,5 @@
 // habemus
-const HAccountDialog = require('h-account/client/browser/ui/dialog');
+const HAccountDialog = require('h-account-client/browser/ui/dialog');
 
 module.exports = /* @ngInject */ function (CONFIG) {
 
