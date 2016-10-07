@@ -15,11 +15,7 @@ function _joinPath(part1, part2) {
   return part1.replace(TRAILING_RE, '') + '/' + part2.replace(STARTING_RE, '');
 }
 
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, $rootScope, $translate, apiHProject, uiHAccountDialog, ngDialog, CONFIG, uiDialogLoading, auxZipPrepare, auxZipUpload, uiIntro) {
-
-  if (!CONFIG.workspaceURL) {
-    throw new Error('workspaceURL is required');
-  }
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, $rootScope, $translate, apiHProject, apiHWorkspace, uiHAccountDialog, ngDialog, CONFIG, uiDialogLoading, auxZipPrepare, auxZipUpload, uiIntro) {
 
   if (!CONFIG.hostURL) {
     throw new Error('hostURL is required');
@@ -28,6 +24,9 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, $rootS
   uiHAccountDialog.ensureUser({ ensureEmailVerified: true })
     .then(function (user) {
       return $scope.loadProject();
+    })
+    .then(function (project) {
+      return $scope.ensureWorkspaceReady();
     });
 
   /**
@@ -46,9 +45,6 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, $rootS
 
       $scope.project = project;
 
-      // // set project's urls
-      // $scope.projectWorkspaceURL = _joinPath(CONFIG.workspaceURL, project.code); 
-
       var parsedHostURL = url.parse(CONFIG.hostURL);
       parsedHostURL.host = project.code + '.' + parsedHostURL.host;
       $scope.projectHostURL = url.format(parsedHostURL);
@@ -57,8 +53,30 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, $rootS
       $rootScope.pageTitle = project.name;
 
       $scope.$apply();
+
+      return project;
     });
   };
+
+  $scope.ensureWorkspaceReady = function () {
+
+    return $scope.loadProject()
+      .then(function (project) {
+        return apiHWorkspace.ensureReady(
+          uiHAccountDialog.getAuthToken(),
+          project._id
+        );
+      })
+      .then(function (workspace) {
+        $scope.workspace = workspace;
+
+        $scope.$apply();
+
+        return workspace;
+      });
+
+  };
+
   // $scope.restoreProjectVersion = function (versionId) {
 
   //   // loading state starts

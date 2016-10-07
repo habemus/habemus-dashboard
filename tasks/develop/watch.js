@@ -33,12 +33,12 @@ module.exports = function (gulp, $) {
       throw new Error('H_WEBSITE_URI env var MUST be set');
     }
 
-    if (!process.env.HOST_URL) {
-      throw new Error('HOST_URL env var MUST be set');
+    if (!process.env.H_WORKSPACE_URI) {
+      throw new Error('H_WORKSPACE_URI env var MUST be set');
     }
 
-    if (!process.env.WORKSPACE_URL) {
-      throw new Error('WORKSPACE_URL env var MUST be set');
+    if (!process.env.HOST_URL) {
+      throw new Error('HOST_URL env var MUST be set');
     }
 
     // Instantiate watchify
@@ -52,7 +52,7 @@ module.exports = function (gulp, $) {
           H_PROJECT_URI: process.env.H_PROJECT_URI,
           H_WEBSITE_URI: process.env.H_WEBSITE_URI,
           HOST_URL: process.env.HOST_URL,
-          WORKSPACE_URL: process.env.WORKSPACE_URL,
+          H_WORKSPACE_URI: process.env.H_WORKSPACE_URI,
         })
       ],
 
