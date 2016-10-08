@@ -79,54 +79,15 @@ DASHBOARD.config(function ($translateProvider) {
   
 });
 
-// verify authentication on statechange
-DASHBOARD.run(function ($rootScope, $state, $location, AUTH_EVENTS, ngDialog) {
-  // /**
-  //  * Browser data
-  //  * @type {Object}
-  //  */
-  // $rootScope.browser = {};
-  // $rootScope.browser.isChrome = aux.isChrome();
-
-  // $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-
-  //   if (toState.data && toState.data.authorizedRoles) {
-  //     var authorizedRoles = toState.data.authorizedRoles;
-
-  //     if (apiAuth.status !== 'logged_in') {     
-  //       // event.preventDefault();
-  //       // user is not logged in
-  //       $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-  //     }
-
-  //     // if (!auth.isAuthorized(authorizedRoles)) {
-  //     //   event.preventDefault();
-  //     //   if (auth.isAuthenticated()) {
-  //     //     // user is not allowed
-  //     //     $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-  //     //   } else {
-
-  //     //     auth.handleSessionReset();
-
-  //     //     // user is not logged in
-  //     //     $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-  //     //   }
-  //     // }
-  //   }
-
-  //   // no authorization config set, thus simply continue
-  // });
-});
-
 DASHBOARD.controller('ApplicationCtrl', require('./application-ctrl'));
 
 
 /**
  * Directives
  */
-// require('./directives/file-navigator/file-navigator')(DASHBOARD);
 require('./directives/file-drop/file-drop')(DASHBOARD);
 require('./directives/file-change/file-change')(DASHBOARD);
+require('./directives/svg-icon')(DASHBOARD);
 
 // http://stackoverflow.com/questions/16310298/if-a-ngsrc-path-resolves-to-a-404-is-there-a-way-to-fallback-to-a-default
 DASHBOARD.directive('errSrc', function() {

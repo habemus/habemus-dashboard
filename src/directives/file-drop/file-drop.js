@@ -6,9 +6,9 @@ var FD_TARGET_CLASS = 'file-drop-target';
 var fileReader = require('../../lib/file-reader');
 var aux        = require('../../lib/auxiliary');
 
-module.exports = function (module) {
+module.exports = function (MOD) {
 
-  module.directive('fileDropContainer', function ($document) {
+  MOD.directive('fileDropContainer', function ($document) {
 
     return {
       restrict: 'A',
@@ -63,7 +63,7 @@ module.exports = function (module) {
     }
   });
 
-  module.directive('fileDrop', function () {
+  MOD.directive('fileDrop', function () {
 
     return {
       restrict: 'A',

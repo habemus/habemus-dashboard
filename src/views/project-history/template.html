@@ -13,7 +13,7 @@
       <tr class="table-header">
         <th translate="projectHistory.versionLabel"></th>
         <th translate="projectHistory.versionDeployedAt"></th>
-        <!-- <th translate="projectHistory.versionUrl"></th>  -->
+        <th translate="projectHistory.versionUrl"></th> 
         <!-- <th></th> -->
         <th></th>
         <th>status</th>
@@ -21,14 +21,14 @@
       <tr class="table-row-body" ng-repeat="version in projectVersions | orderBy:'+':true">
         <td>{{ version.code }}</td>
         <td>{{ version.createdAt | date : "dd MMM yyyy',' HH:mm" }}</td>
-<!--         <td>
+        <td>
           <a
             target="_blank"
-            href="http://{{ version.detail.name }}.{{ project.safeName }}.habemus.website"
+            href="{{ project.code | urlWebsiteHabemusDomain: version.code }}"
             uib-tooltip="{{ 'projectHistory.visitVersion' | translate }}">
-            http://{{ version.detail.name }}.{{ project.safeName }}.habemus.website
+            {{ project.code | urlWebsiteHabemusDomain: version.code }}
           </a>
-        </td>  -->
+        </td> 
 <!--         <td class="padding-right">
           <span
             class="restore"

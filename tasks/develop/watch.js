@@ -130,7 +130,7 @@ module.exports = function (gulp, $) {
   gulp.task('serve:develop', function () {
     var bs = browserSync({
       ghostMode: false,
-      port: process.env.DASHBOARD_PORT || 3000,
+      port: process.env.DASHBOARD_PORT,
       server: {
         baseDir: './',
         routes: {
