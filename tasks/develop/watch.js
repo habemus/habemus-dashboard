@@ -21,44 +21,52 @@ module.exports = function (gulp, $) {
    */
   gulp.task('watch:watchify', function () {
 
-    if (!process.env.H_ACCOUNT_URI) {
-      throw new Error('H_ACCOUNT_URI env var MUST be set');
-    }
+    // apis
+    if (!process.env.H_ACCOUNT_URI) { throw new Error('H_ACCOUNT_URI env var MUST be set'); }
+    if (!process.env.H_PROJECT_URI) { throw new Error('H_PROJECT_URI env var MUST be set'); }
+    if (!process.env.H_WEBSITE_URI) { throw new Error('H_WEBSITE_URI env var MUST be set'); }
+    if (!process.env.H_WORKSPACE_URI) { throw new Error('H_WORKSPACE_URI env var MUST be set'); }
 
-    if (!process.env.H_PROJECT_URI) {
-      throw new Error('H_PROJECT_URI env var MUST be set');
-    }
+    // hosts
+    if (!process.env.WEBSITE_HOST) { throw new Error('WEBSITE_HOST env var MUST be set'); }
 
-    if (!process.env.H_WEBSITE_URI) {
-      throw new Error('H_WEBSITE_URI env var MUST be set');
-    }
+    // only in development:
+    if (!process.env.UI_WORKSPACE_URI) { throw new Error('UI_WORKSPACE_URI env var MUST be set'); }
+    if (!process.env.H_WEBSITE_SERVER_URI) { throw new Error('H_WEBSITE_SERVER_URI env var MUST be set'); }
 
-    if (!process.env.H_WORKSPACE_URI) {
-      throw new Error('H_WORKSPACE_URI env var MUST be set');
-    }
-
-    if (!process.env.HOST_URL) {
-      throw new Error('HOST_URL env var MUST be set');
-    }
-
-    // Instantiate watchify
-    var w = watchify(browserify({
+    // instantiate browserify
+    var b = browserify({
       entries: ['src/index.js'],
       // transforms
       transform: [
         brfs,
         envify({
+          // apis
           H_ACCOUNT_URI: process.env.H_ACCOUNT_URI,
           H_PROJECT_URI: process.env.H_PROJECT_URI,
           H_WEBSITE_URI: process.env.H_WEBSITE_URI,
-          HOST_URL: process.env.HOST_URL,
           H_WORKSPACE_URI: process.env.H_WORKSPACE_URI,
+
+          // hosts
+          WEBSITE_HOST: process.env.WEBSITE_HOST,
+
+          // exposed only in development:
+          UI_WORKSPACE_URI: process.env.UI_WORKSPACE_URI,
+          H_WEBSITE_SERVER_URI: process.env.H_WEBSITE_SERVER_URI,
         })
       ],
 
       // standalone global object for main module
       standalone: 'habemus'
-    }));
+    });
+
+    // inject modules for development environment
+    b.require('./injected/development/habemus-dashboard-urls', {
+      expose: 'habemus-dashboard-urls'
+    });
+
+    // Instantiate watchify
+    var w = watchify(b);
 
     // set brfs transform
     w.transform(brfs);
@@ -113,7 +121,7 @@ module.exports = function (gulp, $) {
     // LESS
     gulp.watch(config.srcDir + '/**/*.less', ['less']);
     gulp.watch(config.srcDir + '/**/*.css')
-      .on('change', browserSync.reload);
+      .on('change', browserSync.reload);   
   });
 
   /**
@@ -122,7 +130,7 @@ module.exports = function (gulp, $) {
   gulp.task('serve:develop', function () {
     var bs = browserSync({
       ghostMode: false,
-      port: 3000,
+      port: process.env.DASHBOARD_PORT || 3000,
       server: {
         baseDir: './',
         routes: {

@@ -16,4 +16,8 @@ module.exports = function (DASHBOARD) {
 
   DASHBOARD.factory('auxZipPrepare', require('./auxiliary/zip-prepare'));
   DASHBOARD.factory('auxZipUpload', require('./auxiliary/zip-upload'));
+
+  // special service that MUST be injected during build.
+  // urls vary for development and production environment
+  DASHBOARD.factory('auxUrls', require('habemus-dashboard-urls'));
 };

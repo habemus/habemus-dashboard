@@ -31,9 +31,9 @@
       <div class="domains-list">
         <a
           ng-show="project.code"
-          ng-href="{{ projectHostURL }}"
+          ng-href="{{ project.code | urlWebsiteHabemusDomain }}"
           target="_blank"
-          data-intro-name="habemus-domain">{{ projectHostURL }}</a>
+          data-intro-name="habemus-domain">{{ project.code | urlWebsiteHabemusDomain }}</a>
         <a ng-repeat="record in project.domainRecords | orderBy:'createdAt'" href="http://{{ record.hostname }}" target="_blank">http://{{ record.hostname }}</a>
       </div>
       <div class="actions" data-intro-name="actions">

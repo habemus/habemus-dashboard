@@ -17,24 +17,17 @@ const vinylBuffer  = require('vinyl-buffer');
 const config = require('../../config');
 
 module.exports = function returnBrowserifyPipe(entry) {
-  if (!process.env.H_ACCOUNT_URI) {
-    throw new Error('H_ACCOUNT_URI env var MUST be set');
-  }
+  // apis
+  if (!process.env.H_ACCOUNT_URI) { throw new Error('H_ACCOUNT_URI env var MUST be set'); }
+  if (!process.env.H_PROJECT_URI) { throw new Error('H_PROJECT_URI env var MUST be set'); }
+  if (!process.env.H_WEBSITE_URI) { throw new Error('H_WEBSITE_URI env var MUST be set'); }
+  if (!process.env.H_WORKSPACE_URI) { throw new Error('H_WORKSPACE_URI env var MUST be set'); }
 
-  if (!process.env.H_PROJECT_URI) {
-    throw new Error('H_PROJECT_URI env var MUST be set');
-  }
-
-  if (!process.env.HOST_URL) {
-    throw new Error('HOST_URL env var MUST be set');
-  }
-
-  if (!process.env.WORKSPACE_URL) {
-    throw new Error('WORKSPACE_URL env var MUST be set');
-  }
+  // hosts
+  if (!process.env.WEBSITE_HOST) { throw new Error('WEBSITE_HOST env var MUST be set'); }
 
   // Create a gulp stream for the single browserify task
-  return browserify({
+  var b = browserify({
       // Set the entry option so that it browserifies
       // only one file
       entries: [entry],
@@ -42,16 +35,27 @@ module.exports = function returnBrowserifyPipe(entry) {
       transform: [
         brfs,
         envify({
+          // apis
           H_ACCOUNT_URI: process.env.H_ACCOUNT_URI,
           H_PROJECT_URI: process.env.H_PROJECT_URI,
-          HOST_URL: process.env.HOST_URL,
-          WORKSPACE_URL: process.env.WORKSPACE_URL,
+          H_WEBSITE_URI: process.env.H_WEBSITE_URI,
+          H_WORKSPACE_URI: process.env.H_WORKSPACE_URI,
+
+          // hosts
+          WEBSITE_HOST: process.env.WEBSITE_HOST,
         })
       ],
 
       // standalone global object for main module
       standalone: 'habemus'
-    }).bundle()
+    });
+
+  // inject modules for production environment
+  b.require('./injected/production/habemus-dashboard-urls', {
+    expose: 'habemus-dashboard-urls'
+  });
+
+  return b.bundle()
     .on('error', gulpUtil.log.bind(gulpUtil, 'Browserify Error'))
     .on('error', gulpNotify.onError({
       title: 'Browserify compiling error',

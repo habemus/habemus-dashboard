@@ -46,6 +46,11 @@ require('./routes/project-domain')(DASHBOARD);
 require('./services')(DASHBOARD);
 
 /**
+ * Filters
+ */
+require('./filters')(DASHBOARD);
+
+/**
  * Controllers
  */
 

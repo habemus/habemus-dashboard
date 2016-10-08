@@ -42,6 +42,7 @@
   "dependencies": {
     "h-account-client": "git+ssh://git@bitbucket.org/habemus-tutti/h-account-client.git",
     "h-project-client": "git+ssh://git@bitbucket.org:habemus-tutti/h-project-client.git",
+    "h-urls": "git+ssh://git@bitbucket.org/habemus-tutti/h-urls.git",
     "h-website-client": "git+ssh://git@bitbucket.org:habemus-tutti/h-website-client.git",
     "h-workspace-client": "git+ssh://git@bitbucket.org/habemus-tutti/h-workspace-client.git",
     "jszip": "^2.5.0",

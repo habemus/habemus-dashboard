@@ -17,9 +17,6 @@ function _joinPath(part1, part2) {
 
 module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, $rootScope, $translate, apiHProject, apiHWorkspace, uiHAccountDialog, ngDialog, CONFIG, uiDialogLoading, auxZipPrepare, auxZipUpload, uiIntro) {
 
-  if (!CONFIG.hostURL) {
-    throw new Error('hostURL is required');
-  }
   
   uiHAccountDialog.ensureUser({ ensureEmailVerified: true })
     .then(function (user) {
@@ -45,9 +42,9 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, $rootS
 
       $scope.project = project;
 
-      var parsedHostURL = url.parse(CONFIG.hostURL);
-      parsedHostURL.host = project.code + '.' + parsedHostURL.host;
-      $scope.projectHostURL = url.format(parsedHostURL);
+      // var parsedHostURL = url.parse(CONFIG.hostURL);
+      // parsedHostURL.host = project.code + '.' + parsedHostURL.host;
+      // $scope.projectHostURL = url.format(parsedHostURL);
 
       // set pageTitle
       $rootScope.pageTitle = project.name;
