@@ -67,8 +67,8 @@
         <h2>{{ project.name }}</h2>
         <a
           ng-click="$event.stopPropagation();"
-          ng-href="http://{{ project.code }}.habemus.website"
-          target="_blank">http://{{ project.code }}.habemus.website</a>
+          ng-href="{{ project.code | urlWebsiteHabemusDomain}}"
+          target="_blank">{{ project.code | urlWebsiteHabemusDomain }}</a>
         <div class="project-preview-img">
           <img
             ng-src="{{ project.activeVersion.screenshotURL }}"
