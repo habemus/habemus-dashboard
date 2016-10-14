@@ -1,5 +1,6 @@
-var fs = require('fs');
-var path = require('path');
+// native
+const fs = require('fs');
+const path = require('path');
 
 module.exports = /*@ngInject*/ function tabCtrlGeneral($scope, $stateParams, uiHAccountDialog, auxZipUpload, ngDialog) {
 

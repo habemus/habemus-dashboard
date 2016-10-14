@@ -1,12 +1,3 @@
-'use strict';
-
-// native
-var path = require('path');
-var fs   = require('fs');
-
-// third-party
-var Q    = require('q');
-
 module.exports = /*@ngInject*/ function projectDeleteCtrl($scope, $stateParams, $state, $translate, ngDialog, uiHAccountDialog, apiHProject) {
 
   $scope.verifyAndConfirm = function () {

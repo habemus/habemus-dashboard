@@ -1,20 +1,5 @@
-'use strict';
-
-// native
-var path = require('path');
-var fs   = require('fs');
-var url  = require('url');
-
 // third-party
-var Q    = require('q');
 const Bluebird = require('bluebird');
-
-const STARTING_RE = /^\//;
-const TRAILING_RE = /\/$/;
-
-function _joinPath(part1, part2) {
-  return part1.replace(TRAILING_RE, '') + '/' + part2.replace(STARTING_RE, '');
-}
 
 function _wait(ms) {
   return new Bluebird(function (resolve, reject) {
