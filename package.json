@@ -40,6 +40,7 @@
     "watchify": "^3.6.0"
   },
   "dependencies": {
+    "bluebird": "^3.4.6",
     "h-account-client": "git+ssh://git@bitbucket.org/habemus-tutti/h-account-client.git",
     "h-project-client": "git+ssh://git@bitbucket.org:habemus-tutti/h-project-client.git",
     "h-urls": "git+ssh://git@bitbucket.org/habemus-tutti/h-urls.git",

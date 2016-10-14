@@ -22,6 +22,7 @@
   <div class="main-content">
     
 <!--
+    TODO: implement screenshooting
     <div class="printscreen-container">
       <img src="resources/img/printscreen-3.png">
     </div>
@@ -29,8 +30,21 @@
     
     <div class="info-container">
       <div class="domains-list">
+        <!--
+          TODO: study better manners of presenting this information
+          to the user
+        -->
+        <a ng-show="projectLatestVersion.buildStatus.value === 'scheduled'">
+          build in progress: scheduled
+        </a>
+        <a ng-show="projectLatestVersion.buildStatus.value === 'started'">
+          build in progress: started
+        </a>
+        <a ng-show="projectLatestVersion.buildStatus.value === 'failed'">
+          build failed
+        </a>
         <a
-          ng-show="project.code"
+          ng-show="project.code && projectLatestVersion.buildStatus.value === 'succeeded'"
           ng-href="{{ project.code | urlWebsiteHabemusDomain }}"
           target="_blank"
           data-intro-name="habemus-domain">{{ project.code | urlWebsiteHabemusDomain }}</a>
@@ -61,8 +75,8 @@
           <span>edit project</span>
         </a>
         
-        <!-- <a id="edit-domain" 
-           ui-sref="project.domain.info({projectCode: project.id })"
+        <a id="edit-domain" 
+           ui-sref="project.domain.info({projectCode: project.code })"
            class="action"
            >
           <svg x="0px" y="0px"
@@ -76,7 +90,7 @@
               h1.747C11.079,8.32,9.81,10.048,8.032,10.819z"/>
           </svg>
           <span translate="projectGeneral.editProjectDomain"></span>
-        </a> -->
+        </a>
         
         <a id="delete-project" 
            ng-click="delete()"
