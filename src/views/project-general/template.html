@@ -50,7 +50,9 @@
         <a
           ng-href="{{ project.code | urlWebsiteHabemusDomain }}"
           target="_blank"
-          data-intro-name="habemus-domain">{{ project.code | urlWebsiteHabemusDomain }}</a>
+          data-intro-name="habemus-domain">
+          {{ project.code | urlWebsiteHabemusDomain }}
+        </a>
         <a
           ng-repeat="record in domainRecords | orderBy:'createdAt'"
           ng-if="record.status.value === 'active'"

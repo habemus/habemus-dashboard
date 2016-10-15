@@ -7,7 +7,11 @@
   <p>{{ domainRecord.domain }}</p>
 </div>
 
-<div class="progress-text margin-bottom" ng-show="inProgress">
+<!-- status indicators -->
+<!-- TODO: improve semantics of this code. Wait for design to be finished for it. -->
+<div
+  class="progress-text margin-bottom"
+  ng-show="domainRecord.status.value === 'verifying' || domainRecord.status.value === 'pending-verification'">
   <p style="color: #E29A27" translate="projectDomain.dns.connectionInProgress"></p>
   <p style="color: #E29A27" translate="projectDomain.dns.setupYourDomain"></p>
   <br>
@@ -16,11 +20,20 @@
   <p translate="projectDomain.dns.dnsConfigDelayExplanation"></p>
 </div>
 
-<div class="ready-text margin-bottom" ng-hide="inProgress">
+<div
+  class="progress-text margin-bottom"
+  ng-show="domainRecord.status.value === 'verification-failed-permanently'">
+  <p translate="projectDomain.dns.verificationFailedPermanentlyExplanation"></p>
+</div>
+
+<div
+  class="ready-text margin-bottom"
+  ng-hide="domainRecord.status.value === 'verifying' || domainRecord.status.value === 'pending-verification'">
   <p translate="projectDomain.dns.providerSettingsInstructions"></p>
   <br>
   <p translate="projectDomain.dns.dnsConfigDelayExplanation"></p>
 </div>
+<!-- status indicators -->
 
 <table id="dns-table">
   <tr class="table-header">
@@ -73,14 +86,24 @@
 
 <div class="dns-buttons">
   <div>
-    <div ng-if="domainRecord.status.value !== 'verified'" class="button secundary" ng-click="verifyDomainRecord()" translate="projectDomain.dns.testConnection"></div>
-    <a ng-if="domainRecord.status.value === 'verified'" target="_blank" href="http://{{ domainRecord.hostname }}">
-      <div class="button secundary" translate="projectDomain.dns.testConnection"></div>
+    <div
+      ng-if="domainRecord.status.value === 'verification-failed-permanently'"
+      class="button secundary"
+      ng-click="restartVerification()"
+      translate="projectDomain.dns.restartVerification">
+    </div>
+    <a
+      ng-if="domainRecord.status.value === 'active'"
+      target="_blank" href="{{ domainRecord.domain | urlWebsiteCustomDomain }}"
+      >
+      <div
+        class="button secundary"
+        translate="projectDomain.dns.testConnection">
+      </div>
     </a>
   </div>
   <div class="progress" ng-show="verifying">
     <div class="pading-right" translate="projectDomain.dns.verifyingConnection"></div>
     <img src="resources/img/icon-progress.svg">
-    
   </div>
 </div>  
