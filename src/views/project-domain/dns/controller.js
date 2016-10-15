@@ -27,12 +27,12 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
    * Method for loading data on the dns configuration statuses
    * @return {[type]} [description]
    */
-  $scope.verifyDomainRecord = function () {
+  $scope.loadDomainRecord = function () {
     
     $scope.verifying = true;
     
     apiHWebsite
-      .verifyDomainRecord(
+      .getDomainRecord(
         uiHAccountDialog.getAuthToken(),
         $scope.domainRecord.projectId,
         $stateParams.domainRecord._id
@@ -94,11 +94,11 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, 
   };
 
   // start
-  $scope.verifyDomainRecord();
+  $scope.loadDomainRecord();
 
   CHECK_INTERVAL = $interval(function () {
 
-    $scope.verifyDomainRecord();
+    $scope.loadDomainRecord();
   }, INTERVAL_TIME);
 
   $scope.$on('$destroy', function () {

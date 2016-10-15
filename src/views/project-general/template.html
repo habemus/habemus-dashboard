@@ -29,11 +29,11 @@
 -->
     
     <div class="info-container">
-      <div class="domains-list">
-        <!--
-          TODO: study better manners of presenting this information
-          to the user
-        -->
+      <!--
+        TODO: study better manners of presenting this information
+        to the user
+      -->
+      <div class="project-build-messages">
         <a ng-show="projectLatestVersion.buildStatus.value === 'scheduled'">
           build in progress: scheduled
         </a>
@@ -43,12 +43,21 @@
         <a ng-show="projectLatestVersion.buildStatus.value === 'failed'">
           build failed
         </a>
+      </div>
+      <div
+        class="domains-list"
+        ng-show="project.code && projectLatestVersion.buildStatus.value === 'succeeded'">
         <a
-          ng-show="project.code && projectLatestVersion.buildStatus.value === 'succeeded'"
           ng-href="{{ project.code | urlWebsiteHabemusDomain }}"
           target="_blank"
           data-intro-name="habemus-domain">{{ project.code | urlWebsiteHabemusDomain }}</a>
-        <a ng-repeat="record in project.domainRecords | orderBy:'createdAt'" href="http://{{ record.hostname }}" target="_blank">http://{{ record.hostname }}</a>
+        <a
+          ng-repeat="record in domainRecords | orderBy:'createdAt'"
+          ng-if="record.status.value === 'active'"
+          ng-href="{{ record.domain | urlWebsiteCustomDomain }}"
+          target="_blank">
+          {{ record.domain | urlWebsiteCustomDomain }}
+        </a>
       </div>
       <div class="actions" data-intro-name="actions">
 

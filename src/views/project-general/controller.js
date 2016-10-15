@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports = /*@ngInject*/ function tabCtrlGeneral($scope, $stateParams, uiHAccountDialog, auxZipUpload, ngDialog, apiHWorkspace, uiDialogConfirm, uiDialogLoading) {
+module.exports = /*@ngInject*/ function ProjectGeneralCtrl($scope, $stateParams, uiHAccountDialog, auxZipUpload, ngDialog, apiHWorkspace, uiDialogConfirm, uiDialogLoading) {
 
   /**
    * Creates a new version from the given files
@@ -25,6 +25,20 @@ module.exports = /*@ngInject*/ function tabCtrlGeneral($scope, $stateParams, uiH
     })
     .then(function () {
 
+      /**
+       * Poll the server for the latestVersion
+       * until it has its build-status at ready
+       * do not put the polling in the promise sequence
+       *
+       * This method is defined in the ProjectCtrl (from which this controller inherits)
+       */
+      $scope.ensureLatesteVersionBuildReady();
+
+      /**
+       * Ask user whether she/he would like to
+       * update the associated workspace
+       * @type {String}
+       */
       return uiDialogConfirm({
         message: 'would you like to update your workspace as well?',
         confirmLabel: 'yes',

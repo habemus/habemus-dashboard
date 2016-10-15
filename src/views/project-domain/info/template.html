@@ -7,13 +7,13 @@
 <div
   ng-repeat="domainRecord in domainRecords"
   class="domain-item"
-  ng-class="{ pending: (domainRecord.status_ !== 'active') }"
+  ng-class="{ pending: (domainRecord.status.value !== 'active') }"
   ui-sref="project.domain.detail({ domainRecord: domainRecord })">
   <div class="domain-content">
     <span class="domain-url">http://{{ domainRecord.domain }}</span>
     <span translate="projectDomain.info.customDomain"></span>
-    <span class="domain-url-pending" ng-show="domainRecord.status_ !== 'active'">
-      ({{ ('projectDomain.info.' + (domainRecord.status_ || 'pending')) | translate }})
+    <span class="domain-url-pending" ng-show="domainRecord.status.value !== 'active'">
+      ({{ ('projectDomain.info.' + (domainRecord.status.value || 'pending')) | translate }})
     </span>
   </div>
   <div>
