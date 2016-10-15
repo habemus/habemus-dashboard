@@ -2,10 +2,10 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports = /*@ngInject*/ function tabCtrlGeneral($scope, $stateParams, uiHAccountDialog, auxZipUpload, ngDialog) {
+module.exports = /*@ngInject*/ function tabCtrlGeneral($scope, $stateParams, uiHAccountDialog, auxZipUpload, ngDialog, apiHWorkspace, uiDialogConfirm, uiDialogLoading) {
 
   /**
-   * Creates a new verfion from the given files
+   * Creates a new version from the given files
    * 
    * @param  {File} files
    * @return {Promise}
@@ -18,7 +18,42 @@ module.exports = /*@ngInject*/ function tabCtrlGeneral($scope, $stateParams, uiH
       {
         byCode: true
       }
-    );
+    )
+    .catch(function (err) {
+      console.log('upload error');
+      console.warn(err);
+    })
+    .then(function () {
+
+      return uiDialogConfirm({
+        message: 'would you like to update your workspace as well?',
+        confirmLabel: 'yes',
+        cancelLabel: 'no',
+      });
+
+    })
+    .then(function () {
+      // update requested
+      // loading state starts
+      uiDialogLoading.open({
+        message: 'updating workspace'
+      });
+
+      return apiHWorkspace.loadLatestVersion(
+        uiHAccountDialog.getAuthToken(),
+        $stateParams.projectCode,
+        {
+          byProjectCode: true
+        }
+      );
+    })
+    .then(function () {
+      uiDialogLoading.close();
+    })
+    .catch(function (err) {
+      // user cancelled
+      uiDialogLoading.close();
+    });
   };
   
   /**
