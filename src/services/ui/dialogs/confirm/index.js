@@ -14,7 +14,7 @@ module.exports = /* @ngInject */ function confirmationDialogService(ngDialog) {
       cancelLabel = options.cancelLabel;
       confirmLabel = options.confirmLabel;
     } else {
-      message = options.message;
+      message = options;
       cancelLabel = undefined;
       confirmLabel = undefined;
     }

@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports = /*@ngInject*/ function tabCtrlGeneral($scope, $stateParams, uiHAccountDialog, auxZipUpload, ngDialog, apiHWorkspace) {
+module.exports = /*@ngInject*/ function tabCtrlGeneral($scope, $stateParams, uiHAccountDialog, auxZipUpload, ngDialog, apiHWorkspace, uiDialogConfirm, uiDialogLoading) {
 
   /**
    * Creates a new version from the given files
@@ -19,26 +19,40 @@ module.exports = /*@ngInject*/ function tabCtrlGeneral($scope, $stateParams, uiH
         byCode: true
       }
     )
+    .catch(function (err) {
+      console.log('upload error');
+      console.warn(err);
+    })
     .then(function () {
 
-      var confirmUpdateWorkspace = confirm('would you like to update your workspace as well?');
-
-      if (confirmUpdateWorkspace) {
-        return apiHWorkspace.loadLatestVersion(
-          uiHAccountDialog.getAuthToken(),
-          $stateParams.projectCode,
-          {
-            byProjectCode: true
-          }
-        );
-      }
+      return uiDialogConfirm({
+        message: 'would you like to update your workspace as well?',
+        confirmLabel: 'yes',
+        cancelLabel: 'no',
+      });
 
     })
     .then(function () {
-      alert('ok!');
+      // update requested
+      // loading state starts
+      uiDialogLoading.open({
+        message: 'updating workspace'
+      });
+
+      return apiHWorkspace.loadLatestVersion(
+        uiHAccountDialog.getAuthToken(),
+        $stateParams.projectCode,
+        {
+          byProjectCode: true
+        }
+      );
+    })
+    .then(function () {
+      uiDialogLoading.close();
     })
     .catch(function (err) {
-      console.warn(err);
+      // user cancelled
+      uiDialogLoading.close();
     });
   };
   
