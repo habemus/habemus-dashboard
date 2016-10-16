@@ -7,7 +7,7 @@ function _wait(ms) {
   });
 }
 
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, $rootScope, $translate, apiHProject, apiHWorkspace, uiHAccountDialog, ngDialog, CONFIG, uiDialogLoading, auxZipPrepare, auxZipUpload, uiIntro) {
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, $rootScope, $translate, apiHProject, apiHWebsite, apiHWorkspace, uiHAccountDialog, ngDialog, CONFIG, uiDialogLoading, auxZipPrepare, auxZipUpload, uiIntro) {
   
   uiHAccountDialog.ensureUser({ ensureEmailVerified: true })
     .then(function (user) {
@@ -17,6 +17,7 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, $rootS
       return Bluebird.all([
         $scope.ensureLatesteVersionBuildReady(),
         $scope.ensureWorkspaceReady(),
+        $scope.loadDomainRecords(),
       ]);
     });
 
@@ -122,6 +123,31 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, $rootS
         return workspace;
       });
 
+  };
+
+  /**
+   * Loads the domain records associated to the project
+   * 
+   * @return {Bluebird}
+   */
+  $scope.loadDomainRecords = function () {
+
+    var authToken = uiHAccountDialog.getAuthToken();
+
+    return apiHProject.get(authToken, $stateParams.projectCode, {
+      byCode: true
+    })
+    .then(function (project) {
+      var projectId = $scope.project._id;
+
+      // retrieve the requested project
+      return apiHWebsite.listDomainRecords(authToken, projectId);
+    })
+    .then(function (domainRecords) {
+      $scope.domainRecords = domainRecords;
+
+      $scope.$apply();
+    });
   };
 
   // $scope.restoreProjectVersion = function (versionId) {

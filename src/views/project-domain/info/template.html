@@ -5,15 +5,15 @@
 
 <!-- user-custom domain -->
 <div
-  ng-repeat="domainRecord in domainRecords"
+  ng-repeat="record in domainRecords"
   class="domain-item"
-  ng-class="{ pending: (domainRecord.status_ !== 'active') }"
-  ui-sref="project.domain.detail({ domainRecord: domainRecord })">
+  ng-class="{ pending: (record.status.value !== 'active') }"
+  ui-sref="project.domain.detail({ domainRecord: record })">
   <div class="domain-content">
-    <span class="domain-url">http://{{ domainRecord.domain }}</span>
+    <span class="domain-url">{{ record.domain | urlWebsiteCustomDomain }}</span>
     <span translate="projectDomain.info.customDomain"></span>
-    <span class="domain-url-pending" ng-show="domainRecord.status_ !== 'active'">
-      ({{ ('projectDomain.info.' + (domainRecord.status_ || 'pending')) | translate }})
+    <span class="domain-url-pending" ng-show="record.status.value !== 'active'">
+      ({{ ('projectDomain.info.' + (record.status.value || 'pending')) | translate }})
     </span>
   </div>
   <div>

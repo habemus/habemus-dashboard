@@ -7,7 +7,12 @@
   <p translate="projectDomain.detail.title">editar domínio</p>
 </div>
 
-<a href="http://{{ domainRecord.domain }}" target="_blank" class="">http://{{ domainRecord.domain }}</a>
+<a
+  href="{{ domainRecord.domain | urlWebsiteCustomDomain }}"
+  target="_blank"
+  class="">
+  {{ domainRecord.domain | urlWebsiteCustomDomain }}
+</a>
 
 <div class="max-width">
   <div class="margin-bottom">
