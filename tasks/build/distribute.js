@@ -45,7 +45,7 @@ module.exports = function (gulp, $) {
     return gulp.src(tmpDir + '/index.html')
       // builds scripts and css into single files
       .pipe($.useref())
-      .pipe($.if('*.js', $.uglify()))
+      // .pipe($.if('*.js', $.uglify()))
       .pipe($.if('*.css', $.minifyCss()))
       .pipe($.size({
         title: 'distribute:optimize',

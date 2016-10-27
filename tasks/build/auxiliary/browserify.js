@@ -23,6 +23,9 @@ module.exports = function returnBrowserifyPipe(entry) {
   if (!process.env.H_WEBSITE_URI) { throw new Error('H_WEBSITE_URI env var MUST be set'); }
   if (!process.env.H_WORKSPACE_URI) { throw new Error('H_WORKSPACE_URI env var MUST be set'); }
 
+  // uis
+  if (!process.env.UI_WORKSPACE_URI) { throw new Error('UI_WORKSPACE_URI env var MUST be set'); }
+
   // hosts
   if (!process.env.WEBSITE_HOST) { throw new Error('WEBSITE_HOST env var MUST be set'); }
 
@@ -40,6 +43,9 @@ module.exports = function returnBrowserifyPipe(entry) {
           H_PROJECT_URI: process.env.H_PROJECT_URI,
           H_WEBSITE_URI: process.env.H_WEBSITE_URI,
           H_WORKSPACE_URI: process.env.H_WORKSPACE_URI,
+
+          // uis
+          UI_WORKSPACE_URI: process.env.UI_WORKSPACE_URI,
 
           // hosts
           WEBSITE_HOST: process.env.WEBSITE_HOST,
