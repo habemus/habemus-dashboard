@@ -31,8 +31,19 @@ module.exports = function (gulp, $) {
    */
   gulp.task('distribute:javascript', ['distribute:tmp'], function () {
     return browserifyPipe(tmpDir + '/index.js')
+      .pipe($.babel({
+        presets: ['es2015'],
+      }))
       .pipe($.ngAnnotate())
       .pipe($.stripDebug())
+      .pipe($.uglify().on('error', function (err) {
+        console.warn(err);
+      }))
+      .pipe($.size({
+        title: 'distribute:javascript',
+        showFiles: true,
+        gzip: true
+      }))
       .pipe(gulp.dest(tmpDir));
   });
 
