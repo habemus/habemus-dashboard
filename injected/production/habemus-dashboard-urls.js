@@ -6,7 +6,12 @@ module.exports = /* @ngInject */ function urls(CONFIG) {
   return hUrls({
     // hosts
     websiteHost: process.env.WEBSITE_HOST,
-    uiWorkspaceURI: process.env.UI_WORKSPACE_URI,
+
+    /**
+     * TODO: change name at h-urls
+     * @type {[type]}
+     */
+    workspaceHost: process.env.WORKSPACE_HOST,
   });
 
 };

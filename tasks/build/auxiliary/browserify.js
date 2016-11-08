@@ -49,6 +49,7 @@ module.exports = function returnBrowserifyPipe(entry) {
 
           // hosts
           WEBSITE_HOST: process.env.WEBSITE_HOST,
+          WORKSPACE_HOST: process.env.WORKSPACE_HOST,
         })
       ],
 
