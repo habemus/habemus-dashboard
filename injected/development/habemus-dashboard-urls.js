@@ -8,7 +8,7 @@ module.exports = /* @ngInject */ function urls(CONFIG) {
     websiteHost: process.env.WEBSITE_HOST,
 
     // development only:
-    uiWorkspaceURI: process.env.UI_WORKSPACE_URI,
+    uiWorkspaceBaseURL: process.env.UI_WORKSPACE_BASE_URL,
     hWebsiteServerURI: process.env.H_WEBSITE_SERVER_URI,
   });
 

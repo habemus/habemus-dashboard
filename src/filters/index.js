@@ -13,7 +13,7 @@ module.exports = function (DASHBOARD) {
 
   DASHBOARD.filter('urlWorkspace', function (auxUrls) {
     return function (projectCode) {
-      return projectCode ? auxUrls.format.workspace(projectCode) : '';
+      return projectCode ? auxUrls.format.uiWorkspace(projectCode) : '';
     }
   });
 };

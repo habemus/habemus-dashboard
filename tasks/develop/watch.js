@@ -31,7 +31,7 @@ module.exports = function (gulp, $) {
     if (!process.env.WEBSITE_HOST) { throw new Error('WEBSITE_HOST env var MUST be set'); }
 
     // only in development:
-    if (!process.env.UI_WORKSPACE_URI) { throw new Error('UI_WORKSPACE_URI env var MUST be set'); }
+    if (!process.env.UI_WORKSPACE_BASE_URL) { throw new Error('UI_WORKSPACE_BASE_URL env var MUST be set'); }
     if (!process.env.H_WEBSITE_SERVER_URI) { throw new Error('H_WEBSITE_SERVER_URI env var MUST be set'); }
 
     // instantiate browserify
@@ -47,11 +47,13 @@ module.exports = function (gulp, $) {
           H_WEBSITE_URI: process.env.H_WEBSITE_URI,
           H_WORKSPACE_URI: process.env.H_WORKSPACE_URI,
 
+          // ui
+          UI_WORKSPACE_BASE_URL: process.env.UI_WORKSPACE_BASE_URL,
+
           // hosts
           WEBSITE_HOST: process.env.WEBSITE_HOST,
 
           // exposed only in development:
-          UI_WORKSPACE_URI: process.env.UI_WORKSPACE_URI,
           H_WEBSITE_SERVER_URI: process.env.H_WEBSITE_SERVER_URI,
         })
       ],
