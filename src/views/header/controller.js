@@ -1,15 +1,14 @@
 'use strict';
 
 
-module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state, $translate, uiHAccountDialog, uiIntro) {
-  
-  uiHAccountDialog.ensureUser({
-    ensureEmailVerified: true,
-  })
-  .then(function (user) {
-    return $scope.currentUser = user;
-  });
-  
+module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state, currentAccount, $translate, uiHAccountDialog, uiIntro) {
+
+  /**
+   * Current account is resolved by ui-router
+   * @type {Object}
+   */
+  $scope.currentAccount = currentAccount;
+
   $scope.menuIsOpen = false;
   
   $scope.toggleMenu = function () {
@@ -29,6 +28,16 @@ module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state,
 
   $scope.setLanguage = function (lng) {
     $translate.use(lng);
+
+    // update the dashboard language configuration
+    uiHAccountDialog.hAccountClient.updateApplicationConfig(
+      uiHAccountDialog.getAuthToken(),
+      $scope.currentAccount.username,
+      'dashboard',
+      {
+        language: lng,
+      }
+    );
   };
   
   $scope.startIntro = function () {

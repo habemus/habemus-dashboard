@@ -37,11 +37,7 @@ module.exports = function (DASHBOARD) {
           controller: require('../views/dashboard/controller'),
         }
       },
-      resolve: {
-        _translationReady: function ($translate) {
-          return $translate.onReady();
-        }
-      }
+      resolve: require('./resolve'),
     });
     
     $stateProvider.state('account', {
@@ -57,11 +53,7 @@ module.exports = function (DASHBOARD) {
           controller: require('../views/account/controller'),
         }
       },
-      resolve: {
-        _translationReady: function ($translate) {
-          return $translate.onReady();
-        }
-      }
+      resolve: require('./resolve'),
     });
     
     $stateProvider.state('accountPasswordReset', {
@@ -103,11 +95,7 @@ module.exports = function (DASHBOARD) {
           controller: require('../views/project/controller'),
         }
       },
-      resolve: {
-        _translationReady: function ($translate) {
-          return $translate.onReady();
-        }
-      }
+      resolve: require('./resolve'),
     });
     
     $stateProvider.state('projectDelete', {

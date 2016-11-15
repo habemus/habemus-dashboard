@@ -3,14 +3,13 @@
 // own
 var fileReader = require('../../lib/file-reader');
 
-module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, uiHAccountDialog, apiHProject, $state, uiDialogLoading, uiDialogError, auxZipPrepare, uiIntro) {
+module.exports = /*@ngInject*/ function DashboardCtrl($scope, currentAccount, $translate, uiHAccountDialog, apiHProject, $state, uiDialogLoading, uiDialogError, auxZipPrepare, uiIntro) {
 
-  uiHAccountDialog.ensureUser({
-    ensureEmailVerified: true,
-  })
-  .then(function (user) {
-    return $scope.loadProjects();
-  });
+  /**
+   * Current Account is resolved by ui-router
+   * @type {Object}
+   */
+  $scope.currentAccount = currentAccount;
 
   $scope.loadProjects = function () {
     return apiHProject.list(uiHAccountDialog.getAuthToken())
@@ -119,5 +118,7 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, uiHAcc
       })
       .done();
   };
-  
+
+  // initialize
+  $scope.loadProjects();
 };

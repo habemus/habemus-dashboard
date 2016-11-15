@@ -4,55 +4,50 @@
 const path = require('path');
 const fs   = require('fs');
 
-module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $stateParams, $state, $translate, ngDialog, uiDialogLoading) {
+module.exports = /*@ngInject*/ function accountCtrl($scope, currentAccount, $stateParams, $state, $translate, ngDialog, uiDialogLoading, uiHAccountDialog) {
   
   /**
    * Object onto which the account data input fields
    * should set their values
    * @type {Object}
    */
-  $scope.accountData = {};
-  
+  $scope.currentAccount = currentAccount;
+
   /**
-   * Update account data
+   * Update account owner data
    */
-  $scope.updateAccountData = function () {
+  $scope.updateAccountOwnerData = function () {
 
     uiDialogLoading.open({
       message: 'saving data'
     });
 
-    console.warn('updateAccountData');
+    return uiHAccountDialog.hAccountClient.updateAccountOwnerData(
+      uiHAccountDialog.getAuthToken(),
+      $scope.currentAccount.username,
+      $scope.currentAccount.ownerData
+    )
+    .then(function () {
+      uiDialogLoading.close();
+    })
+    .catch(function (err) {
 
-    // apiAuth.updateCurrentUserData({
-    //   name: $scope.accountData.name
-    // })
-    // .then(function (updatedUser) {
+      console.warn(err);
 
-    //   $scope.setCurrentUser(updatedUser);
+      uiDialogLoading.close();
 
-    //   // reset form
-    //   $scope.resetAccountFormData();
-    //   $rootScope.$apply();
-
-    //   uiDialogLoading.close();
-    // }, function (err) {
-
-    //   uiDialogLoading.close();
-
-    //   $translate('account.updateDataError')
-    //     .then(function (errorMessage) {
-    //       $scope.errorMessage = 'failed to update account data, please try again later';
-    //     });
-    // })
-    // .done();
+      $translate('account.updateDataError')
+        .then(function (errorMessage) {
+          $scope.errorMessage = 'failed to update account data, please try again later';
+        });
+    });
   };
 
   /**
    * Discard changes
    */
   $scope.resetAccountFormData = function () {
-    $scope.accountData = {};
+    $scope.currentAccount = {};
   }
 
   /**

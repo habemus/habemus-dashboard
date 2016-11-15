@@ -1,17 +1,43 @@
 <div class="body-content-account">
   <h1 translate="account.myAccount"></h1>
 
-  <form ng-submit="updateAccountData()">
+  <form ng-submit="updateAccountOwnerData()">
 
-    <div
+<!--     <div
       class="field-container"
       ng-class="{'error': errorMessage}">
       <label translate="account.fullName"></label><br>
       <input
         type="text"
         name="name"
-        placeholder="{{ currentUser.name }}"
-        ng-model="accountData.name"
+        placeholder="{{ currentAccount.name }}"
+        ng-model="currentAccount.name"
+      >
+      <div class="field-error-message">{{ errorMessage }}</div>
+    </div> -->
+
+    <div
+      class="field-container"
+      ng-class="{'error': errorMessage}">
+      <label translate="account.givenName"></label><br>
+      <input
+        type="text"
+        name="givenName"
+        placeholder="{{ currentAccount.ownerData.givenName }}"
+        ng-model="currentAccount.ownerData.givenName"
+      >
+      <div class="field-error-message">{{ errorMessage }}</div>
+    </div>
+
+    <div
+      class="field-container"
+      ng-class="{'error': errorMessage}">
+      <label translate="account.familyName"></label><br>
+      <input
+        type="text"
+        name="familyName"
+        placeholder="{{ currentAccount.ownerData.familyName }}"
+        ng-model="currentAccount.ownerData.familyName"
       >
       <div class="field-error-message">{{ errorMessage }}</div>
     </div>
@@ -22,7 +48,7 @@
         disabled
         type="text"
         name="username"
-        value="{{ currentUser.username }}"
+        value="{{ currentAccount.username }}"
       >
     </div>
     

@@ -66,15 +66,15 @@ DASHBOARD.config(function ($translateProvider) {
   $translateProvider.useSanitizeValueStrategy('escape');
   $translateProvider.useLocalStorage();
 
-  $translateProvider.translations('en', require('./resources/languages/en.json'));
+  $translateProvider.translations('en-US', require('./resources/languages/en-US.json'));
   
-  $translateProvider.registerAvailableLanguageKeys(['en', 'pt'], {
-    'en_US': 'en',
-    'pt_BR': 'pt'
+  $translateProvider.registerAvailableLanguageKeys(['en-US', 'pt-BR'], {
+    'en_US': 'en-US',
+    'pt_BR': 'pt-BR',
   });
   
-  $translateProvider.determinePreferredLanguage('en');
-  $translateProvider.fallbackLanguage('en');
+  $translateProvider.determinePreferredLanguage('en-US');
+  $translateProvider.fallbackLanguage('en-US');
   
 });
 

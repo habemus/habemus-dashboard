@@ -9,11 +9,6 @@ const STATUS_REFRESH_INTERVAL = 5000;
 
 module.exports = /*@ngInject*/ function pHistoryCtrl($scope, $interval, $stateParams, $translate, uiHAccountDialog, uiDialogLoading, apiHProject, auxZipUpload) {
 
-  uiHAccountDialog.ensureUser({ ensureEmailVerified: true })
-    .then(function (user) {
-      $scope.loadProjectVersions();
-    });
-
   /**
    * Set an interval to check if any version has its buildStatus is at 'scheduled' status
    * If so, refresh the projectVersions.
@@ -143,4 +138,7 @@ module.exports = /*@ngInject*/ function pHistoryCtrl($scope, $interval, $statePa
       uiDialogLoading.close();
     });
   };
+
+  // initialize
+  $scope.loadProjectVersions();
 };

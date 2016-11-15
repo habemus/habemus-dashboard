@@ -7,19 +7,13 @@ function _wait(ms) {
   });
 }
 
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, $rootScope, $translate, apiHProject, apiHWebsite, apiHWorkspace, uiHAccountDialog, ngDialog, CONFIG, uiDialogLoading, auxZipPrepare, auxZipUpload, uiIntro) {
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, currentAccount, $rootScope, $translate, apiHProject, apiHWebsite, apiHWorkspace, uiHAccountDialog, ngDialog, CONFIG, uiDialogLoading, auxZipPrepare, auxZipUpload, uiIntro) {
   
-  uiHAccountDialog.ensureUser({ ensureEmailVerified: true })
-    .then(function (user) {
-      return $scope.loadProject();
-    })
-    .then(function (project) {
-      return Bluebird.all([
-        $scope.ensureLatesteVersionBuildReady(),
-        $scope.ensureWorkspaceReady(),
-        $scope.loadDomainRecords(),
-      ]);
-    });
+  /**
+   * Current Account is resolved by ui-router
+   * @type {Object}
+   */
+  $scope.currentAccount = currentAccount;
 
   /**
    * Loads the project's data into the scope
@@ -172,4 +166,14 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, $rootS
   //       uiDialogLoading.close();
   //     });
   // }
+  
+
+  // initialize
+  $scope.loadProject().then(function (project) {
+    return Bluebird.all([
+      $scope.ensureLatesteVersionBuildReady(),
+      $scope.ensureWorkspaceReady(),
+      $scope.loadDomainRecords(),
+    ]);
+  });
 };
