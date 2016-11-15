@@ -221,8 +221,11 @@
   
   "account": {
     "myAccount": "My account",
-    "fullName": "full name",
+    "givenName": "Name",
+    "familyName": "Family name",
+    "additionalName": "Middle name",
     "email": "e-mail",
+    "username": "username",
     "resetPassword": "reset account password",
     "deleteAccount": "delete account",
     "save": "save modifications",

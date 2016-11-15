@@ -14,6 +14,12 @@ module.exports = /*@ngInject*/ function accountCtrl($scope, currentAccount, $sta
   $scope.currentAccount = currentAccount;
 
   /**
+   * Object used for storing the form data.
+   * @type {Object}
+   */
+  $scope.accountOwnerFormData = {};
+
+  /**
    * Update account owner data
    */
   $scope.updateAccountOwnerData = function () {
@@ -25,7 +31,7 @@ module.exports = /*@ngInject*/ function accountCtrl($scope, currentAccount, $sta
     return uiHAccountDialog.hAccountClient.updateAccountOwnerData(
       uiHAccountDialog.getAuthToken(),
       $scope.currentAccount.username,
-      $scope.currentAccount.ownerData
+      $scope.accountOwnerFormData
     )
     .then(function () {
       uiDialogLoading.close();
@@ -46,8 +52,8 @@ module.exports = /*@ngInject*/ function accountCtrl($scope, currentAccount, $sta
   /**
    * Discard changes
    */
-  $scope.resetAccountFormData = function () {
-    $scope.currentAccount = {};
+  $scope.resetAccountOwnerData = function () {
+    $scope.accountOwnerFormData = {};
   }
 
   /**

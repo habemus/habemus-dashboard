@@ -1,6 +1,5 @@
 'use strict';
 
-
 module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state, currentAccount, $translate, uiHAccountDialog, uiIntro) {
 
   /**
