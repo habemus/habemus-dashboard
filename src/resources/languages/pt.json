@@ -40,7 +40,7 @@
     "delete": "deletar",
     "errorSize": "Seu projeto ultrapassa o limite de 50MB.",
     "errorFailed": "Ocorreu algum erro. Por favor, tente novamente.",
-    "errorUploaed": "Erro ao fazer o upload dos arquivos. Seu projeto está incompleto. Atualize os arquivos ou remova-o e crie outro.",
+    "errorUploaed": "Erro ao fazer o upload dos arquivos. Seu projeto está incompleto. Atualize os arquivos ou remova-o e crie outro."
   },
 
   "projectGeneral": {

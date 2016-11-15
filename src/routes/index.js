@@ -36,6 +36,11 @@ module.exports = function (DASHBOARD) {
           template: TEMPLATES.dashboard,
           controller: require('../views/dashboard/controller'),
         }
+      },
+      resolve: {
+        _translationReady: function ($translate) {
+          return $translate.onReady();
+        }
       }
     });
     
@@ -51,11 +56,15 @@ module.exports = function (DASHBOARD) {
           template: TEMPLATES.account,
           controller: require('../views/account/controller'),
         }
+      },
+      resolve: {
+        _translationReady: function ($translate) {
+          return $translate.onReady();
+        }
       }
     });
     
     $stateProvider.state('accountPasswordReset', {
-//      url: '/',
       data: {
         authorizedRoles: ['developer']
       },
@@ -69,7 +78,6 @@ module.exports = function (DASHBOARD) {
     });
     
     $stateProvider.state('accountDelete', {
-//      url: '/',
       data: {
         authorizedRoles: ['developer']
       },
@@ -93,6 +101,11 @@ module.exports = function (DASHBOARD) {
         body: {
           template: TEMPLATES.project,
           controller: require('../views/project/controller'),
+        }
+      },
+      resolve: {
+        _translationReady: function ($translate) {
+          return $translate.onReady();
         }
       }
     });

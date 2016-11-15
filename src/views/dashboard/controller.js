@@ -35,13 +35,9 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, uiHAcc
    */
   function _createProject(zipFile, projectName) {
     if (zipFile.size > 52428800) {
-      $translate('project.errorSize')
-        .then(function (message) {
-          // error Dialog opens
-          uiDialogError(message);
-        });
-
       uiDialogLoading.close();
+      // error Dialog opens
+      uiDialogError($translate.instant('project.errorSize'));
 
       return;
     }
@@ -50,10 +46,8 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, uiHAcc
     
     apiHProject.create(uiHAccountDialog.getAuthToken(), { name: projectName })
       .then(function (projectData) {
-        $translate('dashboard.uploading')
-          .then(function (message) {
-            uiDialogLoading.setMessage(message);
-          });
+        
+        uiDialogLoading.setMessage($translate.instant('dashboard.uploading'));
 
         // upload
         var upload = apiHProject.createVersion(
@@ -83,11 +77,7 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, uiHAcc
 
       }, function (err) {        
         uiDialogLoading.close();
-        $translate('project.errorFailed')
-          .then(function (message) {
-            // error Dialog opens
-            uiDialogError(message);
-          });
+        uiDialogError($translate.instant('project.errorFailed'));
       })
       .then(function (projectData) {
 
@@ -99,12 +89,8 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, uiHAcc
 
       }, function (err) {
         console.error(err);
-        $translate('project.errorUploaded')
-          .then(function (message) {
-            // error Dialog opens
-            uiDialogError(message);
-          });
-
+        
+        uiDialogError($translate.instant('project.errorUploaded'));
         uiDialogLoading.close();
       })
       .catch(function (err) {
@@ -121,12 +107,10 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, uiHAcc
    */
   $scope.createProject = function (files, projectName) {
 
-    $translate('dashboard.preparingUpload')
-      .then(function (message) {
-        // loading state starts
-        uiDialogLoading.open({ message: message });
-      });
-
+    uiDialogLoading.open({
+      message: $translate.instant('dashboard.preparingUpload')
+    });
+    
     auxZipPrepare(files)
       .then(function (zipFile) {
         return _createProject(zipFile, projectName);

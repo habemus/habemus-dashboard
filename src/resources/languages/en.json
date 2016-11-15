@@ -40,7 +40,7 @@
     "delete": "delete",
     "errorSize": "Your project exceeds current limit of 50MB.",
     "errorFailed": "Something went wrong. Please try again.",
-    "errorUploaed": "An error occured when uploading files. Your project is incomplete. Update your files or delete project to create another one.",
+    "errorUploaed": "An error occured when uploading files. Your project is incomplete. Update your files or delete project to create another one."
   },
 
   "projectGeneral": {
@@ -68,7 +68,7 @@
     "p1": "This action can not be undone.",
     "p2": "Write down the name of project you want to delete:",
     "doNotDelete": "do not delete",
-    "deletePermanently": "delete permanentely",
+    "deletePermanently": "delete permanentely"
   },
   
   "projectHistory": {
@@ -98,7 +98,7 @@
       "p1": "Connect a domain you own to your project.",
       "p2": "If you still don't own a domain, choose a name provider to have one.",
       "nameOfDomain": "domain name",
-      "continue": "continue",
+      "continue": "continue"
     },
     
     "detail": {
@@ -106,7 +106,7 @@
       "p1": "This is a custom domain.",
       "p2": "Managed by a third-party domain provider.",
       "viewSettings": "view DNS settings",
-      "disconnectDomain": "disconnect custom domain",
+      "disconnectDomain": "disconnect custom domain"
     },
     
     "disconnect": {
@@ -249,7 +249,7 @@
     "startIntro": "view fast tutorial",
     "viewDocs": "documentation",
     "logOut": "logout",
-    "languages": "languages",
+    "languages": "languages"
   },
   
   "zipPrepare": {

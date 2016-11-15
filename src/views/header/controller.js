@@ -3,6 +3,13 @@
 
 module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state, $translate, uiHAccountDialog, uiIntro) {
   
+  uiHAccountDialog.ensureUser({
+    ensureEmailVerified: true,
+  })
+  .then(function (user) {
+    return $scope.currentUser = user;
+  });
+  
   $scope.menuIsOpen = false;
   
   $scope.toggleMenu = function () {
