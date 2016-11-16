@@ -7,7 +7,7 @@
 const STATUS_REFRESH_INTERVAL = 5000;
 
 
-module.exports = /*@ngInject*/ function pHistoryCtrl($scope, $interval, $stateParams, $translate, uiHAccountDialog, uiDialogLoading, apiHProject, auxZipUpload) {
+module.exports = /*@ngInject*/ function pHistoryCtrl($scope, $interval, $stateParams, $translate, uiHAccountDialog, uiDialogLoading, uiDialogConfirm, uiDialogError, apiHProject, apiHWorkspace, auxZipUpload) {
 
   /**
    * Set an interval to check if any version has its buildStatus is at 'scheduled' status
@@ -36,6 +36,21 @@ module.exports = /*@ngInject*/ function pHistoryCtrl($scope, $interval, $statePa
   });
 
   /**
+   * Proxy method to the project controller (parent of this)
+   */
+  $scope.createVersion = function () {
+    var args = Array.prototype.slice.call(arguments, 0);
+
+    return $scope.$parent.createVersion.apply($scope.$parent, args)
+      .then(function (latestVersion) {
+        $scope.projectVersions.unshift(latestVersion);
+        $scope.$apply();
+
+        return latestVersion;
+      });
+  };
+
+  /**
    * Loads the current project's versions into scope
    * 
    * @return {Promise}
@@ -62,37 +77,6 @@ module.exports = /*@ngInject*/ function pHistoryCtrl($scope, $interval, $statePa
 
         throw err;
       });
-  };
-
-  /**
-   * Creates a new version from the files given.
-   * 
-   * @param  {File} files
-   * @return {Promise}
-   */
-  $scope.createVersion = function (files) {
-    auxZipUpload(
-      uiHAccountDialog.getAuthToken(),
-      $stateParams.projectCode,
-      files,
-      {
-        byCode: true
-      }
-    )
-    .then(function () {
-      $translate('project.reloadingProjectData')
-        .then(function (message) {
-          uiDialogLoading.open({
-            message: message,
-          });
-        });
-
-      return $scope.loadProjectVersions();
-    })
-    .then(
-      uiDialogLoading.close.bind(uiDialogLoading),
-      uiDialogLoading.close.bind(uiDialogLoading)
-    );
   };
 
   /**
@@ -136,6 +120,99 @@ module.exports = /*@ngInject*/ function pHistoryCtrl($scope, $interval, $statePa
 
     }, function (err) {
       uiDialogLoading.close();
+    });
+  };
+
+  /**
+   * Restores the project version identified by the version code
+   * 
+   * @param  {String} versionCode
+   * @return {Promise}
+   */
+  $scope.restoreVersion = function (versionCode) {
+
+    // loading state starts
+    uiDialogLoading.open({
+      message: $translate.instant('projectHistory.restoringVersion', {
+        versionCode: versionCode,
+      })
+    });
+
+    return apiHProject.restoreVersion(
+      uiHAccountDialog.getAuthToken(),
+      $stateParams.projectCode,
+      versionCode,
+      {
+        byCode: true,
+      }
+    )
+    .catch(function (err) {
+      console.warn(err);
+
+      uiDialogLoading.close();
+
+      uiDialogError.open({
+        message: $translate.instant('projectHistory.restoreError', {
+          versionCode: versionCode,
+        })
+      });
+    })
+    .then(function (latestVersion) {
+
+      /**
+       * Poll the server for the latestVersion
+       * until it has its build-status at ready
+       * do not put the polling in the promise sequence
+       */
+      $scope.ensureLatesteVersionBuildReady();
+
+      $scope.projectVersions.unshift(latestVersion);
+      $scope.$apply();
+
+      // loading state ends
+      uiDialogLoading.close();
+
+      /**
+       * Ask user whether she/he would like to
+       * update the associated workspace
+       * @type {String}
+       */
+      return uiDialogConfirm({
+        message: $translate.instant('workspace.updateWorkspaceToVersion', {
+          versionCode: latestVersion.code,
+        }),
+        confirmLabel: $translate.instant('actions.yes'),
+        cancelLabel: $translate.instant('actions.no'),
+      });
+    })
+    .then(function () {
+      // update requested
+      // loading state starts
+      uiDialogLoading.open({
+        message: $translate.instant('workspace.updatingWorkspace'),
+      });
+
+      return apiHWorkspace.loadLatestVersion(
+        uiHAccountDialog.getAuthToken(),
+        $stateParams.projectCode,
+        {
+          byProjectCode: true
+        }
+      );
+    })
+    .then(function () {
+      uiDialogLoading.close();
+    })
+    .catch(function (err) {
+      if (!err) {
+        // ng-dialog seems to not pass an error
+        // object in case the user cancels
+
+        // user cancelled
+        uiDialogLoading.close();
+      } else {
+        throw err;
+      }
     });
   };
 

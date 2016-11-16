@@ -14,36 +14,51 @@
         <th translate="projectHistory.versionLabel"></th>
         <th translate="projectHistory.versionDeployedAt"></th>
         <th translate="projectHistory.versionUrl"></th> 
-        <!-- <th></th> -->
+        <th></th>
         <th></th>
         <th>status</th>
       </tr>
-      <tr class="table-row-body" ng-repeat="version in projectVersions | orderBy:'+':true">
+      <tr class="table-row-body" ng-repeat="version in projectVersions | orderBy: 'createdAt':true">
         <td>{{ version.code }}</td>
         <td>{{ version.createdAt | date : "dd MMM yyyy',' HH:mm" }}</td>
         <td>
+          <!--
+            for the latest version
+            we may supply the production url directly instead of the version url
+          -->
           <a
             target="_blank"
+            ng-if="$index === 0"
+            href="{{ project.code | urlWebsiteHabemusDomain }}"
+            uib-tooltip="{{ 'projectHistory.visitVersion' | translate }}">
+            {{ project.code | urlWebsiteHabemusDomain }}
+          </a>          <a
+            target="_blank"
+            ng-if="$index !== 0"
             href="{{ project.code | urlWebsiteHabemusDomain: version.code }}"
             uib-tooltip="{{ 'projectHistory.visitVersion' | translate }}">
             {{ project.code | urlWebsiteHabemusDomain: version.code }}
           </a>
         </td> 
-<!--         <td class="padding-right">
-          <span
-            class="restore"
-            ng-if="version.detail.name !== project.activeVersion.name"
-            ng-click="restoreProjectVersion(version.detail.name)"
-            uib-tooltip="{{ 'projectHistory.restoreTooltip' | translate }}"
-            translate="projectHistory.restoreVersion">
-          </span>
+        <td class="padding-right">
+          <!--
+            versions are always ordered by createdAt DESC,
+            so that the first version in the array is always the latest one
+          -->
           <span
             class="current"
-            ng-if="version.detail.name === project.activeVersion.name"
+            ng-if="$index === 0"
             uib-tooltip="{{ 'projectHistory.currentTooltip' | translate }}"
             translate="projectHistory.currentVersion">
           </span>
-        </td> -->
+          <span
+            class="restore"
+            ng-if="$index !== 0"
+            ng-click="restoreVersion(version.code)"
+            uib-tooltip="{{ 'projectHistory.restoreTooltip' | translate }}"
+            translate="projectHistory.restoreVersion">
+          </span>
+        </td>
         <td>
           <button class="download" ng-click="downloadVersion(version.code, 'src')">
             <img src="resources/img/icon-download.svg">

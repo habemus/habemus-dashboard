@@ -86,7 +86,9 @@
     "downloadTooltip": "baixe esta versão",
     "dragDirectoryToUpdate": "arraste a pasta inteira do projeto para atualizar",
     "dragZipToUpdate": "arraste uma versão .zip dos arquivos do projeto para atualizar",
-    "dropHere": "solte aqui"
+    "dropHere": "solte aqui",
+    "restoringVersion": "restaurando a versão '{{ versionCode }}'",
+    "restoreError": "Houve um error ao restaurar a versão '{{ versionCode }}'. Por favor tente novamente mais tarde."
   },
   
   "projectDomain": {
@@ -261,5 +263,15 @@
     "confirm": "continuar",
     "invalidZipFile": "arquivo zip inválido",
     "pleaseZipBeforeUploading": "você selecionou múltiplos arquivos. Por favor comprima-os em um arquivo zip e refaça o upload"
+  },
+
+  "workspace": {
+    "updateWorkspaceToVersion": "Você gostaria de atualizar seu workspace para a versão '{{ versionCode }}' ?",
+    "updatingWorkspace": "atualizando o workspace"
+  },
+
+  "actions": {
+    "yes": "sim",
+    "no": "não"
   }
 }

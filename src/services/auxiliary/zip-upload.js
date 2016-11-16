@@ -61,10 +61,14 @@ module.exports = /* @ngInject */ function zipUploadPrepareService(uiDialogError,
       }, function prepareError() {
         uiDialogLoading.close();
       })
-      .then(function uploadSuccess() {
+      .then(function uploadSuccess(res) {
 
         // loading state ends
         uiDialogLoading.close();
+
+        console.log(res);
+
+        return res;
       });
   };
 };

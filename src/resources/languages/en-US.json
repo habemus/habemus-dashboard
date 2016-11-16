@@ -86,7 +86,9 @@
     "downloadTooltip": "download this version",
     "dragDirectoryToUpdate": "drag the project's folder to update",
     "dragZipToUpdate": "drag a zipped version of the project's files to update",
-    "dropHere": "drop here"
+    "dropHere": "drop here",
+    "restoringVersion": "restoring version '{{ versionCode }}'",
+    "restoreError": "An error occured when restoring the version '{{ versionCode }}'. Please try again later"
   },
 
   "projectDomain": {
@@ -261,5 +263,15 @@
     "confirm": "confirm",
     "invalidZipFile": "invalid zip file",
     "pleaseZipBeforeUploading": "you have selected multiple files, you should zip them in a single file before uploading"
+  },
+
+  "workspace": {
+    "updateWorkspaceToVersion": "Would you like to update your workspace to the version '{{ versionCode }}' ?",
+    "updatingWorkspace": "updating workspace"
+  },
+
+  "actions": {
+    "yes": "yes",
+    "no": "no"
   }
 }

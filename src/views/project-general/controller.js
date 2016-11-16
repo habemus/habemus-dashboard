@@ -2,7 +2,7 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports = /*@ngInject*/ function ProjectGeneralCtrl($scope, $stateParams, uiHAccountDialog, currentAccount, auxZipUpload, ngDialog, apiHWorkspace, uiDialogConfirm, uiDialogLoading, uiIntro) {
+module.exports = /*@ngInject*/ function ProjectGeneralCtrl($scope, currentAccount, ngDialog, uiIntro) {
 
   /**
    * Current Account is resolved by ui-router
@@ -25,73 +25,16 @@ module.exports = /*@ngInject*/ function ProjectGeneralCtrl($scope, $stateParams,
       intro.start();
     });
   }
-
-  /**
-   * Creates a new version from the given files
-   * 
-   * @param  {File} files
-   * @return {Promise}
-   */
-  $scope.createVersion = function (files) {
-    auxZipUpload(
-      uiHAccountDialog.getAuthToken(),
-      $stateParams.projectCode,
-      files,
-      {
-        byCode: true
-      }
-    )
-    .catch(function (err) {
-      console.log('upload error');
-      console.warn(err);
-    })
-    .then(function () {
-
-      /**
-       * Poll the server for the latestVersion
-       * until it has its build-status at ready
-       * do not put the polling in the promise sequence
-       *
-       * This method is defined in the ProjectCtrl (from which this controller inherits)
-       */
-      $scope.ensureLatesteVersionBuildReady();
-
-      /**
-       * Ask user whether she/he would like to
-       * update the associated workspace
-       * @type {String}
-       */
-      return uiDialogConfirm({
-        message: 'would you like to update your workspace as well?',
-        confirmLabel: 'yes',
-        cancelLabel: 'no',
-      });
-
-    })
-    .then(function () {
-      // update requested
-      // loading state starts
-      uiDialogLoading.open({
-        message: 'updating workspace'
-      });
-
-      return apiHWorkspace.loadLatestVersion(
-        uiHAccountDialog.getAuthToken(),
-        $stateParams.projectCode,
-        {
-          byProjectCode: true
-        }
-      );
-    })
-    .then(function () {
-      uiDialogLoading.close();
-    })
-    .catch(function (err) {
-      // user cancelled
-      uiDialogLoading.close();
-    });
-  };
   
+  /**
+   * Proxy method to the project controller (parent of this)
+   */
+  $scope.createVersion = function () {
+    var args = Array.prototype.slice.call(arguments, 0);
+
+    return $scope.$parent.createVersion.apply($scope.$parent, args);
+  };
+
   /**
     * Name editing
     */

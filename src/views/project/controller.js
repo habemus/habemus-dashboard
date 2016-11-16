@@ -7,7 +7,7 @@ function _wait(ms) {
   });
 }
 
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, currentAccount, $rootScope, $translate, apiHProject, apiHWebsite, apiHWorkspace, uiHAccountDialog, ngDialog, CONFIG, uiDialogLoading, auxZipPrepare, auxZipUpload, uiIntro) {
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, currentAccount, $rootScope, $translate, apiHProject, apiHWebsite, apiHWorkspace, uiHAccountDialog, ngDialog, CONFIG, uiDialogLoading, uiDialogConfirm, auxZipPrepare, auxZipUpload, uiIntro) {
   
   /**
    * Current Account is resolved by ui-router
@@ -144,29 +144,80 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, curren
     });
   };
 
-  // $scope.restoreProjectVersion = function (versionId) {
+  /**
+   * Creates a new version from the given files
+   * 
+   * @param  {File} files
+   * @return {Promise}
+   */
+  $scope.createVersion = function (files) {
 
-  //   // loading state starts
-  //   uiDialogLoading.open({
-  //     message: 'restoring version ' + versionId
-  //   });
+    var _latestProjectVersion;
 
-  //   return projectAPI.restoreVersion($scope.project.id, versionId)
-  //     .then(function (res) {
+    return auxZipUpload(
+      uiHAccountDialog.getAuthToken(),
+      $stateParams.projectCode,
+      files,
+      {
+        byCode: true
+      }
+    )
+    .catch(function (err) {
+      console.log('upload error');
+      console.warn(err);
+    })
+    .then(function (latestVersion) {
 
-  //       uiDialogLoading.setMessage('reloading project data');
+      _latestProjectVersion = latestVersion;
 
-  //       return $scope.loadProject();
-  //       console.log(res);
-  //     }, function (err) {
-  //       console.warn('failed to restore version');
-  //     })
-  //     .then(function () {
-  //       // loading state starts
-  //       uiDialogLoading.close();
-  //     });
-  // }
-  
+      /**
+       * Poll the server for the latestVersion
+       * until it has its build-status at ready
+       * do not put the polling in the promise sequence
+       */
+      $scope.ensureLatesteVersionBuildReady();
+
+      /**
+       * Ask user whether she/he would like to
+       * update the associated workspace
+       * @type {String}
+       */
+      return uiDialogConfirm({
+        message: $translate.instant('workspace.updateWorkspaceToVersion', {
+          versionCode: latestVersion.code,
+        }),
+        confirmLabel: $translate.instant('actions.yes'),
+        cancelLabel: $translate.instant('actions.no'),
+      });
+
+    })
+    .then(function () {
+      // update requested
+      // loading state starts
+      uiDialogLoading.open({
+        message: $translate.instant('workspace.updatingWorkspace'),
+      });
+
+      return apiHWorkspace.loadLatestVersion(
+        uiHAccountDialog.getAuthToken(),
+        $stateParams.projectCode,
+        {
+          byProjectCode: true
+        }
+      );
+    })
+    .then(function () {
+      uiDialogLoading.close();
+
+      return _latestProjectVersion;
+    })
+    .catch(function (err) {
+      // user cancelled
+      uiDialogLoading.close();
+
+      console.warn(err);
+    });
+  };
 
   // initialize
   $scope.loadProject().then(function (project) {
