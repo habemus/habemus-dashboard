@@ -170,10 +170,16 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, curren
 
   // initialize
   $scope.loadProject().then(function (project) {
-    return Bluebird.all([
+
+    var promises = [
       $scope.ensureLatesteVersionBuildReady(),
-      $scope.ensureWorkspaceReady(),
-      $scope.loadDomainRecords(),
-    ]);
+      $scope.loadDomainRecords()
+    ];
+
+    if ($scope.currentAccount.applicationConfig.workspace.version !== 'disabled') {
+      promises.push($scope.ensureWorkspaceReady());
+    }
+
+    return Bluebird.all(promises);
   });
 };
