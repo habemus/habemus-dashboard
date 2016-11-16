@@ -2,7 +2,29 @@
 const fs = require('fs');
 const path = require('path');
 
-module.exports = /*@ngInject*/ function ProjectGeneralCtrl($scope, $stateParams, uiHAccountDialog, auxZipUpload, ngDialog, apiHWorkspace, uiDialogConfirm, uiDialogLoading) {
+module.exports = /*@ngInject*/ function ProjectGeneralCtrl($scope, $stateParams, uiHAccountDialog, currentAccount, auxZipUpload, ngDialog, apiHWorkspace, uiDialogConfirm, uiDialogLoading, uiIntro) {
+
+  /**
+   * Current Account is resolved by ui-router
+   * @type {Object}
+   */
+  $scope.currentAccount = currentAccount;
+
+  var showIntro = false;
+
+  try {
+    // this is not a critical feature
+    // wrap in try catch to handle account data structure variation
+    showIntro = currentAccount.applicationConfig.dashboard.guides['project-general'] === 'new';
+  } catch (e) {
+    showIntro = false;
+  }
+
+  if (showIntro) {
+    uiIntro.projectGeneral().then(function (intro) {
+      intro.start();
+    });
+  }
 
   /**
    * Creates a new version from the given files

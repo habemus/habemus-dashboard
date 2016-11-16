@@ -1,37 +1,45 @@
 // third party
-var Q = require('q');
+const Bluebird = require('bluebird');
 
 var aux = require('../../lib/auxiliary');
 
-module.exports = /* @ngInject */ function ($rootScope, $compile, $timeout) {
+module.exports = /* @ngInject */ function ($rootScope, $compile, $timeout, uiHAccountDialog) {
 
   // saves data about the intro so that it will not appear automatically
   // anymore to the user
-  function _setAsShown(prop) {
+  function _updateGuideStatus(guideName, guideStatus) {
 
-    var user = $rootScope.currentUser;
+    return uiHAccountDialog.getCurrentAccount()
+      .then(function (account) {
 
-    var guideState = user.guideState || {};
+        var config = {};
+        config['guides.' + guideName] = guideStatus;
 
-    guideState[prop] = false;
-
-    console.warn('_setAsShown implement');
+        return uiHAccountDialog.hAccountClient.updateApplicationConfig(
+          uiHAccountDialog.getAuthToken(),
+          account.username,
+          'dashboard',
+          config
+        );
+      })
+      .then(function (account) {
+        // update cached version of account
+        uiHAccountDialog.hAccountClient.setCachedAccount(account);
+      });
   };
 
   function _compileStep(step) {
-    var defer = Q.defer();
+    return new Bluebird(function (resolve, reject) {
+      var $compiledEl = $compile('<div>' + step.intro + '</div>')($rootScope.$new());
 
-    var $compiledEl = $compile('<div>' + step.intro + '</div>')($rootScope.$new());
+      // get the html on the next tick,
+      // we need to let angular run a $diget cycle
+      $timeout(function () {
+        step.intro = $compiledEl.html();
 
-    // get the html on the next tick,
-    // we need to let angular run a $diget cycle
-    $timeout(function () {
-      step.intro = $compiledEl.html();
-
-      defer.resolve(step);
-    }, 0);
-
-    return defer.promise;
+        resolve(step);
+      }, 0);
+    });
   }
 
   ///////////////////////
@@ -63,7 +71,7 @@ module.exports = /* @ngInject */ function ($rootScope, $compile, $timeout) {
       },
     ];
 
-    return Q.all(sourceSteps.map(_compileStep))
+    return Bluebird.all(sourceSteps.map(_compileStep))
       .then(function (steps) {
 
         var dIntro = introJs();
@@ -73,9 +81,8 @@ module.exports = /* @ngInject */ function ($rootScope, $compile, $timeout) {
           disableInteraction: true,
         });
 
-        dIntro.setAsShown = _setAsShown.bind(null, 'showDashboardIntro');
-        dIntro.onexit(dIntro.setAsShown);
-        dIntro.oncomplete(dIntro.setAsShown);
+        dIntro.onexit(_updateGuideStatus.bind(null, 'dashboard', 'skipped'));
+        dIntro.oncomplete(_updateGuideStatus.bind(null, 'dashboard', 'completed'));
 
         return dIntro;
       });
@@ -85,7 +92,7 @@ module.exports = /* @ngInject */ function ($rootScope, $compile, $timeout) {
   
   /////////////////////
   /// PROJECT INTRO ///
-  function projectIntro() {
+  function projectGeneral() {
 
     var updateProjectIntro = aux.isChrome() ?
       "<p translate='projectGeneral.introUpdate'></p>" : 
@@ -130,7 +137,7 @@ module.exports = /* @ngInject */ function ($rootScope, $compile, $timeout) {
       },
     ];
 
-    return Q.all(sourceSteps.map(_compileStep))
+    return Bluebird.all(sourceSteps.map(_compileStep))
       .then(function (steps) {
         var pIntro = introJs();
         pIntro.setOptions({
@@ -139,9 +146,8 @@ module.exports = /* @ngInject */ function ($rootScope, $compile, $timeout) {
           disableInteraction: true
         });
 
-        pIntro.setAsShown = _setAsShown.bind(null, 'showProjectIntro');
-        pIntro.onexit(pIntro.setAsShown);
-        pIntro.oncomplete(pIntro.setAsShown);
+        pIntro.onexit(_updateGuideStatus.bind(null, 'project-general', 'skipped'));
+        pIntro.oncomplete(_updateGuideStatus.bind(null, 'project-general', 'completed'));
 
         return pIntro;
       });
@@ -152,7 +158,7 @@ module.exports = /* @ngInject */ function ($rootScope, $compile, $timeout) {
 
   var intro = {
     dashboard: dashboard,
-    project: projectIntro
+    projectGeneral: projectGeneral
   }
 
   return intro;

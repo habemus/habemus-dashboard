@@ -50,15 +50,15 @@ module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state,
 
     } else if (currentState.name == 'project.general') {
 
-      uiIntro.project().then(function (projectIntro) {
+      uiIntro.projectGeneral().then(function (projectIntro) {
         projectIntro.start();
       });
 
     } else if (currentState.name.substr(0,7) == 'project') {
-      $state.go('project.general');
-
-      uiIntro.project().then(function (projectIntro) {
-        projectIntro.start();
+      $state.go('project.general').then(function () {
+        uiIntro.projectGeneral().then(function (projectIntro) {
+          projectIntro.start();
+        });
       });
       
     }

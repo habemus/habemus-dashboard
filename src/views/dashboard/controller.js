@@ -11,6 +11,22 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, currentAccount, $t
    */
   $scope.currentAccount = currentAccount;
 
+  var showIntro = false;
+
+  try {
+    // this is not a critical feature
+    // wrap in try catch to handle account data structure variation
+    showIntro = currentAccount.applicationConfig.dashboard.guides.dashboard === 'new';
+  } catch (e) {
+    showIntro = false;
+  }
+  
+  if (showIntro) {
+    uiIntro.dashboard().then(function (intro) {
+      intro.start();
+    });
+  }
+
   $scope.loadProjects = function () {
     return apiHProject.list(uiHAccountDialog.getAuthToken())
       .then(function (projects) {
