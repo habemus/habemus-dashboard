@@ -7,11 +7,8 @@ module.exports = /* @ngInject */ function urls(CONFIG) {
     // hosts
     websiteHost: process.env.WEBSITE_HOST,
 
-    /**
-     * TODO: change name at h-urls
-     * @type {[type]}
-     */
-    workspaceHost: process.env.WORKSPACE_HOST,
+    // workspace base url
+    uiWorkspaceBaseURL: process.env.UI_WORKSPACE_BASE_URL,
   });
 
 };

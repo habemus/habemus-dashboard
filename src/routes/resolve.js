@@ -11,10 +11,20 @@ exports.currentAccount = /*@ngInject*/ function (uiHAccountDialog, $translate) {
   .then(function (account) {
     _account = account;
 
-    /**
-     * Setup language
-     */
-    $translate.use(account.applicationConfig.dashboard.language);
+    var lang;
+
+    try {
+      lang = account.applicationConfig.dashboard.language;
+    } catch (e) {
+      // non critical error
+    }
+
+    if (lang) {
+      /**
+       * Setup language
+       */
+      $translate.use(lang);
+    }
 
     return $translate.onReady();
   })
