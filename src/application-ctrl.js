@@ -4,6 +4,9 @@ var fs          = require('fs');
 var url         = require('url');
 var querystring = require('querystring');
 
+// own
+var aux = require('./lib/auxiliary');
+
 // constants
 var BETA_DATA_QUERY_PARAM = 'betaData';
 
@@ -35,6 +38,10 @@ module.exports = /* @ngInject */ function ApplicationCtrl($scope, $rootScope, $s
     // add to the history
     history.push(last);
   });
+
+  $rootScope.browser = {
+    isChrome: aux.isChrome(),
+  };
   
   $scope.goBack = function () {
     

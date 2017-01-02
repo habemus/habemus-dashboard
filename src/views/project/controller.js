@@ -15,6 +15,17 @@ module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, curren
    */
   $scope.currentAccount = currentAccount;
 
+  // console.log(currentAccount);
+
+  // uiHAccountDialog.hAccountClient.updateApplicationConfig(
+  //   uiHAccountDialog.getAuthToken(),
+  //   currentAccount.username,
+  //   'workspace',
+  //   {
+  //     version: 'beta'
+  //   }
+  // );
+
   /**
    * Loads the project's data into the scope
    * @return {Bluebird -> Project}

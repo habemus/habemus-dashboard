@@ -14,6 +14,8 @@ module.exports = function (MOD) {
       restrict: 'A',
       link: function (scope, element, attrs) {
 
+        console.log('fileDropContainer hey')
+
         scope.clearDropTargets = function () {
           element
             .find(FD_SELECTOR)

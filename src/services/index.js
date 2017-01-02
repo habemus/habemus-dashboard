@@ -13,6 +13,7 @@ module.exports = function (DASHBOARD) {
   DASHBOARD.factory('uiDialogConfirm', require('./ui/dialogs/confirm'));
   DASHBOARD.factory('uiDialogError', require('./ui/dialogs/error'));
   DASHBOARD.factory('uiDialogInfo', require('./ui/dialogs/info'));
+  DASHBOARD.factory('uiDialogNewProject', require('./ui/dialogs/new-project'));
 
   DASHBOARD.factory('auxZipPrepare', require('./auxiliary/zip-prepare'));
   DASHBOARD.factory('auxZipUpload', require('./auxiliary/zip-upload'));

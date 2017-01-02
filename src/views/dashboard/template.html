@@ -10,18 +10,19 @@
     <li
       class="shadow"
       ng-if="browser.isChrome"
-      data-intro-name="create-project">
+      data-intro-name="create-project"
+      ng-click="openNewProjectDialog()">
       <div
         class="drop-to-new-project"
         file-drop="createProject($files, $rootDir)">
         
-        <input
+<!--         <input
           type="file"
           webkitdirectory
           directory
           multiple
           file-change="createProject($files, $rootDir)"
-          uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}">
+          uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}"> -->
 
         <div class="upload-img">
         </div>

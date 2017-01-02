@@ -25,7 +25,7 @@ module.exports = function (DASHBOARD) {
   DASHBOARD.config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state('dashboard', {
-      url: '/',
+      url: '/?templateURL&projectName',
       data: {
         authorizedRoles: ['developer'],
         pageTitle: 'dashboard',

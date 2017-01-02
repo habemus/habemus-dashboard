@@ -1,0 +1,119 @@
+<div
+  id="new-project-dialog"
+  class="content" 
+  file-drop-container>
+
+  <div
+    class="new-project-creation-method"
+    ng-if="!ngDialogData.templateURL">
+    <h2>Crie um novo projeto</h2>
+
+    <ul class="options">
+      <!-- first option: create from files -->
+      <!-- directory file input and file drop browsers -->
+      <li
+        class="shadow create-from-files"
+        ng-if="browser.isChrome">
+        <div file-drop="createProjectFromFiles($files, $rootDir)">
+          
+          <input
+            type="file"
+            webkitdirectory
+            directory
+            multiple
+            file-change="createProjectFromFiles($files, $rootDir)"
+            uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}">
+
+          <img class="normal-img" src="resources/img/cloud-upload-normal.svg">
+          <img class="hover-img" src="resources/img/cloud-upload-hover.svg">
+          
+          <h3 class="default">
+            <span translate="dashboard.dragProjectDirectory1"></span>
+            <br>
+            <span translate="dashboard.dragProjectDirectory2"></span>
+          </h3>
+          <h3 class="while-dragging" translate="dashboard.dropHere"></h3>
+        </div>
+      </li>
+
+      <!-- for browsers that do not support directory upload -->
+      <li
+        class="shadow create-from-files"
+        ng-if="!browser.isChrome">
+        <div file-drop="createProjectFromFiles($files, $rootDir)">
+
+          <input
+            type="file"
+            accept="application/zip"
+            file-change="createProjectFromFiles($files, $rootDir)"
+            uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}">
+
+          <img class="normal-img" src="resources/img/cloud-upload-normal.svg">
+          <img class="hover-img" src="resources/img/cloud-upload-hover.svg">
+          
+          <h3 class="default">
+            <span translate="dashboard.dragProjectZip1"></span>
+            <br>
+            <span translate="dashboard.dargProjectZip2"></span>
+          </h3>
+          <h3 class="while-dragging" translate="dashboard.dropHere"></h3>
+        </div>
+      </li>
+
+      <!-- second option: create from blank template -->
+      <li
+        class="shadow create-from-blank-template"
+        ng-click="createFromBlankTemplate()">
+        <img class="normal-img" src="resources/img/cloud-upload-normal.svg">
+
+        <h3>inicie um projeto<br>em branco</h3>
+      </li>
+
+      <!-- third-option: choose template -->
+      <li
+        class="shadow choose-template">
+        <a href="">
+          <img class="normal-img" src="resources/img/cloud-upload-normal.svg">
+
+          <h3>escolha um<br>template base</h3>
+        </a>
+      </li>
+
+    </ul>
+
+    <button
+      ng-click="closeThisDialog()"
+      class="ngdialog-button ngdialog-button-secondary">
+      cancelar
+    </button>
+  </div>
+
+  <div
+    class="new-project-config"
+    ng-if="ngDialogData.templateURL">
+    <h2>Nomeie seu projeto</h2>
+
+    <form ng-submit="createProjectFromTemplate()">
+      <p>
+        O nome do projeto será utilizado também para compor o nome do domínio habemus.
+      </p>
+      <input
+        type="text"
+        ng-model="ngDialogData.name"
+        required>
+
+      <button
+        type="button"
+        class="ngdialog-button ngdialog-button-secondary"
+        ng-click="clearSelection()">
+        voltar
+      </button>
+
+      <button
+        type="submit"
+        class="ngdialog-button ngdialog-button-primary">
+        continuar
+      </button>
+    </form>
+  </div>
+</div>

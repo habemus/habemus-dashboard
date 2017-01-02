@@ -1,15 +1,18 @@
-'use strict';
+// native
+var url = require('url');
 
 // own
 var fileReader = require('../../lib/file-reader');
 
-module.exports = /*@ngInject*/ function DashboardCtrl($scope, currentAccount, $translate, uiHAccountDialog, apiHProject, $state, uiDialogLoading, uiDialogError, auxZipPrepare, uiIntro) {
+module.exports = /*@ngInject*/ function DashboardCtrl($scope, currentAccount, $translate, $filter, uiHAccountDialog, apiHProject, apiHWorkspace, $state, $stateParams, $location, uiDialogLoading, uiDialogError, auxZipPrepare, uiIntro, uiDialogNewProject) {
 
   /**
    * Current Account is resolved by ui-router
    * @type {Object}
    */
   $scope.currentAccount = currentAccount;
+
+  console.log(currentAccount)
 
   var showIntro = false;
 
@@ -48,7 +51,7 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, currentAccount, $t
    * @param  {String} projectName 
    * @param  {File} zipFile     
    */
-  function _createProject(zipFile, projectName) {
+  function _createProjectFromZip(zipFile, projectName) {
     if (zipFile.size > 52428800) {
       uiDialogLoading.close();
       // error Dialog opens
@@ -128,13 +131,108 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, currentAccount, $t
     
     auxZipPrepare(files)
       .then(function (zipFile) {
-        return _createProject(zipFile, projectName);
+        return _createProjectFromZip(zipFile, projectName);
       }, function (err) {
         uiDialogLoading.close();
       })
       .done();
   };
 
+  /**
+   * Creates a project from a given templateURL
+   * @param  {URL} templateURL
+   * @param  {String} projectName
+   * @return {Promise}
+   */
+  $scope.createProjectFromTemplateURL = function (templateURL, projectName) {
+
+    uiDialogLoading.open({
+      message: $translate.instant('dashboard.creatingProjectFromTemplate')
+    });
+
+    return apiHProject.create(
+      uiHAccountDialog.getAuthToken(),
+      {
+        name: projectName,
+        templateURL: templateURL,
+      }
+    )
+    .then(function (projectData) {
+
+      if ($scope.currentAccount.applicationConfig.workspace.version !== 'disabled') {
+
+        return apiHWorkspace.ensureReady(
+          uiHAccountDialog.getAuthToken(),
+          projectData._id
+        )
+        .then(function (workspace) {
+          var workspaceURL = $filter('urlWorkspace')(projectData.code);
+          window.location = workspaceURL;
+        });
+
+      } else {
+        // loading state ends immediately
+        uiDialogLoading.close();
+
+        // navigate to the project view
+        $scope.navigateToProject(projectData.code);
+      }
+    })
+    .catch(function (err) {
+      console.error(err);
+      
+      uiDialogError($translate.instant('project.errorCreatingProject'));
+      uiDialogLoading.close();
+    });
+  }
+
+  /**
+   * Opens the newProject dialog with preconfigured options.
+   * 
+   * @param  {Object} projectData
+   * @return {Promise}
+   */
+  $scope.openNewProjectDialog = function (projectData) {
+
+    projectData = Object.assign({}, {
+      templateURL: undefined,
+      name: undefined,
+    }, projectData);
+
+    return uiDialogNewProject(projectData).closePromise.then(function (data) {
+
+      var projectData = data.value;
+
+      if (projectData.fromTemplate) {
+
+        return $scope.createProjectFromTemplateURL(
+          projectData.templateURL,
+          projectData.name
+        );
+
+      } else if (projectData.fromFiles) {
+        return $scope.createProject(
+          projectData.files,
+          projectData.name
+        );
+      }
+    });
+  };
+
   // initialize
   $scope.loadProjects();
+
+  var parsedLocation = url.parse(window.location.toString(), true);
+
+  if ($stateParams.templateURL) {
+    // http://stackoverflow.com/questions/17376416/angularjs-how-to-clear-query-parameters-in-the-url
+    // remove templateURL and projectName from search
+    $location.search('templateURL', null);
+    $location.search('projectName', null);
+
+    $scope.openNewProjectDialog({
+      name: $stateParams.projectName,
+      templateURL: $stateParams.templateURL,
+    });
+  }
 };
