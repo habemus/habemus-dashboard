@@ -12,8 +12,6 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, currentAccount, $t
    */
   $scope.currentAccount = currentAccount;
 
-  console.log(currentAccount)
-
   var showIntro = false;
 
   try {
@@ -166,8 +164,14 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, currentAccount, $t
           projectData._id
         )
         .then(function (workspace) {
-          var workspaceURL = $filter('urlWorkspace')(projectData.code);
-          window.location = workspaceURL;
+          // navigate to the project view
+          // (only to add it to the browser's history)
+          $scope.navigateToProject(projectData.code);
+
+          setTimeout(function () {
+            var workspaceURL = $filter('urlWorkspace')(projectData.code);
+            window.location = workspaceURL;
+          }, 100);
         });
 
       } else {
