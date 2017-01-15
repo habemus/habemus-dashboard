@@ -8,6 +8,7 @@ var config = require('../config');
 module.exports = function (gulp, $) {
   require('./watch')(gulp, $);
   require('./serve-dist')(gulp, $);
+  require('./i18n')(gulp, $);
 
   /**
    * Runs all tasks for development environment setup and go
