@@ -59,9 +59,12 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, currentAccount, $t
     }
 
     projectName = projectName || 'Project';
+    var _projectData;
     
     apiHProject.create(uiHAccountDialog.getAuthToken(), { name: projectName })
       .then(function (projectData) {
+
+        _projectData = projectData;
         
         uiDialogLoading.setMessage($translate.instant('dashboard.uploading'));
 
@@ -108,6 +111,12 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, currentAccount, $t
         
         uiDialogError($translate.instant('project.errorUploaded'));
         uiDialogLoading.close();
+
+        // remove the project, as we were unable to upload files
+        apiHProject.scheduleRemoval(
+          uiHAccountDialog.getAuthToken(),
+          _projectData.code
+        );
       })
       .catch(function (err) {
 
