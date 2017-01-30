@@ -76,6 +76,10 @@
         </td>
         <td>
           {{ version.buildStatus.value }}
+
+          <button ng-click="scheduleVersionBuild(version.code)">
+            compile
+          </button>
         </td>
       </tr>
     </table>

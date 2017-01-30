@@ -216,6 +216,42 @@ module.exports = /*@ngInject*/ function pHistoryCtrl($scope, $interval, $statePa
     });
   };
 
+  /**
+   * Restores the project version identified by the version code
+   * 
+   * @param  {String} versionCode
+   * @return {Promise}
+   */
+  $scope.scheduleVersionBuild = function (versionCode) {
+    // loading state starts
+    uiDialogLoading.open({
+      message: $translate.instant('workspace.updatingWorkspace'),
+    });
+
+    return apiHProject.scheduleVersionBuild(
+      uiHAccountDialog.getAuthToken(),
+      $stateParams.projectCode,
+      versionCode,
+      {
+        byCode: true,
+      }
+    )
+    .then(function () {
+      uiDialogLoading.close();
+    })
+    .catch(function (err) {
+      if (!err) {
+        // ng-dialog seems to not pass an error
+        // object in case the user cancels
+
+        // user cancelled
+        uiDialogLoading.close();
+      } else {
+        throw err;
+      }
+    });
+  };
+
   // initialize
   $scope.loadProjectVersions();
 };
