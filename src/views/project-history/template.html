@@ -5,7 +5,7 @@
     <span class="project-name" ng-click="editNameOfProject()">{{ project.name }} </span> 
     <span class="section-name">(<span translate="projectHistory.history"></span>)</span>
 
-    <span ng-show="loading">loading</span>
+    <span ng-show="loading" translate="projectHistory.loading">loading</span>
   </h1>
   
   <div class="main-content">
@@ -70,17 +70,14 @@
           </button>
           <button ng-show="version.buildStatus.value === 'succeeded'" class="download" ng-click="downloadVersion(version.code, 'dist')">
             <img src="resources/img/icon-download.svg">
-            <span>
-              download dist
-            </span>
+            <span translate="projectHistory.downloadDist"></span>
           </button>
         </td>
         <td>
           {{ version.buildStatus.value }}
         </td>
         <td>
-          <button ng-if="$index === 0 && version.buildStatus.value !== 'succeeded'" ng-click="scheduleVersionBuild(version.code)">
-            compile
+          <button ng-if="$index === 0 && version.buildStatus.value !== 'succeeded'" ng-click="scheduleVersionBuild(version.code)" translate="projectHistory.compile">
           </button>
         </td>
       </tr>

@@ -32,34 +32,15 @@
     "resetPassword": "Reset your password"
   },
   "actions": {
+    "cancel": "cancel",
     "no": "no",
     "yes": "yes"
   },
-  "auth": {
-    "email": "e-mail",
-    "login": "login",
-    "password": "password",
-    "usernameAndPasswordMismatch": "email and password do not match",
-    "usernamePlaceholder": "example@example.com"
-  },
-  "betaAuth": {
-    "accessBetaVersion": "Access the beta version of habemus!",
-    "accessCode": "access code",
-    "insertAccessCode": "insert your access code",
-    "invalidCodeError": "invalid access code",
-    "noBetaCodeError": "please insert your access code",
-    "submit": "send"
-  },
-  "betaPasswordReset": {
-    "confirmNewPassword": "confirm your password",
-    "newPassword": "password",
-    "resetError": "there was a problem setting your password, please try again",
-    "resetPassword": "For your security, define a password",
-    "start": "start!",
-    "submit": "submit"
-  },
   "dashboard": {
-    "createdAt": "created at",
+    "back": "back",
+    "createNewProject": "create a new project",
+    "createProjectFromBlank": "create project blank",
+    "createProjectFromTemplate": "create project from starter project",
     "creatingProjectFromTemplate": "creating project from starter project",
     "dargProjectZip2": "of the project's files",
     "dragProjectDirectory1": "drag here the folder",
@@ -67,15 +48,16 @@
     "dragProjectTooltip": "the project must be static (languages: html, css, js). Your project must have an index.html file",
     "dragProjectZip1": "drag a zipped version",
     "dropHere": "drop here",
-    "edit": "edit",
     "editProject": "edit",
-    "errorUnverifiedEmail": "We could not verify your email. Please go to your inbox and verify it ;)",
     "finishingUpload": "setting up last details",
     "introAccessAccount": "Access this menu to quickly see the overview of your projects, read documentation or manage your account settings",
     "introCreateProject": "Create a new project by clicking to choose an option or by dragging a folder here. It can be a .zip or a single folder.",
     "introCreateProjectByZip": "Create a new project by clicking to choose an option or by dragging a .zip file here.",
     "introSendFeedBack": "Use this box to send us feedbacks. We want to hear you!",
     "myProjects": "My projects",
+    "nameYourProject": "Name your project",
+    "nameYourProjectP": "The name of your project will be used also to set habemus domain name",
+    "next": "next",
     "preparingUpload": "preparing upload",
     "subTitle": "Upload your projects of static websites (html, css, js) to host them in the cloud and have a habemus url",
     "updatedAt": "updated at",
@@ -89,16 +71,11 @@
     "attachImage": "would you like to attach an image?",
     "hearYou": "we want to hear you :)",
     "ideaPlaceholder": "questions, bugs, suggestions, comments, improvements...",
-    "messageRequired": "please write a message",
     "sendUsYourFeedback": "contact us!",
-    "sending": "sending...",
-    "somethingWentWrong": "oops something went wrong, please retry",
     "submit": "send",
-    "thanks": "Thank you!!!",
     "whatDoYouThink": "what do you think of habemus? what can we improve?"
   },
   "header": {
-    "languages": "languages",
     "logOut": "logout",
     "myAccount": "my account",
     "myProjects": "my projects",
@@ -106,7 +83,6 @@
     "viewDocs": "documentation"
   },
   "project": {
-    "delete": "delete",
     "domain": "domain",
     "errorCreatingProject": "Something went wrong. Please try again.",
     "errorFailed": "Something went wrong. Please try again.",
@@ -117,7 +93,7 @@
     "general": "general",
     "history": "history",
     "preparingUpload": "preparing upload",
-    "reloadingProjectData": "reloading project data",
+    "schedulingVersionBuild": null,
     "uploading": "uploading"
   },
   "projectDelete": {
@@ -166,10 +142,10 @@
       "recordType": "record type",
       "requiredRecordData": "required data",
       "requiredRecordDataTooltip": "copy data and paste on your domain provider",
-      "restartVerification": null,
+      "restartVerification": "restart verification",
       "setupYourDomain": "To complete connection you need to setup your domain.",
       "testConnection": "test connection",
-      "verificationFailedPermanentlyExplanation": null,
+      "verificationFailedPermanentlyExplanation": "verification failed. please try to connect again",
       "verifyingConnection": "verifying connection"
     },
     "domain": "domains",
@@ -201,6 +177,7 @@
     "dragDirectoryToUpdate": "drag folder to update",
     "dragZipToUpdate": "drag a zipped version of the project's files to update",
     "dropHere": "drop here",
+    "editProjectCode": "edit code",
     "editProjectDomain": "edit domains",
     "editProjectName": "edit project name",
     "general": "(general)",
@@ -215,14 +192,17 @@
     "myProjects": "My projects"
   },
   "projectHistory": {
+    "compile": "compile",
     "currentTooltip": "this is current online version",
     "currentVersion": "current",
+    "downloadDist": "download dist",
     "downloadTooltip": "download this version",
     "downloadVersion": "download",
     "dragDirectoryToUpdate": "drag the project's folder to update",
     "dragZipToUpdate": "drag a zipped version of the project's files to update",
     "dropHere": "drop here",
     "history": "history",
+    "loading": "loading",
     "myProjects": "My projects",
     "restoreError": "An error occured when restoring the version '{{ versionCode }}'. Please try again later",
     "restoreTooltip": "restoring will generate a new version based on this one",

@@ -6,7 +6,7 @@
   <div
     class="new-project-creation-method"
     ng-if="!ngDialogData.templateURL">
-    <h2>Crie um novo projeto</h2>
+    <h2 translate="dashboard.createNewProject">Crie um novo projeto</h2>
 
     <ul class="options">
       <!-- first option: create from files -->
@@ -66,7 +66,7 @@
         ng-click="createFromBlankTemplate()">
         <img class="normal-img" src="resources/img/icon-new-project-basic-project.svg">
 
-        <h3>inicie um projeto<br>em branco</h3>
+        <h3 translate="dashboard.createProjectFromBlank">inicie um projeto<br>em branco</h3>
       </li>
 
       <!-- third-option: choose template -->
@@ -76,7 +76,7 @@
         <a href="http://dev-templates.habemus.website">
           <img class="normal-img" src="resources/img/icon-new-project-starter-project.svg">
 
-          <h3>escolha um<br>projeto base</h3>
+          <h3 translate="dashboard.createProjectFromTemplate">escolha um<br>projeto base</h3>
         </a>
       </li>
 
@@ -84,7 +84,8 @@
 
     <button
       ng-click="closeThisDialog()"
-      class="ngdialog-button ngdialog-button-secondary">
+      class="ngdialog-button ngdialog-button-secondary"
+      translate="actions.cancel">
       cancelar
     </button>
   </div>
@@ -92,10 +93,10 @@
   <div
     class="new-project-config"
     ng-if="ngDialogData.templateURL">
-    <h2>Nomeie seu projeto</h2>
+    <h2 translate="dashboard.nameYourProject">Nomeie seu projeto</h2>
 
     <form ng-submit="createProjectFromTemplate()">
-      <p>
+      <p translate="dashboard.nameYourProjectP">
         O nome do projeto será utilizado também para compor o nome do domínio habemus.
       </p>
       <input
@@ -107,13 +108,15 @@
       <button
         type="button"
         class="ngdialog-button ngdialog-button-secondary"
-        ng-click="clearSelection()">
+        ng-click="clearSelection()"
+        translate="dashboard.back">
         voltar
       </button>
 
       <button
         type="submit"
-        class="ngdialog-button ngdialog-button-primary">
+        class="ngdialog-button ngdialog-button-primary"
+        translate="dashboard.next">
         continuar
       </button>
     </form>

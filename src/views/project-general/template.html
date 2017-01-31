@@ -32,7 +32,7 @@
         TODO: study better manners of presenting this information
         to the user
       -->
-      <div class="project-build-messages">
+      <!-- <div class="project-build-messages">
         <a ng-show="projectLatestVersion.buildStatus.value === 'scheduled'">
           build in progress: scheduled
         </a>
@@ -42,7 +42,7 @@
         <a ng-show="projectLatestVersion.buildStatus.value === 'failed'">
           build failed
         </a>
-      </div>
+      </div> -->
       <div
         class="domains-list"
         ng-show="project.code && projectLatestVersion.buildStatus.value === 'succeeded'">
@@ -81,7 +81,7 @@
           	<polyline fill="none" stroke="#6D6D6D" stroke-width="0.9" stroke-miterlimit="10" points="10.478,4.06 14.523,7.995 
           		10.709,11.931 	"/>
           </svg>
-          <span>edit code</span>
+          <span translate="projectGeneral.editProjectCode">edit code</span>
         </a>
         
         <a id="edit-domain" 
