@@ -17,6 +17,7 @@
         <th></th>
         <th></th>
         <th>status</th>
+        <th></th>
       </tr>
       <tr class="table-row-body" ng-repeat="version in projectVersions | orderBy: 'createdAt':true">
         <td>{{ version.code }}</td>
@@ -76,8 +77,9 @@
         </td>
         <td>
           {{ version.buildStatus.value }}
-
-          <button ng-click="scheduleVersionBuild(version.code)">
+        </td>
+        <td>
+          <button ng-if="$index === 0 && version.buildStatus.value !== 'succeeded'" ng-click="scheduleVersionBuild(version.code)">
             compile
           </button>
         </td>

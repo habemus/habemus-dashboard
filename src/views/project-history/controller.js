@@ -225,7 +225,7 @@ module.exports = /*@ngInject*/ function pHistoryCtrl($scope, $interval, $statePa
   $scope.scheduleVersionBuild = function (versionCode) {
     // loading state starts
     uiDialogLoading.open({
-      message: $translate.instant('workspace.updatingWorkspace'),
+      message: $translate.instant('project.schedulingVersionBuild'),
     });
 
     return apiHProject.scheduleVersionBuild(
@@ -236,8 +236,10 @@ module.exports = /*@ngInject*/ function pHistoryCtrl($scope, $interval, $statePa
         byCode: true,
       }
     )
-    .then(function () {
+    .then(function (version) {
       uiDialogLoading.close();
+
+      $scope.loadProjectVersions();
     })
     .catch(function (err) {
       if (!err) {
