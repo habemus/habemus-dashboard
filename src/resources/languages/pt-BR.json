@@ -157,7 +157,8 @@
       "pending": "pendente",
       "projectDomains": "Seu projeto possui os seguintes domínios:",
       "youCanUseCustomDomain": "Caso queira utilizar um domínio personalizado seu, conecte com o seu projeto!",
-      "youCanUseHabemusDomain": "Você pode utilizar o domínio criado automaticamente pela habemus."
+      "youCanUseHabemusDomain": "Você pode utilizar o domínio criado automaticamente pela habemus.",
+      "pending-verification": "verificação pendente"
     },
     "myProjects": "Meus projetos",
     "rename": {

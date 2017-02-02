@@ -70,10 +70,10 @@
         </a>
         
         <a
-          ng-show="workspace"
           ng-href="{{ project.code | urlWorkspace }}"
-          class="action"
-          target="_blank">
+          class="action beta edit-code"
+          ng-class="{ ready: workspace, loading: !workspace }"
+          target="habemus-webeditor">
           <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="16px"
 	 height="16px" viewBox="0 0 16 16" enable-background="new 0 0 16 16" xml:space="preserve">
           	<polyline fill="none" stroke="#6D6D6D" stroke-width="0.9" stroke-miterlimit="10" points="5.568,4.06 1.523,7.995 5.337,11.931 	
@@ -82,6 +82,8 @@
           		10.709,11.931 	"/>
           </svg>
           <span translate="projectGeneral.editProjectCode">edit code</span>
+          &nbsp;&nbsp;
+          <img src="resources/img/beta-label.svg">
         </a>
         
         <a id="edit-domain" 

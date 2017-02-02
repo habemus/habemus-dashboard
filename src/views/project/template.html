@@ -2,21 +2,43 @@
   
   <div id="project-menu">
     <ul>
-      <li><a ui-sref="project.general({ projectCode: project.code })" 
-             ui-sref-active="active"
-             translate="project.general"
-             data-intro-name="habemus-menu-general"
-             >geral</a></li>
+      <li>
+        <a ui-sref="project.general({ projectCode: project.code })" 
+          ui-sref-active="active"
+          translate="project.general"
+          data-intro-name="habemus-menu-general">
+          geral
+        </a>
+      </li>
+      <li>
+        <a
+          target="habemus-webeditor"
+          class="beta"
+          ng-class="{ ready: workspace, loading: !workspace }"
+          ng-href="{{ project.code | urlWorkspace }}">
+          <span translate="projectGeneral.editProjectCode">edit code</span>
+          &nbsp;&nbsp;
+          <img src="resources/img/beta-label.svg">
+        </a>
+      </li>
       <!-- <li><a ui-sref="project.files({ projectCode: project.code })" 
              ui-sref-active="active" translate="project.files">arquivos</a></li> -->
-      <li><a ui-sref="project.history({ projectCode: project.code })" 
-             ui-sref-active="active"
-             translate="project.history"
-             data-intro-name="habemus-menu-history">histórico</a></li>
-      <li><a ui-sref="project.domain.info({ projectCode: project.code })" 
-             ui-sref-active-if="project.domain" 
-             translate="project.domain"
-             data-intro-name="habemus-menu-domains">domínio</a></li>
+      <li>
+        <a ui-sref="project.history({ projectCode: project.code })" 
+          ui-sref-active="active"
+          translate="project.history"
+          data-intro-name="habemus-menu-history">
+          histórico
+        </a>
+      </li>
+      <li>
+        <a ui-sref="project.domain.info({ projectCode: project.code })" 
+          ui-sref-active-if="project.domain" 
+          translate="project.domain"
+          data-intro-name="habemus-menu-domains">
+          domínio
+        </a>
+      </li>
     </ul>
   </div>
 

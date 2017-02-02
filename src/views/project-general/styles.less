@@ -1,10 +1,9 @@
 #project-general-content {
   
   .main-content {
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
   }
 
   .printscreen-container {
@@ -33,17 +32,13 @@
       &:hover {
         color: @habemus-green-dark;
       }
+
+      &.loading {
+        opacity: 0.3;
+      }
     }
     
     .actions {
-//      display: flex;
-//      flex-direction: row;
-//      align-items: flex-start;
-//      
-//      justify-content: space-around;
-//      border: 1px solid @habemus-gray-medium;
-      
-//      margin-bottom: 8px;
       
       a.action {
         font-family: "Open Sans", sans-serif;
@@ -80,6 +75,3 @@
     }
   }
 }
-
-
-

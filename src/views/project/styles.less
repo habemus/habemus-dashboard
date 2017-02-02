@@ -9,7 +9,7 @@
   
   #project-menu {
     background-color: @habemus-gray-dark;
-    width: 200px;
+    width: 220px;
     position: fixed;
     top: 68px;
     bottom: 0;
@@ -18,19 +18,22 @@
       li {
         
         a {
+          display: flex;
+
           text-decoration: none;
           font-family: "Montserrat", sans-serif;
           color: @habemus-off-white;
           font-size: 16px;
           line-height: 52px;
           padding-left: 40px; // TODO get same margin of header
-          display: block;
           transition: all 0.3s ease;
           
           &:hover{
             color: @habemus-green-dark;
-//            background-color: @habemus-green-light;
-//            border-right: 8px solid @habemus-green-dark;
+          }
+
+          &.loading {
+            opacity: 0.3;
           }
           
           &.active {
@@ -43,7 +46,7 @@
   }
   
   #project-content {
-    margin-left: 224px;
+    margin-left: 244px;
     margin-top: 24px;
     width: 100%;
     margin-right: 40px;

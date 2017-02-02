@@ -157,7 +157,8 @@
       "pending": "pending",
       "projectDomains": "Your project has the following domains:",
       "youCanUseCustomDomain": "If you wish to use a custom domain you own, just connect it to your project!",
-      "youCanUseHabemusDomain": "You can use the domain created by habemus."
+      "youCanUseHabemusDomain": "You can use the domain created by habemus.",
+      "pending-verification": "pending verification"
     },
     "myProjects": "My projects",
     "rename": {
