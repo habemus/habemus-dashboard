@@ -15,22 +15,9 @@
       <div
         class="drop-to-new-project"
         file-drop="createProject($files, $rootDir)">
-        
-<!--         <input
-          type="file"
-          webkitdirectory
-          directory
-          multiple
-          file-change="createProject($files, $rootDir)"
-          uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}"> -->
-
-        <div class="upload-img">
-        </div>
-        
+        <div class="upload-img"></div>
         <h3 class="default">
-          <span translate="dashboard.dragProjectDirectory1"></span>
-          <br>
-          <span translate="dashboard.dragProjectDirectory2"></span>
+          <span translate="dashboard.createNewProject"></span>
         </h3>
         <h3 class="while-dragging" translate="dashboard.dropHere"></h3>
       </div>
@@ -40,24 +27,16 @@
     <li
       class="shadow"
       ng-if="!browser.isChrome"
-      data-intro-name="create-project">
+      data-intro-name="create-project"
+      ng-click="openNewProjectDialog()">
       <div
         class="drop-to-new-project"
         file-drop="createProject($files, $rootDir)">
-
-        <input
-          type="file"
-          accept="application/zip"
-          file-change="createProject($files, $rootDir)"
-          uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}">
-
-        <div class="upload-img">
-        </div>
+        
+        <div class="upload-img"></div>
         
         <h3 class="default">
-          <span translate="dashboard.dragProjectZip1"></span>
-          <br>
-          <span translate="dashboard.dargProjectZip2"></span>
+          <span translate="dashboard.createNewProject"></span>
         </h3>
         <h3 class="while-dragging" translate="dashboard.dropHere"></h3>
       </div>

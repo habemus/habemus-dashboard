@@ -35,43 +35,38 @@ module.exports = /*@ngInject*/ function tabCtrlDomainConnect ($scope, $state, $s
         message: 'connecting'
       });
 
-      uiHAccountDialog.ensureUser({ ensureEmailVerified: true })
-        .then(function (user) {
+      return apiHWebsite.createDomainRecord(
+        uiHAccountDialog.getAuthToken(),
+        $scope.project._id,
+        {
+          domain: domain
+        }
+      )
+      .then(function (domainRecord) {
 
-          return apiHWebsite.createDomainRecord(
-            uiHAccountDialog.getAuthToken(),
-            $scope.project._id,
-            {
-              domain: domain
-            }
-          );
+        // add to domainRecords
+        $scope.domainRecords.push(domainRecord);
 
-        })
-        .then(function (domainRecord) {
-
-          // add to domainRecords
-          $scope.domainRecords.push(domainRecord);
-
-          $state.go('project.domain.dns', {
-            inProgress: true,
-            domainRecord: domainRecord
-          });
-
-        }, function (err) {
-
-          console.warn(err);
-
-          if (err.code == 142) {
-            $scope.errorMessage = 'este domínio já está cadastrado em nosso sistema. caso você seja o proprietário, por favor entre em contato conosco: suporte@habem.us';
-          } else {
-            $scope.errorMessage = 'ocorrreu um erro :/ por favor tente novamente mais tarde';
-          }
-
-          $scope.$apply();
-        })
-        .finally(function () {
-          uiDialogLoading.close();
+        $state.go('project.domain.dns', {
+          inProgress: true,
+          domainRecord: domainRecord
         });
+
+      }, function (err) {
+
+        console.warn(err);
+
+        if (err.code == 142) {
+          $scope.errorMessage = 'este domínio já está cadastrado em nosso sistema. caso você seja o proprietário, por favor entre em contato conosco: suporte@habem.us';
+        } else {
+          $scope.errorMessage = 'ocorrreu um erro :/ por favor tente novamente mais tarde';
+        }
+
+        $scope.$apply();
+      })
+      .finally(function () {
+        uiDialogLoading.close();
+      });
       
     } else {
 
