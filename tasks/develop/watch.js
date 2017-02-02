@@ -1,16 +1,17 @@
-var path = require('path');
+const path = require('path');
 
 // External
-var runSequence = require('run-sequence');
-var browserSync = require('browser-sync');
-var browserify  = require('browserify');
-var watchify    = require('watchify');
-var brfs        = require('brfs');
-var vinylSource = require('vinyl-source-stream');
-var vinylBuffer = require('vinyl-buffer');
-var del         = require('del');
+const runSequence = require('run-sequence');
+const browserSync = require('browser-sync');
+const browserify  = require('browserify');
+const watchify    = require('watchify');
+const brfs        = require('brfs');
+const vinylSource = require('vinyl-source-stream');
+const vinylBuffer = require('vinyl-buffer');
+const del         = require('del');
+const envify      = require('envify/custom');
 
-var config = require('../config');
+const config = require('../config');
 
 module.exports = function (gulp, $) {
 
@@ -20,15 +21,54 @@ module.exports = function (gulp, $) {
    */
   gulp.task('watch:watchify', function () {
 
-    // Instantiate watchify
-    var w = watchify(browserify({
+    // apis
+    if (!process.env.H_ACCOUNT_URI) { throw new Error('H_ACCOUNT_URI env var MUST be set'); }
+    if (!process.env.H_PROJECT_URI) { throw new Error('H_PROJECT_URI env var MUST be set'); }
+    if (!process.env.H_WEBSITE_URI) { throw new Error('H_WEBSITE_URI env var MUST be set'); }
+    if (!process.env.H_WORKSPACE_URI) { throw new Error('H_WORKSPACE_URI env var MUST be set'); }
+
+    // hosts
+    if (!process.env.WEBSITE_HOST) { throw new Error('WEBSITE_HOST env var MUST be set'); }
+
+    // only in development:
+    if (!process.env.UI_WORKSPACE_BASE_URL) { throw new Error('UI_WORKSPACE_BASE_URL env var MUST be set'); }
+    if (!process.env.H_WEBSITE_SERVER_URI) { throw new Error('H_WEBSITE_SERVER_URI env var MUST be set'); }
+
+    // instantiate browserify
+    var b = browserify({
       entries: ['src/index.js'],
       // transforms
-      transform: [brfs],
+      transform: [
+        brfs,
+        envify({
+          // apis
+          H_ACCOUNT_URI: process.env.H_ACCOUNT_URI,
+          H_PROJECT_URI: process.env.H_PROJECT_URI,
+          H_WEBSITE_URI: process.env.H_WEBSITE_URI,
+          H_WORKSPACE_URI: process.env.H_WORKSPACE_URI,
+
+          // ui
+          UI_WORKSPACE_BASE_URL: process.env.UI_WORKSPACE_BASE_URL,
+
+          // hosts
+          WEBSITE_HOST: process.env.WEBSITE_HOST,
+
+          // exposed only in development:
+          H_WEBSITE_SERVER_URI: process.env.H_WEBSITE_SERVER_URI,
+        })
+      ],
 
       // standalone global object for main module
       standalone: 'habemus'
-    }));
+    });
+
+    // inject modules for development environment
+    b.require('./injected/development/habemus-dashboard-urls', {
+      expose: 'habemus-dashboard-urls'
+    });
+
+    // Instantiate watchify
+    var w = watchify(b);
 
     // set brfs transform
     w.transform(brfs);
@@ -83,7 +123,7 @@ module.exports = function (gulp, $) {
     // LESS
     gulp.watch(config.srcDir + '/**/*.less', ['less']);
     gulp.watch(config.srcDir + '/**/*.css')
-      .on('change', browserSync.reload);
+      .on('change', browserSync.reload);   
   });
 
   /**
@@ -92,7 +132,7 @@ module.exports = function (gulp, $) {
   gulp.task('serve:develop', function () {
     var bs = browserSync({
       ghostMode: false,
-      port: 4000,
+      port: process.env.DASHBOARD_PORT,
       server: {
         baseDir: './',
         routes: {

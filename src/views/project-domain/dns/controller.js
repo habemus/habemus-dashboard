@@ -2,114 +2,133 @@
 
 var INTERVAL_TIME = 10000;
 
-module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, $interval, projectAPI, loadingDialog) {
+module.exports = /*@ngInject*/ function tabCtrlDomainDns ($scope, $stateParams, $interval, apiHWebsite, uiHAccountDialog, uiDialogLoading) {
   
   /**
    * Var to hold reference to the interval that checks for domain status
    */
-  var CHECK_INTERVAL
-
+  var CHECK_INTERVAL;
+  
   /**
-   * Whether the connection is still in progress
-   * @type {[type]}
-   */
-  $scope.inProgress = $stateParams.inProgress;
-
-  /**
-   * List of dnsRecords and their respective data and statuses
+   * List of targetDNSRecords and their respective data and statuses
    * @type {Array}
    */
-  $scope.dnsRecords = [];
-  
-  $scope.copySuccess = function () {
-    console.log('copied');
-  };
+  $scope.targetDNSRecords = [];
 
-  $scope.copyError = function (err) {
-    console.log(err);
-    console.log('copy error');
-  };
+  /**
+   * Set targetDNSRecords according to data from the domainRecord
+   */
+  $scope.$watch('domainRecord', function () {
 
-  $scope.domainRecord = $stateParams.domain;
+    var domainRecord = $scope.domainRecord;
+    var targetDNSRecords = [];
+
+    // verification code TXT
+    var _txtPartials = domainRecord.verification.computedPartialResults.txt || {
+      active: false,
+      score: 0,
+    };
+    targetDNSRecords.push({
+      type: 'TXT',
+      host: domainRecord.verification.subdomain,
+      targetValue: domainRecord.verification.code,
+      active: _txtPartials.active,
+      score: _txtPartials.score,
+    });
+
+    domainRecord.ipAddresses.forEach((ipAddress) => {
+      var _ipv4Partials = domainRecord.verification.computedPartialResults.ipv4 || {
+        active: false,
+        score: 0,
+      }
+      targetDNSRecords.push({
+        type: 'A',
+        host: '@',
+        targetValue: ipAddress,
+        active: _ipv4Partials.active,
+        score: _ipv4Partials.score,
+      });
+    });
+
+    if (domainRecord.enableWwwAlias) {
+      var _cnamePartials = domainRecord.verification.computedPartialResults.cname || {
+        active: false,
+        score: 0
+      };
+      targetDNSRecords.push({
+        type: 'CNAME',
+        host: 'www',
+        targetValue: domainRecord.domain,
+        active: _cnamePartials.active,
+        score: _cnamePartials.score,
+      });
+    }
+
+    $scope.targetDNSRecords = targetDNSRecords;
+  })
+
+  $scope.domainRecord = $stateParams.domainRecord;
 
   /**
    * Method for loading data on the dns configuration statuses
    * @return {[type]} [description]
    */
-  $scope.loadDomainDnsConfigurations = function () {
+  $scope.loadDomainRecord = function () {
     
     $scope.verifying = true;
     
-    projectAPI
-      .verifyDomainRecord($scope.project.id, $stateParams.domain.objectId)
+    return apiHWebsite
+      .getDomainRecord(
+        uiHAccountDialog.getAuthToken(),
+        $scope.domainRecord.projectId,
+        $stateParams.domainRecord._id
+      )
       .then(function (domainRecord) {
-
-        $scope.dnsRecords = [];
-
-        var aggregateCheckStatus = domainRecord.verificationStatus_;
-
-        if (aggregateCheckStatus.verification === 1) {
-
-          $scope.inProgress = false;
-          $interval.cancel(CHECK_INTERVAL);
-        } else {
-          $scope.inProgress = true;
-        }
-
-        domainRecord.targetConfigurations_.dnsRecords.forEach(function (recordGroup) {
-
-          var HACK_MAP = {
-            // recordType: kind
-            TXT: 'verification',
-            A: 'A',
-            CNAME: 'CNAME'
-          };
-
-          console.log(recordGroup);
-
-          recordGroup.targetValues.forEach(function (v) {
-            $scope.dnsRecords.push({
-              type: recordGroup.type,
-              value: v.value,
-
-              // this is not perfect: TODO adapt for better compatibility
-              actualValue: recordGroup.actualValues ? recordGroup.actualValues[0] : undefined,
-              required: v.required,
-              status: recordGroup.status,
-              host: recordGroup.host,
-
-              stability: aggregateCheckStatus[HACK_MAP[recordGroup.type]]
-            });
-          });
-
-        });
-
-        // configs.records.forEach(function (record) {
-        //   if (record.status === 'pending') {
-        //     $scope.inProgress = true;
-        //   }
-        // });
-        setTimeout(function() {
-          $scope.verifying = false;
-          
-          // $scope.dnsRecords = configs.records;      
-          $scope.$apply();
-        }, 1000);
+        $scope.verifying = false;
+        $scope.domainRecord = domainRecord;
+        $scope.$apply();
 
       }, function (err) {
         console.warn(err);
 
-        loadingDialog.close();
+        uiDialogLoading.close();
+      });
+  };
+
+  /**
+   * Restarts the verification process for the domainRecord
+   * @return {Bluebird -> DomainRecord}
+   */
+  $scope.restartVerification = function () {
+
+    uiDialogLoading.open({
+      message: 'scheduling domain verification restart'
+    });
+
+    return apiHWebsite
+      .restartDomainRecordVerification(
+        uiHAccountDialog.getAuthToken(),
+        $scope.domainRecord.projectId,
+        $stateParams.domainRecord._id
+      )
+      .then(function (domainRecord) {
+        $scope.domainRecord = domainRecord;
+        $scope.$apply();
+
+        uiDialogLoading.close();
       })
-      .done();
+      .catch(function (err) {
+        console.warn(err);
+        uiDialogLoading.close();
+      });
   };
 
   // start
-  $scope.loadDomainDnsConfigurations();
+  $scope.loadDomainRecord();
 
   CHECK_INTERVAL = $interval(function () {
 
-    $scope.loadDomainDnsConfigurations();
+    $scope.loadDomainRecord();
   }, INTERVAL_TIME);
 
   $scope.$on('$destroy', function () {

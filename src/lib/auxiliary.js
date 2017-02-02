@@ -1,5 +1,3 @@
-var _ = require('lodash');
-
 exports.isChrome = function () {
   return navigator.userAgent.toLowerCase().indexOf('chrome') > -1;
 };
@@ -11,7 +9,7 @@ var OS_INTERNAL_REGEXPS = [
 
 exports.isOSInternalFile = function (filename) {
 
-  return _.some(OS_INTERNAL_REGEXPS, function (re) {
+  return OS_INTERNAL_REGEXPS.some(function (re) {
     return re.test(filename);
   });
 };

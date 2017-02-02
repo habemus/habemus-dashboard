@@ -1,49 +1,47 @@
-'use strict';
-
-var fs    = require('fs');
-var path  = require('path');
-
-var Zip   = require('../../lib/zip');
-var JSZip = require('jszip');
+// native
+var url = require('url');
 
 // own
 var fileReader = require('../../lib/file-reader');
 
-module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projectAPI, $state, ngDialog, loadingDialog, errorDialog, zipPrepare, intro) {
+module.exports = /*@ngInject*/ function DashboardCtrl($scope, currentAccount, $translate, $filter, uiHAccountDialog, apiHProject, apiHWorkspace, $state, $stateParams, $location, uiDialogLoading, uiDialogError, auxZipPrepare, uiIntro, uiDialogNewProject) {
 
   /**
-   * Setup intro
+   * Current Account is resolved by ui-router
+   * @type {Object}
    */
-  $scope.$watch('currentUser', function () {
+  $scope.currentAccount = currentAccount;
 
-    var currentUser = $scope.currentUser;
+  var showIntro = false;
 
-    if (!currentUser) { return; }
-
-    // design this so that the intro is only shown when explicitly set
-    var guideState = currentUser.guideState || {};
-
-    if (guideState.showDashboardIntro) {
-      intro.dashboard().then(function (intro) {
-        intro.start()
-      });
-    }
-  });
-
-  // retrieve all projects owned by the current logged user
-  // and put them onto the scope as `currentUserProjects`
-  projectAPI.findProjects()
-    .then(function (projects) {
-      $scope.currentUserProjects = projects || [];
-      $scope.$apply();
-    });
+  try {
+    // this is not a critical feature
+    // wrap in try catch to handle account data structure variation
+    showIntro = currentAccount.applicationConfig.dashboard.guides.dashboard === 'new';
+  } catch (e) {
+    showIntro = false;
+  }
   
+  if (showIntro) {
+    uiIntro.dashboard().then(function (intro) {
+      intro.start();
+    });
+  }
+
+  $scope.loadProjects = function () {
+    return apiHProject.list(uiHAccountDialog.getAuthToken())
+      .then(function (projects) {
+        $scope.projects = projects;
+        $scope.$apply();
+      });
+  };
+
   /**
    * Navigate to the visualization of a given project
-   * @param  {String} projectId
+   * @param  {String} projectCode
    */
-  $scope.navigateToProject = function (projectId) {
-    $state.go("project.general", { projectId: projectId });
+  $scope.navigateToProject = function (projectCode) {
+    $state.go("project.general", { projectCode: projectCode });
   };
 
   /**
@@ -51,76 +49,79 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
    * @param  {String} projectName 
    * @param  {File} zipFile     
    */
-  function _createProject(zipFile, projectName) {
+  function _createProjectFromZip(zipFile, projectName) {
     if (zipFile.size > 52428800) {
-      $translate('project.errorSize')
-        .then(function (message) {
-          // error Dialog opens
-          errorDialog(message);
-        });
-
-      loadingDialog.close();
+      uiDialogLoading.close();
+      // error Dialog opens
+      uiDialogError($translate.instant('project.errorSize'));
 
       return;
     }
 
-    projectAPI.createProject({
-      name: projectName,
-    })
-    .then(function (projectData) {
-      $translate('dashboard.uploading')
-        .then(function (message) {
-          loadingDialog.setMessage(message);
+    projectName = projectName || 'Project';
+    var _projectData;
+    
+    apiHProject.create(uiHAccountDialog.getAuthToken(), { name: projectName })
+      .then(function (projectData) {
+
+        _projectData = projectData;
+        
+        uiDialogLoading.setMessage($translate.instant('dashboard.uploading'));
+
+        // upload
+        var upload = apiHProject.createVersion(
+          uiHAccountDialog.getAuthToken(),
+          projectData._id,
+          zipFile
+        );
+
+        upload.on('progress', function (progress) {
+          console.log('upload progress ', progress);
+
+          progress = parseInt(progress.completed * 100);
+
+          // progress %
+          uiDialogLoading.setProgress(progress);
+          if (progress === 100) {
+            $translate('dashboard.finishingUpload')
+              .then(function (message) {
+                uiDialogLoading.setMessage(message);
+              });
+          }
         });
 
-      // upload
-      var upload = projectAPI.uploadProjectZip(projectData.objectId, zipFile);
+        return upload.promise.then(function () {
+          return projectData;
+        });
 
-      upload.progress(function (progress) {
-        console.log('upload progress ', progress);
+      }, function (err) {        
+        uiDialogLoading.close();
+        uiDialogError($translate.instant('project.errorFailed'));
+      })
+      .then(function (projectData) {
 
-        progress = parseInt(progress.completed * 100);
+        // navigate to the project view
+        $scope.navigateToProject(projectData.code);
+        
+        // loading state ends
+        uiDialogLoading.close();
 
-        // progress %
-        loadingDialog.setProgress(progress);
-        if (progress === 100) {
-          $translate('dashboard.finishingUpload')
-            .then(function (message) {
-              loadingDialog.setMessage(message);
-            });
-        }
+      }, function (err) {
+        console.error(err);
+        
+        uiDialogError($translate.instant('project.errorUploaded'));
+        uiDialogLoading.close();
+
+        // remove the project, as we were unable to upload files
+        apiHProject.scheduleRemoval(
+          uiHAccountDialog.getAuthToken(),
+          _projectData.code
+        );
+      })
+      .catch(function (err) {
+
+        console.log(err);
       });
-
-      return upload.then(function () {
-        return projectData;
-      });
-
-    }, function () {
-      loadingDialog.close();
-      $translate('project.errorFailed')
-        .then(function (message) {
-          // error Dialog opens
-          errorDialog(message);
-        });
-    })
-    .then(function (projectData) {
-
-      // navigate to the project view
-      $scope.navigateToProject(projectData.objectId);
-      
-      // loading state ends
-      loadingDialog.close();
-
-    }, function (err) {
-      console.error(err);
-      $translate('project.errorUploaded')
-        .then(function (message) {
-          // error Dialog opens
-          errorDialog(message);
-        });
-
-      loadingDialog.close();
-    });
   }
 
   /**
@@ -131,34 +132,120 @@ module.exports = /*@ngInject*/ function DashboardCtrl($scope, $translate, projec
    */
   $scope.createProject = function (files, projectName) {
 
-    // explicitly compare with false,
-    // because 'undefined' means that the account 
-    // was created before the email verification was activated
-    if ($scope.currentUser.emailVerified === false) {
-
-      $translate('dashboard.errorUnverifiedEmail')
-        .then(function (message) {
-          errorDialog(message);
-        });
-
-      loadingDialog.close();
-
-      return;
-    }
-
-    $translate('dashboard.preparingUpload')
-      .then(function (message) {
-        // loading state starts
-        loadingDialog.open({ message: message });
-      });
-
-    zipPrepare(files)
+    uiDialogLoading.open({
+      message: $translate.instant('dashboard.preparingUpload')
+    });
+    
+    auxZipPrepare(files)
       .then(function (zipFile) {
-        return _createProject(zipFile, projectName);
+        return _createProjectFromZip(zipFile, projectName);
       }, function (err) {
-        loadingDialog.close();
+        uiDialogLoading.close();
       })
       .done();
   };
-  
+
+  /**
+   * Creates a project from a given templateURL
+   * @param  {URL} templateURL
+   * @param  {String} projectName
+   * @return {Promise}
+   */
+  $scope.createProjectFromTemplateURL = function (templateURL, projectName) {
+
+    uiDialogLoading.open({
+      message: $translate.instant('dashboard.creatingProjectFromTemplate')
+    });
+
+    return apiHProject.create(
+      uiHAccountDialog.getAuthToken(),
+      {
+        name: projectName,
+        templateURL: templateURL,
+      }
+    )
+    .then(function (projectData) {
+
+      if ($scope.currentAccount.applicationConfig.workspace.version !== 'disabled') {
+
+        return apiHWorkspace.ensureReady(
+          uiHAccountDialog.getAuthToken(),
+          projectData._id
+        )
+        .then(function (workspace) {
+          // navigate to the project view
+          // (only to add it to the browser's history)
+          $scope.navigateToProject(projectData.code);
+
+          setTimeout(function () {
+            var workspaceURL = $filter('urlWorkspace')(projectData.code);
+            window.location = workspaceURL;
+          }, 100);
+        });
+
+      } else {
+        // loading state ends immediately
+        uiDialogLoading.close();
+
+        // navigate to the project view
+        $scope.navigateToProject(projectData.code);
+      }
+    })
+    .catch(function (err) {
+      console.error(err);
+      
+      uiDialogError($translate.instant('project.errorCreatingProject'));
+      uiDialogLoading.close();
+    });
+  }
+
+  /**
+   * Opens the newProject dialog with preconfigured options.
+   * 
+   * @param  {Object} projectData
+   * @return {Promise}
+   */
+  $scope.openNewProjectDialog = function (projectData) {
+
+    projectData = Object.assign({}, {
+      templateURL: undefined,
+      name: undefined,
+    }, projectData);
+
+    return uiDialogNewProject(projectData).closePromise.then(function (data) {
+
+      var projectData = data.value;
+
+      if (projectData.fromTemplate) {
+
+        return $scope.createProjectFromTemplateURL(
+          projectData.templateURL,
+          projectData.name
+        );
+
+      } else if (projectData.fromFiles) {
+        return $scope.createProject(
+          projectData.files,
+          projectData.name
+        );
+      }
+    });
+  };
+
+  // initialize
+  $scope.loadProjects();
+
+  var parsedLocation = url.parse(window.location.toString(), true);
+
+  if ($stateParams.templateURL) {
+    // http://stackoverflow.com/questions/17376416/angularjs-how-to-clear-query-parameters-in-the-url
+    // remove templateURL and projectName from search
+    $location.search('templateURL', null);
+    $location.search('projectName', null);
+
+    $scope.openNewProjectDialog({
+      name: $stateParams.projectName,
+      templateURL: $stateParams.templateURL,
+    });
+  }
 };

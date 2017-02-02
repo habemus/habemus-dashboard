@@ -4,6 +4,8 @@
     <img class="arrow-right" src="resources/img/arrow-right.svg">  
     <span class="project-name" ng-click="editNameOfProject()">{{ project.name }} </span> 
     <span class="section-name">(<span translate="projectHistory.history"></span>)</span>
+
+    <span ng-show="loading" translate="projectHistory.loading">loading</span>
   </h1>
   
   <div class="main-content">
@@ -14,39 +16,69 @@
         <th translate="projectHistory.versionUrl"></th> 
         <th></th>
         <th></th>
+        <th>status</th>
+        <th></th>
       </tr>
-      <tr class="table-row-body" ng-repeat="version in project.versions | orderBy:'+':true">
-        <td>{{ version.name }}</td>
+      <tr class="table-row-body" ng-repeat="version in projectVersions | orderBy: 'createdAt':true">
+        <td>{{ version.code }}</td>
         <td>{{ version.createdAt | date : "dd MMM yyyy',' HH:mm" }}</td>
         <td>
+          <!--
+            for the latest version
+            we may supply the production url directly instead of the version url
+          -->
           <a
             target="_blank"
-            href="http://{{ version.name }}.{{ project.safeName }}.habemus.website"
+            ng-if="$index === 0"
+            href="{{ project.code | urlWebsiteHabemusDomain }}"
             uib-tooltip="{{ 'projectHistory.visitVersion' | translate }}">
-            http://{{ version.name }}.{{ project.safeName }}.habemus.website
+            {{ project.code | urlWebsiteHabemusDomain }}
+          </a>          <a
+            target="_blank"
+            ng-if="$index !== 0"
+            href="{{ project.code | urlWebsiteHabemusDomain: version.code }}"
+            uib-tooltip="{{ 'projectHistory.visitVersion' | translate }}">
+            {{ project.code | urlWebsiteHabemusDomain: version.code }}
           </a>
         </td> 
         <td class="padding-right">
-          <span
-            class="restore"
-            ng-if="version.name !== project.activeVersion.name"
-            ng-click="restoreProjectVersion(version.name)"
-            uib-tooltip="{{ 'projectHistory.restoreTooltip' | translate }}"
-            translate="projectHistory.restoreVersion">
-          </span>
+          <!--
+            versions are always ordered by createdAt DESC,
+            so that the first version in the array is always the latest one
+          -->
           <span
             class="current"
-            ng-if="version.name === project.activeVersion.name"
+            ng-if="$index === 0"
             uib-tooltip="{{ 'projectHistory.currentTooltip' | translate }}"
             translate="projectHistory.currentVersion">
           </span>
-        </td>
-        <td class="download" ng-click="downloadProjectVersion(version.name)">
-          <img src="resources/img/icon-download.svg">
           <span
-            uib-tooltip="{{ 'projectHistory.downloadTooltip' | translate }}"
-            translate="projectHistory.downloadVersion">
+            class="restore"
+            ng-if="$index !== 0"
+            ng-click="restoreVersion(version.code)"
+            uib-tooltip="{{ 'projectHistory.restoreTooltip' | translate }}"
+            translate="projectHistory.restoreVersion">
           </span>
+        </td>
+        <td>
+          <button class="download" ng-click="downloadVersion(version.code, 'src')">
+            <img src="resources/img/icon-download.svg">
+            <span
+              uib-tooltip="{{ 'projectHistory.downloadTooltip' | translate }}"
+              translate="projectHistory.downloadVersion">
+            </span>
+          </button>
+          <button ng-show="version.buildStatus.value === 'succeeded'" class="download" ng-click="downloadVersion(version.code, 'dist')">
+            <img src="resources/img/icon-download.svg">
+            <span translate="projectHistory.downloadDist"></span>
+          </button>
+        </td>
+        <td>
+          {{ version.buildStatus.value }}
+        </td>
+        <td>
+          <button ng-if="$index === 0 && version.buildStatus.value !== 'succeeded'" ng-click="scheduleVersionBuild(version.code)" translate="projectHistory.compile">
+          </button>
         </td>
       </tr>
     </table>
@@ -54,12 +86,12 @@
  
   <!-- draggable area -->
   <div class="drop-to-new-project-container">
-    <div class="drop-to-new-project" file-drop="uploadNewVersion($files)">
+    <div class="drop-to-new-project" file-drop="createVersion($files)">
       
       <input
         ng-if="browser.isChrome"
         type="file"
-        file-change="uploadNewVersion($files)"
+        file-change="createVersion($files)"
         webkitdirectory
         directory
         multiple>
@@ -68,7 +100,7 @@
         ng-if="!browser.isChrome"
         type="file"
         accept="application/zip"
-        file-change="uploadNewVersion($files)">
+        file-change="createVersion($files)">
 
       <div class="upload-img"></div>
       <h3

@@ -1,6 +1,5 @@
 var JSZip = require('jszip');
 var Q     = require('q');
-var _     = require('lodash');
 
 /**
  * Auxiliary function that instantiates file reader and sets

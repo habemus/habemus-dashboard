@@ -1,62 +1,59 @@
 'use strict';
 
 // native
-var path = require('path');
-var fs   = require('fs');
+const path = require('path');
+const fs   = require('fs');
 
-// third-party
-var _    = require('lodash');
-
-// load models
-var DirectoryData = require('../../models/file-system/directory');
-
-module.exports = /*@ngInject*/ function accountCtrl($scope, $rootScope, $stateParams, $state, $translate, auth, ngDialog, loadingDialog) {
+module.exports = /*@ngInject*/ function accountCtrl($scope, currentAccount, $stateParams, $state, $translate, ngDialog, uiDialogLoading, uiHAccountDialog) {
   
   /**
    * Object onto which the account data input fields
    * should set their values
    * @type {Object}
    */
-  $scope.accountData = {};
-  
-  /**
-   * Update account data
-   */
-  $scope.updateAccountData = function () {
+  $scope.currentAccount = currentAccount;
 
-    loadingDialog.open({
+  /**
+   * Object used for storing the form data.
+   * @type {Object}
+   */
+  $scope.accountOwnerFormData = {};
+
+  /**
+   * Update account owner data
+   */
+  $scope.updateAccountOwnerData = function () {
+
+    uiDialogLoading.open({
       message: 'saving data'
     });
 
-    auth.updateCurrentUserData({
-      name: $scope.accountData.name
+    return uiHAccountDialog.hAccountClient.updateAccountOwnerData(
+      uiHAccountDialog.getAuthToken(),
+      $scope.currentAccount.username,
+      $scope.accountOwnerFormData
+    )
+    .then(function () {
+      uiDialogLoading.close();
     })
-    .then(function (updatedUser) {
+    .catch(function (err) {
 
-      $scope.setCurrentUser(updatedUser);
+      console.warn(err);
 
-      // reset form
-      $scope.resetAccountFormData();
-      $rootScope.$apply();
-
-      loadingDialog.close();
-    }, function (err) {
-
-      loadingDialog.close();
+      uiDialogLoading.close();
 
       $translate('account.updateDataError')
         .then(function (errorMessage) {
           $scope.errorMessage = 'failed to update account data, please try again later';
         });
-    })
-    .done();
+    });
   };
 
   /**
    * Discard changes
    */
-  $scope.resetAccountFormData = function () {
-    $scope.accountData = {};
+  $scope.resetAccountOwnerData = function () {
+    $scope.accountOwnerFormData = {};
   }
 
   /**

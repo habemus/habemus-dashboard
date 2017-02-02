@@ -3,17 +3,21 @@ var path = require('path');
 
 var del         = require('del');
 var runSequence = require('run-sequence');
-var inquirer    = require('inquirer');
-var _           = require('lodash');
 
 var config = require('../config');
-var browserifyPipe = require('./auxiliary/browserify')
+var browserifyPipe = require('./auxiliary/browserify');
 
-var REQUIRED_CONFIGURATIONS = [
-  'PARSE_APPLICATION_ID',
-  'PARSE_JAVASCRIPT_KEY',
-  'PROJECT_API_LOCATION',
-];
+// HABEMUS.IO google analytics script
+const GA_SCRIPT = `<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+  ga('create', 'UA-71194663-5', 'auto');
+  ga('send', 'pageview');
+
+</script>`;
 
 module.exports = function (gulp, $) {
 
@@ -35,65 +39,23 @@ module.exports = function (gulp, $) {
   });
 
   /**
-   * Retrieves configuration from the building environment variables
-   * and writes to the configuration file
-   */
-  gulp.task('distribute:config', ['distribute:tmp'], function (done) {
-
-    // load development configurations
-    var devConfig = require('../../src/config/config.json');
-
-    // function that writes the config and finishes the stream
-    function writeConfig(appConfig) {
-      fs.writeFileSync(
-        path.join(config.root, tmpDir, 'config/config.json'),
-        JSON.stringify(appConfig),
-        'utf8'
-      );
-
-      done();
-    }
-
-    // check if required configurations are available in the environment
-    // if so, proceed to writing the file,
-    // otherwise, prompt questions at the user
-    var appConfig = {};
-    var questions = [];
-
-    REQUIRED_CONFIGURATIONS.forEach(function (cfg) {
-      var envValue = process.env[cfg];
-
-      if (envValue) {
-        appConfig[cfg] = envValue;
-      } else {
-        questions.push({
-          name: cfg,
-          message: cfg,
-          // default: devConfig[cfg],
-          // make question required
-          validate: function (value) {
-            return (typeof value !== 'undefined');
-          },
-        });
-      }
-    });
-
-    if (questions.length > 0) {
-      // ask
-      inquirer.prompt(questions, writeConfig);
-    } else {
-      // write
-      writeConfig(appConfig);
-    }
-  });
-
-  /**
    * Browserifies tmp and annotates
    */
-  gulp.task('distribute:javascript', ['distribute:config'], function () {
+  gulp.task('distribute:javascript', ['distribute:tmp'], function () {
     return browserifyPipe(tmpDir + '/index.js')
-      .pipe($.ngAnnotate())
-      .pipe($.stripDebug())
+      .pipe($.babel({
+        presets: ['es2015'],
+      }))
+      // .pipe($.ngAnnotate())
+      // .pipe($.stripDebug())
+      // .pipe($.uglify().on('error', function (err) {
+      //   console.warn(err);
+      // }))
+      .pipe($.size({
+        title: 'distribute:javascript',
+        showFiles: true,
+        gzip: true
+      }))
       .pipe(gulp.dest(tmpDir));
   });
 
@@ -102,14 +64,21 @@ module.exports = function (gulp, $) {
    * Minifies scripts
    * Minifies css
    */
-  gulp.task('distribute:optimize', ['distribute:javascript'], function () {
+  gulp.task('distribute:compile', ['distribute:javascript'], function () {
     return gulp.src(tmpDir + '/index.html')
+      // run cheerio before useref, so that we are sure
+      // cheerio is run only against index.html
+      .pipe($.cheerio(function ($, file, done) {
+
+        $('body').append(GA_SCRIPT);
+
+        done();
+      }))
       // builds scripts and css into single files
       .pipe($.useref())
-      .pipe($.if('*.js', $.uglify()))
       .pipe($.if('*.css', $.minifyCss()))
       .pipe($.size({
-        title: 'distribute:optimize',
+        title: 'distribute:compile',
         showFiles: true,
         gzip: true
       }))
@@ -132,7 +101,7 @@ module.exports = function (gulp, $) {
   });
 
   gulp.task('distribute', function () {
-    return runSequence(['distribute:optimize', 'distribute:resources'], 'distribute:clear-tmp');
+    return runSequence(['distribute:compile', 'distribute:resources'], 'distribute:clear-tmp');
   });
 
 };

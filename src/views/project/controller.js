@@ -1,235 +1,247 @@
-'use strict';
-
-// native
-var path = require('path');
-var fs   = require('fs');
-
 // third-party
-var _    = require('lodash');
-var Q    = require('q');
+const Bluebird = require('bluebird');
 
-var Zip  = require('../../lib/zip');
-
-// load models
-var DirectoryData = require('../../models/file-system/directory');
-
-module.exports = /*@ngInject*/ function ProjectCtrl($scope, $state, $stateParams, $rootScope, $translate, projectAPI, auth, $timeout, ngDialog, errorDialog, CONFIG, loadingDialog, zipPrepare, intro) {
-  /**
-   * Setup intro
-   */
-  $scope.$watch('currentUser', function () {
-project.domains
-    var currentUser = $scope.currentUser;
-
-    if (!currentUser) { return; }
-
-    // design this so that the intro is only shown when explicitly set
-    var guideState = currentUser.guideState || {};
-
-    if (guideState.showProjectIntro) {
-      intro.project().then(function (intro) {
-        intro.start();
-      });
-    }
+function _wait(ms) {
+  return new Bluebird(function (resolve, reject) {
+    setTimeout(resolve, ms);
   });
+}
 
-  var projectId = $stateParams.projectId;
-
-  /**
-   * Data store related to the project
-   * @type {Object}
-   */
-  var project = $scope.project = {
-    domainRecords: [],
-  };
+module.exports = /*@ngInject*/ function ProjectCtrl($scope, $stateParams, currentAccount, $rootScope, $translate, apiHProject, apiHWebsite, apiHWorkspace, uiHAccountDialog, ngDialog, CONFIG, uiDialogLoading, uiDialogConfirm, auxZipPrepare, auxZipUpload, uiIntro) {
   
   /**
-   * Project data loading
+   * Current Account is resolved by ui-router
+   * @type {Object}
+   */
+  $scope.currentAccount = currentAccount;
+
+  // console.log(currentAccount);
+
+  // uiHAccountDialog.hAccountClient.updateApplicationConfig(
+  //   uiHAccountDialog.getAuthToken(),
+  //   currentAccount.username,
+  //   'workspace',
+  //   {
+  //     version: 'beta'
+  //   }
+  // );
+
+  /**
+   * Loads the project's data into the scope
+   * @return {Bluebird -> Project}
    */
   $scope.loadProject = function () {
     // retrieve the requested project
-    var projectDataPromise = projectAPI
-      .getProjectById(projectId)
-      .then(function (project) {
-
-        // set pageTitle
-        $rootScope.pageTitle = project.name;
-
-        _.assign($scope.project, project);
-
-        $scope.project.id        = project.objectId;
-        $scope.project.name      = project.name;
-        $scope.project.safeName  = project.safeName;
-        $scope.project.createdAt = project.createdAt;
-
-        $scope.$apply();
-      }, function (err) {
-
-        // project loading failed due to some reason.
-        // treat this better, for now just go to dashboard
-        $state.go('dashboard');
-      });
-
-
-    // retrieve domainRecords related to the project
-    var domainDataPromise = projectAPI.listProjectDomainRecords(projectId)
-      .then(function (domainRecords) {
-        $scope.project.domainRecords = domainRecords || [];
-        $scope.$apply();
-      }, function (err) {
-        console.warn('failed to retrieve domainRecords from project');
-      });
-
-    return Q.all([projectDataPromise, domainDataPromise]);
-  };
-
-  /**
-   * Name editing
-   */
-  $scope.editNameOfProject = function () {
-    ngDialog.open({
-      template: fs.readFileSync(path.join(__dirname, '../project-rename/template.html'), 'utf-8'),
-      plain: true,
-      className: 'ngdialog-theme-habemus',
-      controller: require('../project-rename/controller'),
-      scope: $scope,
-
-      preCloseCallback: function () {
-        $scope.loadProject();
+    return apiHProject.get(
+      uiHAccountDialog.getAuthToken(),
+      $stateParams.projectCode,
+      {
+        byCode: true,
       }
+    )
+    .then(function (project) {
+
+      $scope.project = project;
+
+      // set pageTitle
+      $rootScope.pageTitle = project.name;
+
+      $scope.$apply();
+
+      return project;
     });
-  }
+  };
 
   /**
-   * File updating
+   * Calls `loadProjectLatestVersion` until
+   * the latestVersion's buildStatus is at either `failed` or `succeeded`
+   * @return {Bluebird -> ProjectVersion}
    */
-  $scope.uploadNewVersion = function (files) {
+  $scope.ensureLatesteVersionBuildReady = function () {
 
-    $translate('project.preparingUpload')
-      .then(function (message) {
-        // loading state starts
-        loadingDialog.open({ message: message });
-      });
+    return $scope.loadProjectLatestVersion()
+      .then(function (projectLatestVersion) {
 
-    zipPrepare(files)
-      .then(function (zipFile) {
-        if (zipFile.size > 52428800) {
-          
-          $translate('project.errorSize')
-          .then(function (message) {
-            // error Dialog opens
-            errorDialog(message);
-          });
-
-          loadingDialog.close();
-
-          return;
+        switch (projectLatestVersion.buildStatus.value) {
+          case 'failed':
+            return Bluebird.reject(new Error('build failed'));
+            break;
+          case 'succeeded':
+            return projectLatestVersion;
+            break;
+          case 'not-scheduled':
+          case 'scheduled':
+          case 'started':
+            return _wait(3000).then(function () {
+              return $scope.ensureLatesteVersionBuildReady();
+            });
+          default:
+            return Bluebird.reject(new Error('invalid build status, unknown error'));
+            break;
         }
-
-        console.log('zip file generated', zipFile);
-
-        $translate('project.uploading')
-          .then(function (message) {
-            loadingDialog.setMessage(message);
-          });
-
-        var upload = projectAPI.uploadProjectZip(projectId, zipFile);
-
-        upload.progress(function (progress) {
-          console.log('upload progress ', progress);
-
-          progress = parseInt(progress.completed * 100);
-
-          // progress %
-          loadingDialog.setProgress(progress);
-          if (progress === 100) {
-            $translate('project.finishingUpload')
-              .then(function (message) {
-                loadingDialog.setMessage(message);
-              });
-          }
-        });
-
-        return upload;
-
-      }, function prepareError() {
-        loadingDialog.close();
       })
-      .then(function uploadSuccess() {
-
-        $translate('project.reloadingProjectData')
-          .then(function (message) {
-            loadingDialog.setMessage(message);
-          });
-
-        return $scope.loadProject();
-      })
-      .finally(function () {
-
-        // loading state ends
-        loadingDialog.close();
-      })
-      .done();
   };
 
   /**
-   * Versioning
-   * @param  {[type]} versionName [description]
-   * @return {[type]}             [description]
+   * Loads the project's latest version into the scope.
+   * 
+   * @return {Bluebird -> ProjectVersion}
    */
-  $scope.downloadProjectVersion = function (versionName) {
+  $scope.loadProjectLatestVersion = function () {
+    return apiHProject.getLatestVersion(
+      uiHAccountDialog.getAuthToken(),
+      $stateParams.projectCode,
+      {
+        byCode: true
+      }
+    )
+    .then(function (projectLatestVersion) {
 
-    // loading state starts
-    loadingDialog.open({
-      message: 'preparing download'
+      $scope.projectLatestVersion = projectLatestVersion;
+      $scope.$apply();
+
+      return projectLatestVersion;
     });
-
-    return projectAPI
-      .generateDownload($scope.project.id, versionName)
-      .then(function (url) {
-
-        loadingDialog.close();
-
-        // http://stackoverflow.com/questions/1066452/easiest-way-to-open-a-download-window-without-navigating-away-from-the-page
-        window.location.assign(url);
-
-      }, function (err) {
-        console.warn('failed to retrieve download url');
-      });
   };
 
-  $scope.restoreProjectVersion = function (versionName) {
+  /**
+   * Creates the workspace related to this project
+   * only if it does not exist.
+   * Loads the workspace's data into the scope.
+   * 
+   * @return {Bluebird -> Workspace}
+   */
+  $scope.ensureWorkspaceReady = function () {
 
-    // loading state starts
-    loadingDialog.open({
-      message: 'restoring version ' + versionName
-    });
-
-    return projectAPI.restoreVersion($scope.project.id, versionName)
-      .then(function (res) {
-
-        loadingDialog.setMessage('reloading project data');
-
-        return $scope.loadProject();
-        console.log(res);
-      }, function (err) {
-        console.warn('failed to restore version');
+    return $scope.loadProject()
+      .then(function (project) {
+        return apiHWorkspace.ensureReady(
+          uiHAccountDialog.getAuthToken(),
+          project._id
+        );
       })
-      .then(function () {
-        // loading state starts
-        loadingDialog.close();
-      });
-  }
-  
-  $scope.deleteProject = function () {
-    ngDialog.open({ 
-      template: fs.readFileSync(path.join(__dirname, '../project-delete/template.html'), 'utf-8'),
-      plain: true,
-      className: 'ngdialog-theme-habemus',
-      controller: require('../project-delete/controller'),
-      scope: $scope,
-    });
-  }
+      .then(function (workspace) {
+        $scope.workspace = workspace;
 
-  $scope.loadProject();
+        $scope.$apply();
+
+        return workspace;
+      });
+
+  };
+
+  /**
+   * Loads the domain records associated to the project
+   * 
+   * @return {Bluebird}
+   */
+  $scope.loadDomainRecords = function () {
+
+    var authToken = uiHAccountDialog.getAuthToken();
+
+    return apiHProject.get(authToken, $stateParams.projectCode, {
+      byCode: true
+    })
+    .then(function (project) {
+      var projectId = $scope.project._id;
+
+      // retrieve the requested project
+      return apiHWebsite.listDomainRecords(authToken, projectId);
+    })
+    .then(function (domainRecords) {
+      $scope.domainRecords = domainRecords;
+
+      $scope.$apply();
+    });
+  };
+
+  /**
+   * Creates a new version from the given files
+   * 
+   * @param  {File} files
+   * @return {Promise}
+   */
+  $scope.createVersion = function (files) {
+
+    var _latestProjectVersion;
+
+    return auxZipUpload(
+      uiHAccountDialog.getAuthToken(),
+      $stateParams.projectCode,
+      files,
+      {
+        byCode: true
+      }
+    )
+    .catch(function (err) {
+      console.log('upload error');
+      console.warn(err);
+    })
+    .then(function (latestVersion) {
+
+      _latestProjectVersion = latestVersion;
+
+      /**
+       * Poll the server for the latestVersion
+       * until it has its build-status at ready
+       * do not put the polling in the promise sequence
+       */
+      $scope.ensureLatesteVersionBuildReady();
+
+      /**
+       * Ask user whether she/he would like to
+       * update the associated workspace
+       * @type {String}
+       */
+      return uiDialogConfirm({
+        message: $translate.instant('workspace.updateWorkspaceToVersion', {
+          versionCode: latestVersion.code,
+        }),
+        confirmLabel: $translate.instant('actions.yes'),
+        cancelLabel: $translate.instant('actions.no'),
+      });
+
+    })
+    .then(function () {
+      // update requested
+      // loading state starts
+      uiDialogLoading.open({
+        message: $translate.instant('workspace.updatingWorkspace'),
+      });
+
+      return apiHWorkspace.loadLatestVersion(
+        uiHAccountDialog.getAuthToken(),
+        $stateParams.projectCode,
+        {
+          byProjectCode: true
+        }
+      );
+    })
+    .then(function () {
+      uiDialogLoading.close();
+
+      return _latestProjectVersion;
+    })
+    .catch(function (err) {
+      // user cancelled
+      uiDialogLoading.close();
+
+      console.warn(err);
+    });
+  };
+
+  // initialize
+  $scope.loadProject().then(function (project) {
+
+    var promises = [
+      $scope.ensureLatesteVersionBuildReady(),
+      $scope.loadDomainRecords()
+    ];
+
+    if ($scope.currentAccount.applicationConfig.workspace.version !== 'disabled') {
+      promises.push($scope.ensureWorkspaceReady());
+    }
+
+    return Bluebird.all(promises);
+  });
 };

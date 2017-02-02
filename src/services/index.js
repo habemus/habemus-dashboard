@@ -1,42 +1,24 @@
-var Parse                   = require('parse');
-var HabemusAuthClient       = require('h-auth/client');
-var HabemusProjectAPIClient = require('h-project-api/client');
-
 module.exports = function (DASHBOARD) {
-  DASHBOARD.factory('Parse', function (CONFIG) {
-    Parse.initialize(
-      CONFIG.parse.applicationId,
-      CONFIG.parse.javascriptKey
-    );
-
-    return Parse;
-  });
-  DASHBOARD.factory('auth', function (Parse, CONFIG) {
-
-    return new HabemusAuthClient({
-      parse: Parse
-    });
-  });
-
-  DASHBOARD.factory('projectAPI', function (Parse, auth, CONFIG) {
-
-    return new HabemusProjectAPIClient({
-      location: CONFIG.projectAPI.location,
-      parse: Parse,
-      auth: auth,
-    });
-  });
+  // api services
+  DASHBOARD.factory('apiHProject', require('./api/h-project'));
+  DASHBOARD.factory('apiHWebsite', require('./api/h-website'));
+  DASHBOARD.factory('apiHWorkspace', require('./api/h-workspace'));
   
-  DASHBOARD.factory('authModal', require('./auth-modal'));
-  DASHBOARD.factory('betaPasswordResetModal', require('./beta-password-reset-modal'));
-  DASHBOARD.factory('betaLoginModal', require('./beta-login-modal'));
-  
-  DASHBOARD.factory('intro', require('./intro'));
+  // ui services
+  DASHBOARD.factory('uiHAccountDialog', require('./ui/h-account'));
 
-  DASHBOARD.factory('loadingDialog', require('./loading-dialog'));
-  DASHBOARD.factory('confirmationDialog', require('./confirmation-dialog'));
-  DASHBOARD.factory('errorDialog', require('./error-dialog'));
-  DASHBOARD.factory('infoDialog', require('./info-dialog'));
+  DASHBOARD.factory('uiIntro', require('./ui/intro'));
 
-  DASHBOARD.factory('zipPrepare', require('./zip-prepare'));
+  DASHBOARD.factory('uiDialogLoading', require('./ui/dialogs/loading'));
+  DASHBOARD.factory('uiDialogConfirm', require('./ui/dialogs/confirm'));
+  DASHBOARD.factory('uiDialogError', require('./ui/dialogs/error'));
+  DASHBOARD.factory('uiDialogInfo', require('./ui/dialogs/info'));
+  DASHBOARD.factory('uiDialogNewProject', require('./ui/dialogs/new-project'));
+
+  DASHBOARD.factory('auxZipPrepare', require('./auxiliary/zip-prepare'));
+  DASHBOARD.factory('auxZipUpload', require('./auxiliary/zip-upload'));
+
+  // special service that MUST be injected during build.
+  // urls vary for development and production environment
+  DASHBOARD.factory('auxUrls', require('habemus-dashboard-urls'));
 };

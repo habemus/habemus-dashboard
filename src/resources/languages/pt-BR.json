@@ -1,0 +1,238 @@
+{
+  "account": {
+    "additionalName": "segundo nome",
+    "deleteAccount": "excluir conta",
+    "discard": "descartar alterações",
+    "email": "e-mail",
+    "familyName": "sobrenome",
+    "fullName": "nome completo",
+    "givenName": "nome",
+    "myAccount": "Minha conta",
+    "resetPassword": "redefinir senha da conta",
+    "save": "salvar alterações",
+    "updateDataError": "ocorreu um erro ao atualizar os dados da sua conta, por favor tente novamente",
+    "username": "nome de usuário"
+  },
+  "accountDelete": {
+    "areYouSure": "Tem certeza de que deseja excluir sua conta?",
+    "cancel": "não excluir",
+    "confirm": "excluir definitivamente",
+    "deleteAccount": "Excluir conta",
+    "thisActionCannotBeUndone": "Essa ação não poderá ser desfeita.",
+    "youllLoseAllProjects": "Você perderá todos os projetos."
+  },
+  "accountPasswordReset": {
+    "atLeast6Chars": "sua senha deve ter no mínimo 6 caracteres",
+    "cancel": "cancelar",
+    "confirm": "confirmar nova senha",
+    "couldNotUpdatePassword": "ocorreu um erro ao redefinir sua senha, por favor tente novamente",
+    "newPassword": "nova senha",
+    "newPasswordConfirm": "confirme sua nova senha",
+    "passwordsDoNotMatch": "as senhas estão diferentes",
+    "resetPassword": "Redefinir senha da sua conta"
+  },
+  "actions": {
+    "cancel": "cancelar",
+    "no": "não",
+    "yes": "sim"
+  },
+  "dashboard": {
+    "back": "voltar",
+    "createNewProject": "crie um novo projeto",
+    "createProjectFromBlank": "inicie um projeto em branco",
+    "createProjectFromTemplate": "escolha um projeto base",
+    "creatingProjectFromTemplate": "criando projeto a partir do projeto base",
+    "dargProjectZip2": "dos arquivos do projeto",
+    "dragProjectDirectory1": "arraste para cá a pasta",
+    "dragProjectDirectory2": "de um novo projeto",
+    "dragProjectTooltip": "o projeto deve ser estático (utilizar linguagens: html, css, js). Seu projeto deve ter um arquivo index.html",
+    "dragProjectZip1": "arraste uma versão .zip",
+    "dropHere": "solte aqui",
+    "editProject": "editar",
+    "finishingUpload": "finalizando últimos detalhes",
+    "introAccessAccount": "Acesse o menu para ver a lista dos seus projetos, consultar a documentação ou gerenciar as preferências da sua conta",
+    "introCreateProject": "Arraste para cá uma pasta com os arquivos do seu projeto ou clique para abrir o seletor de arquivos. Pode ser compilada .zip ou uma pasta comum",
+    "introCreateProjectByZip": "Arraste para cá um arquivo .zip com os arquivos do seu projeto.",
+    "introSendFeedBack": "Use este espaço para nos mandar feedbacks. Nós queremos te ouvir!",
+    "myProjects": "Meus projetos",
+    "nameYourProject": "Nomeie seu projeto",
+    "nameYourProjectP": "O nome do seu projeto será utilizado também para compor o nome do  domínio habemus",
+    "next": "continuar",
+    "preparingUpload": "preparando upload",
+    "subTitle": "Faça upload dos seus projetos de websites estáticos (html, css, js) para hospedá-los na nuvem e ter uma url habemus",
+    "updatedAt": "atualizado em",
+    "uploading": "enviando arquivos para a nuvem"
+  },
+  "domainInvalid": {
+    "empty": "insira o nome do domínio que você possui",
+    "invalid": "domínio inválido"
+  },
+  "feedback": {
+    "attachImage": "quer anexar uma imagem para facilitar a comunicação?",
+    "hearYou": "queremos te ouvir :)",
+    "ideaPlaceholder": "dúvida, bug, sugestão, comentário, melhoria...",
+    "sendUsYourFeedback": "fale conosco!",
+    "submit": "enviar",
+    "whatDoYouThink": "o que você está achando da habemus? como podemos melhorar?"
+  },
+  "header": {
+    "logOut": "sair",
+    "myAccount": "minha conta",
+    "myProjects": "meus projetos",
+    "startIntro": "ver tutorial rápido",
+    "viewDocs": "documentação"
+  },
+  "project": {
+    "domain": "domínios",
+    "errorCreatingProject": "Ocorreu algum erro ao criar seu projeto. Por favor, tente novamente.",
+    "errorFailed": "Ocorreu algum erro. Por favor, tente novamente.",
+    "errorSize": "Seu projeto ultrapassa o limite de 50MB.",
+    "errorUploaded": "Erro ao fazer o upload dos arquivos. Seu projeto está incompleto. Atualize os arquivos ou remova-o e crie outro.",
+    "files": "arquivos",
+    "finishingUpload": "finalizando últimos detalhes",
+    "general": "geral",
+    "history": "histórico",
+    "preparingUpload": "preparando upload",
+    "schedulingVersionBuild": "atualizando versão do projeto",
+    "uploading": "enviando arquivos para a nuvem"
+  },
+  "projectDelete": {
+    "deletePermanently": "excluir definitivamente",
+    "doNotDelete": "não excluir",
+    "p1": "Essa ação não poderá ser desfeita.",
+    "p2": "Escreva o nome do projeto que deseja deletar:",
+    "title": "Excluir projeto"
+  },
+  "projectDomain": {
+    "connect": {
+      "continue": "continuar",
+      "nameOfDomain": "nome do domínio",
+      "p1": "Conecte um domínio que você possui ao seu projeto.",
+      "p2": "Se você ainda não possui um domínio, escolha um provedor de domínios para realizar a aquisição.",
+      "title": "conectar domínio personalizado"
+    },
+    "detail": {
+      "disconnectDomain": "desconectar domínio personalizado",
+      "p1": "Este domínio é personalizado.",
+      "p2": "Administrado por um provedor de domínios externo.",
+      "title": "editar domínio",
+      "viewSettings": "ver configurações DNS"
+    },
+    "disconnect": {
+      "disconnect": "desconectar domínio",
+      "doNotDisconnect": "continuar conectado",
+      "p11": "Tem certeza que deseja desconectar o domínio",
+      "p12": "do seu projeto?",
+      "p2": "Essa ação não pode ser desfeita.",
+      "p3": "Você poderá conectá-lo novamente no futuramente.",
+      "title": "Desconectar"
+    },
+    "dns": {
+      "connectionInProgress": "Conexão em progresso!",
+      "copleted": "pronto",
+      "copy": "copiar",
+      "dnsConfigDelayExplanation": "As configurações de DNS podem demorar até 48 horas para serem propagadas pela internet. Este tempo depende de cada provedor e também das suas últimas configurações de DNS.",
+      "host": "host",
+      "pending": "pendente",
+      "providerSettingsInstructions": "Essa tabela apresenta os registros DNS necessários para a conexão do seu domínio. Registros incorretos ou pendentes estão destacados em vermelho. Faça o login no seu provedor de domínios para administrar estas configurações",
+      "recordDataStability": "estabilidade",
+      "recordDataStabilityTooltip": "a estabilidade das configurações estará boa quando seu valor chegar a 1",
+      "recordStatus": "status",
+      "recordStatusTooltip": "status da conexão",
+      "recordType": "tipo de registro",
+      "requiredRecordData": "dados",
+      "requiredRecordDataTooltip": "copie e cole estes dados nas configurações de DNS do seu provedor de domínios",
+      "restartVerification": "reiniciar verificação",
+      "setupYourDomain": "Para completar a conexão, você precisa configurar seu domínio.",
+      "testConnection": "testar conexão",
+      "verificationFailedPermanentlyExplanation": "ocorreu um erro com a verificação. tente conectar novamente",
+      "verifyingConnection": "verificando conexão"
+    },
+    "domain": "domínios",
+    "info": {
+      "active": "ativo",
+      "connectCustomDomain": "conectar domínio personalizado",
+      "customDomain": "domínio personalizado",
+      "habemusDomain": "domínio criado pela habemus",
+      "pending": "pendente",
+      "projectDomains": "Seu projeto possui os seguintes domínios:",
+      "youCanUseCustomDomain": "Caso queira utilizar um domínio personalizado seu, conecte com o seu projeto!",
+      "youCanUseHabemusDomain": "Você pode utilizar o domínio criado automaticamente pela habemus."
+    },
+    "myProjects": "Meus projetos",
+    "rename": {
+      "explanation1": "Esse é o seu domínio habemus.",
+      "explanation2": "Através dele, seu site pode ser acessado.",
+      "explanation3": "Você pode renomeá-lo se desejar.",
+      "rename": "renomear domínio",
+      "renaming": "renomeando o seu domínio habemus",
+      "safeNameRequired": "o nome do seu domínio não pode ser vazio",
+      "serverError": "ocorreu um erro ao renomear seu projeto, por favor tente novamente",
+      "warning": "Atenção: Ao renomear o domínio habemus, o link será alterado e o link antigo não funcionará mais."
+    }
+  },
+  "projectGeneral": {
+    "createdAt": "criado em",
+    "deleteProject": "deletar projeto",
+    "dragDirectoryToUpdate": "arraste a pasta inteira do projeto para atualizar",
+    "dragZipToUpdate": "arraste uma versão .zip do projeto para atualizar",
+    "dropHere": "solte aqui",
+    "editProjectCode": "editar código",
+    "editProjectDomain": "editar domínios",
+    "editProjectName": "editar nome do projeto",
+    "general": "(geral)",
+    "introEditName": "Clique para alterar o nome do seu projeto",
+    "introMenuDomains": "Conecte domínios personalizados e altere o domínio criado pela habemus para o seu projeto",
+    "introMenuGeneral": "Defina configurações gerais do seu projeto",
+    "introMenuHistory": "Veja as versões do seu projeto, recupere e baixe-as",
+    "introMyProjects": "Volte para ver a lista de todos os seus projetos",
+    "introUpdate": "Atualize seu projeto arrastando a pasta com os arquivos do seu computador para cá ou clicando para escolher a pasta",
+    "introUpdateByZip": "Atualize seu projeto arrastando o arquivo .zip para cá ou clicando para escolher o arquivo .zip",
+    "lastUpdatedAt": "última atualização",
+    "myProjects": "Meus projetos"
+  },
+  "projectHistory": {
+    "compile": "compilar",
+    "currentTooltip": "esta é a versão que está online",
+    "currentVersion": "versão ativa",
+    "downloadDist": "baixar dist",
+    "downloadTooltip": "baixe esta versão",
+    "downloadVersion": "baixar",
+    "dragDirectoryToUpdate": "arraste a pasta inteira do projeto para atualizar",
+    "dragZipToUpdate": "arraste uma versão .zip dos arquivos do projeto para atualizar",
+    "dropHere": "solte aqui",
+    "history": "histórico",
+    "loading": "carregando",
+    "myProjects": "Meus projetos",
+    "restoreError": "Houve um error ao restaurar a versão '{{ versionCode }}'. Por favor tente novamente mais tarde.",
+    "restoreTooltip": "restaurar a versão gerará uma nova versão baseada nesta",
+    "restoreVersion": "restaurar",
+    "restoringVersion": "restaurando a versão '{{ versionCode }}'",
+    "versionDeployedAt": "criada em",
+    "versionLabel": "versão",
+    "versionUrl": "url",
+    "visitVersion": "visualizar versão"
+  },
+  "projectRename": {
+    "alsoRenameDomain": "renomear também o domínio",
+    "projectNameRequired": "o nome do projeto é obrigatório",
+    "rename": "renomear",
+    "renameExplain1": "Você pode alterar o nome do projeto a qualquer momento.",
+    "renameExplain2": "Para que o domínio habemus também seja alterado, selecione a opção abaixo.",
+    "renameYourProject": "Renomeie o seu projeto",
+    "serverSideError": "ocorreu um erro ao renomear seu projeto, por favor tente novamente",
+    "warning": "Atenção: Ao renomear o domínio, o link para o seu projeto será alterado e o link antigo não funcionará mais."
+  },
+  "sessionExpiredLogin": "Sua sessão expirou. Por favor faça o log-in:",
+  "workspace": {
+    "updateWorkspaceToVersion": "Você gostaria de atualizar seu workspace para a versão '{{ versionCode }}' ?",
+    "updatingWorkspace": "atualizando o workspace"
+  },
+  "zipPrepare": {
+    "cancel": "cancelar",
+    "confirm": "continuar",
+    "invalidZipFile": "arquivo zip inválido",
+    "noIndexHtml": "não encontramos nenhum arquivo 'index.html' no pacote selecionado, você gostaria de continuar mesmo assim?",
+    "pleaseZipBeforeUploading": "você selecionou múltiplos arquivos. Por favor comprima-os em um arquivo zip e refaça o upload"
+  }
+}

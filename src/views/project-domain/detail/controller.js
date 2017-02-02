@@ -4,12 +4,8 @@
 var path = require('path');
 var fs   = require('fs');
 
-// third-party
-var _    = require('lodash');
-
-
-module.exports = /*@ngInject*/ function tabCtrlDomainDetail($scope, $stateParams, $state, ngDialog, projectAPI, loadingDialog) {
-  $scope.domain = $stateParams.domain;
+module.exports = /*@ngInject*/ function tabCtrlDomainDetail($scope, $stateParams, $state, ngDialog, apiHWebsite, uiHAccountDialog, uiDialogLoading) {
+  $scope.domainRecord = $stateParams.domainRecord;
   
   /**
    * Disconnect domain
@@ -23,22 +19,23 @@ module.exports = /*@ngInject*/ function tabCtrlDomainDetail($scope, $stateParams
     })
     .then(function () {
 
-      loadingDialog.open({
+      uiDialogLoading.open({
         message: 'disconnecting domain'
       });
 
-      return projectAPI.deleteDomainRecord(
-        $scope.project.id,
-        $scope.domain.objectId
+      return apiHWebsite.deleteDomainRecord(
+        uiHAccountDialog.getAuthToken(),
+        $scope.project._id,
+        $scope.domainRecord._id
       )
-      .then(function (parseResponse) {
+      .then(function () {
 
-        return $scope.loadProject($scope.project.id);
+        return $scope.loadDomainRecords();
       })
       .then(function () {
         $state.go('project.domain.info');
 
-        loadingDialog.close();
+        uiDialogLoading.close();
       });
       
     }, function () {

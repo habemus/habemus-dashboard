@@ -1,8 +1,13 @@
 'use strict';
 
+module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state, currentAccount, $translate, uiHAccountDialog, uiIntro) {
 
-module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state, $translate, auth, intro) {
-  
+  /**
+   * Current account is resolved by ui-router
+   * @type {Object}
+   */
+  $scope.currentAccount = currentAccount;
+
   $scope.menuIsOpen = false;
   
   $scope.toggleMenu = function () {
@@ -14,7 +19,7 @@ module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state,
   }
   
   $scope.logOut = function () {
-    auth.logOut()
+    uiHAccountDialog.logOut()
       .then(function () {
         window.location.href = "http://habem.us";
       });
@@ -22,6 +27,16 @@ module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state,
 
   $scope.setLanguage = function (lng) {
     $translate.use(lng);
+
+    // update the dashboard language configuration
+    uiHAccountDialog.hAccountClient.updateApplicationConfig(
+      uiHAccountDialog.getAuthToken(),
+      $scope.currentAccount.username,
+      'dashboard',
+      {
+        language: lng,
+      }
+    );
   };
   
   $scope.startIntro = function () {
@@ -29,21 +44,21 @@ module.exports = /*@ngInject*/ function HeaderCtrl($scope, $stateParams, $state,
     
     if (currentState.name == 'dashboard'){
 
-      intro.dashboard().then(function (dashboardIntro) {
+      uiIntro.dashboard().then(function (dashboardIntro) {
         dashboardIntro.start();
       });
 
     } else if (currentState.name == 'project.general') {
 
-      intro.project().then(function (projectIntro) {
+      uiIntro.projectGeneral().then(function (projectIntro) {
         projectIntro.start();
       });
 
     } else if (currentState.name.substr(0,7) == 'project') {
-      $state.go('project.general');
-
-      intro.project().then(function (projectIntro) {
-        projectIntro.start();
+      $state.go('project.general').then(function () {
+        uiIntro.projectGeneral().then(function (projectIntro) {
+          projectIntro.start();
+        });
       });
       
     }

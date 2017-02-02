@@ -1,0 +1,153 @@
+#new-project-dialog {
+
+  > .new-project-creation-method {
+
+    ul.options {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+
+      width: 792px + 32px + 32px;
+
+      margin-bottom: 20px;
+
+      li {
+        height: 264px;
+        width: 264px;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        h3 {
+          margin: 0 0;
+          text-align: center;
+          padding: 4px 20px 20px 20px;
+        }
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+    }
+
+    /**
+     * First option: from files
+     */
+    ul.options > .create-from-files > div {
+      position: relative;
+
+      height: ~'calc(100% - 32px)';
+      width: ~'calc(100% - 32px)';
+
+      border: 2px dashed @habemus-gray-light;
+      box-sizing: border-box;
+      
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+
+      input[type="file"] {
+        position: absolute;
+        top: -16px;
+        left: -16px;
+
+        opacity: 0;
+
+        height: ~'calc(100% + 32px)';
+        width: ~'calc(100% + 32px)';
+
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      img.hover-img {
+        display: none;
+      }
+
+      &:hover {
+        img.hover-img {
+          display: block;
+        }
+        img.normal-img {
+          display: none;
+        }
+      }
+      
+      h3.while-dragging {
+        display: none;
+      }
+      
+      &.file-drop-target {
+        
+        border: 2px dashed @habemus-gray-medium;
+
+        img.hover-img {
+          display: block;
+        }
+        img.normal-img {
+          display: none;
+        }
+
+        img {
+          animation: cloud-animate-drag-2 0.8s infinite ease-in;
+        }
+        
+        h3.while-dragging {
+          display: block;
+        }
+        
+        h3.default {
+          display: none;
+        }
+      }
+    }
+
+    /**
+     * Second option: from blank template
+     */
+    ul.options > .create-from-blank-template {
+
+    }
+    
+    /**
+     * Third option: choose template
+     */
+    ul.options > .choose-template {
+
+      a {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        text-decoration: none;
+
+        height: 100%;
+        width: 100%;
+
+        outline: none;
+      }
+
+    }
+  }
+
+  .new-project-config {
+    width: 400px;
+    
+    form > input {
+      display: block;
+      width: 100%;
+      box-sizing: border-box;
+
+      padding: 10px 20px;
+      font-size: 16px;
+      border: black 1px solid;
+
+      margin-bottom: 20px;
+    }
+  }
+}

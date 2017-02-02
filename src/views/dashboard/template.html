@@ -2,7 +2,7 @@
   
   <h1 translate="dashboard.myProjects"></h1>
   
-  <h2 translate="dashboard.subTitle">Upload your projects of static websites (html, css, js) to host them in the cloud and have a nice url</h2>
+  <h2 translate="dashboard.subTitle"></h2>
 
   <ul id="projects">
     
@@ -10,26 +10,14 @@
     <li
       class="shadow"
       ng-if="browser.isChrome"
-      data-intro-name="create-project">
+      data-intro-name="create-project"
+      ng-click="openNewProjectDialog()">
       <div
         class="drop-to-new-project"
         file-drop="createProject($files, $rootDir)">
-        
-        <input
-          type="file"
-          webkitdirectory
-          directory
-          multiple
-          file-change="createProject($files, $rootDir)"
-          uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}">
-
-        <div class="upload-img">
-        </div>
-        
+        <div class="upload-img"></div>
         <h3 class="default">
-          <span translate="dashboard.dragProjectDirectory1"></span>
-          <br>
-          <span translate="dashboard.dragProjectDirectory2"></span>
+          <span translate="dashboard.createNewProject"></span>
         </h3>
         <h3 class="while-dragging" translate="dashboard.dropHere"></h3>
       </div>
@@ -39,36 +27,28 @@
     <li
       class="shadow"
       ng-if="!browser.isChrome"
-      data-intro-name="create-project">
+      data-intro-name="create-project"
+      ng-click="openNewProjectDialog()">
       <div
         class="drop-to-new-project"
         file-drop="createProject($files, $rootDir)">
-
-        <input
-          type="file"
-          accept="application/zip"
-          file-change="createProject($files, $rootDir)"
-          uib-tooltip="{{ 'dashboard.dragProjectTooltip' | translate }}">
-
-        <div class="upload-img">
-        </div>
+        
+        <div class="upload-img"></div>
         
         <h3 class="default">
-          <span translate="dashboard.dragProjectZip1"></span>
-          <br>
-          <span translate="dashboard.dargProjectZip2"></span>
+          <span translate="dashboard.createNewProject"></span>
         </h3>
         <h3 class="while-dragging" translate="dashboard.dropHere"></h3>
       </div>
     </li>
     
-    <li ng-repeat="project in currentUserProjects" class="shadow">
-      <div ng-click="navigateToProject(project.objectId)" class="each-project-content">
+    <li ng-repeat="project in projects" class="shadow">
+      <div ng-click="navigateToProject(project.code)" class="each-project-content">
         <h2>{{ project.name }}</h2>
         <a
           ng-click="$event.stopPropagation();"
-          ng-href="http://{{ project.safeName }}.habemus.website"
-          target="_blank">http://{{ project.safeName }}.habemus.website</a>
+          ng-href="{{ project.code | urlWebsiteHabemusDomain}}"
+          target="_blank">{{ project.code | urlWebsiteHabemusDomain }}</a>
         <div class="project-preview-img">
           <img
             ng-src="{{ project.activeVersion.screenshotURL }}"

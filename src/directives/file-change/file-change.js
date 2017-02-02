@@ -5,9 +5,9 @@ var FD_TARGET_CLASS = 'file-drop-target';
 
 var fileReader = require('../../lib/file-reader');
 
-module.exports = function (module) {
+module.exports = function (MOD) {
 
-  module.directive('fileChange', function fileChange() {
+  MOD.directive('fileChange', function fileChange() {
     return {
       restrict: 'A',
       link: function link(scope, element, attrs, ctrl) {

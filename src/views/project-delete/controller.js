@@ -1,25 +1,17 @@
-'use strict';
+module.exports = /*@ngInject*/ function projectDeleteCtrl($scope, $stateParams, $state, $translate, ngDialog, uiHAccountDialog, apiHProject) {
 
-// native
-var path = require('path');
-var fs   = require('fs');
-
-// third-party
-var _    = require('lodash');
-var Q    = require('q');
-
-// load models
-var DirectoryData = require('../../models/file-system/directory');
-
-
-module.exports = /*@ngInject*/ function projectDeleteCtrl($scope, $stateParams, $state, $translate, auth, ngDialog, projectAPI) {
-  
   $scope.verifyAndConfirm = function () {
-          
+
     if ($scope.projectName === $scope.project.name) {
       $scope.loading = true;
 
-      projectAPI.deleteProject($scope.project.id)
+      apiHProject.scheduleRemoval(
+        uiHAccountDialog.getAuthToken(),
+        $stateParams.projectCode,
+        {
+          byCode: true
+        }
+      )
       .then(function () {
 
         $scope.loading = false;

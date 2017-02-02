@@ -1,13 +1,11 @@
 // native
 var url = require('url');
 
-// internal
-var cfg = require('./config.json');
+// apis
+exports.hAccountURI   = process.env.H_ACCOUNT_URI;
+exports.hProjectURI   = process.env.H_PROJECT_URI;
+exports.hWebsiteURI   = process.env.H_WEBSITE_URI;
+exports.hWorkspaceURI = process.env.H_WORKSPACE_URI;
 
-exports.parse = {
-  applicationId: cfg.PARSE_APPLICATION_ID,
-  javascriptKey: cfg.PARSE_JAVASCRIPT_KEY,
-};
-
-exports.projectAPI = url.parse(cfg.PROJECT_API_LOCATION);
-exports.projectAPI.location = cfg.PROJECT_API_LOCATION;
+// hosts
+exports.websiteHost   = process.env.WEBSITE_HOST;

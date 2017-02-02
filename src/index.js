@@ -14,8 +14,6 @@ var DASHBOARD = angular.module('habemus-dashboard', [
   'pascalprecht.translate',
   'ui.router',
   'ngDialog',
-  'ui.bootstrap',
-  'file-model',
   'angular-clipboard',
 ]);
 
@@ -48,9 +46,13 @@ require('./routes/project-domain')(DASHBOARD);
 require('./services')(DASHBOARD);
 
 /**
+ * Filters
+ */
+require('./filters')(DASHBOARD);
+
+/**
  * Controllers
  */
-require('./views/templates')(DASHBOARD);
 
 DASHBOARD.config(function ($translateProvider) {
   $translateProvider.useStaticFilesLoader({
@@ -64,50 +66,16 @@ DASHBOARD.config(function ($translateProvider) {
   $translateProvider.useSanitizeValueStrategy('escape');
   $translateProvider.useLocalStorage();
 
-  $translateProvider.translations('en', require('./resources/languages/en.json'));
-  $translateProvider.translations('pt', require('./resources/languages/pt.json'));
+  $translateProvider.translations('en-US', require('./resources/languages/en-US.json'));
   
-  $translateProvider.registerAvailableLanguageKeys(['en', 'pt'], {
-    'en_US': 'en',
-    'pt_BR': 'pt'
+  $translateProvider.registerAvailableLanguageKeys(['en-US', 'pt-BR'], {
+    'en_US': 'en-US',
+    'pt_BR': 'pt-BR',
   });
   
-  $translateProvider.determinePreferredLanguage('en');
-  $translateProvider.fallbackLanguage('en');
+  $translateProvider.determinePreferredLanguage('en-US');
+  $translateProvider.fallbackLanguage('en-US');
   
-});
-
-// verify authentication on statechange
-DASHBOARD.run(function ($rootScope, $state, $location, AUTH_EVENTS, auth, authModal, ngDialog) {
-  /**
-   * Browser data
-   * @type {Object}
-   */
-  $rootScope.browser = {};
-  $rootScope.browser.isChrome = aux.isChrome();
-
-  $rootScope.$on('$stateChangeStart', function (event, toState, toParams, fromState, fromParams) {
-
-    if (toState.data && toState.data.authorizedRoles) {
-      var authorizedRoles = toState.data.authorizedRoles;
-
-      if (!auth.isAuthorized(authorizedRoles)) {
-        event.preventDefault();
-        if (auth.isAuthenticated()) {
-          // user is not allowed
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthorized);
-        } else {
-
-          auth.handleSessionReset();
-
-          // user is not logged in
-          $rootScope.$broadcast(AUTH_EVENTS.notAuthenticated);
-        }
-      }
-    }
-
-    // no authorization config set, thus simply continue
-  });
 });
 
 DASHBOARD.controller('ApplicationCtrl', require('./application-ctrl'));
@@ -116,9 +84,9 @@ DASHBOARD.controller('ApplicationCtrl', require('./application-ctrl'));
 /**
  * Directives
  */
-// require('./directives/file-navigator/file-navigator')(DASHBOARD);
 require('./directives/file-drop/file-drop')(DASHBOARD);
 require('./directives/file-change/file-change')(DASHBOARD);
+require('./directives/svg-icon')(DASHBOARD);
 
 // http://stackoverflow.com/questions/16310298/if-a-ngsrc-path-resolves-to-a-404-is-there-a-way-to-fallback-to-a-default
 DASHBOARD.directive('errSrc', function() {

@@ -1,4 +1,4 @@
-module.exports = /* @ngInject */ function PasswordResetCtrl($scope, $translate, auth) {
+module.exports = /* @ngInject */ function PasswordResetCtrl($scope, $translate) {
 
   $scope.validatePassword = function () {
 
@@ -40,22 +40,24 @@ module.exports = /* @ngInject */ function PasswordResetCtrl($scope, $translate, 
 
       $scope.loading = true;
 
-      auth.changePassword($scope.newPassword)
-        .then(function () {
+      console.warn('changePassword')
 
-          $scope.loading = false;
-          $scope.$apply();
+      // apiAuth.changePassword($scope.newPassword)
+      //   .then(function () {
 
-          $scope.closeThisDialog();
+      //     $scope.loading = false;
+      //     $scope.$apply();
 
-        }, function (err) {
+      //     $scope.closeThisDialog();
 
-          $translate('accountPasswordReset.couldNotUpdatePassword')
-            .then(function (errorMessage) {
-              $scope.loading = false;
-              $scope.newPasswordConfirmErrorMessage = errorMessage;
-            });
-        });
+      //   }, function (err) {
+
+      //     $translate('accountPasswordReset.couldNotUpdatePassword')
+      //       .then(function (errorMessage) {
+      //         $scope.loading = false;
+      //         $scope.newPasswordConfirmErrorMessage = errorMessage;
+      //       });
+      //   });
     }
 
   };

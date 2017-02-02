@@ -1,8 +1,15 @@
 'use strict';
 
-var Q    = require('q');
+var Q = require('q');
 
-module.exports = /*@ngInject*/ function RenameProject($scope, $translate, projectAPI) {
+module.exports = /*@ngInject*/ function RenameProject($stateParams, $scope, $translate, $state, apiHProject, uiHAccountDialog) {
+
+  /**
+   * Get the current project code.
+   * It may be modified during the process of renaming
+   * @type {String}
+   */
+  var currentProjectCode = $stateParams.projectCode;
 
   $scope.editName = function () {
 
@@ -22,32 +29,67 @@ module.exports = /*@ngInject*/ function RenameProject($scope, $translate, projec
 
     if ($scope.renameDomain) {
       // start the edition by setting safeName
-      editionPromise = projectAPI.setProjectSafeName($scope.project.id, $scope.projectName);
+      editionPromise = apiHProject.updateCode(
+        uiHAccountDialog.getAuthToken(),
+        currentProjectCode,
+        $scope.projectName,
+        {
+          byCode: true,
+        }
+      );
     } else {
-      editionPromise = Q();
+      // simulate a project object using the currentProjectCode
+      editionPromise = Q.resolve({
+        code: currentProjectCode,
+      });
     }
 
     editionPromise
-      .then(function () {
+      .then(function (projectData) {
+
         // change the project's name
-        return projectAPI.updateProject($scope.project.id, {
-          name: $scope.projectName
-        });
+        return apiHProject.update(
+          uiHAccountDialog.getAuthToken(),
+          projectData.code,
+          {
+            name: $scope.projectName
+          },
+          {
+            byCode: true
+          }
+        );
       })
-      .then(function () {
-        // call main scope's loadProject method
-        // to ensure the data is up to date
-        return $scope.loadProject();
+      .then(function (projectData) {
+
+        var codeChanged = (currentProjectCode !== projectData.code);
+
+        if (codeChanged) {
+          // currentProjectCode was changed, we have to navigate to a new url
+          $state.go("project.general", { projectCode: projectData.code });
+
+          $scope.closeThisDialog();
+
+          $scope.loading = false;
+
+          $scope.$apply();
+
+        } else {
+          // if no changes were made to the project's code,
+          // simply reload its data
+          // require the loadProject method
+          // to be defined in the scope
+          $scope.loadProject()
+            .then(function () {
+              $scope.closeThisDialog();
+
+              $scope.loading = false;
+
+              $scope.$apply();
+            });
+        }
       })
-      .then(function () {
-        $scope.closeThisDialog();
-
-        $scope.loading = false;
-
-        $scope.$apply();
-      })
-      .fail(function (err) {
-
+      .catch(function (err) {
+        
         // TODO: improve server-side error handling
         $translate('projectRename.serverSideError')
           .then(function (message) {

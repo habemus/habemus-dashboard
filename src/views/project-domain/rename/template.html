@@ -7,7 +7,7 @@
   <p translate="projectDomain.rename.rename"></p>
 </div>
 
-<a href="http://{{ project.safeName }}.habemus.website" target="_blank" class="">http://{{ project.safeName }}.habemus.website</a>
+<a href="{{ project.code | urlWebsiteHabemusDomain }}" target="_blank" class="">{{ project.code | urlWebsiteHabemusDomain }}</a>
 
 <div class="max-width">
   <div class="margin-bottom">
@@ -18,9 +18,9 @@
     <p style="color: #E29A27" translate="projectDomain.rename.warning"></p>
   </div>
 
-  <form ng-submit="setProjectSafeName()">
+  <form ng-submit="updateCode()">
     <div class="input-button">
-      <input autofocus placeholder="{{ project.safeName }}" ng-model="newSafeName">
+      <input autofocus placeholder="{{ project.code }}" ng-model="newCode">
       <button class="button secundary" translate="projectDomain.rename.rename"></button>
     </div>
     <div>{{ error }}</div>

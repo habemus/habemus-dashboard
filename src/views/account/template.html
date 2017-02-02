@@ -1,19 +1,68 @@
 <div class="body-content-account">
   <h1 translate="account.myAccount"></h1>
 
-  <form ng-submit="updateAccountData()">
+  <form ng-submit="updateAccountOwnerData()">
 
-    <div
+<!--     <div
       class="field-container"
       ng-class="{'error': errorMessage}">
       <label translate="account.fullName"></label><br>
       <input
         type="text"
         name="name"
-        placeholder="{{ currentUser.name }}"
-        ng-model="accountData.name"
+        placeholder="{{ currentAccount.name }}"
+        ng-model="currentAccount.name"
       >
       <div class="field-error-message">{{ errorMessage }}</div>
+    </div> -->
+
+    <div
+      class="field-container"
+      ng-class="{'error': errorMessage}">
+      <label translate="account.givenName"></label><br>
+      <input
+        type="text"
+        name="givenName"
+        placeholder="{{ currentAccount.ownerData.givenName }}"
+        ng-model="accountOwnerFormData.givenName"
+      >
+      <div class="field-error-message">{{ errorMessage }}</div>
+    </div>
+
+    <div
+      class="field-container"
+      ng-class="{'error': errorMessage}">
+      <label translate="account.additionalName"></label><br>
+      <input
+        type="text"
+        name="additionalName"
+        placeholder="{{ currentAccount.ownerData.additionalName }}"
+        ng-model="accountOwnerFormData.additionalName"
+      >
+      <div class="field-error-message">{{ errorMessage }}</div>
+    </div>
+
+    <div
+      class="field-container"
+      ng-class="{'error': errorMessage}">
+      <label translate="account.familyName"></label><br>
+      <input
+        type="text"
+        name="familyName"
+        placeholder="{{ currentAccount.ownerData.familyName }}"
+        ng-model="accountOwnerFormData.familyName"
+      >
+      <div class="field-error-message">{{ errorMessage }}</div>
+    </div>
+    
+    <div class="field-container">
+      <label translate="account.username"></label><br>
+      <input
+        disabled
+        type="text"
+        name="username"
+        value="{{ currentAccount.username }}"
+      >
     </div>
     
     <div class="field-container">
@@ -22,7 +71,7 @@
         disabled
         type="text"
         name="username"
-        value="{{ currentUser.username }}"
+        value="{{ currentAccount.email }}"
       >
     </div>
     
@@ -70,7 +119,7 @@
     
     <div>
       <button type="submit" class="button" translate="account.save"></button>
-      <button type="button" class="button secundary" ng-click="resetAccountFormData()" translate="account.discard"></button>
+      <button type="button" class="button secundary" ng-click="resetAccountOwnerData()" translate="account.discard"></button>
     </div>
 
   </form>

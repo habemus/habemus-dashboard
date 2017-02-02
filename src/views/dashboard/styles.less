@@ -23,9 +23,11 @@ ul#projects {
   
   li {
     background-color: #FFF;
+    margin-top: 16px;
     margin-bottom: 32px;
+    margin-left: 16px;
+    margin-right: 16px;
     height: 294px;
-    margin: 16px;
     width: 29.5%;
     min-width: 220px;
     max-width: 300px;
@@ -33,7 +35,7 @@ ul#projects {
     h2 {
       margin-left: 0;
     }
-        
+
     .drop-to-new-project {
       position: relative;
 
@@ -68,35 +70,11 @@ ul#projects {
         width: 95px;
         height: 60px;
         margin: 20px 8px 4px 8px;
-        background-image: url("resources/img/cloud-upload-normal.svg");
+        background-image: url("resources/img/icon-new-project-new.svg");
         
         &:hover {
-          background-image: url("resources/img/cloud-upload-hover.svg");
+          background-image: url("resources/img/icon-new-project-new-green.svg");
         }
-      }
-      
-//      svg.cloud-img {
-//        padding: 20px 8px 4px 8px;
-//        stroke: @habemus-gray-medium;
-//        
-//        &:hover {
-//          stroke: @habemus-green-dark;
-//        }
-//      }
-
-      @keyframes cloud-animate-drag-1 {
-        0% { transform: translate(0, 0px) }
-        15% { transform: translate(10px, -10px) }
-        35% { transform: translate(10px, 10px) }
-        65% { transform: translate(-10px,-10px) }
-        85% { transform: translate(-10px, 10px) }
-        100% { transform: translate(0px, 0px) }
-      }
-      
-      @keyframes cloud-animate-drag-2 {
-        0% { transform: translate(0, 0px) }
-        50% { transform: translate(0px, -20px) }
-        100% { transform: translate(0px, 0px) }
       }
       
       h3 {
@@ -112,11 +90,6 @@ ul#projects {
       &.file-drop-target {
         
         border: 2px dashed @habemus-gray-medium;
-        
-//        svg.cloud-img {
-//          stroke: @habemus-green-dark;
-//          animation: cloud-animate-drag-2 0.8s infinite ease-in;
-//        }
         
         .upload-img {
           background-image: url('resources/img/cloud-upload-hover.svg');

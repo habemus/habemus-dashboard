@@ -1,6 +1,6 @@
 <!--
-<div ng-if="currentUser">
-  Welcome, {{ currentUser.email }}
+<div ng-if="currentAccount">
+  Welcome, {{ currentAccount.email }}
 </div>
 
 <nav>
@@ -19,7 +19,7 @@
     </a>
 
     <div
-      ng-if="currentUser"
+      ng-if="currentAccount"
       ng-click="toggleMenu()"
       id="user-menu"
       ng-class="{ active: menuIsOpen }"
@@ -27,7 +27,7 @@
          >
 
       <div id="user">
-        {{ currentUser.name }}
+        {{ currentAccount.ownerData.givenName }}
       </div>
       <div id="arrow-menu">
         <img id="logo-light" src="resources/img/arrow-down-2.svg">
@@ -36,7 +36,7 @@
           <li><a href="#/account" translate="header.myAccount"></a></li>
           <li><a href="" ng-click="startIntro()" translate="header.startIntro"></a></li>
           <li><a href="http://docs.habemus.website" target="_blank" translate="header.viewDocs"></a></li>
-          <li><a href=""><span ng-click="setLanguage('en_US')">en </span> | <span ng-click="setLanguage('pt_BR')"> pt</span></a></li>
+          <li><a href=""><span ng-click="setLanguage('en-US')">english </span> | <span ng-click="setLanguage('pt-BR')"> português</span></a></li>
           <li><a ng-click="logOut()" translate="header.logOut"></a></li>
     
         </ul>

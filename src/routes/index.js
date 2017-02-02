@@ -6,12 +6,10 @@ var TEMPLATES = {
   dashboard:      fs.readFileSync(path.join(__dirname, '../views/dashboard/template.html'), 'utf-8'),
   account:        fs.readFileSync(path.join(__dirname, '../views/account/template.html'), 'utf-8'),
   accountPasswordReset: fs.readFileSync(path.join(__dirname, '../views/account-password-reset/template.html'), 'utf-8'),
-  betaPasswordReset:    fs.readFileSync(path.join(__dirname, '../views/beta-password-reset/template.html'), 'utf-8'),  
   accountDelete:  fs.readFileSync(path.join(__dirname, '../views/account-delete/template.html'), 'utf-8'),
   project:        fs.readFileSync(path.join(__dirname, '../views/project/template.html'), 'utf-8'),
   projectDelete:  fs.readFileSync(path.join(__dirname, '../views/project-delete/template.html'), 'utf-8'),
   projectGeneral: fs.readFileSync(path.join(__dirname, '../views/project-general/template.html'), 'utf-8'),
-  projectFiles:   fs.readFileSync(path.join(__dirname, '../views/project-files/template.html'), 'utf-8'),
   projectHistory: fs.readFileSync(path.join(__dirname, '../views/project-history/template.html'), 'utf-8'),
   projectDomain:  fs.readFileSync(path.join(__dirname, '../views/project-domain/template.html'), 'utf-8'),
 };
@@ -27,7 +25,7 @@ module.exports = function (DASHBOARD) {
   DASHBOARD.config(function ($stateProvider, $urlRouterProvider) {
 
     $stateProvider.state('dashboard', {
-      url: '/',
+      url: '/?templateURL&projectName',
       data: {
         authorizedRoles: ['developer'],
         pageTitle: 'dashboard',
@@ -38,7 +36,8 @@ module.exports = function (DASHBOARD) {
           template: TEMPLATES.dashboard,
           controller: require('../views/dashboard/controller'),
         }
-      }
+      },
+      resolve: require('./resolve'),
     });
     
     $stateProvider.state('account', {
@@ -53,11 +52,11 @@ module.exports = function (DASHBOARD) {
           template: TEMPLATES.account,
           controller: require('../views/account/controller'),
         }
-      }
+      },
+      resolve: require('./resolve'),
     });
     
     $stateProvider.state('accountPasswordReset', {
-//      url: '/',
       data: {
         authorizedRoles: ['developer']
       },
@@ -69,24 +68,8 @@ module.exports = function (DASHBOARD) {
         }
       }
     });
-
-    
-    $stateProvider.state('betaPasswordReset', {
-//      url: '/',
-      data: {
-        authorizedRoles: ['developer']
-      },
-      views: {
-        header: header,
-        body: {
-          template: TEMPLATES.betaPasswordReset,
-          controller: require('../views/beta-password-reset/controller'),
-        }
-      }
-    });
     
     $stateProvider.state('accountDelete', {
-//      url: '/',
       data: {
         authorizedRoles: ['developer']
       },
@@ -101,7 +84,7 @@ module.exports = function (DASHBOARD) {
     
     $stateProvider.state('project', {
       abstract: true,
-      url: '/projects/:projectId',
+      url: '/projects/:projectCode',
       data: {
         authorizedRoles: ['developer']
       },
@@ -111,7 +94,8 @@ module.exports = function (DASHBOARD) {
           template: TEMPLATES.project,
           controller: require('../views/project/controller'),
         }
-      }
+      },
+      resolve: require('./resolve'),
     });
     
     $stateProvider.state('projectDelete', {
@@ -136,19 +120,6 @@ module.exports = function (DASHBOARD) {
         tab: {
           template: TEMPLATES.projectGeneral,
           controller: require('../views/project-general/controller'),
-        } 
-      }
-    });
-    
-    $stateProvider.state('project.files', {
-      url: '/files',
-      data: {
-        authorizedRoles: ['developer']
-      },
-      views: {
-        tab: {
-          template: TEMPLATES.projectFiles,
-          controller: require('../views/project-files/controller'),
         } 
       }
     });

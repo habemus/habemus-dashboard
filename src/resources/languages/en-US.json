@@ -1,0 +1,238 @@
+{
+  "account": {
+    "additionalName": "middle name",
+    "deleteAccount": "delete account",
+    "discard": "discard modifications",
+    "email": "e-mail",
+    "familyName": "family name",
+    "fullName": "complete name",
+    "givenName": "name",
+    "myAccount": "My account",
+    "resetPassword": "reset account password",
+    "save": "save modifications",
+    "updateDataError": "there was an error updating your account's data, please retry",
+    "username": "username"
+  },
+  "accountDelete": {
+    "areYouSure": "Are you sure you want to delete your account?",
+    "cancel": "don't delete",
+    "confirm": "delete my account",
+    "deleteAccount": "Delete account",
+    "thisActionCannotBeUndone": "This action cannot be undone",
+    "youllLoseAllProjects": "All your projects will be lost."
+  },
+  "accountPasswordReset": {
+    "atLeast6Chars": "your password must have at least 6 characters",
+    "cancel": "cancel",
+    "confirm": "confirm new password",
+    "couldNotUpdatePassword": "there was an error resetting your password, please retry",
+    "newPassword": "new password",
+    "newPasswordConfirm": "confirm your new password",
+    "passwordsDoNotMatch": "passwords do not match",
+    "resetPassword": "Reset your password"
+  },
+  "actions": {
+    "cancel": "cancel",
+    "no": "no",
+    "yes": "yes"
+  },
+  "dashboard": {
+    "back": "back",
+    "createNewProject": "create a new project",
+    "createProjectFromBlank": "create project blank",
+    "createProjectFromTemplate": "create project from starter project",
+    "creatingProjectFromTemplate": "creating project from starter project",
+    "dargProjectZip2": "of the project's files",
+    "dragProjectDirectory1": "drag here the folder",
+    "dragProjectDirectory2": "of a new project",
+    "dragProjectTooltip": "the project must be static (languages: html, css, js). Your project must have an index.html file",
+    "dragProjectZip1": "drag a zipped version",
+    "dropHere": "drop here",
+    "editProject": "edit",
+    "finishingUpload": "setting up last details",
+    "introAccessAccount": "Access this menu to quickly see the overview of your projects, read documentation or manage your account settings",
+    "introCreateProject": "Create a new project by clicking to choose an option or by dragging a folder here. It can be a .zip or a single folder.",
+    "introCreateProjectByZip": "Create a new project by clicking to choose an option or by dragging a .zip file here.",
+    "introSendFeedBack": "Use this box to send us feedbacks. We want to hear you!",
+    "myProjects": "My projects",
+    "nameYourProject": "Name your project",
+    "nameYourProjectP": "The name of your project will be used also to set habemus domain name",
+    "next": "next",
+    "preparingUpload": "preparing upload",
+    "subTitle": "Upload your projects of static websites (html, css, js) to host them in the cloud and have a habemus url",
+    "updatedAt": "updated at",
+    "uploading": "uploading"
+  },
+  "domainInvalid": {
+    "empty": "insert the name of domain you own",
+    "invalid": "invalid domain"
+  },
+  "feedback": {
+    "attachImage": "would you like to attach an image?",
+    "hearYou": "we want to hear you :)",
+    "ideaPlaceholder": "questions, bugs, suggestions, comments, improvements...",
+    "sendUsYourFeedback": "contact us!",
+    "submit": "send",
+    "whatDoYouThink": "what do you think of habemus? what can we improve?"
+  },
+  "header": {
+    "logOut": "logout",
+    "myAccount": "my account",
+    "myProjects": "my projects",
+    "startIntro": "view fast tutorial",
+    "viewDocs": "documentation"
+  },
+  "project": {
+    "domain": "domain",
+    "errorCreatingProject": "Something went wrong. Please try again.",
+    "errorFailed": "Something went wrong. Please try again.",
+    "errorSize": "Your project exceeds current limit of 50MB.",
+    "errorUploaded": "An error occured when uploading files. Your project is incomplete. Update your files or delete project to create another one.",
+    "files": "files",
+    "finishingUpload": "setting up last details",
+    "general": "general",
+    "history": "history",
+    "preparingUpload": "preparing upload",
+    "schedulingVersionBuild": null,
+    "uploading": "uploading"
+  },
+  "projectDelete": {
+    "deletePermanently": "delete permanentely",
+    "doNotDelete": "do not delete",
+    "p1": "This action can not be undone.",
+    "p2": "Write down the name of project you want to delete:",
+    "title": "Delete project"
+  },
+  "projectDomain": {
+    "connect": {
+      "continue": "continue",
+      "nameOfDomain": "domain name",
+      "p1": "Connect a domain you own to your project.",
+      "p2": "If you still don't own a domain, choose a name provider to have one.",
+      "title": "connect a custom domain"
+    },
+    "detail": {
+      "disconnectDomain": "disconnect custom domain",
+      "p1": "This is a custom domain.",
+      "p2": "Managed by a third-party domain provider.",
+      "title": "edit domain",
+      "viewSettings": "view DNS settings"
+    },
+    "disconnect": {
+      "disconnect": "disconnect domain",
+      "doNotDisconnect": "keep connected",
+      "p11": "Are you sure you want to disconnect domain ",
+      "p12": "from your project?",
+      "p2": "This action can not be undone",
+      "p3": "You'll be able to connect it again in the future.",
+      "title": "Disconnect"
+    },
+    "dns": {
+      "completed": "done",
+      "connectionInProgress": "Connection is in progress!",
+      "copy": "copy",
+      "dnsConfigDelayExplanation": "The DNS configurations may take up to 48 hours to propagate throughout the internet. The length of this delay depends on the domain provider where your domain was acquired and your previous DNS configurations.",
+      "host": "host",
+      "pending": "pending",
+      "providerSettingsInstructions": "This table shows you the DNS entries needed to connect your domain. Incorrect or missing entries are highlighted in red. Login to your domain provider to manage these settings.",
+      "recordDataStability": "stability",
+      "recordDataStabilityTooltip": "stability of servers will be good once it reaches 1",
+      "recordStatus": "status",
+      "recordStatusTooltip": "status of conection",
+      "recordType": "record type",
+      "requiredRecordData": "required data",
+      "requiredRecordDataTooltip": "copy data and paste on your domain provider",
+      "restartVerification": "restart verification",
+      "setupYourDomain": "To complete connection you need to setup your domain.",
+      "testConnection": "test connection",
+      "verificationFailedPermanentlyExplanation": "verification failed. please try to connect again",
+      "verifyingConnection": "verifying connection"
+    },
+    "domain": "domains",
+    "info": {
+      "active": "active",
+      "connectCustomDomain": "connect custom domain",
+      "customDomain": "custom domain",
+      "habemusDomain": "domain created by habemus",
+      "pending": "pending",
+      "projectDomains": "Your project has the following domains:",
+      "youCanUseCustomDomain": "If you wish to use a custom domain you own, just connect it to your project!",
+      "youCanUseHabemusDomain": "You can use the domain created by habemus."
+    },
+    "myProjects": "My projects",
+    "rename": {
+      "explanation1": "This is your habemus domain.",
+      "explanation2": "It can be used to access your website.",
+      "explanation3": "You can rename it if you wish.",
+      "rename": "rename domain",
+      "renaming": "renaming your habemus domain",
+      "safeNameRequired": "your domain name must not be empty",
+      "serverError": "there was an error renaming your project, please try again",
+      "warning": "Attention: Whenever you rename your habemus domain, the url of your project will be modified and the previous url will not work anymore."
+    }
+  },
+  "projectGeneral": {
+    "createdAt": "created at",
+    "deleteProject": "delete project",
+    "dragDirectoryToUpdate": "drag folder to update",
+    "dragZipToUpdate": "drag a zipped version of the project's files to update",
+    "dropHere": "drop here",
+    "editProjectCode": "edit code",
+    "editProjectDomain": "edit domains",
+    "editProjectName": "edit project name",
+    "general": "(general)",
+    "introEditName": "Click to edit the name of your project",
+    "introMenuDomains": "Connect custom domains and edit the domain created by habemus for your project",
+    "introMenuGeneral": "Set general options of your project",
+    "introMenuHistory": "See the versions of your project, restore and download them",
+    "introMyProjects": "Go back to see the overview of all your projects",
+    "introUpdate": "Update your project by dragging the folder here or by clicking to choose the folder from your computer",
+    "introUpdateByZip": "Update your project by dragging a .zip file here or by clicking to open the file picker",
+    "lastUpdatedAt": "last updated at",
+    "myProjects": "My projects"
+  },
+  "projectHistory": {
+    "compile": "compile",
+    "currentTooltip": "this is current online version",
+    "currentVersion": "current",
+    "downloadDist": "download dist",
+    "downloadTooltip": "download this version",
+    "downloadVersion": "download",
+    "dragDirectoryToUpdate": "drag the project's folder to update",
+    "dragZipToUpdate": "drag a zipped version of the project's files to update",
+    "dropHere": "drop here",
+    "history": "history",
+    "loading": "loading",
+    "myProjects": "My projects",
+    "restoreError": "An error occured when restoring the version '{{ versionCode }}'. Please try again later",
+    "restoreTooltip": "restoring will generate a new version based on this one",
+    "restoreVersion": "restore",
+    "restoringVersion": "restoring version '{{ versionCode }}'",
+    "versionDeployedAt": "deployed at",
+    "versionLabel": "version",
+    "versionUrl": "url",
+    "visitVersion": "visit version"
+  },
+  "projectRename": {
+    "alsoRenameDomain": "also rename habemus domain",
+    "projectNameRequired": "project name is required",
+    "rename": "rename",
+    "renameExplain1": "You can always rename your project.",
+    "renameExplain2": "If you wish to rename your habemus domain as well, please check the following option.",
+    "renameYourProject": "Rename your project",
+    "serverSideError": "there was an error renaming your project, please try again",
+    "warning": "Attention: Whenever you rename your habemus domain, the url of your project will be modified and the previous url will not work anymore."
+  },
+  "sessionExpiredLogin": "Sorry, it looks like your session has expired. Please login:",
+  "workspace": {
+    "updateWorkspaceToVersion": "Would you like to update your workspace to the version '{{ versionCode }}' ?",
+    "updatingWorkspace": "updating workspace"
+  },
+  "zipPrepare": {
+    "cancel": "cancel",
+    "confirm": "confirm",
+    "invalidZipFile": "invalid zip file",
+    "noIndexHtml": "we could not find any index.html file in the package you've selected, do you want to continue?",
+    "pleaseZipBeforeUploading": "you have selected multiple files, you should zip them in a single file before uploading"
+  }
+}
