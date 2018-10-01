@@ -15,3 +15,4 @@ dist
 
 # configuration files
 src/config/config.json
+.development-env

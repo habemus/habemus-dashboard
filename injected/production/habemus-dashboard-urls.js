@@ -1,5 +1,5 @@
 // third-party
-const hUrls = require('h-urls');
+const hUrls = require('habemus-urls');
 
 module.exports = /* @ngInject */ function urls(CONFIG) {
 

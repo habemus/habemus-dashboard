@@ -77,6 +77,7 @@ module.exports = function (gulp, $) {
       // builds scripts and css into single files
       .pipe($.useref())
       .pipe($.if('*.css', $.minifyCss()))
+      .pipe($.if('*.js', $.uglify()))
       .pipe($.size({
         title: 'distribute:compile',
         showFiles: true,
