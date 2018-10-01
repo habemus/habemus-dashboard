@@ -1,4 +1,4 @@
-const HWorkspaceClient = require('h-workspace-client/public/authenticated');
+const HWorkspaceClient = require('habemus-workspace-client/public/authenticated');
 
 module.exports = /* @ngInject */ function (CONFIG) {
   return new HWorkspaceClient({

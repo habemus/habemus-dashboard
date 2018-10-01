@@ -1,4 +1,4 @@
-const HWebsiteClient = require('h-website-client');
+const HWebsiteClient = require('habemus-website-client');
 
 module.exports = /* @ngInject */ function (CONFIG) {
   return new HWebsiteClient({

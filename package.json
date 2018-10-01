@@ -1,6 +1,6 @@
 {
-  "name": "dashboard",
-  "version": "2.1.1",
+  "name": "habemus-dashboard",
+  "version": "3.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -45,11 +45,11 @@
   },
   "dependencies": {
     "bluebird": "^3.4.6",
-    "h-account-client": "git+ssh://git@bitbucket.org/habemus-tutti/h-account-client.git",
-    "h-project-client": "git+ssh://git@bitbucket.org:habemus-tutti/h-project-client.git",
-    "h-urls": "git+ssh://git@bitbucket.org/habemus-tutti/h-urls.git",
-    "h-website-client": "git+ssh://git@bitbucket.org/habemus-tutti/h-website-client.git",
-    "h-workspace-client": "git+ssh://git@bitbucket.org/habemus-tutti/h-workspace-client.git",
+    "habemus-account-client": "git+https://github.com/habemus/habemus-account-client.git",
+    "habemus-project-client": "git+https://github.com/habemus/habemus-project-client.git",
+    "habemus-urls": "git+https://github.com/habemus/habemus-urls.git",
+    "habemus-website-client": "git+https://github.com/habemus/habemus-website-client.git",
+    "habemus-workspace-client": "git+https://github.com/habemus/habemus-workspace-client.git",
     "jszip": "^2.5.0",
     "lodash.flatten": "^4.3.0"
   }

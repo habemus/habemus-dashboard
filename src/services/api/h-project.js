@@ -1,4 +1,4 @@
-const HProjectClient = require('h-project-client');
+const HProjectClient = require('habemus-project-client');
 
 module.exports = /* @ngInject */ function (CONFIG) {
   return new HProjectClient({
