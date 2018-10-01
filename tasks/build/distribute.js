@@ -46,7 +46,7 @@ module.exports = function (gulp, $) {
       .pipe($.babel({
         presets: ['es2015'],
       }))
-      // .pipe($.ngAnnotate())
+      .pipe($.ngAnnotate())
       // .pipe($.stripDebug())
       // .pipe($.uglify().on('error', function (err) {
       //   console.warn(err);
